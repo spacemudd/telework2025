@@ -54,4 +54,5 @@ return [
     'tasks' => 'المهام',
     'employee_created_successfully' => 'تم إنشاء الموظف بنجاح.',
     'employee_disabled_successfully' => 'تم تعطيل الموظف بنجاح.',
+    'pending' => 'قيد الانتظار',
 ];

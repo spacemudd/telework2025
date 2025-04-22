@@ -8,6 +8,9 @@ class CompanyDashboardController extends Controller
 {
     public function index()
     {
-        return view('company.dashboard');
+        $company = auth()->user()->company; // Assuming user has company relationship
+        $employees = $company ? $company->employees : [];
+
+        return view('company.dashboard', compact('employees'));
     }
 }

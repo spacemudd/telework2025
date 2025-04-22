@@ -41,4 +41,5 @@ return [
     'company_synced_successfully' => 'Company synced successfully.',
     'employee_created_successfully' => 'Employee created successfully.',
     'employee_disabled_successfully' => 'Employee disabled successfully.',
+    'pending' => 'Pending',
 ];
