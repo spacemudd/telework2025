@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+
+class Company extends Model
+{
+    use SoftDeletes;
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'address',
+        'cr_number',
+        'phone',
+    ];
+
+    protected static function booted()
+    {
+        static::creating(function ($company) {
+            if (empty($company->id)) {
+                $company->id = (string) Str::uuid();
+            }
+        });
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+    function company_audit_records()
+    {
+        return $this->hasMany(CompanyAuditRecord::class);
+    }
+}
