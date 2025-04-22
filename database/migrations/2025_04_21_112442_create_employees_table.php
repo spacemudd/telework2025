@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('identity_number')->unique();
             $table->date('birthday')->nullable();
             $table->string('position')->nullable();
-            $table->uuid('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
