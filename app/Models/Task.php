@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Task extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'employee_id',
         'title',
@@ -14,6 +18,15 @@ class Task extends Model
         'priority',
         'status',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['status'])
+            ->useLogName('task_status')
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 
     public function employee()
     {

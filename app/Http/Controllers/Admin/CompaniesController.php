@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\TeleworkSyncCompany;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CompaniesController extends Controller
 {
@@ -55,5 +56,26 @@ class CompaniesController extends Controller
     {
         TeleworkSyncCompany::dispatch($company);
         return redirect()->route('admin.companies.show', $company->id)->with('success', __('words.company_synced_successfully'));
+    }
+
+    public function email(Company $company)
+    {
+        return view('admin.companies.email', compact('company'));
+    }
+
+    public function sendEmail(Request $request, Company $company)
+    {
+        $request->validate([
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        Mail::raw($request->message, function ($mail) use ($request, $company) {
+            $mail->to($company->email)
+                 ->subject($request->subject);
+        });
+
+        return redirect()->route('admin.companies.show', $company->id)
+                         ->with('success', 'تم إرسال البريد الإلكتروني بنجاح.');
     }
 }

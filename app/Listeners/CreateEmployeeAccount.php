@@ -5,6 +5,7 @@ namespace App\Listeners;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -27,6 +28,7 @@ class CreateEmployeeAccount
 
         $password = Str::random(12);
 
+        DB::beginTransaction();
         $user = User::create([
             'name' => $employeeData->name,
             'email' => $employeeData->email,
@@ -34,13 +36,14 @@ class CreateEmployeeAccount
             'locale' => 'ar',
         ]);
 
-        // Optionally link the employee's user_id if the Employee model exists
-        if (method_exists($employeeData, 'update')) {
-            $employeeData->update(['user_id' => $user->id]);
-        }
+        $user->assignRole('employee');
+
+        $employeeData->user_id = $user->id;
+        $employeeData->save();
 
         $companyName = $employeeData->company->name;
         $linkedAt = $employeeData->created_at->format('d-m-Y');
+        DB::commit();
 
         $user->notify(new \App\Notifications\EmployeeWelcomeNotification($companyName, $linkedAt, $user->email, $password));
     }

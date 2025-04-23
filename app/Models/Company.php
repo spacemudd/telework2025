@@ -25,6 +25,7 @@ class Company extends Model
         static::creating(function ($company) {
             if (empty($company->id)) {
                 $company->id = (string) Str::uuid();
+                $company->code = 'C'.MaxNumber::generateForPrefix('C', 1000);
             }
         });
     }

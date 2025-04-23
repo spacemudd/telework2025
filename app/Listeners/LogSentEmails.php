@@ -6,6 +6,7 @@ namespace App\Listeners;
 use Illuminate\Mail\Events\MessageSent;
 use App\Models\CompanyAuditRecord;
 use App\Models\Company;
+use Illuminate\Support\Facades\Log;
 
 class LogSentEmails
 {
@@ -27,14 +28,15 @@ class LogSentEmails
             $plainTextBody = $body;
         }
 
-        $bodySnippet = substr((string) $plainTextBody, 0, 500);
+        $bodySnippet = method_exists($plainTextBody, 'getBody')
+            ? substr($plainTextBody->getBody(), 0, 500)
+            : substr((string) $plainTextBody, 0, 500);
 
         if (!$email) {
             return;
         }
 
         foreach ($email as $address => $details) {
-            // Try to find company based on email (optional matching logic)
             $company = Company::where('email', $address)->first();
 
             if ($company) {
@@ -44,7 +46,7 @@ class LogSentEmails
                     'subject' => $subject,
                     'body_snippet' => $bodySnippet,
                     'status' => 'sent',
-                ]);
+                ]);;
             }
         }
     }

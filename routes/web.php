@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\CompanyEmployeesController;
+use App\Http\Controllers\Admin\GlobalSearchController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CompanyDashboardController;
+use App\Http\Controllers\Employee\TrackerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CompaniesController;
 use App\Http\Controllers\Admin\EmployeesController;
@@ -10,8 +12,10 @@ use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmployeeDashboardController;
 
 Route::middleware(SetLocale::class)->get('/', function () {
+
     if (!auth()->check()) {
         return redirect()->route('login');
     }
@@ -27,6 +31,7 @@ Route::middleware(SetLocale::class)->get('/', function () {
     if (auth()->user()->hasRole('employee')) {
         return redirect('/employee/dashboard');
     }
+
     Log::alert('User has no role', [
         'user_id' => auth()->user()->id,
         'user_email' => auth()->user()->email,
@@ -34,10 +39,16 @@ Route::middleware(SetLocale::class)->get('/', function () {
 })->name('dashboard');
 
 Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->group(function () {
+    Route::get('/search', [GlobalSearchController::class, 'search'])->name('admin.search');
+
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
     Route::get('/companies/{company}/sync', [CompaniesController::class, 'sync'])->name('admin.companies.sync');
     Route::get('/companies/{company}/audit', [CompaniesController::class, 'audit'])->name('admin.companies.audit');
+    Route::get('/companies/{company}/email', [CompaniesController::class, 'email'])->name('admin.companies.email');
+    Route::post('/companies/{company}/email', [CompaniesController::class, 'sendEmail'])->name('admin.companies.sendEmail');
     Route::resource('/companies', CompaniesController::class)->names('admin.companies');
+
+    Route::resource('/employees', EmployeesController::class)->names('admin.employees');
 
     Route::prefix('companies/{company}')->group(function () {
         Route::get('/employees/create', [CompanyEmployeesController::class, 'create'])->name('admin.employees.create');
@@ -50,6 +61,14 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
 
 Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])->group(function () {
     Route::get('/dashboard', [CompanyDashboardController::class, 'index'])->name('company.dashboard');
+    Route::resource('/employees', \App\Http\Controllers\Company\EmployeesController::class)->names('company.employees');
+    Route::post('/employees/{employee}/tasks', [\App\Http\Controllers\Company\EmployeesController::class, 'assignTask'])->name('company.employees.assignTask');
+    Route::get('/attendance/export', [CompanyDashboardController::class, 'exportAttendance'])->name('company.attendance.export');
+});
+
+Route::prefix('employee')->middleware(['auth', 'role:employee', SetLocale::class])->group(function () {
+    Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
+    Route::put('/tasks/{task}/status', [\App\Http\Controllers\Employee\TaskController::class, 'updateStatus'])->name('employee.tasks.updateStatus');
 });
 
 Route::middleware('auth')->group(function () {
@@ -71,5 +90,8 @@ Route::get('/lang/{locale}', function ($locale) {
     }
     return redirect()->back();
 });
+
+Route::post('/employee/tracker/ping', [TrackerController::class, 'ping'])->name('employee.tracker.ping');
+Route::post('/employee/tracker/stop', [TrackerController::class, 'stop'])->name('employee.tracker.stop');
 
 require __DIR__.'/auth.php';

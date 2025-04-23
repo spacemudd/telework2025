@@ -12,7 +12,7 @@
 
     <div class="bg-white rounded-lg shadow p-6">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">{{ $company->name }}</h1>
+            <h1 class="text-2xl font-bold"><span class="border border-orange-600 border-1 p-1">{{ $company->code }}</span> - {{ $company->name }}</h1>
             <div>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -27,6 +27,9 @@
                     <x-slot name="content">
                         <x-dropdown-link href="{{ route('admin.companies.sync', $company->id) }}">
                             {{ __('words.sync') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link href="{{ route('admin.companies.email', $company->id) }}">
+                            {{ __('words.send_email') }}
                         </x-dropdown-link>
                         <x-dropdown-link href="{{ route('admin.companies.audit', $company->id) }}">
                             {{ __('words.communication-log') }}

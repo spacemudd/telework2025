@@ -27,6 +27,14 @@ class TeleworkSyncCompany implements ShouldQueue
      */
     public function handle(): void
     {
+        foreach ($this->company->employees as $employee) {
+            \App\Models\EmployeeTeleworkSync::create([
+                'employee_id' => $employee->id,
+                'company_id' => $this->company->id,
+                'payload' => json_encode(['synced_at' => now()->toDateTimeString()])
+            ]);
+        }
+
         Mail::to($this->company->email)
             ->send(new TeleworkSyncCompanyMail($this->company));
     }

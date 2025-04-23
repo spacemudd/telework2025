@@ -47,6 +47,10 @@
                         <input type="text" name="position" class="w-full border-gray-300 rounded-md shadow-sm py-2 text-sm" required>
                     </div>
 
+                    <div class="bg-yellow-100 text-yellow-800 text-sm rounded-md p-4 my-4">
+                        ** {{ __('words.create_employee_notice') }}
+                    </div>
+
                     <div class="flex justify-end">
                         <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
                             {{ __('words.save') }}

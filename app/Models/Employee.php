@@ -37,6 +37,16 @@ class Employee extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class)->latest();
+    }
+
+    public function sessions()
+    {
+        return $this->hasMany(EmployeeSession::class);
+    }
+
+    function employee_telework_syncs()
+    {
+        return $this->hasMany(EmployeeTeleworkSync::class);
     }
 }

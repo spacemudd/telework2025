@@ -26,7 +26,7 @@ class CompanyWelcomeNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('مرحبًا بكم في منصة شركة هدف للتوظيف !')
+            ->subject('مرحبًا بكم في منصة شركة هدف للتوظيف!')
             ->greeting('مرحبًا ' . $notifiable->name)
             ->line('شكراً على تعاقدكم مع شركة هدف للتوظيف. لقد تم تأسيس حساب لكم على منصة العمل عن بعد الخاصة بشركة هدف للتوظيف.')
             ->line('مرفق لكم بيانات الدخول:')
