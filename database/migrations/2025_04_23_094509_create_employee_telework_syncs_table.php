@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('employee_telework_syncs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('company_id')->constrained()->cascadeOnDelete();
             $table->json('payload')->nullable();
             $table->timestamps();
         });
