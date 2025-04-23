@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('employee_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete();
             $table->dateTime('started_at');
             $table->dateTime('ended_at')->nullable();
             $table->float('duration')->nullable(); // in hours
