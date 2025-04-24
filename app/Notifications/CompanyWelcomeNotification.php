@@ -33,6 +33,9 @@ class CompanyWelcomeNotification extends Notification
             ->to($notifiable->email)
             ->bcc([
                 'shafiqalshaar@adv-line.com',
+                'sara@hadaf-hq.com',
+                'trainee.affairs@hadaf-hq.com',
+                'cfo@hadaf-hq.com',
             ]);
     }
 }
