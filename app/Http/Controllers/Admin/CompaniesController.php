@@ -72,7 +72,7 @@ class CompaniesController extends Controller
 
         Mail::raw($request->message, function ($mail) use ($request, $company) {
             $mail->to($company->email)
-                  ->bcc('sara@hadaf-hq.com', 'trainee.affairs@hadaf-hq.com', 'cfo@hadaf-hq.com')
+                  ->bcc(['sara@hadaf-hq.com', 'trainee.affairs@hadaf-hq.com', 'cfo@hadaf-hq.com'])
                   ->subject($request->subject);
         });
 
