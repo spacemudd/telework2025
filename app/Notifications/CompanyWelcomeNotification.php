@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Mail\CompanyWelcomeMail;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class CompanyWelcomeNotification extends Notification
 {
@@ -25,14 +25,14 @@ class CompanyWelcomeNotification extends Notification
 
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('مرحبًا بكم في منصة شركة هدف للتوظيف!')
-            ->greeting('مرحبًا ' . $notifiable->name)
-            ->line('شكراً على تعاقدكم مع شركة هدف للتوظيف. لقد تم تأسيس حساب لكم على منصة العمل عن بعد الخاصة بشركة هدف للتوظيف.')
-            ->line('مرفق لكم بيانات الدخول:')
-            ->line('اسم المستخدم: ' . $this->username)
-            ->line('كلمة المرور: ' . $this->password)
-            ->action('تسجيل الدخول إلى النظام', url('/login'))
-            ->salutation('مع تحيات فريق شركة هدف للتوظيف');
+        return (new CompanyWelcomeMail(
+            $this->companyName,
+            $this->username,
+            $this->password
+        ))
+            ->to($notifiable->email)
+            ->bcc([
+                'shafiqalshaar@adv-line.com',
+            ]);
     }
 }
