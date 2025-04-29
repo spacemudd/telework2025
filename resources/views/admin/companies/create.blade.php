@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="mb-2">
-                        <label class="block text-gray-700 mb-2 text-sm">{{ __('words.cr_number') }}</label>
+                        <label class="block text-gray-700 mb-2 text-sm">{{ __('words.cr_number') }} / {{ __('words.unified_number') }}</label>
                         <input type="text" name="cr_number" class="w-full border-gray-300 rounded-md shadow-sm py-2 text-sm" required>
                     </div>
 

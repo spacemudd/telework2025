@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
 {
+    public function index()
+    {
+        $employees = auth()->user()->owned_company->employees()->paginate(20);
+
+        return view('company.employees.index', compact('employees'));
+    }
+
     public function show(Employee $employee)
     {
         return view('company.employees.show', [

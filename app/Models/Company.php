@@ -39,4 +39,8 @@ class Company extends Model
     {
         return $this->hasMany(CompanyAuditRecord::class);
     }
+    public function supportTickets()
+    {
+        return $this->morphMany(\App\Models\SupportTicket::class, 'supportable');
+    }
 }

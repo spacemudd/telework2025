@@ -22,6 +22,9 @@
                         <x-nav-link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
                             {{ __('words.employees') }}
                         </x-nav-link>
+                    <x-nav-link :href="route('admin.support-tickets.index')" :active="request()->routeIs('admin.support-tickets.*')">
+                        {{ __('words.support') }}
+                    </x-nav-link>
                     @endhasrole
 
                     @hasrole('company')
@@ -30,6 +33,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('company.employees.index')" :active="request()->routeIs('company.employees.*')">
                             {{ __('words.employees') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('company.support-tickets.index')" :active="request()->routeIs('company.support-tickets.*')">
+                            {{ __('words.support') }}
                         </x-nav-link>
                     @endhasrole
 

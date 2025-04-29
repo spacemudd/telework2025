@@ -1,5 +1,6 @@
 <?php
 return [
+    'app_name' => 'هدف للعمل عن بعد',
     'admin_dashboard' => 'لوحة تحكم المشرف',
     'welcome_admin' => 'مرحباً أيها المشرف!',
     'dashboard_intro' => 'هذه هي لوحة التحكم الإدارية الخاصة بك حيث يمكنك إدارة الشركات والموظفين والمهام.',
@@ -67,4 +68,17 @@ return [
     'completed' => 'مكتمل',
     'company_details' => 'تفاصيل الشركة',
     'send_email' => 'إرسال بريد إلكتروني',
+    'unified_number' => 'الرقم الموحد',
+    'view-all' => 'عرض الكل',
+    'open-tickets' => 'التذاكر النشطة',
+    'open' => 'النشطة',
+    'support' => 'الدعم',
+    'active-ticket-status' => 'نشطة',
+    'closed-ticket-status' => 'مغلقة',
+    'unknown-ticket-status' => 'غير معروفة',
+    'customer-support' => 'دعم العملاء',
+    'ticket-details' => 'تفاصيل التذكرة',
+    'latest_activity' => 'أحدث الأنشطة',
+    'task' => 'المهمة',
+    'closed' => 'مغلقة',
 ];

@@ -1,5 +1,6 @@
 <?php
 return [
+    'app_name' => 'Hadaf - Telework Services',
     'admin_dashboard' => 'Admin Dashboard',
     'welcome_admin' => 'Welcome, Admin!',
     'dashboard_intro' => 'This is your administrative dashboard where you can manage companies, employees, and tasks.',
@@ -54,4 +55,17 @@ return [
     'company_details' => 'Company Details',
     'send_email' => 'Send email',
     'search_placeholder' => 'Search by name, email, or CR number',
+    'unified_number' => 'Unified Number',
+    'view-all' => 'View all',
+    'open-tickets' => 'Open Tickets',
+    'open' => 'Open',
+    'support' => 'Support',
+    'active-ticket-status' => 'Active',
+    'closed-ticket-status' => 'Closed',
+    'unknown-ticket-status' => 'Unknown',
+    'customer-support' => 'Customer Support',
+    'ticket-details' => 'Ticket Details',
+    'latest_activity' => 'Latest Activity',
+    'task' => 'Task',
+    'closed' => 'Closed',
 ];
