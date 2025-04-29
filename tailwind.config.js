@@ -12,7 +12,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['"IBM Plex Arabic"', 'Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
     },
