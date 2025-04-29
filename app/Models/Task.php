@@ -17,6 +17,7 @@ class Task extends Model
         'due_date',
         'priority',
         'status',
+        'issx',
     ];
 
     public function getActivitylogOptions(): LogOptions
