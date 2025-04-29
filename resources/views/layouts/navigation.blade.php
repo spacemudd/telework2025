@@ -11,10 +11,33 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('words.dashboard') }}
-                    </x-nav-link>
+                <div class="hidden space-x-8 rtl:space-x-reverse sm:-my-px sm:flex sm:ms-10">
+                    @hasrole('admin')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.dashboard')">
+                            {{ __('words.dashboard') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.*')">
+                            {{ __('words.companies') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
+                            {{ __('words.employees') }}
+                        </x-nav-link>
+                    @endhasrole
+
+                    @hasrole('company')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('company.dashboard')">
+                            {{ __('words.dashboard') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('company.employees.index')" :active="request()->routeIs('company.employees.*')">
+                            {{ __('words.employees') }}
+                        </x-nav-link>
+                    @endhasrole
+
+                    @hasrole('employee')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('employee.dashboard')">
+                            {{ __('words.dashboard') }}
+                        </x-nav-link>
+                    @endhasrole
                 </div>
             </div>
 
