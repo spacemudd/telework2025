@@ -58,7 +58,7 @@ return [
     'code' => 'الكود',
     'create_employee_notice' => 'بعد حفظ الموظف، سيتم إرسال بريد إلكتروني إلى الموظف مع كيفية الوصول إلى النظام.',
     'company' => 'الشركة',
-    'search_placeholder' => 'بحث',
+    'search_placeholder' => 'البحث بالأسم او رقم الهوية او رقم السجل التجاري',
     'added-date' => 'تاريخ الإضافة',
     'welcome' => 'مرحبًا بك،',
     'no_tasks_assigned' => 'لا توجد مهام معينة.',

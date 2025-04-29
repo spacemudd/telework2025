@@ -53,4 +53,5 @@ return [
     'completed' => 'Completed',
     'company_details' => 'Company Details',
     'send_email' => 'Send email',
+    'search_placeholder' => 'Search by name, email, or CR number',
 ];

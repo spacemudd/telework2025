@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CompaniesController;
 use App\Http\Controllers\Admin\EmployeesController;
 use App\Http\Middleware\SetLocale;
+use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,12 @@ Route::middleware(SetLocale::class)->get('/', function () {
         'user_email' => auth()->user()->email,
     ]);
 })->name('dashboard');
+
+Route::get('dev-login', function() {
+    if (app()->isProduction()) return 404;
+    auth()->login(User::admins()->firstOrFail());
+    return redirect()->route('dashboard');
+})->name('login.dev');
 
 Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->group(function () {
     Route::get('/search', [GlobalSearchController::class, 'search'])->name('admin.search');
