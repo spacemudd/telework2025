@@ -43,4 +43,9 @@ class Company extends Model
     {
         return $this->morphMany(\App\Models\SupportTicket::class, 'supportable');
     }
+
+    public function config()
+    {
+        return $this->hasOne(SimulationConfig::class);
+    }
 }

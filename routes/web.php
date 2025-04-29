@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\CompanyEmployeesController;
+use App\Http\Controllers\Admin\CompanySimulationConfigController;
 use App\Http\Controllers\Admin\GlobalSearchController;
+use App\Http\Controllers\Admin\SimulationController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CompanyDashboardController;
 use App\Http\Controllers\Employee\TrackerController;
@@ -48,7 +50,16 @@ Route::get('dev-login', function() {
 Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->group(function () {
     Route::get('/search', [GlobalSearchController::class, 'search'])->name('admin.search');
 
+    Route::get('/simulation', [SimulationController::class, 'index'])->name('admin.simulation.index');
+    Route::post('/simulation', [SimulationController::class, 'store'])->name('admin.simulation.store');
+    Route::get('/simulation/run', [SimulationController::class, 'run'])->name('admin.simulation.run');
+
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
+
+    Route::post('/companies/{company}/simulation-config/run', [CompanySimulationConfigController::class, 'run'])->name('admin.companies.simulation-config.run');
+    Route::put('/companies/{company}/simulation-config', [CompanySimulationConfigController::class, 'update'])->name('admin.companies.simulation-config.update');
+    Route::get('/companies/{company}/simulation-config', [CompanySimulationConfigController::class, 'index'])->name('admin.companies.simulation-config.index');
+
     Route::get('/companies/{company}/sync', [CompaniesController::class, 'sync'])->name('admin.companies.sync');
     Route::get('/companies/{company}/audit', [CompaniesController::class, 'audit'])->name('admin.companies.audit');
     Route::get('/companies/{company}/email', [CompaniesController::class, 'email'])->name('admin.companies.email');

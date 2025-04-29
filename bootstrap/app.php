@@ -31,4 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withProviders([
         EventServiceProvider::class,
     ])
+    ->withSchedule(function ($schedule) {
+        $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->hourly();
+        $schedule->job(new \App\Jobs\SimulateEmployeeResponseJob())->hourly();
+    })
     ->create();
