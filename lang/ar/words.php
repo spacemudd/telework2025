@@ -81,4 +81,5 @@ return [
     'latest_activity' => 'أحدث الأنشطة',
     'task' => 'المهمة',
     'closed' => 'مغلقة',
+    'simulation-config' => 'إعدادات المحاكاة',
 ];

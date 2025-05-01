@@ -68,4 +68,5 @@ return [
     'latest_activity' => 'Latest Activity',
     'task' => 'Task',
     'closed' => 'Closed',
+    'simulation-config' => 'Simulation Config',
 ];
