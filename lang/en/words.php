@@ -69,4 +69,5 @@ return [
     'task' => 'Task',
     'closed' => 'Closed',
     'simulation-config' => 'Simulation Config',
+    'login' => 'Login',
 ];

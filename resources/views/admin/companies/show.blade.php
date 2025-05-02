@@ -37,6 +37,9 @@
                         <x-dropdown-link href="{{ route('admin.companies.simulation-config.index', $company->id) }}">
                             {{ __('words.simulation-config') }}
                         </x-dropdown-link>
+                        <x-dropdown-link href="{{ route('admin.impersonate', $company->user->id) }}">
+                            {{ __('words.login') }}
+                        </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>
