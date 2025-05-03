@@ -70,4 +70,5 @@ return [
     'closed' => 'Closed',
     'simulation-config' => 'Simulation Config',
     'login' => 'Login',
+    'settings' => 'Settings',
 ];

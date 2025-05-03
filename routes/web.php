@@ -89,6 +89,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
         Route::post('/employees/{employee}/disable', [CompanyEmployeesController::class, 'disable'])->name('admin.employees.disable');
         Route::post('/employees/{employee}/tasks', [CompanyEmployeesController::class, 'assignTask'])->name('admin.employees.assignTask');
     });
+
+    Route::view('/settings', 'admin.settings.index')->name('admin.settings');
 });
 
 Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])->group(function () {
@@ -129,3 +131,4 @@ Route::post('/employee/tracker/ping', [TrackerController::class, 'ping'])->name(
 Route::post('/employee/tracker/stop', [TrackerController::class, 'stop'])->name('employee.tracker.stop');
 
 require __DIR__.'/auth.php';
+require __DIR__.'/settings.php';

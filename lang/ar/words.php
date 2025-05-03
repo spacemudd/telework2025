@@ -83,4 +83,5 @@ return [
     'closed' => 'مغلقة',
     'simulation-config' => 'إعدادات المحاكاة',
     'login' => 'تسجيل الدخول',
+    'settings' => 'الإعدادات',
 ];

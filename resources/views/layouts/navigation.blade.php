@@ -22,9 +22,12 @@
                         <x-nav-link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
                             {{ __('words.employees') }}
                         </x-nav-link>
-                    <x-nav-link :href="route('admin.support-tickets.index')" :active="request()->routeIs('admin.support-tickets.*')">
-                        {{ __('words.support') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('admin.support-tickets.index')" :active="request()->routeIs('admin.support-tickets.*')">
+                            {{ __('words.support') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
+                            {{ __('words.settings') }}
+                        </x-nav-link>
                     @endhasrole
 
                     @hasrole('company')
