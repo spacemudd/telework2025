@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class GenerateSimulatedTasksJob implements ShouldQueue
 {
@@ -42,45 +43,31 @@ class GenerateSimulatedTasksJob implements ShouldQueue
 
         foreach ($configs as $config) {
             $company = $config->company;
+            if (!$company) {
+                \Log::error('Company not found for simulation config', [
+                    'config_id' => $config->id,
+                ]);
+                continue;
+            }
 
             if (!$company || !$company->config->is_enabled) {
+                \Log::info('Skipping task generation for disabled company', [
+                    'company_id' => $company->id,
+                    'company_name' => $company->name,
+                ]);
+                continue;
+            }
+
+            if ($company->employees->isEmpty()) {
+                \Log::info('No employees found for company', [
+                    'company_id' => $company->id,
+                    'company_name' => $company->name,
+                ]);
                 continue;
             }
 
             foreach ($company->employees as $employee) {
-                for ($i = 0; $i < $config->tasks_per_day; $i++) {
-                    $response = Http::withToken(config('services.openai.key'))
-                        ->post('https://api.openai.com/v1/chat/completions', [
-                            'model' => 'gpt-4',
-                            'messages' => [
-                                ['role' => 'system', 'content' => 'You are a Saudi Arabian-based company assigning tasks to Saudi remote workers.'],
-                                ['role' => 'user', 'content' => '
-                                قم بإنشاء عنوان مهمة سهلة جدًا للمبتدئين قصير ووصف بجملة واحدة مناسب لموظف '.$employee->position.' عن بعد. يجب أن يكون الرد بصيغة JSON فقط: { "title": "", "description": "" }'],
-                            ],
-                        ]);
-
-                    $data = $response->json('choices.0.message.content');
-
-                    $taskData = json_decode($data, true);
-
-                    if (!is_array($taskData) || !isset($taskData['title'], $taskData['description'])) {
-                        $taskData = [
-                            'title' => 'مهمة افتراضية',
-                            'description' => 'تم إنشاء هذه المهمة للاختبار.',
-                        ];
-                    }
-
-                    Task::create([
-                        'title' => $taskData['title'],
-                        'description' => $taskData['description'],
-                        'due_date' => now()->addDays(rand(1, 5)),
-                        'priority' => collect(['low', 'medium', 'high'])->random(),
-                        'employee_id' => $employee->id,
-                        'company_id' => $company->id,
-                        'issx' => true,
-                        'status' => 'pending',
-                    ]);
-                }
+                GenerateSimulatedTasksJobBatch::dispatch($employee, $config->tasks_per_day);
             }
         }
     }

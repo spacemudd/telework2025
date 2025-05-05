@@ -75,4 +75,5 @@ return [
     'move_to_pending' => 'Move to Pending',
     'comments' => 'Comments',
     'approve'  => 'Approve',
+    'delete' => 'Delete',
 ];

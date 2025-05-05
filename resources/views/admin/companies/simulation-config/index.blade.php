@@ -20,7 +20,7 @@
                     @method('PUT')
 
                     <div>
-                        <label for="tasks_per_day" class="block mb-1 text-sm font-medium text-gray-700">عدد المهام لكل موظف يومياً</label>
+                        <label for="tasks_per_day" class="block mb-1 text-sm font-medium text-gray-700">عدد الأقصى المهام لكل موظف يومياً</label>
                         <input type="number" name="tasks_per_day" id="tasks_per_day" min="1"
                                value="{{ old('tasks_per_day', $config->tasks_per_day) }}"
                                class="w-full border-gray-300 rounded shadow-sm">
@@ -55,6 +55,19 @@
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                         </svg>
                         <span x-text="loading ? 'جارٍ التنفيذ...' : 'تنفيذ المحاكاة الآن'"></span>
+                    </button>
+                </form>
+                <form x-data="{ loading: false }" @submit="loading = true" class="mt-2" action="{{ route('admin.companies.simulation-config.respond', $company->id) }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                            :disabled="loading"
+                            :class="{ 'opacity-50 cursor-not-allowed': loading }"
+                            class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition flex items-center gap-2">
+                        <svg x-show="loading" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span x-text="loading ? 'جارٍ الرد...' : 'تنفيذ رد الموظفين الآن'"></span>
                     </button>
                 </form>
             </div>

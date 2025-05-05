@@ -68,6 +68,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
 
 
     Route::post('/companies/{company}/simulation-config/run', [CompanySimulationConfigController::class, 'run'])->name('admin.companies.simulation-config.run');
+    Route::post('/companies/{company}/simulation-config/respond', [CompanySimulationConfigController::class, 'respond'])->name('admin.companies.simulation-config.respond');
     Route::put('/companies/{company}/simulation-config', [CompanySimulationConfigController::class, 'update'])->name('admin.companies.simulation-config.update');
     Route::get('/companies/{company}/simulation-config', [CompanySimulationConfigController::class, 'index'])->name('admin.companies.simulation-config.index');
 
@@ -91,6 +92,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     });
 
     Route::view('/settings', 'admin.settings.index')->name('admin.settings');
+
+    Route::delete('/tasks/{task}', [\App\Http\Controllers\Admin\TasksController::class, 'destroy'])->name('admin.tasks.destroy');
 });
 
 Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])->group(function () {

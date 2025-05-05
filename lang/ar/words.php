@@ -88,4 +88,5 @@ return [
     'move_to_pending' => 'نقل إلى قيد الانتظار',
     'comments' => 'التعليقات',
     'approve' => 'الموافقة',
+    'delete' => 'حذف',
 ];

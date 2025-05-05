@@ -21,7 +21,7 @@
                         <th class="py-3 px-4 rtl:text-right">{{ __('words.email') }}</th>
                         <th class="py-3 px-4 rtl:text-right">{{ __('words.address') }}</th>
                         <th class="py-3 px-4 rtl:text-right">{{ __('words.cr_number') }}</th>
-                        <th class="py-3 px-4 rtl:text-right">{{ __('words.phone') }}</th>
+{{--                        <th class="py-3 px-4 rtl:text-right">{{ __('words.phone') }}</th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -32,7 +32,7 @@
                             <td class="py-3 px-4">{{ $company->email }}</td>
                             <td class="py-3 px-4">{{ $company->address }}</td>
                             <td class="py-3 px-4">{{ $company->cr_number }}</td>
-                            <td class="py-3 px-4">{{ $company->phone }}</td>
+{{--                            <td class="py-3 px-4">{{ $company->phone }}</td>--}}
                         </tr>
                     @empty
                         <tr>
