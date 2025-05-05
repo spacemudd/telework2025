@@ -19,6 +19,15 @@
             <p><strong>{{ __('words.identity_number') }}:</strong> {{ $employee->identity_number }}</p>
             <p><strong>{{ __('words.phone') }}:</strong> {{ $employee->phone }}</p>
             <p><strong>{{ __('words.position') }}:</strong> {{ $employee->position }}</p>
+            <p><strong>{{ __('words.company') }}:</strong>
+                @if($employee->company)
+                    <a href="{{ route('admin.companies.show', $employee->company->id) }}" class="text-blue-600 hover:underline">
+                        {{ $employee->company->name }}
+                    </a>
+                @else
+                    -
+                @endif
+            </p>
         </div>
 
         @if ($employee->tasks->count())

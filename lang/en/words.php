@@ -71,4 +71,8 @@ return [
     'simulation-config' => 'Simulation Config',
     'login' => 'Login',
     'settings' => 'Settings',
+    'reply' => 'Reply',
+    'move_to_pending' => 'Move to Pending',
+    'comments' => 'Comments',
+    'approve'  => 'Approve',
 ];

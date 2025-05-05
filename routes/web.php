@@ -100,6 +100,7 @@ Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])
     Route::get('/attendance/export', [CompanyDashboardController::class, 'exportAttendance'])->name('company.attendance.export');
     Route::resource('/support-tickets', \App\Http\Controllers\Company\SupportTicketsController::class)->names('company.support-tickets');
     Route::post('/support-tickets/{ticket}/messages', [\App\Http\Controllers\Company\SupportTicketsMessageController::class, 'store'])->name('company.support-tickets.messages.store');
+    Route::post('/tasks/{task}/comments', [\App\Http\Controllers\Company\TasksCommentController::class, 'store'])->name('company.tasks.comment');
 });
 
 Route::prefix('employee')->middleware(['auth', 'role:employee', SetLocale::class])->group(function () {

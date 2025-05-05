@@ -84,4 +84,8 @@ return [
     'simulation-config' => 'إعدادات المحاكاة',
     'login' => 'تسجيل الدخول',
     'settings' => 'الإعدادات',
+    'reply' => 'رد',
+    'move_to_pending' => 'نقل إلى قيد الانتظار',
+    'comments' => 'التعليقات',
+    'approve' => 'الموافقة',
 ];

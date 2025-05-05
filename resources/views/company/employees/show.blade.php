@@ -80,6 +80,7 @@
                         <th class="py-3 px-4 text-right">{{ __('words.due_date') }}</th>
                         <th class="py-3 px-4 text-right">{{ __('words.priority') }}</th>
                         <th class="py-3 px-4 text-right">{{ __('words.status') }}</th>
+                        <th class="py-3 px-4 text-right">{{ __('words.comments') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,6 +103,37 @@
                             <td class="py-3 px-4">{{ $task->due_date }}</td>
                             <td class="py-3 px-4">{{ __('words.' . $task->priority) }}</td>
                             <td class="py-3 px-4">{{ __('words.' . $task->status) }}</td>
+                            <td class="py-3 px-4 w-96">
+                                <div class="space-y-2 max-h-48 overflow-y-auto">
+                                    @foreach ($task->comments as $comment)
+                                        <div class="border p-2 rounded bg-gray-50">
+                                            <div class="text-xs text-gray-700">{{ $comment->user->name }}: {{ $comment->comment }}</div>
+                                            <div class="text-xs text-gray-400">{{ $comment->created_at->format('Y-m-d H:i') }}</div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <form action="{{ route('company.tasks.comment', $task->id) }}" method="POST" class="mt-2 space-y-1">
+                                    @csrf
+                                    @if(is_null($task->approved_at))
+                                        <textarea name="comment" rows="2" class="w-full text-sm border rounded p-1" placeholder="اكتب ردًا..." required></textarea>
+                                        <div class="flex items-center justify-between">
+                                            @if($task->status === 'completed')
+                                                <button type="submit" name="reopen" value="1" class="text-sm px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                                                    {{ __('words.move_to_pending') }}
+                                                </button>
+                                            @endif
+                                            <button type="submit" class="text-sm px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                                {{ __('words.reply') }}
+                                            </button>
+                                            @if($task->status === 'completed')
+                                                <button type="submit" name="approve" value="1" class="text-sm px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700">
+                                                    {{ __('words.approve') }}
+                                                </button>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
