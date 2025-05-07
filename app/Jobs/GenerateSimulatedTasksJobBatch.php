@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class GenerateSimulatedTasksJobBatch implements ShouldQueue
 {
@@ -25,12 +26,14 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
 
     public function handle(): void
     {
+        Log::info('Generating simulated tasks job batch.');
+
         $taskCount = rand(1, $this->maxTasks);
 
         for ($i = 0; $i < $taskCount; $i++) {
             $response = Http::withToken(config('services.openai.key'))
                 ->post('https://api.openai.com/v1/chat/completions', [
-                    'model' => 'gpt-3.5-turbo',
+                    'model' => 'gpt-4-turbo',
                     'messages' => [
                         ['role' => 'system', 'content' => 'You are a Saudi Arabian-based company assigning tasks to Saudi remote workers.'],
                         ['role' => 'user', 'content' => 'قم بإنشاء عنوان مهمة سهلة جدًا للمبتدئين قصير ووصف بجملة واحدة مناسب لموظف ' . $this->employee->position . ' عن بعد. يجب أن يكون الرد بصيغة JSON فقط: { "title": "", "description": "" }'],
