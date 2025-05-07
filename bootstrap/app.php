@@ -3,6 +3,7 @@
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\SetLocale;
 use App\Providers\EventServiceProvider;
+use App\Providers\HorizonServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -30,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withProviders([
         EventServiceProvider::class,
+        HorizonServiceProvider::class,
     ])
     ->withSchedule(function ($schedule) {
         $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->hourly();
