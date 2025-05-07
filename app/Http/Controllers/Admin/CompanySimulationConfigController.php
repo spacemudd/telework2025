@@ -55,4 +55,17 @@ class CompanySimulationConfigController extends Controller
         return redirect()->route('admin.companies.simulation-config.index', $company->id)
             ->with('success', 'تم تشغيل المحاكاة لهذه الشركة بنجاح.');
     }
+
+    public function respond(Company $company)
+    {
+        if (!$company->config) {
+            return redirect()->route('admin.companies.simulation-config.index', $company->id)
+                ->with('error', 'لا توجد إعدادات محاكاة لهذه الشركة.');
+        }
+
+        dispatch_sync(new \App\Jobs\SimulateEmployeeResponseJob($company));
+
+        return redirect()->route('admin.companies.simulation-config.index', $company->id)
+            ->with('success', 'تم تنفيذ ردود الموظفين لهذه الشركة بنجاح.');
+    }
 }

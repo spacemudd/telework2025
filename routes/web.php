@@ -47,6 +47,11 @@ Route::get('dev-login', function() {
     return redirect()->route('dashboard');
 })->name('login.dev');
 
+Route::get('/admin/impersonate-stop', function () {
+    auth()->user()->leaveImpersonation();
+    return redirect()->route('dashboard');
+})->name('admin.impersonate.stop');
+
 Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->group(function () {
     Route::get('/search', [GlobalSearchController::class, 'search'])->name('admin.search');
 
@@ -56,7 +61,14 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
 
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
 
+    Route::get('/impersonate/{user}', function (\App\Models\User $user) {
+        auth()->user()->impersonate($user);
+        return redirect()->route('dashboard');
+    })->name('admin.impersonate');
+
+
     Route::post('/companies/{company}/simulation-config/run', [CompanySimulationConfigController::class, 'run'])->name('admin.companies.simulation-config.run');
+    Route::post('/companies/{company}/simulation-config/respond', [CompanySimulationConfigController::class, 'respond'])->name('admin.companies.simulation-config.respond');
     Route::put('/companies/{company}/simulation-config', [CompanySimulationConfigController::class, 'update'])->name('admin.companies.simulation-config.update');
     Route::get('/companies/{company}/simulation-config', [CompanySimulationConfigController::class, 'index'])->name('admin.companies.simulation-config.index');
 
@@ -78,6 +90,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
         Route::post('/employees/{employee}/disable', [CompanyEmployeesController::class, 'disable'])->name('admin.employees.disable');
         Route::post('/employees/{employee}/tasks', [CompanyEmployeesController::class, 'assignTask'])->name('admin.employees.assignTask');
     });
+
+    Route::view('/settings', 'admin.settings.index')->name('admin.settings');
+
+    Route::delete('/tasks/{task}', [\App\Http\Controllers\Admin\TasksController::class, 'destroy'])->name('admin.tasks.destroy');
 });
 
 Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])->group(function () {
@@ -87,6 +103,7 @@ Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])
     Route::get('/attendance/export', [CompanyDashboardController::class, 'exportAttendance'])->name('company.attendance.export');
     Route::resource('/support-tickets', \App\Http\Controllers\Company\SupportTicketsController::class)->names('company.support-tickets');
     Route::post('/support-tickets/{ticket}/messages', [\App\Http\Controllers\Company\SupportTicketsMessageController::class, 'store'])->name('company.support-tickets.messages.store');
+    Route::post('/tasks/{task}/comments', [\App\Http\Controllers\Company\TasksCommentController::class, 'store'])->name('company.tasks.comment');
 });
 
 Route::prefix('employee')->middleware(['auth', 'role:employee', SetLocale::class])->group(function () {
@@ -118,3 +135,4 @@ Route::post('/employee/tracker/ping', [TrackerController::class, 'ping'])->name(
 Route::post('/employee/tracker/stop', [TrackerController::class, 'stop'])->name('employee.tracker.stop');
 
 require __DIR__.'/auth.php';
+require __DIR__.'/settings.php';

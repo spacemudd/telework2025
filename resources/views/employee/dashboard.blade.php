@@ -96,13 +96,14 @@
                                             <form action="{{ route('employee.tasks.updateStatus', $task->id) }}" method="POST" class="mt-2">
                                                 @csrf
                                                 @method('PUT')
-                                                <div class="flex items-center justify-between space-x-2 gap-5">
+                                                <div class="flex flex-col gap-2">
                                                     <select name="status" class="text-sm border rounded p-1 w-full">
                                                         <option value="pending" @selected($task->status === 'pending')>{{ __('words.pending') }}</option>
                                                         <option value="in_progress" @selected($task->status === 'in_progress')>{{ __('words.in_progress') }}</option>
                                                         <option value="completed" @selected($task->status === 'completed')>{{ __('words.completed') }}</option>
                                                     </select>
-                                                    <button type="submit" class="text-sm bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
+                                                    <textarea name="comment" rows="2" placeholder="اكتب تعليقاً حول التحديث..." class="text-sm border rounded p-2 w-full"></textarea>
+                                                    <button type="submit" class="self-end text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                                                         {{ __('words.update') }}
                                                     </button>
                                                 </div>
@@ -113,7 +114,27 @@
                                                 <h5 class="text-sm font-semibold mb-1 text-gray-600">سجل التعديلات:</h5>
                                                 <ul class="text-xs text-gray-500 list-disc pl-4">
                                                     @foreach ($task->audit_logs as $log)
-                                                        <li>{{ $log->status }} - {{ $log->created_at->format('Y-m-d H:i') }}</li>
+                                                        <li>
+                                                            {{ $log->status }} - {{ $log->created_at->format('Y-m-d H:i') }}
+                                                            @if(!empty($log->comment))
+                                                                <br><span class="text-gray-700">تعليق: {{ $log->comment }}</span>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+                                        @if ($task->comments && $task->comments->count())
+                                            <div class="mt-4 border-t pt-2">
+                                                <h5 class="text-sm font-semibold mb-1 text-gray-600">المناقشات:</h5>
+                                                <ul class="text-xs text-gray-700 space-y-2">
+                                                    @foreach ($task->comments as $comment)
+                                                        <li class="border p-2 rounded bg-gray-50">
+                                                            <span class="font-semibold">{{ $comment->user->name }}</span>:
+                                                            <span>{{ $comment->comment }}</span>
+                                                            <br>
+                                                            <span class="text-gray-400">{{ $comment->created_at->format('Y-m-d H:i') }}</span>
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             </div>

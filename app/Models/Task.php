@@ -33,4 +33,8 @@ class Task extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+    public function comments()
+    {
+        return $this->hasMany(TaskComment::class);
+    }
 }

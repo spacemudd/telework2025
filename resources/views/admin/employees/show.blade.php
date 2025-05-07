@@ -19,6 +19,15 @@
             <p><strong>{{ __('words.identity_number') }}:</strong> {{ $employee->identity_number }}</p>
             <p><strong>{{ __('words.phone') }}:</strong> {{ $employee->phone }}</p>
             <p><strong>{{ __('words.position') }}:</strong> {{ $employee->position }}</p>
+            <p><strong>{{ __('words.company') }}:</strong>
+                @if($employee->company)
+                    <a href="{{ route('admin.companies.show', $employee->company->id) }}" class="text-blue-600 hover:underline">
+                        {{ $employee->company->name }}
+                    </a>
+                @else
+                    -
+                @endif
+            </p>
         </div>
 
         @if ($employee->tasks->count())
@@ -32,6 +41,7 @@
                             <th class="py-3 px-4 text-left">{{ __('words.due_date') }}</th>
                             <th class="py-3 px-4 text-left">{{ __('words.priority') }}</th>
                             <th class="py-3 px-4 text-left">{{ __('words.status') }}</th>
+                            <th class="py-3 px-4 text-left">{{ __('words.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +51,15 @@
                                 <td class="py-3 px-4">{{ $task->due_date }}</td>
                                 <td class="py-3 px-4">{{ __('words.' . $task->priority) }}</td>
                                 <td class="py-3 px-4">{{ __('words.' . $task->status) }}</td>
+                                <td class="py-3 px-4">
+                                    <form action="{{ route('admin.tasks.destroy', $task->id) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من حذف هذه المهمة؟');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:underline text-sm">
+                                            {{ __('words.delete') }}
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

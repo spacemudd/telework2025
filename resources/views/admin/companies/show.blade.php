@@ -37,6 +37,9 @@
                         <x-dropdown-link href="{{ route('admin.companies.simulation-config.index', $company->id) }}">
                             {{ __('words.simulation-config') }}
                         </x-dropdown-link>
+                        <x-dropdown-link href="{{ route('admin.impersonate', $company->user->id) }}">
+                            {{ __('words.login') }}
+                        </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -57,10 +60,10 @@
                         <th class="text-left py-2 px-4 font-semibold">{{ __('words.cr_number') }}</th>
                         <td class="py-2 px-4">{{ $company->cr_number }}</td>
                     </tr>
-                    <tr>
-                        <th class="text-left py-2 px-4 font-semibold">{{ __('words.phone') }}</th>
-                        <td class="py-2 px-4">{{ $company->phone }}</td>
-                    </tr>
+{{--                    <tr>--}}
+{{--                        <th class="text-left py-2 px-4 font-semibold">{{ __('words.phone') }}</th>--}}
+{{--                        <td class="py-2 px-4">{{ $company->phone }}</td>--}}
+{{--                    </tr>--}}
                 </tbody>
             </table>
         </div>
