@@ -49,7 +49,7 @@ class SimulateEmployeeResponseJobBatch implements ShouldQueue
         $response = Http::timeout(10)->withHeaders([
             'Authorization' => 'Bearer ' . config('services.openai.key'),
         ])->post('https://api.openai.com/v1/chat/completions', [
-            'model' => 'gpt-3.5-turbo',
+            'model' => 'gpt-4-turbo',
             'messages' => [
                 ['role' => 'system', 'content' => 'أنت موظف عمل عن بعد وترد على مهمة تم تنفيذها.'],
                 ['role' => 'user', 'content' => "المهمة: {$title}. ماذا تكتب كرد مختصر يدل أنك أنجزتها؟"],

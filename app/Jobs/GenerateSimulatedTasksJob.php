@@ -35,6 +35,8 @@ class GenerateSimulatedTasksJob implements ShouldQueue
 
     public function handle(): void
     {
+        Log::info('Generating simulated tasks job.');
+
         $configs = SimulationConfig::with('company.employees');
         if ($this->company) {
             $configs = $configs->where('company_id', $this->company->id);
