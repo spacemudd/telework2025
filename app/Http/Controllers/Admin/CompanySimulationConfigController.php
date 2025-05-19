@@ -11,13 +11,13 @@ class CompanySimulationConfigController extends Controller
 {
     public function index(Company $company)
     {
-        //dd($company->config()->first());
-        $company->config()->firstOrCreate(
-            [
+        if (!$company->config) {
+            $company->config()->create([
                 'tasks_per_day' => 1,
                 'auto_complete' => true,
-            ]
-        );
+            ]);
+            $company->load('config');
+        }
 
         return view('admin.companies.simulation-config.index', [
             'company' => $company,
@@ -34,10 +34,10 @@ class CompanySimulationConfigController extends Controller
         ]);
 
         $company->config()->update([
-                'tasks_per_day' => $validated['tasks_per_day'],
-                'auto_complete' => $request->has('auto_complete'),
-                'is_enabled' => $request->has('is_enabled'),
-            ]);
+            'tasks_per_day' => $validated['tasks_per_day'],
+            'auto_complete' => $request->has('auto_complete'),
+            'is_enabled' => $request->has('is_enabled'),
+        ]);
 
         return redirect()->route('admin.companies.simulation-config.index', $company->id)
             ->with('success', 'تم تحديث إعدادات المحاكاة بنجاح.');
@@ -50,7 +50,7 @@ class CompanySimulationConfigController extends Controller
                 ->with('error', 'لا توجد إعدادات محاكاة لهذه الشركة.');
         }
 
-        dispatch_sync(new GenerateSimulatedTasksJob($company));
+        dispatch_sync(new GenerateSimulatedTasksJob($company, optional(auth()->user())->id));
 
         return redirect()->route('admin.companies.simulation-config.index', $company->id)
             ->with('success', 'تم تشغيل المحاكاة لهذه الشركة بنجاح.');

@@ -37,7 +37,7 @@ class SimulationController extends Controller
 
     public function run()
     {
-        dispatch_sync(new GenerateSimulatedTasksJob());
+        dispatch_sync(new GenerateSimulatedTasksJob(null, optional(auth()->user())->id));
 
         //SimulateEmployeeResponseJob::dispatch();
 

@@ -30,25 +30,34 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
 
         $taskCount = rand(1, $this->maxTasks);
 
-        for ($i = 0; $i < $taskCount; $i++) {
-            $response = Http::withToken(config('services.openai.key'))
-                ->post('https://api.openai.com/v1/chat/completions', [
-                    'model' => 'gpt-4-turbo',
-                    'messages' => [
-                        ['role' => 'system', 'content' => 'You are a Saudi Arabian-based company assigning tasks to Saudi remote workers.'],
-                        ['role' => 'user', 'content' => 'قم بإنشاء عنوان مهمة سهلة جدًا للمبتدئين قصير ووصف بجملة واحدة مناسب لموظف ' . $this->employee->position . ' عن بعد. يجب أن يكون الرد بصيغة JSON فقط: { "title": "", "description": "" }'],
-                    ],
-                ]);
+        $response = Http::withToken(config('services.openai.key'))
+            ->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4-turbo',
+                'messages' => [
+                    ['role' => 'system', 'content' => 'You are a Saudi Arabian-based company assigning tasks to Saudi remote workers.'],
+                    ['role' => 'user', 'content' => "أنشئ {$taskCount} مهام مناسبة لموظف {$this->employee->position}. كل مهمة تحتوي على عنوان ووصف. الرد يكون بصيغة JSON كمصفوفة: [{\"title\": \"...\", \"description\": \"...\"}, ...]"],
+                ],
+            ]);
 
-            $data = $response->json('choices.0.message.content');
+        $content = $response->json('choices.0.message.content');
 
-            $taskData = json_decode($data, true);
+        // Strip ```json ... ``` formatting if present
+        $content = preg_replace('/^```json\s*|\s*```$/', '', trim($content));
 
-            if (!is_array($taskData) || !isset($taskData['title'], $taskData['description'])) {
-                $taskData = [
-                    'title' => 'مهمة افتراضية',
-                    'description' => 'تم إنشاء هذه المهمة للاختبار.',
-                ];
+        $data = json_decode($content, true);
+
+        if (isset($data['title'], $data['description'])) {
+            $data = [$data];
+        } elseif (!is_array($data)) {
+            Log::error('Failed to decode OpenAI response for employee ID ' . $this->employee->id, [
+                'raw_response' => $response->json('choices.0.message.content'),
+            ]);
+            return;
+        }
+
+        foreach ($data as $taskData) {
+            if (!isset($taskData['title'], $taskData['description'])) {
+                continue;
             }
 
             Task::create([
@@ -61,8 +70,6 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
                 'issx' => true,
                 'status' => 'pending',
             ]);
-
-            usleep(250000);
         }
     }
 }
