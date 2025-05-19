@@ -41,6 +41,7 @@
                             <th class="py-3 px-4 text-left">{{ __('words.due_date') }}</th>
                             <th class="py-3 px-4 text-left">{{ __('words.priority') }}</th>
                             <th class="py-3 px-4 text-left">{{ __('words.status') }}</th>
+                            <th class="py-3 px-4 text-left">{{ __('words.created_at') }}</th>
                             <th class="py-3 px-4 text-left">{{ __('words.actions') }}</th>
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@
                                 <td class="py-3 px-4">{{ $task->due_date }}</td>
                                 <td class="py-3 px-4">{{ __('words.' . $task->priority) }}</td>
                                 <td class="py-3 px-4">{{ __('words.' . $task->status) }}</td>
+                                <td class="py-3 px-4" title="{{ $task->created_at }}">{{ $task->created_at->diffForHumans() }}</td>
                                 <td class="py-3 px-4">
                                     <form action="{{ route('admin.tasks.destroy', $task->id) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من حذف هذه المهمة؟');">
                                         @csrf
