@@ -21,11 +21,17 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
+    @php use Illuminate\Support\Str; @endphp
     <body class="font-sans antialiased">
         @if(session()->has('impersonated_by'))
             <div class="bg-red-100 border border-red-300 text-red-800 text-sm px-4 py-3 flex justify-between items-center">
                 <span>أنت حالياً في وضع الدخول بمستخدم آخر.</span>
                 <a href="{{ route('admin.impersonate.stop') }}" class="underline font-semibold hover:text-red-600">إنهاء الدخول</a>
+            </div>
+        @endif
+        @if(Str::contains(request()->getHost(), 'test.hadaf-hq.com'))
+            <div class="bg-red-600 text-white text-sm px-4 py-3 text-center">
+                بيئة تجريبية
             </div>
         @endif
         <div class="min-h-screen bg-gray-100">
