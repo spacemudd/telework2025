@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use Sentry\State\Scope;
+
 use App\Models\Company;
 use App\Models\SimulationConfig;
 use App\Models\Task;
@@ -24,17 +26,39 @@ class GenerateSimulatedTasksJob implements ShouldQueue
     protected ?Company $company;
 
     /**
+     * The user ID who triggered the job, if any.
+     *
+     * @var int|null
+     */
+    protected ?int $triggeredByUserId = null;
+
+    /**
      * Create a new job instance.
      *
      * @param Company|null $company
+     * @param int|null $userId
      */
-    public function __construct(?Company $company = null)
+    public function __construct(?Company $company = null, ?int $userId = null)
     {
         $this->company = $company;
+        $this->triggeredByUserId = $userId;
     }
 
     public function handle(): void
     {
+        if ($this->triggeredByUserId) {
+            \Sentry\configureScope(function (Scope $scope): void {
+                $user = \App\Models\User::find($this->triggeredByUserId);
+                if ($user) {
+                    $scope->setUser([
+                        'id' => $user->id,
+                        'email' => $user->email,
+                        'role' => method_exists($user, 'getRoleNames') ? $user->getRoleNames()->first() : null,
+                    ]);
+                }
+            });
+        }
+
         Log::info('Generating simulated tasks job.');
 
         $configs = SimulationConfig::with('company.employees');

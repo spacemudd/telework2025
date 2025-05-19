@@ -50,7 +50,7 @@ class CompanySimulationConfigController extends Controller
                 ->with('error', 'لا توجد إعدادات محاكاة لهذه الشركة.');
         }
 
-        dispatch_sync(new GenerateSimulatedTasksJob($company));
+        dispatch_sync(new GenerateSimulatedTasksJob($company, optional(auth()->user())->id));
 
         return redirect()->route('admin.companies.simulation-config.index', $company->id)
             ->with('success', 'تم تشغيل المحاكاة لهذه الشركة بنجاح.');
