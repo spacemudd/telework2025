@@ -39,7 +39,12 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
                 ],
             ]);
 
-        $data = json_decode($response->json('choices.0.message.content'), true);
+        $content = $response->json('choices.0.message.content');
+
+        // Strip ```json ... ``` formatting if present
+        $content = preg_replace('/^```json\s*|\s*```$/', '', trim($content));
+
+        $data = json_decode($content, true);
 
         if (isset($data['title'], $data['description'])) {
             $data = [$data];
