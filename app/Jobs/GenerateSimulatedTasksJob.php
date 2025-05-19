@@ -72,14 +72,14 @@ class GenerateSimulatedTasksJob implements ShouldQueue
         foreach ($configs as $config) {
             $company = $config->company;
             if (!$company) {
-                \Log::error('Company not found for simulation config', [
+                Log::error('Company not found for simulation config', [
                     'config_id' => $config->id,
                 ]);
                 continue;
             }
 
             if (!$company || !$company->config->is_enabled) {
-                \Log::info('Skipping task generation for disabled company', [
+                Log::info('Skipping task generation for disabled company', [
                     'company_id' => $company->id,
                     'company_name' => $company->name,
                 ]);
@@ -87,7 +87,7 @@ class GenerateSimulatedTasksJob implements ShouldQueue
             }
 
             if ($company->employees->isEmpty()) {
-                \Log::info('No employees found for company', [
+                Log::info('No employees found for company', [
                     'company_id' => $company->id,
                     'company_name' => $company->name,
                 ]);

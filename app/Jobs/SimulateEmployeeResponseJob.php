@@ -26,12 +26,14 @@ class SimulateEmployeeResponseJob implements ShouldQueue
 
         $tasks = Task::whereIn('status', ['pending', 'in_progress'])
             ->whereHas('employee', function ($query) {
-                $query->where('company_id', $this->company->id);
+                if ($this->company) {
+                    $query->where('company_id', $this->company->id);
+                }
             })
             ->get();
 
         $tasks->chunk(5)->each(function ($chunk) {
-            SimulateEmployeeResponseJobBatch::dispatch($chunk)->onQueue('openai');;
+            SimulateEmployeeResponseJobBatch::dispatch($chunk)->onQueue('openai');
         });
     }
 }
