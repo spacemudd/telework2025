@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\User;
 use Sentry\State\Scope;
 
 use App\Models\Company;
@@ -13,6 +14,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use function Sentry\configureScope;
 
 class GenerateSimulatedTasksJob implements ShouldQueue
 {
@@ -47,8 +49,8 @@ class GenerateSimulatedTasksJob implements ShouldQueue
     public function handle(): void
     {
         if ($this->triggeredByUserId) {
-            \Sentry\configureScope(function (Scope $scope): void {
-                $user = \App\Models\User::find($this->triggeredByUserId);
+            configureScope(function (Scope $scope): void {
+                $user = User::find($this->triggeredByUserId);
                 if ($user) {
                     $scope->setUser([
                         'id' => $user->id,
@@ -93,7 +95,7 @@ class GenerateSimulatedTasksJob implements ShouldQueue
             }
 
             foreach ($company->employees as $employee) {
-                GenerateSimulatedTasksJobBatch::dispatch($employee, $config->tasks_per_day);
+                GenerateSimulatedTasksJobBatch::dispatch($employee, $config->tasks_per_day)->onQueue('openai');
             }
         }
     }

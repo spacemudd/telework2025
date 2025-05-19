@@ -31,7 +31,7 @@ class SimulateEmployeeResponseJob implements ShouldQueue
             ->get();
 
         $tasks->chunk(5)->each(function ($chunk) {
-            SimulateEmployeeResponseJobBatch::dispatch($chunk);
+            SimulateEmployeeResponseJobBatch::dispatch($chunk)->onQueue('openai');;
         });
     }
 }

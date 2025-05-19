@@ -193,6 +193,19 @@ return [
             'timeout' => 60,
             'nice' => 0,
         ],
+        'openai' => [
+            'connection' => 'redis',
+            'queue' => ['openai'],
+            'balance' => 'simple',
+            'maxProcesses' => 1,
+            'tries' => 1,
+            'timeout' => 120,
+            'memory' => 128,
+            'rate' => [
+                'limit' => 30,
+                'every' => 60,
+            ],
+        ],
     ],
 
     'environments' => [
@@ -201,6 +214,9 @@ return [
                 'maxProcesses' => 10,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
+            ],
+            'openai' => [
+                'maxProcesses' => 1,
             ],
         ],
 
