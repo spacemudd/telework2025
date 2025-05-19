@@ -76,4 +76,5 @@ return [
     'comments' => 'Comments',
     'approve'  => 'Approve',
     'delete' => 'Delete',
+    'created_at' => 'Created at',
 ];
