@@ -16,6 +16,7 @@ class CompanySimulationConfigController extends Controller
                 'tasks_per_day' => 1,
                 'auto_complete' => true,
             ]);
+            $company->load('config');
         }
 
         return view('admin.companies.simulation-config.index', [
@@ -33,10 +34,10 @@ class CompanySimulationConfigController extends Controller
         ]);
 
         $company->config()->update([
-                'tasks_per_day' => $validated['tasks_per_day'],
-                'auto_complete' => $request->has('auto_complete'),
-                'is_enabled' => $request->has('is_enabled'),
-            ]);
+            'tasks_per_day' => $validated['tasks_per_day'],
+            'auto_complete' => $request->has('auto_complete'),
+            'is_enabled' => $request->has('is_enabled'),
+        ]);
 
         return redirect()->route('admin.companies.simulation-config.index', $company->id)
             ->with('success', 'تم تحديث إعدادات المحاكاة بنجاح.');
