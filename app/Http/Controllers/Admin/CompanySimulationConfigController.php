@@ -11,13 +11,12 @@ class CompanySimulationConfigController extends Controller
 {
     public function index(Company $company)
     {
-        //dd($company->config()->first());
-        $company->config()->firstOrCreate(
-            [
+        if (!$company->config) {
+            $company->config()->create([
                 'tasks_per_day' => 1,
                 'auto_complete' => true,
-            ]
-        );
+            ]);
+        }
 
         return view('admin.companies.simulation-config.index', [
             'company' => $company,
