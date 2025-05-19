@@ -89,4 +89,5 @@ return [
     'comments' => 'التعليقات',
     'approve' => 'الموافقة',
     'delete' => 'حذف',
+    'created_at' => 'تم الإنشاء في',
 ];
