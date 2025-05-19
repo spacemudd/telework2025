@@ -41,14 +41,12 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
 
         $data = json_decode($response->json('choices.0.message.content'), true);
 
-        if (isset($data['title'], $data['description'])) {
-            $data = [$data];
-        } elseif (!is_array($data)) {
-            Log::error('Failed to decode OpenAI response for employee ID ' . $this->employee->id, [
-                'raw_response' => $response->json('choices.0.message.content'),
-            ]);
-            return;
-        }
+//        if (!is_array($data)) {
+//            Log::error('Failed to decode OpenAI response for employee ID ' . $this->employee->id, [
+//                'raw_response' => $response->json('choices.0.message.content'),
+//            ]);
+//            return;
+//        }
 
         foreach ($data as $taskData) {
             if (!isset($taskData['title'], $taskData['description'])) {
