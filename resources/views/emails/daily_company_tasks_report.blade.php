@@ -12,11 +12,6 @@
             direction: rtl;
             font-size: 14px;
         }
-        .container {
-            max-width: 600px;
-            margin: 0;
-            text-align: right;
-        }
         .header {
             margin-bottom: 30px;
         }
@@ -50,7 +45,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div>
         <div class="header">
             <h1 class="company-name">{{ $company->name }}</h1>
             <p class="date">{{ \Carbon\Carbon::parse($yesterday)->translatedFormat('l j F Y') }}</p>
@@ -69,8 +64,8 @@
         </div>
 
         <div class="footer">
-            {{ config('app.name') }}<br>
-            تم إرسال هذا البريد تلقائياً - يرجى عدم الرد عليه
+            هدف،<br>
+            تحياتنا
         </div>
     </div>
 </body>
