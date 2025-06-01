@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('email_events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('company_id')->constrained()->cascadeOnDelete();
             $table->string('email_id')->index(); // Resend's email ID
             $table->string('event'); // delivered, delivery_delayed, complained, opened, clicked
             $table->string('email_to');
@@ -26,4 +26,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('email_events');
     }
-}; 
+};
