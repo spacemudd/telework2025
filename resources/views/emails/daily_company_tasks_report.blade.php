@@ -14,7 +14,7 @@
         }
     </style>
 </head>
-<body>
+<body style="direction: rtl;text-align: right;">
     <p>السادة الكرام /  {{$company->name}}</p>
     <p>مرفق لكم تقرير النشاط ليوم -  {{ \Carbon\Carbon::parse($yesterday)->translatedFormat('l j F Y') }}</p>
     <p>---------------------------------</p>
