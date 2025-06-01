@@ -74,7 +74,12 @@ class DailyCompanyTasksReport extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.daily_company_tasks_report',
+            view: 'emails.daily_company_tasks_report',
+            with: [
+                'company' => $this->company,
+                'yesterday' => $this->yesterday,
+                'statistics' => $this->statistics,
+            ],
         );
     }
 
