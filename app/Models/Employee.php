@@ -28,6 +28,10 @@ class Employee extends Model
                 $employee->id = (string) Str::uuid();
             }
         });
+
+        static::deleted(function ($employee) {
+            $employee->user()->delete();
+        });
     }
 
     public function company()

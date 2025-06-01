@@ -34,7 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
         HorizonServiceProvider::class,
     ])
     ->withSchedule(function ($schedule) {
-        $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->hourly();
-        $schedule->job(new \App\Jobs\SimulateEmployeeResponseJob())->hourly();
+        $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->daily();
+        $schedule->job(new \App\Jobs\SimulateEmployeeResponseJob())->daily();
     })
     ->create();
