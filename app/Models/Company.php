@@ -53,4 +53,9 @@ class Company extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function emailEvents()
+    {
+        return $this->hasMany(EmailEvent::class);
+    }
 }

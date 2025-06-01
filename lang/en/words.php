@@ -77,4 +77,7 @@ return [
     'approve'  => 'Approve',
     'delete' => 'Delete',
     'created_at' => 'Created at',
+    'medium' => 'Medium',
+    'high' => 'High',
+    'low' => 'Low',
 ];
