@@ -115,4 +115,15 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'markdown' => [
+        'theme' => 'default',
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
+        'options' => [
+            'direction' => 'rtl',
+            'font_family' => 'Tahoma, Arial, sans-serif',
+        ],
+    ],
+
 ];

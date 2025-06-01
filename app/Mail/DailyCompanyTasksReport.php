@@ -3,13 +3,16 @@
 namespace App\Mail;
 
 use App\Models\Company;
+use App\Services\CompanyTasksReportService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Tags;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class DailyCompanyTasksReport extends Mailable
 {
@@ -18,6 +21,9 @@ class DailyCompanyTasksReport extends Mailable
     public $company;
     public $yesterday;
     public $tasksByEmployee;
+    public $statistics;
+    private $reportService;
+    private $csvPath;
 
     /**
      * Create a new message instance.
@@ -27,7 +33,16 @@ class DailyCompanyTasksReport extends Mailable
         $this->company = $company;
         $this->yesterday = now()->subDay()->format('Y-m-d');
         $this->tasksByEmployee = $tasksByEmployee;
-
+        
+        // Initialize the report service
+        $this->reportService = new CompanyTasksReportService();
+        
+        // Generate statistics
+        $this->statistics = $this->reportService->getStatistics($tasksByEmployee);
+        
+        // Generate CSV report
+        $this->csvPath = $this->reportService->generateCsvReport($company, $tasksByEmployee);
+        
         // Force Arabic locale
         App::setLocale('ar');
     }
@@ -59,7 +74,7 @@ class DailyCompanyTasksReport extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.daily_company_tasks_report',
+            markdown: 'emails.daily_company_tasks_report',
         );
     }
 
@@ -70,6 +85,10 @@ class DailyCompanyTasksReport extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            Attachment::fromStorage($this->csvPath)
+                ->as('تقرير_المهام_' . $this->yesterday . '.csv')
+                ->withMime('text/csv'),
+        ];
     }
 }
