@@ -14,7 +14,8 @@
         }
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0;
+            text-align: right;
         }
         .header {
             margin-bottom: 30px;
@@ -23,6 +24,7 @@
             font-size: 16px;
             font-weight: normal;
             margin: 0 0 5px 0;
+            text-align: right;
         }
         .date {
             color: #666666;
@@ -35,6 +37,7 @@
         }
         .stats li {
             margin-bottom: 10px;
+            text-align: right;
         }
         .footer {
             margin-top: 30px;
@@ -42,6 +45,7 @@
             border-top: 1px solid #eee;
             color: #666666;
             font-size: 13px;
+            text-align: right;
         }
     </style>
 </head>
