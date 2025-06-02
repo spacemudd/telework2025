@@ -36,10 +36,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withSchedule(function ($schedule) {
         $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->daily();
         $schedule->job(new \App\Jobs\SimulateEmployeeResponseJob())->daily();
-        
+
         // Schedule daily company tasks report for each company
         foreach (\App\Models\Company::all() as $company) {
-            $schedule->job(new \App\Jobs\CompanyTasksReport($company))->dailyAt('08:00');
+            $schedule->job(new \App\Jobs\CompanyTasksReport($company))->dailyAt('05:00');
         }
     })
     ->create();

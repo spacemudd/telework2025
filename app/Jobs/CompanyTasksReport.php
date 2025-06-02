@@ -34,8 +34,8 @@ class CompanyTasksReport implements ShouldQueue
     {
         // Get yesterday's date range
         $yesterday = now();
-        $startOfYesterday = $yesterday->copy()->subYear()->startOfDay();
-        $endOfYesterday = $yesterday->copy()->addYear()->endOfDay();
+        $startOfYesterday = $yesterday->copy()->subDay()->startOfDay();
+        $endOfYesterday = $yesterday->copy()->subDay()->endOfDay();
 
         $tasksByEmployee = [];
 
@@ -87,7 +87,8 @@ class CompanyTasksReport implements ShouldQueue
         // Send email if there's any activity to report
         if (count($tasksByEmployee) > 0) {
             Log::info('Sending daily company tasks report.');
-            Mail::to($this->company->email)
+            // Mail::to($this->company->email)
+            Mail::to('sara@hadaf-hq.com')
                 ->send(new DailyCompanyTasksReport($this->company, $tasksByEmployee));
         }
     }
