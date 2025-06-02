@@ -34,8 +34,8 @@ return Application::configure(basePath: dirname(__DIR__))
         HorizonServiceProvider::class,
     ])
     ->withSchedule(function ($schedule) {
-        $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->daily();
-        $schedule->job(new \App\Jobs\SimulateEmployeeResponseJob())->daily();
+        $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->daily()->between('05:00', '16:00');
+        $schedule->job(new \App\Jobs\SimulateEmployeeResponseJob())->daily()->between('05:00', '16:00');
 
         // Schedule daily company tasks report for each company
         foreach (\App\Models\Company::all() as $company) {
