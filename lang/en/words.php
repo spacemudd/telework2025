@@ -183,6 +183,8 @@ return [
         'looking_for_employees' => 'Looking for employees',
         'looking_for_job' => 'Looking for a job',
         'no_risk' => 'No-Risk Signup. Cancel anytime.',
+        'login_linkedin' => 'Login using LinkedIn',
+        'login_gmail' => 'Login using Gmail'
     ],
     'companies' => [
         'title' => 'Join our trusted network of entrepreneurs',
@@ -191,6 +193,7 @@ return [
     'opportunities' => [
         'title' => 'New opportunities in all districts',
         'subtitle' => 'Flexible work schedules, full time, part time, contract basis, Saudi or non-Saudi, and others in all parts of Saudi Arabia',
+        'skills' => 'Skills',
         'districts' => [
             'sales' => 'Sales and Marketing',
             'accounting' => 'Accounting and Finance',
@@ -224,7 +227,10 @@ return [
             'pricing' => 'Subscriptions and Prices',
             'header' => 'Save your time and effort',
             'subtext' => 'Browse our curated pool of top-tier talent ready to contribute to your success'
-        ]
+        ],
+        'image_overlay' => 'Experienced skilled hands at your disposal.',
+        'rating' => '4.7/5 rating of clients',
+        'rating_subtitle' => 'by freelance professionals'
     ],
     'latest_jobs' => [
         'title' => 'Latest jobs posted',
@@ -286,6 +292,27 @@ return [
             'terms' => 'Terms of Use',
             'copyright' => '© 2024 Hadaf Company. All rights reserved.'
         ]
+    ],
+    'search' => [
+        'title' => 'Explore Global Connectivity',
+        'subtitle' => 'Discover real-time telework activity across Saudi Arabia',
+        'placeholder' => 'Search by role, skills, or keywords',
+        'buttons' => [
+            'popular_cities' => 'Popular Cities',
+            'activity_heatmap' => 'Activity Heatmap',
+            'statistics' => 'Statistics'
+        ],
+        'popular_tags' => [
+            'programmer' => 'Programmer',
+            'computer_systems' => 'Computer Systems',
+            'data_analyst' => 'Data Analyst',
+            'project_manager' => 'Project Manager',
+            'ui_designer' => 'UI Designer'
+        ]
+    ],
+    'nav' => [
+        'for_companies' => 'For Companies',
+        'jobs' => 'Jobs',
     ],
     
     // Team Invitation

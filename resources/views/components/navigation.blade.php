@@ -5,16 +5,24 @@
             <!-- Logo -->
             <div class="flex items-center">
                 <a href="/" class="flex-shrink-0">
-                    <x-application-logo class="w-12 h-12 fill-current text-gray-500" />
+                    <img src="{{ LaravelLocalization::getCurrentLocaleDirection() === 'ltr' ? asset('img/logo_v2_on_white_en.png') : asset('img/logo_v2_on_white.png') }}" alt="Hadaf" class="h-12 w-auto" />
                 </a>
             </div>
 
             <!-- Navigation Links -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-8">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-8 rtl:space-x-reverse">
                 <a href="{{ \LaravelLocalization::localizeURL('/') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     {{ __('words.home') }}
                 </a>
-                
+                <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    {{ __('words.nav.for_companies') }}
+                </a>
+                <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    {{ __('words.nav.jobs') }}
+                </a>
+                <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    {{ __('words.login') }}
+                </a>
             </div>
 
             <!-- Language Switcher -->
@@ -42,6 +50,15 @@
         <div class="pt-2 pb-3 space-y-1">
             <a href="{{ \LaravelLocalization::localizeURL('/') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
                 {{ __('words.home') }}
+            </a>
+            <a href="#" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                {{ __('words.nav.for_companies') }}
+            </a>
+            <a href="#" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                {{ __('words.nav.jobs') }}
+            </a>
+            <a href="{{ route('login') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                {{ __('words.login') }}
             </a>
             <div class="pl-3 pr-4 py-2 border-t border-gray-100">
                 <div class="flex space-x-4 rtl:space-x-reverse">
