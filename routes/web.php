@@ -27,6 +27,7 @@ Route::group([
     'prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
     Route::get('/', [HomepageController::class, 'index'])->name('dashboard');
+    Route::get('/privacy', [\App\Http\Controllers\LegalController::class, 'privacy'])->name('legal.privacy');
 })->name('home');
 
 // System URLs.

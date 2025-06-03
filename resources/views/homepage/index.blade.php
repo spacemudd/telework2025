@@ -183,31 +183,31 @@
                 <!-- Company Logos Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-12 items-center justify-items-center opacity-90">
                     <!-- STC -->
-                    <div class="h-12 flex items-center justify-center">
+                    <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
                         <img src="https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png" 
                              alt="STC" 
-                             class="h-8 w-auto object-contain"
+                             class="h-12 w-auto object-contain dark:brightness-200"
                              loading="lazy">
                     </div>
                     <!-- Aramco -->
-                    <div class="h-12 flex items-center justify-center">
+                    <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
                         <img src="https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png" 
                              alt="Aramco" 
-                             class="h-8 w-auto object-contain"
+                             class="h-12 w-auto object-contain dark:brightness-200"
                              loading="lazy">
                     </div>
                     <!-- SABIC -->
-                    <div class="h-12 flex items-center justify-center">
+                    <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
                         <img src="https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg" 
                              alt="SABIC" 
-                             class="h-8 w-auto object-contain"
+                             class="h-12 w-auto object-contain dark:brightness-200"
                              loading="lazy">
                     </div>
                     <!-- CCC -->
-                    <div class="h-12 flex items-center justify-center">
+                    <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
                         <img src="https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c" 
                              alt="CCC by STC" 
-                             class="h-8 w-auto object-contain"
+                             class="h-12 w-auto object-contain dark:brightness-200"
                              loading="lazy">
                     </div>
                 </div>

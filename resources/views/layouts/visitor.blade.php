@@ -130,7 +130,7 @@
 
                             <!-- Legal Links -->
                             <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                                <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
+                                <a href="{{ route('legal.privacy') }}" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
                                     {{ __('words.footer.legal.privacy') }}
                                 </a>
                                 <span class="text-gray-300 dark:text-gray-600">|</span>
@@ -138,15 +138,15 @@
                                     {{ __('words.footer.legal.terms') }}
                                 </a>
                             </div>
-            </div>
+                        </div>
 
                         <!-- Copyright -->
                         <div class="text-center mt-8 text-sm text-gray-600 dark:text-gray-400">
                             {{ __('words.footer.legal.copyright') }}
-            </div>
-        </div>
-            </div>
-        </footer>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </body>
 </html>
