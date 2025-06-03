@@ -34,7 +34,7 @@ return [
     'status' => 'Status',
     'sent_at' => 'Sent at',
     'no_audit_logs_found' => 'No audit logs found',
-    'url-problem' => "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\n" .
+    'url-problem' => "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n" .
         'into your web browser:',
     'all-rights-reserved' => 'All rights reserved.',
     'hi-there' => 'Hi there',
@@ -172,6 +172,121 @@ return [
     'from' => 'From',
     'to' => 'To',
     'apply' => 'Apply',
+    'app-name' => 'Hadaf',
+    'homepage-description' => 'Welcome to Hadaf, your go-to platform for telework services. Explore our features and services designed to enhance your remote work experience.',
+    'home' => 'Home',
+    'hero' => [
+        'title' => 'Hire the Top 10% of Remote Workers',
+        'description' => 'Hadaf is a marketplace for lawyers, business assistants, designers, programmers, and more.',
+        'subtitle' => 'Top companies and startups hire freelancer designers from Hadaf for their mission-critical projects.',
+        'i_am' => 'I am:',
+        'looking_for_employees' => 'Looking for employees',
+        'looking_for_job' => 'Looking for a job',
+        'no_risk' => 'No-Risk Signup. Cancel anytime.',
+    ],
+    'companies' => [
+        'title' => 'Join our trusted network of entrepreneurs',
+        'subtitle' => 'More than hundreds of companies, big and small',
+    ],
+    'opportunities' => [
+        'title' => 'New opportunities in all districts',
+        'subtitle' => 'Flexible work schedules, full time, part time, contract basis, Saudi or non-Saudi, and others in all parts of Saudi Arabia',
+        'districts' => [
+            'sales' => 'Sales and Marketing',
+            'accounting' => 'Accounting and Finance',
+            'management' => 'Management and Secretary',
+            'it' => 'IT and Software Development',
+            'legal' => 'Legal Services',
+            'hr' => 'Human Resources',
+            'engineering' => 'Engineering and Architecture',
+            'healthcare' => 'Healthcare Services'
+        ]
+    ],
+    'enterprise' => [
+        'title' => 'Hadaf for Enterprise',
+        'tagline' => 'Our network of vetted professionals',
+        'benefits' => [
+            'vetted' => [
+                'title' => 'Vetted Professionals',
+                'description' => 'Access pre-screened, qualified professionals who have been thoroughly vetted for their expertise and reliability.'
+            ],
+            'time' => [
+                'title' => 'Save Time',
+                'description' => 'Streamline your hiring process with our efficient platform, reducing time-to-hire significantly.'
+            ],
+            'cost' => [
+                'title' => 'Reduce Costs',
+                'description' => 'Cut recruitment and operational costs while maintaining high-quality workforce standards.'
+            ]
+        ],
+        'cta' => [
+            'hire' => 'Hire Now',
+            'pricing' => 'Subscriptions and Prices',
+            'header' => 'Save your time and effort',
+            'subtext' => 'Browse our curated pool of top-tier talent ready to contribute to your success'
+        ]
+    ],
+    'latest_jobs' => [
+        'title' => 'Latest jobs posted',
+        'view_more' => 'View more',
+        'posted' => 'Posted',
+        'examples' => [
+            [
+                'title' => 'Senior Software Engineer',
+                'company' => 'Tech Solutions Ltd',
+                'date' => '2024-03-20',
+                'time_ago' => '2 days ago'
+            ],
+            [
+                'title' => 'Legal Consultant',
+                'company' => 'Law Partners Group',
+                'date' => '2024-03-19',
+                'time_ago' => '3 days ago'
+            ],
+            [
+                'title' => 'Financial Analyst',
+                'company' => 'Investment Corp',
+                'date' => '2024-03-18',
+                'time_ago' => '4 days ago'
+            ],
+            [
+                'title' => 'HR Manager',
+                'company' => 'Global Services SA',
+                'date' => '2024-03-17',
+                'time_ago' => '5 days ago'
+            ]
+        ]
+    ],
+    'footer' => [
+        'company' => [
+            'title' => 'Hadaf',
+            'about' => 'About us',
+            'careers' => 'Join Hadaf team',
+            'contact' => 'Contact us'
+        ],
+        'companies' => [
+            'title' => 'Companies',
+            'how_it_works' => 'How it works',
+            'pricing' => 'Prices',
+            'hire' => 'Hire now'
+        ],
+        'jobs' => [
+            'title' => 'Looking for jobs',
+            'submit_cv' => 'Submit your CV',
+            'search' => 'Search jobs'
+        ],
+        'social' => [
+            'title' => 'Follow us on',
+            'x' => 'X (Twitter)',
+            'linkedin' => 'LinkedIn',
+            'instagram' => 'Instagram'
+        ],
+        'legal' => [
+            'privacy' => 'Privacy Policy',
+            'terms' => 'Terms of Use',
+            'copyright' => '© 2024 Hadaf Company. All rights reserved.'
+        ]
+    ],
     
     // Team Invitation
     'team_invitation_subject' => 'You have been invited to join :company team',

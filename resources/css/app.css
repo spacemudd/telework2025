@@ -2,6 +2,170 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+    .animation-delay-4000 {
+        animation-delay: 4s;
+    }
+    .animation-delay-300 {
+        animation-delay: 300ms;
+    }
+    .animation-delay-500 {
+        animation-delay: 500ms;
+    }
+}
+
+@layer components {
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .animate-blob {
+        animation: blob 7s infinite;
+    }
+
+    .animate-visitor-dot {
+        animation: visitor-dot 3s ease-in-out infinite;
+        opacity: 0;
+    }
+
+    .animate-connection-line {
+        animation: connection-line 3s ease-in-out infinite;
+        opacity: 0;
+        stroke-dasharray: 2;
+    }
+
+    .map-dot {
+        transition: opacity 1s ease-in-out;
+    }
+
+    .map-dot.pulse {
+        animation: dotPulse 1s ease-in-out;
+    }
+
+    .city-dot {
+        transition: all 1s ease-in-out;
+        transform-origin: center;
+        transform-box: fill-box;
+        filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.5));
+        will-change: transform, opacity;
+    }
+}
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes blob {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+        transform: translate(0px, 0px) scale(1);
+    }
+}
+
+@keyframes visitor-dot {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+@keyframes connection-line {
+    0% {
+        opacity: 0;
+        stroke-dashoffset: 20;
+    }
+    20% {
+        opacity: 1;
+        stroke-dashoffset: 0;
+    }
+    80% {
+        opacity: 1;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        opacity: 0;
+        stroke-dashoffset: -20;
+    }
+}
+
+@keyframes dotPulse {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
 html[dir="rtl"] select {
   background-position: left 0.5rem center;
+}
+
+#saudi-map {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: transparent;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#saudi-map canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border-radius: 12px;
+    overflow: hidden;
 }

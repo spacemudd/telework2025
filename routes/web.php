@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SimulationController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CompanyDashboardController;
 use App\Http\Controllers\Employee\TrackerController;
+use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CompaniesController;
 use App\Http\Controllers\Admin\EmployeesController;
@@ -17,9 +18,20 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeDashboardController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-Route::middleware(SetLocale::class)->get('/', function () {
 
+// Public URLs.
+
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
+    Route::get('/', [HomepageController::class, 'index'])->name('dashboard');
+})->name('home');
+
+// System URLs.
+
+Route::middleware(SetLocale::class)->get('/dashboard', function () {
     if (!auth()->check()) {
         return redirect()->route('login');
     }
@@ -40,7 +52,7 @@ Route::middleware(SetLocale::class)->get('/', function () {
         'user_id' => auth()->user()->id,
         'user_email' => auth()->user()->email,
     ]);
-})->name('dashboard');
+});
 
 Route::get('dev-login', function() {
     if (app()->isProduction()) return 404;
