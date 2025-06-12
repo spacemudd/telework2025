@@ -9,23 +9,23 @@
                 <h2 class="text-3xl font-bold text-white mb-2 tracking-tight">{{ __('words.search.title') }}</h2>
                 <p class="text-gray-100">{{ __('words.search.subtitle') }}</p>
             </div>
-            
+
             <div class="relative">
                 <div class="absolute inset-y-0 ltr:left-0 rtl:right-0 pl-4 flex items-center pointer-events-none">
                     <svg class="h-5 w-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                     </svg>
                 </div>
-                
-                <input type="text" 
-                       class="block w-full ltr:pl-12 rtl:pr-12 ltr:pr-12 rtl:pl-12 py-4 bg-white border border-blue-400 rounded-2xl 
-                              text-black placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 
+
+                <input type="text"
+                       class="block w-full ltr:pl-12 rtl:pr-12 ltr:pr-12 rtl:pl-12 py-4 bg-white border border-blue-400 rounded-2xl
+                              text-black placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400
                               focus:border-transparent transition duration-200 backdrop-blur-lg
                               shadow-[0_0_15px_rgba(0,0,0,0.2)]"
                        placeholder="{{ __('words.search.placeholder') }}"
                        id="citySearch">
 
-                <button type="button" 
+                <button type="button"
                         class="absolute inset-y-0 ltr:right-0 rtl:left-0 flex items-center px-4
                                text-gray-500 hover:text-blue-600 transition-colors duration-200">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -59,16 +59,16 @@
     <div class="bg-white/90 backdrop-blur-sm py-10">
         <div class="container mx-auto px-4">
             <div class="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
-                <img src="{{ asset('img/takamol-logo@2x.png') }}" 
-                     alt="Takamol Logo" 
+                <img src="{{ asset('img/takamol-logo@2x.png') }}"
+                     alt="Takamol Logo"
                      class="h-12 w-auto object-contain"
                      loading="lazy">
-                <img src="{{ asset('img/logo_v2_on_white.png') }}" 
-                     alt="Hadaf Logo" 
+                <img src="{{ asset('img/logo_v2_on_white.png') }}"
+                     alt="Hadaf Logo"
                      class="h-12 w-auto object-contain"
                      loading="lazy">
-                <img src="{{ asset('img/Saudi_Vision_2030_logo.svg') }}" 
-                     alt="Saudi Vision 2030 Logo" 
+                <img src="{{ asset('img/Saudi_Vision_2030_logo.svg') }}"
+                     alt="Saudi Vision 2030 Logo"
                      class="h-12 w-auto object-contain"
                      loading="lazy">
             </div>
@@ -101,7 +101,7 @@
                                 {{ __('words.hero.subtitle') }}
                             </p>
                         </div>
-                        
+
                         <div class="space-y-6 animate-fade-in-up animation-delay-500">
                             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white text-center sm:text-left rtl:sm:text-right">{{ __('words.hero.i_am') }}</h2>
                             <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
@@ -118,7 +118,7 @@
                                     </svg>
                                 </a>
                             </div>
-                            
+
                             <div class="flex flex-col sm:flex-row gap-4 mt-4 items-center sm:items-start">
                                 <a href="#" class="group inline-flex items-center justify-center px-6 py-3 border border-[#0A66C2] text-base font-medium rounded-lg text-white bg-[#0A66C2] hover:bg-[#004182] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:w-auto text-center">
                                     <svg class="w-5 h-5 ltr:mr-2 rtl:ml-2" fill="currentColor" viewBox="0 0 24 24">
@@ -148,7 +148,7 @@
                                     <div id="saudi-map" class="w-full h-full">
                                         <!-- Map will be injected here via JavaScript -->
                                     </div>
-                                    
+
                                     <!-- Live Activity Indicator -->
                                     <div class="absolute top-4 right-4 flex items-center space-x-2 rtl:space-x-reverse">
                                         <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -179,34 +179,34 @@
                         {{ __('words.companies.subtitle') }}
                     </p>
                 </div>
-                
+
                 <!-- Company Logos Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-12 items-center justify-items-center opacity-90">
                     <!-- STC -->
                     <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
-                        <img src="https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png" 
-                             alt="STC" 
+                        <img src="https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png"
+                             alt="STC"
                              class="h-12 w-auto object-contain dark:brightness-200"
                              loading="lazy">
                     </div>
                     <!-- Aramco -->
                     <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
-                        <img src="https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png" 
-                             alt="Aramco" 
+                        <img src="https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png"
+                             alt="Aramco"
                              class="h-12 w-auto object-contain dark:brightness-200"
                              loading="lazy">
                     </div>
                     <!-- SABIC -->
                     <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
-                        <img src="https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg" 
-                             alt="SABIC" 
+                        <img src="https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg"
+                             alt="SABIC"
                              class="h-12 w-auto object-contain dark:brightness-200"
                              loading="lazy">
                     </div>
                     <!-- CCC -->
                     <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
-                        <img src="https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c" 
-                             alt="CCC by STC" 
+                        <img src="https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c"
+                             alt="CCC by STC"
                              class="h-12 w-auto object-contain dark:brightness-200"
                              loading="lazy">
                     </div>
@@ -463,9 +463,9 @@
                             <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl transform rotate-3"></div>
                             <div class="relative rounded-2xl shadow-xl overflow-hidden aspect-[4/3]">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
-                                <img 
-                                    class="absolute inset-0 w-full h-full object-cover object-center" 
-                                    src="{{ asset('img/enterprise-team.jpg') }}" 
+                                <img
+                                    class="absolute inset-0 w-full h-full object-cover object-center"
+                                    src="{{ asset('img/enterprise-team.jpg') }}"
                                     alt="Enterprise Team"
                                 >
                                 <div class="absolute bottom-0 left-0 right-0 p-8 z-20">

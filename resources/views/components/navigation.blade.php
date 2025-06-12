@@ -14,15 +14,21 @@
                 <a href="{{ \LaravelLocalization::localizeURL('/') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     {{ __('words.home') }}
                 </a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                <a href="{{ \LaravelLocalization::localizeURL('/for-companies') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     {{ __('words.nav.for_companies') }}
                 </a>
                 <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     {{ __('words.nav.jobs') }}
                 </a>
-                <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
-                    {{ __('words.login') }}
-                </a>
+                @auth
+                    <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                        {{ __('words.dashboard') }}
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                        {{ __('words.login') }}
+                    </a>
+                @endauth
             </div>
 
             <!-- Language Switcher -->
@@ -69,4 +75,4 @@
             </div>
         </div>
     </div>
-</nav> 
+</nav>

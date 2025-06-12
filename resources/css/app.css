@@ -142,8 +142,34 @@
     100% { opacity: 0.2; }
 }
 
+/* RTL Support */
+html[dir="rtl"] {
+    font-family: 'IBM Plex Arabic', sans-serif;
+}
+
 html[dir="rtl"] select {
-  background-position: left 0.5rem center;
+    background-position: left 0.5rem center;
+    padding-right: 0.75rem;
+    padding-left: 2rem;
+}
+
+html[dir="rtl"] input[type="email"],
+html[dir="rtl"] input[type="text"],
+html[dir="rtl"] input[type="password"] {
+    text-align: right;
+}
+
+html[dir="rtl"] label {
+    text-align: right;
+    display: block;
+}
+
+html[dir="rtl"] .text-left {
+    text-align: right;
+}
+
+html[dir="rtl"] .text-right {
+    text-align: left;
 }
 
 #saudi-map {

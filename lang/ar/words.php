@@ -8,7 +8,7 @@ return [
     'logout' => 'تسجيل الخروج',
     'dashboard' => 'لوحة التحكم',
     'total_companies' => 'إجمالي الشركات',
-    'companies' => 'الشركات',
+    'companies-page-title' => 'الشركات',
     'name' => 'الاسم',
     'email' => 'البريد الإلكتروني',
     'address' => 'العنوان',

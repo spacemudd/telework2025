@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('words.companies'))
+@section('title', __('words.companies-page-title'))
 
 @section('admin-content')
     <div class="container mx-auto">

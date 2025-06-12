@@ -8,7 +8,7 @@ return [
     'logout' => 'Logout',
     'dashboard' => 'Dashboard',
     'total_companies' => 'Total Companies',
-    'companies' => 'Companies',
+    'companies-page-title' => 'Companies',
     'name' => 'Name',
     'email' => 'Email',
     'address' => 'Address',

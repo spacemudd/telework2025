@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,8 +8,8 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -27,9 +27,10 @@
             </div>
         </div>
         <footer class="my-8 text-center text-sm text-gray-600">
-            <div class="space-x-4">
-                <a href="/lang/en" class="hover:underline">English</a>
-                <a href="/lang/ar" class="hover:underline">العربية</a>
+            <div class="flex justify-center items-center space-x-4 rtl:space-x-reverse">
+                <a href="/lang/en" class="hover:underline {{ app()->getLocale() === 'en' ? 'font-semibold' : '' }}">English</a>
+                <span class="text-gray-300">|</span>
+                <a href="/lang/ar" class="hover:underline {{ app()->getLocale() === 'ar' ? 'font-semibold' : '' }}">العربية</a>
             </div>
         </footer>
     </body>

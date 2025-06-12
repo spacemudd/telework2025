@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeDashboardController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\CompanyPagesController;
 
 
 // Public URLs.
@@ -28,6 +29,9 @@ Route::group([
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
     Route::get('/', [HomepageController::class, 'index'])->name('dashboard');
     Route::get('/privacy', [\App\Http\Controllers\LegalController::class, 'privacy'])->name('legal.privacy');
+
+    Route::get('/for-companies', [CompanyPagesController::class, 'forCompanies'])->name('company.for-companies');
+    Route::post('/for-companies/contact', [CompanyPagesController::class, 'submitContactForm'])->name('company.contact.submit');
 })->name('home');
 
 // System URLs.

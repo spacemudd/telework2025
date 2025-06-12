@@ -17,7 +17,7 @@
                             {{ __('words.dashboard') }}
                         </x-nav-link>
                         <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.*')">
-                            {{ __('words.companies') }}
+                            {{ __('words.companies-page-title') }}
                         </x-nav-link>
                         <x-nav-link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
                             {{ __('words.employees') }}
