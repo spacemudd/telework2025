@@ -6,7 +6,7 @@
     <!-- Hero Section -->
     <div class="relative bg-white overflow-hidden">
         <div class="max-w-7xl mx-auto">
-            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 
+            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32
                         {{ LaravelLocalization::getCurrentLocaleDirection() === 'rtl' ? 'lg:ml-auto' : '' }}">
                 <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 lg:mt-16 lg:px-8 xl:mt-20">
                     <div class="sm:text-center lg:text-left {{ LaravelLocalization::getCurrentLocaleDirection() === 'rtl' ? 'lg:text-right' : '' }}">
@@ -18,7 +18,7 @@
                         </p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start {{ LaravelLocalization::getCurrentLocaleDirection() === 'rtl' ? 'lg:justify-end' : '' }}">
                             <div class="rounded-md shadow">
-                                <a href="#contact" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
+                                <a href="{{ route('register') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
                                     {{ __('words.enterprise.cta.hire') }}
                                 </a>
                             </div>
