@@ -376,6 +376,13 @@ return [
             'a3' => 'Yes, you can change your plan at any time. Upgrades take effect immediately, while downgrades take effect at the start of your next billing cycle.'
         ]
     ],
+    'contact_us' => 'Contact Us',
+    'contact_form_description' => 'Get in touch with our team to learn more about our enterprise solutions',
+    'company_name' => 'Company Name',
+    'employees_count' => 'Number of Employees',
+    'select_option' => 'Select an option',
+    'message' => 'Message',
+    'submit' => 'Submit',
     
     // Team Invitation
     'team_invitation_subject' => 'You have been invited to join :company team',
