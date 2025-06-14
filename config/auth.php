@@ -61,7 +61,10 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => (env('APP_ENV') === 'local' || 
+                        (isset($_SERVER['HTTP_HOST']) && 
+                         (str_contains($_SERVER['HTTP_HOST'], 'localhost') || $_SERVER['HTTP_HOST'] === '127.0.0.1'))) 
+                        ? 'local_dev' : 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 

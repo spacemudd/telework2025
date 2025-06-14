@@ -174,6 +174,7 @@ return [
     'apply' => 'Apply',
     'app-name' => 'Hadaf',
     'homepage-description' => 'Welcome to Hadaf, your go-to platform for telework services. Explore our features and services designed to enhance your remote work experience.',
+    'homepage-title' => 'Hadaf - Telework Services',
     'home' => 'Home',
     'hero' => [
         'title' => 'Hire the Top 10% of Remote Workers',

@@ -18,6 +18,7 @@ class Company extends Model
         'address',
         'cr_number',
         'phone',
+        'user_id',
         'owner_email',
         'migration_completed',
     ];
@@ -54,6 +55,11 @@ class Company extends Model
     public function config()
     {
         return $this->hasOne(SimulationConfig::class);
+    }
+
+    public function team()
+    {
+        return $this->hasOne(Team::class);
     }
 
     public function user()

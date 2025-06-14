@@ -27,7 +27,7 @@ use App\Http\Controllers\CompanyPagesController;
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
-    Route::get('/', [HomepageController::class, 'index'])->name('dashboard');
+    Route::get('/', [HomepageController::class, 'index']);
     Route::get('/privacy', [\App\Http\Controllers\LegalController::class, 'privacy'])->name('legal.privacy');
 
     Route::get('/for-companies', [CompanyPagesController::class, 'forCompanies'])->name('company.for-companies');
@@ -36,7 +36,7 @@ Route::group([
 
 // System URLs.
 
-Route::middleware(SetLocale::class)->get('/dashboard', function () {
+Route::middleware([SetLocale::class, 'team_context'])->get('/dashboard', function () {
     if (!auth()->check()) {
         return redirect()->route('login');
     }
@@ -57,10 +57,14 @@ Route::middleware(SetLocale::class)->get('/dashboard', function () {
         'user_id' => auth()->user()->id,
         'user_email' => auth()->user()->email,
     ]);
-});
+})->name('dashboard');
 
 Route::get('dev-login', function() {
     if (app()->isProduction()) return 404;
+    $admin = User::admins()->first();
+    if (!$admin) {
+        throw new \Exception('No admin user found. Please create an admin user first.');
+    }
     auth()->login(User::admins()->firstOrFail());
     return redirect()->route('dashboard');
 })->name('login.dev');
@@ -70,7 +74,7 @@ Route::get('/admin/impersonate-stop', function () {
     return redirect()->route('dashboard');
 })->name('admin.impersonate.stop');
 
-Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'team_context', 'role:admin', SetLocale::class])->group(function () {
     Route::get('/search', [GlobalSearchController::class, 'search'])->name('admin.search');
 
     Route::get('/simulation', [SimulationController::class, 'index'])->name('admin.simulation.index');
@@ -132,7 +136,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     Route::delete('/tasks/{task}', [\App\Http\Controllers\Admin\TasksController::class, 'destroy'])->name('admin.tasks.destroy');
 });
 
-Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])->group(function () {
+Route::prefix('company')->middleware(['auth', 'team_context', 'role:company', SetLocale::class])->group(function () {
     Route::get('/dashboard', [CompanyDashboardController::class, 'index'])->name('company.dashboard');
     Route::post('/switch', [\App\Http\Controllers\Company\CompanyController::class, 'switch'])->name('company.switch');
     Route::resource('/employees', \App\Http\Controllers\Company\EmployeesController::class)->names('company.employees');
@@ -146,7 +150,7 @@ Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])
     Route::post('/tasks/{task}/comments', [\App\Http\Controllers\Company\TasksCommentController::class, 'store'])->name('company.tasks.comment');
 });
 
-Route::prefix('employee')->middleware(['auth', 'role:employee', SetLocale::class])->group(function () {
+Route::prefix('employee')->middleware(['auth', 'team_context', 'role:employee', SetLocale::class])->group(function () {
     Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
     Route::put('/tasks/{task}/status', [\App\Http\Controllers\Employee\TaskController::class, 'updateStatus'])->name('employee.tasks.updateStatus');
 });
