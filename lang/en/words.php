@@ -314,6 +314,68 @@ return [
         'for_companies' => 'For Companies',
         'jobs' => 'Jobs',
     ],
+    'pricing' => [
+        'title' => 'Simple, Transparent Pricing',
+        'subtitle' => 'Choose the perfect plan for your business needs',
+        'yearly_discount' => 'Save :discount with yearly billing',
+        'get_started' => 'Get Started',
+        'features' => 'Features',
+        'basic' => [
+            'title' => 'Basic',
+            'description' => 'Perfect for small businesses and startups',
+            'features' => [
+                'ads' => ':count job ads per month',
+                'users' => 'Up to :count users',
+            ]
+        ],
+        'pro' => [
+            'title' => 'Professional',
+            'description' => 'Ideal for growing companies',
+            'features' => [
+                'ads' => ':count job ads per month',
+                'users' => 'Up to :count users',
+            ]
+        ],
+        'enterprise' => [
+            'title' => 'Enterprise',
+            'description' => 'For large organizations with advanced needs',
+            'features' => [
+                'ads' => ':count job ads per year',
+                'users' => 'Unlimited users',
+            ]
+        ],
+        'comparison' => [
+            'title' => 'Compare Plans',
+            'subtitle' => 'Find the perfect plan for your hiring needs',
+            'feature' => 'Feature',
+            'features' => [
+                'ads' => 'Job Ads',
+                'communication' => 'Direct Communication',
+                'users' => 'Team Members',
+                'promote' => 'Promoted Ads',
+                'duration' => 'Job Duration',
+                'filter' => 'Candidate Filtering',
+                'esign' => 'E-Signature'
+            ]
+        ]
+    ],
+    'currency' => 'SAR',
+    'month' => 'month',
+    'year' => 'year',
+    'faq' => [
+        'title' => 'Frequently Asked Questions',
+        'subtitle' => 'Find answers to common questions about our services',
+        'questions' => [
+            'q1' => 'How long does it take to find qualified candidates?',
+            'q2' => 'What kind of support do you provide during the hiring process?',
+            'q3' => 'Can I upgrade or downgrade my plan at any time?'
+        ],
+        'answers' => [
+            'a1' => 'Our platform typically helps you find qualified candidates within 2-3 weeks, depending on your specific requirements and the position.',
+            'a2' => 'We provide comprehensive support throughout the hiring process, including candidate screening, interview scheduling, and onboarding assistance.',
+            'a3' => 'Yes, you can change your plan at any time. Upgrades take effect immediately, while downgrades take effect at the start of your next billing cycle.'
+        ]
+    ],
     
     // Team Invitation
     'team_invitation_subject' => 'You have been invited to join :company team',
