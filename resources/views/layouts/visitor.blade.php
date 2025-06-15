@@ -134,7 +134,7 @@
                                     {{ __('words.footer.legal.privacy') }}
                                 </a>
                                 <span class="text-gray-300 dark:text-gray-600">|</span>
-                                <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
+                                <a href="{{ route('legal.terms') }}" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
                                     {{ __('words.footer.legal.terms') }}
                                 </a>
                             </div>

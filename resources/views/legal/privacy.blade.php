@@ -1,4 +1,7 @@
-<x-visitor-layout :seo="$seo">
+<x-visitor-layout>
+    <x-slot name="seo">
+        {!! seo($SEOData) !!}
+    </x-slot>
     <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -8,7 +11,7 @@
                     <section>
                         <h2 class="text-2xl font-semibold mb-4">1. {{ __('Introduction') }}</h2>
                         <p class="mb-4">
-                            {{ __('At Telework2025, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.') }}
+                            {{ __('At HADAF, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.') }}
                         </p>
                     </section>
 
@@ -59,11 +62,11 @@
                         <h2 class="text-2xl font-semibold mb-4">6. {{ __('Contact Us') }}</h2>
                         <p class="mb-4">
                             {{ __('If you have any questions about this Privacy Policy, please contact us at:') }}
-                            <a href="mailto:privacy@telework2025.com" class="text-blue-600 dark:text-blue-400 hover:underline">privacy@telework2025.com</a>
+                            <a href="mailto:privacy@hadaf-hq.com.com" class="text-blue-600 dark:text-blue-400 hover:underline">privacy@hadaf-hq.com</a>
                         </p>
                     </section>
                 </div>
             </div>
         </div>
     </div>
-</x-visitor-layout> 
+</x-visitor-layout>

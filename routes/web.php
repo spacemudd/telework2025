@@ -29,6 +29,7 @@ Route::group([
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
     Route::get('/', [HomepageController::class, 'index']);
     Route::get('/privacy', [\App\Http\Controllers\LegalController::class, 'privacy'])->name('legal.privacy');
+    Route::get('/terms', [\App\Http\Controllers\LegalController::class, 'terms'])->name('legal.terms');
 
     Route::get('/for-companies', [CompanyPagesController::class, 'forCompanies'])->name('company.for-companies');
     Route::post('/for-companies/contact', [CompanyPagesController::class, 'submitContactForm'])->name('company.contact.submit');
