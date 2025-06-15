@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\User;
+use App\Models\Team;
 use App\Notifications\CompanyWelcomeNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,12 +31,25 @@ class CreateCompanyAccount
 
         $password = Str::random(12);
 
+        // Create the user first
         $user = User::create([
             'name' => $company->name,
             'email' => $company->email,
             'password' => Hash::make($password),
         ]);
 
+        // Create the company team with the user as owner
+        $companyTeam = Team::create([
+            'name' => $company->name . ' Team',
+            'company_id' => $company->id,
+            'owner_id' => $user->id,
+        ]);
+
+        // Update user with team_id
+        $user->update(['team_id' => $companyTeam->id]);
+
+        // Set team context and assign role
+        setPermissionsTeamId($companyTeam->id);
         $user->assignRole('company');
 
         $company->user_id = $user->id;
