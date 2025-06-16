@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\EmployeesController;
 use App\Http\Middleware\SetLocale;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
+use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeDashboardController;
@@ -23,7 +24,6 @@ use App\Http\Controllers\CompanyPagesController;
 
 
 // Public URLs.
-
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
@@ -33,7 +33,15 @@ Route::group([
 
     Route::get('/for-companies', [CompanyPagesController::class, 'forCompanies'])->name('company.for-companies');
     Route::post('/for-companies/contact', [CompanyPagesController::class, 'submitContactForm'])->name('company.contact.submit');
-})->name('home');
+
+    // Onboarding Routes
+    Route::middleware('auth')->prefix('onboarding')->group(function () {
+        Route::get('/', [OnboardingController::class, 'index'])->name('onboarding.index');
+        Route::post('/select-role', [OnboardingController::class, 'selectRole'])->name('onboarding.select-role');
+        Route::get('/company', [OnboardingController::class, 'showCompanyForm'])->name('onboarding.company');
+        Route::post('/company', [OnboardingController::class, 'completeCompanyOnboarding'])->name('onboarding.company.complete');
+    });
+});
 
 // System URLs.
 
@@ -175,6 +183,7 @@ Route::get('/lang/{locale}', function ($locale) {
     }
     return redirect()->back();
 });
+
 
 Route::post('/employee/tracker/ping', [TrackerController::class, 'ping'])->name('employee.tracker.ping');
 Route::post('/employee/tracker/stop', [TrackerController::class, 'stop'])->name('employee.tracker.stop');
