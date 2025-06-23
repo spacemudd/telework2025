@@ -37,6 +37,9 @@
                         <x-nav-link :href="route('company.employees.index')" :active="request()->routeIs('company.employees.*')">
                             {{ __('words.employees') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('company.tasks.index')" :active="request()->routeIs('company.tasks.*')">
+                            {{ __('words.tasks') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('company.support-tickets.index')" :active="request()->routeIs('company.support-tickets.*')">
                             {{ __('words.support') }}
                         </x-nav-link>

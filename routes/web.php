@@ -101,6 +101,8 @@ Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])
     Route::resource('/employees', \App\Http\Controllers\Company\EmployeesController::class)->names('company.employees');
     Route::post('/employees/{employee}/tasks', [\App\Http\Controllers\Company\EmployeesController::class, 'assignTask'])->name('company.employees.assignTask');
     Route::get('/attendance/export', [CompanyDashboardController::class, 'exportAttendance'])->name('company.attendance.export');
+    Route::get('/tasks', [\App\Http\Controllers\Company\TasksController::class, 'index'])->name('company.tasks.index');
+    Route::get('/tasks/export', [\App\Http\Controllers\Company\TasksController::class, 'export'])->name('company.tasks.export');
     Route::resource('/support-tickets', \App\Http\Controllers\Company\SupportTicketsController::class)->names('company.support-tickets');
     Route::post('/support-tickets/{ticket}/messages', [\App\Http\Controllers\Company\SupportTicketsMessageController::class, 'store'])->name('company.support-tickets.messages.store');
     Route::post('/tasks/{task}/comments', [\App\Http\Controllers\Company\TasksCommentController::class, 'store'])->name('company.tasks.comment');
