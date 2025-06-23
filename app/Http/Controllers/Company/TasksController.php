@@ -78,9 +78,6 @@ class TasksController extends Controller
 
         $tasks = $query->latest()->get();
 
-        // Create CSV content with UTF-8 BOM for Excel compatibility
-        $csvContent = "\xEF\xBB\xBF"; // UTF-8 BOM
-        
         // Headers
         $csvHeaders = [
             'اسم الموظف',
@@ -93,7 +90,7 @@ class TasksController extends Controller
             'التعليقات'
         ];
         
-        $csvContent .= implode(',', $csvHeaders) . "\n";
+        $rows = [$csvHeaders];
 
         foreach ($tasks as $task) {
             $comments = $task->comments->map(function ($comment) {
@@ -101,22 +98,34 @@ class TasksController extends Controller
             })->implode(' | ');
 
             $row = [
-                $this->escapeCsvField($task->employee->name),
-                $this->escapeCsvField($task->title),
-                $this->escapeCsvField($task->description),
-                $this->escapeCsvField(__('words.' . $task->priority)),
-                $this->escapeCsvField(__('words.' . $task->status)),
-                $this->escapeCsvField(Carbon::parse($task->due_date)->format('Y-m-d')),
-                $this->escapeCsvField($task->created_at->format('Y-m-d H:i')),
-                $this->escapeCsvField($comments)
+                $task->employee->name,
+                $task->title,
+                $task->description,
+                __('words.' . $task->priority),
+                __('words.' . $task->status),
+                Carbon::parse($task->due_date)->format('Y-m-d'),
+                $task->created_at->format('Y-m-d H:i'),
+                $comments
             ];
 
-            $csvContent .= implode(',', $row) . "\n";
+            $rows[] = $row;
         }
 
         $filename = 'tasks-report-' . $company->code . '-' . now()->format('Y-m-d') . '.csv';
 
-        return Response::make($csvContent, 200, [
+        $handle = fopen('php://temp', 'r+');
+        
+        // Add UTF-8 BOM for Excel compatibility
+        fwrite($handle, "\xEF\xBB\xBF");
+        
+        foreach ($rows as $row) {
+            fputcsv($handle, $row);
+        }
+        rewind($handle);
+
+        return Response::stream(function () use ($handle) {
+            fpassthru($handle);
+        }, 200, [
             "Content-type" => "text/csv; charset=UTF-8",
             "Content-Disposition" => "attachment; filename=\"$filename\"",
             "Pragma" => "no-cache",
@@ -125,11 +134,5 @@ class TasksController extends Controller
         ]);
     }
 
-    private function escapeCsvField($field)
-    {
-        if (strpos($field, ',') !== false || strpos($field, '"') !== false || strpos($field, "\n") !== false) {
-            return '"' . str_replace('"', '""', $field) . '"';
-        }
-        return $field;
-    }
+
 } 
