@@ -1,0 +1,135 @@
+<?php
+
+namespace App\Http\Controllers\Company;
+
+use App\Http\Controllers\Controller;
+use App\Models\Task;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Carbon\Carbon;
+
+class TasksController extends Controller
+{
+    public function index(Request $request)
+    {
+        $company = auth()->user()->owned_company;
+        
+        // Get all tasks for the company's employees
+        $query = Task::whereHas('employee', function ($q) use ($company) {
+            $q->where('company_id', $company->id);
+        })->with(['employee', 'comments.user']);
+
+        // Apply filters
+        if ($request->filled('employee_id')) {
+            $query->where('employee_id', $request->employee_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('priority')) {
+            $query->where('priority', $request->priority);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        $tasks = $query->latest()->paginate(20);
+        $employees = $company->employees()->orderBy('name')->get();
+
+        return view('company.tasks.index', compact('tasks', 'employees'));
+    }
+
+    public function export(Request $request)
+    {
+        $company = auth()->user()->owned_company;
+        
+        // Get all tasks for the company's employees with the same filters
+        $query = Task::whereHas('employee', function ($q) use ($company) {
+            $q->where('company_id', $company->id);
+        })->with(['employee', 'comments.user']);
+
+        // Apply same filters as index
+        if ($request->filled('employee_id')) {
+            $query->where('employee_id', $request->employee_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('priority')) {
+            $query->where('priority', $request->priority);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        $tasks = $query->latest()->get();
+
+        // Create CSV content with UTF-8 BOM for Excel compatibility
+        $csvContent = "\xEF\xBB\xBF"; // UTF-8 BOM
+        
+        // Headers
+        $csvHeaders = [
+            'اسم الموظف',
+            'عنوان المهمة',
+            'الوصف',
+            'الأولوية',
+            'الحالة',
+            'تاريخ الاستحقاق',
+            'تاريخ الإنشاء',
+            'التعليقات'
+        ];
+        
+        $csvContent .= implode(',', $csvHeaders) . "\n";
+
+        foreach ($tasks as $task) {
+            $comments = $task->comments->map(function ($comment) {
+                return $comment->user->name . ': ' . $comment->comment . ' (' . $comment->created_at->format('Y-m-d H:i') . ')';
+            })->implode(' | ');
+
+            $row = [
+                $this->escapeCsvField($task->employee->name),
+                $this->escapeCsvField($task->title),
+                $this->escapeCsvField($task->description),
+                $this->escapeCsvField(__('words.' . $task->priority)),
+                $this->escapeCsvField(__('words.' . $task->status)),
+                $this->escapeCsvField(Carbon::parse($task->due_date)->format('Y-m-d')),
+                $this->escapeCsvField($task->created_at->format('Y-m-d H:i')),
+                $this->escapeCsvField($comments)
+            ];
+
+            $csvContent .= implode(',', $row) . "\n";
+        }
+
+        $filename = 'tasks-report-' . $company->code . '-' . now()->format('Y-m-d') . '.csv';
+
+        return Response::make($csvContent, 200, [
+            "Content-type" => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename=\"$filename\"",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ]);
+    }
+
+    private function escapeCsvField($field)
+    {
+        if (strpos($field, ',') !== false || strpos($field, '"') !== false || strpos($field, "\n") !== false) {
+            return '"' . str_replace('"', '""', $field) . '"';
+        }
+        return $field;
+    }
+} 

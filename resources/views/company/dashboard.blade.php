@@ -10,9 +10,14 @@
             <div class="mt-8">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-xl font-bold">الموظفون المرتبطون ({{ $employees->count() }})</h2>
-                    <a href="{{ route('company.attendance.export') }}" class="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded">
-                        تحميل تقرير الحضور
-                    </a>
+                    <div class="flex gap-2 mb-4">
+                        <a href="{{ route('company.attendance.export') }}" class="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded">
+                            تحميل تقرير الحضور
+                        </a>
+                        <a href="{{ route('company.tasks.index') }}" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded">
+                            المهام
+                        </a>
+                    </div>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white rounded-lg shadow">
