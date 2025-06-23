@@ -67,6 +67,10 @@ class CompanyDashboardController extends Controller
         $filename = 'attendance-' . $now->format('Y-m') . '-to-' . $endDate->format('d') . '.csv';
 
         $handle = fopen('php://temp', 'r+');
+        
+        // Add UTF-8 BOM for Excel compatibility
+        fwrite($handle, "\xEF\xBB\xBF");
+        
         foreach ($rows as $row) {
             fputcsv($handle, $row);
         }
