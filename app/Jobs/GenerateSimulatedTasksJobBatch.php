@@ -60,6 +60,14 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
                 continue;
             }
 
+            // Generate random timestamp during working hours (8 AM to 5 PM GMT+3)
+            $randomWorkingHour = rand(8, 17); // 8 AM to 5 PM local time
+            $randomMinute = rand(0, 59);
+            $randomSecond = rand(0, 59);
+            
+            // Create timestamp in GMT+3 timezone (Asia/Riyadh)
+            $randomTimestamp = now('Asia/Riyadh')->setTime($randomWorkingHour, $randomMinute, $randomSecond);
+
             Task::create([
                 'title' => $taskData['title'],
                 'description' => $taskData['description'],
@@ -69,6 +77,8 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
                 'company_id' => $this->employee->company_id,
                 'issx' => true,
                 'status' => 'pending',
+                'created_at' => $randomTimestamp,
+                'updated_at' => $randomTimestamp,
             ]);
         }
     }
