@@ -53,7 +53,7 @@ class DailyCompanyTasksReport extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "تقرير المهام العمل عن بعد - {$this->yesterday}",
+            subject: "تقرير المهام العمل عن بعد - {$this->company->name} - {$this->yesterday}",
         );
     }
 
