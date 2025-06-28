@@ -34,10 +34,14 @@ return Application::configure(basePath: dirname(__DIR__))
         HorizonServiceProvider::class,
     ])
     ->withSchedule(function ($schedule) {
-        $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->daily()->between('05:00', '16:00');
-        $schedule->job(new \App\Jobs\SimulateEmployeeResponseJob())->daily()->between('05:00', '16:00');
+        // Run once daily at specific times (adjusted for GMT+3 timezone)
+        // 5:00 AM GMT+3 = 2:00 AM UTC
+        $schedule->job(new \App\Jobs\GenerateSimulatedTasksJob())->dailyAt('02:00');
+        // 6:00 AM GMT+3 = 3:00 AM UTC  
+        $schedule->job(new \App\Jobs\SimulateEmployeeResponseJob())->dailyAt('03:00'); // Run after task generation
 
         // Schedule daily company tasks report for each company
+        // 8:00 AM GMT+3 = 5:00 AM UTC
         foreach (\App\Models\Company::all() as $company) {
             $schedule->job(new \App\Jobs\CompanyTasksReport($company))->dailyAt('05:00');
         }
