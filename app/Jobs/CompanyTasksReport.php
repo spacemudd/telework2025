@@ -25,6 +25,9 @@ class CompanyTasksReport implements ShouldQueue
     public function __construct(Company $company)
     {
         $this->company = $company;
+        
+        // Assign this job to the emails queue with rate limiting
+        $this->onQueue('emails');
     }
 
     /**

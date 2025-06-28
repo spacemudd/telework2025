@@ -85,6 +85,7 @@ return [
 
     'waits' => [
         'redis:default' => 60,
+        'redis:emails' => 30,
     ],
 
     /*
@@ -206,6 +207,19 @@ return [
                 'every' => 60,
             ],
         ],
+        'emails' => [
+            'connection' => 'redis',
+            'queue' => ['emails'],
+            'balance' => 'simple',
+            'maxProcesses' => 1,
+            'tries' => 3,
+            'timeout' => 60,
+            'memory' => 128,
+            'rate' => [
+                'limit' => 1,     // 1 email per second
+                'every' => 1,     // Every 1 second
+            ],
+        ],
     ],
 
     'environments' => [
@@ -218,11 +232,17 @@ return [
             'openai' => [
                 'maxProcesses' => 1,
             ],
+            'emails' => [
+                'maxProcesses' => 1,
+            ],
         ],
 
         'local' => [
             'supervisor-1' => [
                 'maxProcesses' => 3,
+            ],
+            'emails' => [
+                'maxProcesses' => 1,
             ],
         ],
     ],
