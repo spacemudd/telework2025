@@ -52,6 +52,46 @@ class CompanyEmployeesController extends Controller
         return view('admin.employees.show', compact('company', 'employee'));
     }
 
+    public function edit(Company $company, Employee $employee)
+    {
+        return view('admin.employees.edit', compact('company', 'employee'));
+    }
+
+    public function update(Request $request, Company $company, Employee $employee)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:employees,email,' . $employee->id],
+            'identity_number' => ['required', 'string', 'max:255', 'unique:employees,identity_number,' . $employee->id],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'position' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        // Validate email uniqueness in users table too, excluding the current employee's user
+        $userRule = 'required|email|unique:users,email';
+        if ($employee->user) {
+            $userRule .= ',' . $employee->user->id;
+        }
+        
+        $request->validate([
+            'email' => $userRule,
+        ]);
+
+        // Update employee information
+        $employee->update($validated);
+
+        // Update user information if user exists
+        if ($employee->user) {
+            $employee->user->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+            ]);
+        }
+
+        return redirect()->route('admin.companies.employees.show', [$company->id, $employee->id])
+            ->with('success', __('words.employee_updated_successfully'));
+    }
+
     public function assignTask(Request $request, Company $company, Employee $employee)
     {
         $validated = $request->validate([

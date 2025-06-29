@@ -86,6 +86,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     Route::prefix('companies/{company}')->group(function () {
         Route::get('/employees/create', [CompanyEmployeesController::class, 'create'])->name('admin.employees.create');
         Route::get('/employees/{employee}', [CompanyEmployeesController::class, 'show'])->name('admin.companies.employees.show');
+        Route::get('/employees/{employee}/edit', [CompanyEmployeesController::class, 'edit'])->name('admin.companies.employees.edit');
+        Route::put('/employees/{employee}', [CompanyEmployeesController::class, 'update'])->name('admin.companies.employees.update');
         Route::post('/employees', [CompanyEmployeesController::class, 'store'])->name('admin.employees.store');
         Route::post('/employees/{employee}/disable', [CompanyEmployeesController::class, 'disable'])->name('admin.employees.disable');
         Route::post('/employees/{employee}/tasks', [CompanyEmployeesController::class, 'assignTask'])->name('admin.employees.assignTask');

@@ -19,6 +19,7 @@ class Employee extends Model
         'phone',
         'position',
         'identity_number',
+        'user_id',
     ];
 
     protected static function booted()
@@ -37,6 +38,11 @@ class Employee extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function tasks()

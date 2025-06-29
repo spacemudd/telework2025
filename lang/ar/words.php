@@ -90,4 +90,8 @@ return [
     'approve' => 'الموافقة',
     'delete' => 'حذف',
     'created_at' => 'تم الإنشاء في',
+    'edit_employee' => 'تعديل الموظف',
+    'update_employee' => 'تحديث الموظف',
+    'employee_updated_successfully' => 'تم تحديث الموظف بنجاح',
+    'cancel' => 'إلغاء',
 ];
