@@ -11,7 +11,13 @@
             </div>
         @endif
 
-        <h2 class="text-2xl font-bold mb-6">{{ __('words.employee_details') }}</h2>
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">{{ __('words.employee_details') }}</h2>
+            <a href="{{ route('admin.companies.employees.edit', [$company->id, $employee->id]) }}" 
+               class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                {{ __('words.edit_employee') }}
+            </a>
+        </div>
 
         <div class="mb-6 p-4 bg-white rounded shadow">
             <p><strong>{{ __('words.name') }}:</strong> {{ $employee->name }}</p>
