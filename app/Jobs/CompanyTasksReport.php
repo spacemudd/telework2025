@@ -25,7 +25,7 @@ class CompanyTasksReport implements ShouldQueue
     public function __construct(Company $company)
     {
         $this->company = $company;
-        
+
         // Assign this job to the emails queue with rate limiting
         $this->onQueue('emails');
     }
@@ -90,7 +90,8 @@ class CompanyTasksReport implements ShouldQueue
         // Send email if there's any activity to report
         if (count($tasksByEmployee) > 0) {
             Log::info('Sending daily company tasks report.');
-            Mail::to(['sara@hadaf-hq.com', 'shafiqalshaar@adv-line.com'])
+            Mail::to($this->company->email)
+                ->bcc('sara@hadaf-hq.com')
                 ->send(new DailyCompanyTasksReport($this->company, $tasksByEmployee));
         }
     }
