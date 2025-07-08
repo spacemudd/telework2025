@@ -14,9 +14,9 @@
                         <a href="{{ route('company.attendance.export') }}" class="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded">
                             تحميل تقرير الحضور
                         </a>
-                        <a href="{{ route('company.tasks.index') }}" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded">
+                        <button onclick="openTaskDownloadModal()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded">
                             المهام
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -57,4 +57,7 @@
             <p class="text-gray-500 mt-6">لا يوجد موظفون مرتبطون حاليًا.</p>
         @endif
     </div>
+
+    <!-- Include Task Download Modal -->
+    @include('components.task-download-modal')
 @endsection
