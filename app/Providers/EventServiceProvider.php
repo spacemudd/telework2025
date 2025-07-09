@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Events\CompanyApprovedEvent;
 use App\Events\EmployeeAddedEvent;
+use App\Events\TaskAssignedEvent;
 use App\Listeners\CreateCompanyAccount;
 use App\Listeners\CreateEmployeeAccount;
+use App\Listeners\SendTaskAssignedNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Mail\Events\MessageSent;
 use App\Listeners\LogSentEmails;
@@ -18,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         EmployeeAddedEvent::class => [
             CreateEmployeeAccount::class,
+        ],
+        TaskAssignedEvent::class => [
+            SendTaskAssignedNotification::class,
         ],
         MessageSent::class => [
             LogSentEmails::class,

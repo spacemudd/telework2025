@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Events\TaskAssignedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -31,12 +32,15 @@ class EmployeesController extends Controller
             'priority' => ['required', 'in:low,medium,high'],
         ]);
 
-        $employee->tasks()->create([
+        $task = $employee->tasks()->create([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'due_date' => $validated['due_date'],
             'priority' => $validated['priority'],
         ]);
+
+        // Fire the task assigned event to send email notification
+        event(new TaskAssignedEvent($task));
 
         return redirect()->route('company.employees.show', $employee->id)->with('success', __('words.task_assigned_successfully'));
     }

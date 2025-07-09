@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\TaskAssignedEvent;
 use App\Models\Employee;
 use App\Models\Task;
 use Illuminate\Bus\Queueable;
@@ -68,7 +69,7 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
             // Create timestamp in GMT+3 timezone (Asia/Riyadh)
             $randomTimestamp = now('Asia/Riyadh')->setTime($randomWorkingHour, $randomMinute, $randomSecond);
 
-            Task::create([
+            $task = Task::create([
                 'title' => $taskData['title'],
                 'description' => $taskData['description'],
                 'due_date' => now()->addDays(rand(1, 5)),
@@ -80,6 +81,9 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
                 'created_at' => $randomTimestamp,
                 'updated_at' => $randomTimestamp,
             ]);
+
+            // Fire the task assigned event to send email notification
+            event(new TaskAssignedEvent($task));
         }
     }
 }
