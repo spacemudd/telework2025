@@ -12,12 +12,18 @@ class SendTaskAssignedNotification implements ShouldQueue
     use InteractsWithQueue;
 
     /**
+     * The name of the queue the job should be sent to.
+     *
+     * @var string|null
+     */
+    public $queue = 'emails';
+
+    /**
      * Create the event listener.
      */
     public function __construct()
     {
-        // Queue this listener to the emails queue for rate limiting
-        $this->onQueue('emails');
+        //
     }
 
     /**
