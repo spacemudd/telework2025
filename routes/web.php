@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CompanyEmployeesController;
+use App\Http\Controllers\Admin\CompanyPerformanceController;
 use App\Http\Controllers\Admin\CompanySimulationConfigController;
 use App\Http\Controllers\Admin\GlobalSearchController;
 use App\Http\Controllers\Admin\SimulationController;
@@ -94,6 +95,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     });
 
     Route::view('/settings', 'admin.settings.index')->name('admin.settings');
+    Route::get('/company-performance', [\App\Http\Controllers\Admin\CompanyPerformanceController::class, 'index'])->name('admin.company-performance.index');
 
     Route::delete('/tasks/{task}', [\App\Http\Controllers\Admin\TasksController::class, 'destroy'])->name('admin.tasks.destroy');
 });

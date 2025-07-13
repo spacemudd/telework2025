@@ -7,9 +7,9 @@
     <div class="grid grid-cols-12 p-5 gap-5">
         <div class="col-span-12">
             <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
-                <a href="#" class="block p-4 bg-white rounded shadow hover:shadow-md transition opacity-50 pointer-events-none">
-                    <h2 class="font-bold text-sm mb-1">القيم الافتراضية للشركات</h2>
-                    <p class="text-xs text-gray-600">ضبط القيم التي يتم استخدامها بشكل تلقائي عند إنشاء شركة جديدة.</p>
+                <a href="{{ route('admin.company-performance.index') }}" class="block p-4 bg-white rounded shadow hover:shadow-md transition">
+                    <h2 class="font-bold text-sm mb-1">تقرير أداء الشركات</h2>
+                    <p class="text-xs text-gray-600">تقرير شامل عن أداء الشركات والموظفين والمهام المنجزة مع إمكانية الفلترة.</p>
                 </a>
 
                 <a href="#" class="block p-4 bg-white rounded shadow hover:shadow-md transition opacity-50 pointer-events-none">
