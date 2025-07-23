@@ -132,4 +132,5 @@ return [
     'october' => 'October',
     'november' => 'November',
     'december' => 'December',
+    'export_companies' => 'Export Companies',
 ];

@@ -73,11 +73,13 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     Route::put('/companies/{company}/simulation-config', [CompanySimulationConfigController::class, 'update'])->name('admin.companies.simulation-config.update');
     Route::get('/companies/{company}/simulation-config', [CompanySimulationConfigController::class, 'index'])->name('admin.companies.simulation-config.index');
 
+    Route::get('/companies/export', [\App\Http\Controllers\Admin\CompaniesController::class, 'export'])->name('admin.companies.export');
+    Route::resource('/companies', CompaniesController::class)->names('admin.companies');
+
     Route::get('/companies/{company}/sync', [CompaniesController::class, 'sync'])->name('admin.companies.sync');
     Route::get('/companies/{company}/audit', [CompaniesController::class, 'audit'])->name('admin.companies.audit');
     Route::get('/companies/{company}/email', [CompaniesController::class, 'email'])->name('admin.companies.email');
     Route::post('/companies/{company}/email', [CompaniesController::class, 'sendEmail'])->name('admin.companies.sendEmail');
-    Route::resource('/companies', CompaniesController::class)->names('admin.companies');
 
     Route::resource('/employees', EmployeesController::class)->names('admin.employees');
 

@@ -133,4 +133,5 @@ return [
     'october' => 'أكتوبر',
     'november' => 'نوفمبر',
     'december' => 'ديسمبر',
+    'export_companies' => 'تصدير الشركات',
 ];
