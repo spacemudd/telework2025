@@ -194,7 +194,10 @@
                     <tbody>
                         @forelse ($company->employees as $employee)
                             <tr class="border-b">
-                                <td class="py-2 px-4"><a href="{{ route('admin.companies.employees.show', ['company' => $company, 'employee' => $employee->id]) }}">{{ $employee->name }}</a></td>
+                                <td class="py-2 px-4">
+                                    <a href="{{ route('admin.companies.employees.show', ['company' => $company, 'employee' => $employee->id]) }}">{{ $employee->name }}</a>
+                                    <div class="text-gray-400 text-xs mt-1">{{ $employee->created_at->format('Y-m-d') }}</div>
+                                </td>
                                 <td class="py-2 px-4">{{ $employee->email }}</td>
                                 <td class="py-2 px-4">{{ $employee->phone }}</td>
                                 <td class="py-2 px-4">{{ $employee->position }}</td>
