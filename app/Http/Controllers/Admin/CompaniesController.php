@@ -139,4 +139,74 @@ class CompaniesController extends Controller
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ]);
     }
+
+    public function tasksStats(Request $request, Company $company)
+    {
+        $dateFrom = $request->input('date_from');
+        $dateTo = $request->input('date_to');
+        if (!$dateFrom) {
+            $dateFrom = now()->startOfMonth()->format('Y-m-d');
+        }
+        if (!$dateTo) {
+            $dateTo = now()->format('Y-m-d');
+        }
+        $employeeIds = $company->employees()->pluck('id');
+        $tasks = \App\Models\Task::whereIn('employee_id', $employeeIds)
+            ->whereBetween('created_at', [$dateFrom, $dateTo])
+            ->get();
+        $totalTasks = $tasks->count();
+        $completedTasks = $tasks->where('status', 'completed')->count();
+        $pendingTasks = $tasks->where('status', 'pending')->count();
+        $inProgressTasks = $tasks->where('status', 'in_progress')->count();
+        // Daily data for chart
+        $startDate = \Carbon\Carbon::parse($dateFrom);
+        $endDate = \Carbon\Carbon::parse($dateTo);
+        $days = [];
+        $pendingData = [];
+        $inProgressData = [];
+        $completedData = [];
+        for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
+            $dayKey = $date->format('Y-m-d');
+            $days[] = $date->format('M d');
+            $dayTasks = $tasks->filter(function ($task) use ($dayKey) {
+                return $task->created_at->format('Y-m-d') === $dayKey;
+            });
+            $pendingData[] = $dayTasks->where('status', 'pending')->count();
+            $inProgressData[] = $dayTasks->where('status', 'in_progress')->count();
+            $completedData[] = $dayTasks->where('status', 'completed')->count();
+        }
+        $chartData = [
+            'labels' => $days,
+            'datasets' => [
+                [
+                    'label' => __('words.pending'),
+                    'data' => $pendingData,
+                    'backgroundColor' => 'rgba(107, 114, 128, 0.8)',
+                    'borderColor' => 'rgba(107, 114, 128, 1)',
+                    'borderWidth' => 1
+                ],
+                [
+                    'label' => __('words.in_progress'),
+                    'data' => $inProgressData,
+                    'backgroundColor' => 'rgba(251, 191, 36, 0.8)',
+                    'borderColor' => 'rgba(251, 191, 36, 1)',
+                    'borderWidth' => 1
+                ],
+                [
+                    'label' => __('words.completed'),
+                    'data' => $completedData,
+                    'backgroundColor' => 'rgba(34, 197, 94, 0.8)',
+                    'borderColor' => 'rgba(34, 197, 94, 1)',
+                    'borderWidth' => 1
+                ]
+            ]
+        ];
+        return response()->json([
+            'totalTasks' => $totalTasks,
+            'completedTasks' => $completedTasks,
+            'pendingTasks' => $pendingTasks,
+            'inProgressTasks' => $inProgressTasks,
+            'chartData' => $chartData,
+        ]);
+    }
 }
