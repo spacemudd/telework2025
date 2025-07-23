@@ -60,6 +60,10 @@
                         <th class="text-left py-2 px-4 font-semibold">{{ __('words.cr_number') }}</th>
                         <td class="py-2 px-4">{{ $company->cr_number }}</td>
                     </tr>
+                    <tr class="border-b">
+                        <th class="text-left py-2 px-4 font-semibold">{{ __('words.created_at') }}</th>
+                        <td class="py-2 px-4">{{ $company->created_at->format('Y-m-d') }}</td>
+                    </tr>
 {{--                    <tr>--}}
 {{--                        <th class="text-left py-2 px-4 font-semibold">{{ __('words.phone') }}</th>--}}
 {{--                        <td class="py-2 px-4">{{ $company->phone }}</td>--}}
@@ -67,6 +71,105 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Task Statistics and Graph -->
+        <div class="mt-10">
+            <h2 class="text-xl font-semibold mb-4">{{ __('words.tasks_statistics') }}</h2>
+            <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+                <div>
+                    <label for="tasks-timeframe" class="block text-sm font-medium text-gray-700 mb-1">{{ __('words.timeframe') }}</label>
+                    <select id="tasks-timeframe" class="border rounded p-2">
+                        <option value="this_month">{{ __('words.this_month') }}</option>
+                        <option value="last_month">{{ __('words.last_month') }}</option>
+                        <option value="custom">{{ __('words.custom') }}</option>
+                    </select>
+                </div>
+                <div id="custom-dates" class="hidden flex gap-2 items-end">
+                    <div>
+                        <label for="date-from" class="block text-xs">{{ __('words.from') }}</label>
+                        <input type="date" id="date-from" class="border rounded p-2">
+                    </div>
+                    <div>
+                        <label for="date-to" class="block text-xs">{{ __('words.to') }}</label>
+                        <input type="date" id="date-to" class="border rounded p-2">
+                    </div>
+                    <button id="apply-custom-dates" class="bg-blue-600 text-white px-3 py-1 rounded">{{ __('words.apply') }}</button>
+                </div>
+            </div>
+            <div class="mb-4">
+                <span class="font-semibold">{{ __('words.total_tasks') }}:</span>
+                <span id="total-tasks" class="text-blue-700 font-bold">...</span>
+            </div>
+            <div class="bg-white rounded shadow p-4">
+                <canvas id="tasks-graph" style="height: 350px;"></canvas>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const companyId = @json($company->id);
+            let tasksChart;
+            let currentFrom, currentTo;
+            function fetchTasksStats(dateFrom, dateTo) {
+                let url = `/admin/companies/${companyId}/tasks-stats?date_from=${dateFrom}&date_to=${dateTo}`;
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('total-tasks').textContent = data.totalTasks;
+                        if (tasksChart) tasksChart.destroy();
+                        const ctx = document.getElementById('tasks-graph').getContext('2d');
+                        tasksChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: data.chartData,
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                                    x: { title: { display: true, text: '{{ __('words.dates') }}' } }
+                                },
+                                plugins: {
+                                    legend: { display: true, position: 'top' },
+                                    title: { display: true, text: '{{ __('words.tasks_generated') }}' }
+                                }
+                            }
+                        });
+                    });
+            }
+            function setTimeframe(timeframe) {
+                const now = new Date();
+                let from, to;
+                if (timeframe === 'this_month') {
+                    from = new Date(now.getFullYear(), now.getMonth(), 1);
+                    to = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                } else if (timeframe === 'last_month') {
+                    from = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                    to = new Date(now.getFullYear(), now.getMonth(), 0);
+                } else {
+                    document.getElementById('custom-dates').classList.remove('hidden');
+                    return;
+                }
+                document.getElementById('custom-dates').classList.add('hidden');
+                currentFrom = from.toISOString().slice(0,10);
+                currentTo = to.toISOString().slice(0,10);
+                fetchTasksStats(currentFrom, currentTo);
+            }
+            document.getElementById('tasks-timeframe').addEventListener('change', function() {
+                setTimeframe(this.value);
+            });
+            document.getElementById('apply-custom-dates').addEventListener('click', function() {
+                const from = document.getElementById('date-from').value;
+                const to = document.getElementById('date-to').value;
+                if (from && to) {
+                    currentFrom = from;
+                    currentTo = to;
+                    fetchTasksStats(from, to);
+                }
+            });
+            // Initial load
+            setTimeframe('this_month');
+        </script>
+        <!-- End Task Statistics and Graph -->
 
         <div class="mt-10">
             <h2 class="text-xl font-semibold mb-4">{{ __('words.employees') }} ({{ $company->employees()->count() }})</h2>

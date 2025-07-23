@@ -80,6 +80,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     Route::get('/companies/{company}/audit', [CompaniesController::class, 'audit'])->name('admin.companies.audit');
     Route::get('/companies/{company}/email', [CompaniesController::class, 'email'])->name('admin.companies.email');
     Route::post('/companies/{company}/email', [CompaniesController::class, 'sendEmail'])->name('admin.companies.sendEmail');
+    Route::get('/companies/{company}/tasks-stats', [CompaniesController::class, 'tasksStats'])->name('admin.companies.tasks-stats');
 
     Route::resource('/employees', EmployeesController::class)->names('admin.employees');
 
