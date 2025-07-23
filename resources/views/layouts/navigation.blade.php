@@ -25,6 +25,9 @@
                         <x-nav-link :href="route('admin.support-tickets.index')" :active="request()->routeIs('admin.support-tickets.*')">
                             {{ __('words.support') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.employee-requests.index')" :active="request()->routeIs('admin.employee-requests.*')">
+                            {{ __('words.requests') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
                             {{ __('words.settings') }}
                         </x-nav-link>
@@ -42,6 +45,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('company.support-tickets.index')" :active="request()->routeIs('company.support-tickets.*')">
                             {{ __('words.support') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('company.employee-requests.index')" :active="request()->routeIs('company.employee-requests.*')">
+                            {{ __('words.requests') }}
                         </x-nav-link>
                     @endhasrole
 

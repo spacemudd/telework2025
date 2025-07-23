@@ -84,6 +84,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     Route::resource('/support-tickets', \App\Http\Controllers\Admin\SupportTicketsController::class)->names('admin.support-tickets');
     Route::post('/support-tickets/{ticket}/messages', [\App\Http\Controllers\Admin\SupportTicketsMessageController::class, 'store'])->name('admin.support-tickets.messages.store');
 
+    Route::resource('/employee-requests', \App\Http\Controllers\Admin\EmployeeRequestsController::class)->names('admin.employee-requests');
+    Route::post('/employee-requests/{employee_request}/messages', [\App\Http\Controllers\Admin\EmployeeRequestMessageController::class, 'store'])->name('admin.employee-requests.messages.store');
+
     Route::prefix('companies/{company}')->group(function () {
         Route::get('/employees/create', [CompanyEmployeesController::class, 'create'])->name('admin.employees.create');
         Route::get('/employees/{employee}', [CompanyEmployeesController::class, 'show'])->name('admin.companies.employees.show');
@@ -109,6 +112,7 @@ Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])
     Route::get('/tasks/export', [\App\Http\Controllers\Company\TasksController::class, 'export'])->name('company.tasks.export');
     Route::resource('/support-tickets', \App\Http\Controllers\Company\SupportTicketsController::class)->names('company.support-tickets');
     Route::post('/support-tickets/{ticket}/messages', [\App\Http\Controllers\Company\SupportTicketsMessageController::class, 'store'])->name('company.support-tickets.messages.store');
+    Route::resource('/employee-requests', \App\Http\Controllers\Company\EmployeeRequestsController::class)->names('company.employee-requests');
     Route::post('/tasks/{task}/comments', [\App\Http\Controllers\Company\TasksCommentController::class, 'store'])->name('company.tasks.comment');
 });
 
