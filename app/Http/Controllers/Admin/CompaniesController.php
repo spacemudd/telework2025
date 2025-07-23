@@ -95,6 +95,7 @@ class CompaniesController extends Controller
             'CR Number',
             'Active Employees',
             'Tasks Created This Month',
+            'Date Added',
         ];
 
         $rows = [];
@@ -118,6 +119,7 @@ class CompaniesController extends Controller
                 $company->cr_number,
                 $activeEmployees,
                 $tasksThisMonth,
+                $company->created_at ? $company->created_at->format('Y-m-d H:i') : '',
             ];
         }
 
