@@ -11,9 +11,9 @@
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-xl font-bold">الموظفون المرتبطون ({{ $employees->count() }})</h2>
                     <div class="flex gap-2 mb-4">
-                        <a href="{{ route('company.attendance.export') }}" class="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded">
-                            تحميل تقرير الحضور
-                        </a>
+                        <button onclick="openAttendanceExportModal()" class="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded">
+                            {{ __('words.attendance_export') }}
+                        </button>
                         <button onclick="openTaskDownloadModal()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded">
                             المهام
                         </button>
@@ -60,4 +60,7 @@
 
     <!-- Include Task Download Modal -->
     @include('components.task-download-modal')
+    
+    <!-- Include Attendance Export Modal -->
+    <x-attendance-export-modal :company="$company ?? auth()->user()->owned_company" />
 @endsection

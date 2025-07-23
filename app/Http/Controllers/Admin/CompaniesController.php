@@ -79,4 +79,62 @@ class CompaniesController extends Controller
         return redirect()->route('admin.companies.show', $company->id)
                          ->with('success', 'تم إرسال البريد الإلكتروني بنجاح.');
     }
+
+    public function export()
+    {
+        $companies = \App\Models\Company::with(['employees'])->get();
+        $now = now();
+        $startOfMonth = $now->copy()->startOfMonth();
+        $endOfMonth = $now->copy()->endOfMonth();
+
+        $csvHeader = [
+            'Code',
+            'Name',
+            'Email',
+            'Address',
+            'CR Number',
+            'Active Employees',
+            'Tasks Created This Month',
+        ];
+
+        $rows = [];
+        foreach ($companies as $company) {
+            // Count employees (non-deleted)
+            $activeEmployees = $company->employees()->count();
+            // Get all employee IDs for this company
+            $employeeIds = $company->employees()->pluck('id');
+            // Count tasks created this month for these employees
+            $tasksThisMonth = 0;
+            if ($employeeIds->count() > 0) {
+                $tasksThisMonth = \App\Models\Task::whereIn('employee_id', $employeeIds)
+                    ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                    ->count();
+            }
+            $rows[] = [
+                $company->code,
+                $company->name,
+                $company->email,
+                $company->address,
+                $company->cr_number,
+                $activeEmployees,
+                $tasksThisMonth,
+            ];
+        }
+
+        // UTF-8 BOM for Excel compatibility
+        $output = "\xEF\xBB\xBF";
+        $output .= implode(',', $csvHeader) . "\n";
+        foreach ($rows as $row) {
+            $output .= implode(',', array_map(function ($field) {
+                return '"' . str_replace('"', '""', $field) . '"';
+            }, $row)) . "\n";
+        }
+
+        $filename = 'companies_' . now()->format('Y_m_d_His') . '.csv';
+
+        return response($output, 200, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ]);
+    }
 }

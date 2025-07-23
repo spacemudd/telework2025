@@ -44,6 +44,11 @@ class Company extends Model
         return $this->morphMany(\App\Models\SupportTicket::class, 'supportable');
     }
 
+    public function employeeRequests()
+    {
+        return $this->hasMany(EmployeeRequest::class);
+    }
+
     public function config()
     {
         return $this->hasOne(SimulationConfig::class);
