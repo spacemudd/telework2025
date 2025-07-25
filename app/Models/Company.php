@@ -63,4 +63,30 @@ class Company extends Model
     {
         return $this->hasMany(EmailEvent::class);
     }
+
+    public function apiCalls()
+    {
+        return $this->hasMany(ApiCall::class);
+    }
+
+    /**
+     * Get YTD AI costs for this company
+     */
+    public function getYtdAiCosts()
+    {
+        return $this->apiCalls()
+            ->whereYear('created_at', date('Y'))
+            ->sum('total_cost');
+    }
+
+    /**
+     * Get MTD AI costs for this company
+     */
+    public function getMtdAiCosts()
+    {
+        return $this->apiCalls()
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('n'))
+            ->sum('total_cost');
+    }
 }

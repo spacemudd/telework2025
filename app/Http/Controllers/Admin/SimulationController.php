@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SimulationConfig;
+use App\Models\Company;
+use App\Models\ApiCall;
 use App\Jobs\GenerateSimulatedTasksJob;
 use App\Jobs\SimulateEmployeeResponseJob;
+use Carbon\Carbon;
 
 class SimulationController extends Controller
 {
@@ -21,6 +24,53 @@ class SimulationController extends Controller
         ]);
 
         return view('admin.simulation.index', compact('config'));
+    }
+
+    public function costs(Request $request)
+    {
+        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::now()->format('Y-m-d'));
+        
+        $companies = Company::with(['apiCalls' => function($query) use ($startDate, $endDate) {
+            $query->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        }])->get();
+
+        $costData = [];
+        $totalCost = 0;
+        $totalTokens = 0;
+        $totalCalls = 0;
+
+        foreach ($companies as $company) {
+            $companyCost = $company->apiCalls->sum('total_cost');
+            $companyTokens = $company->apiCalls->sum('tokens_used');
+            $companyCalls = $company->apiCalls->count();
+            
+            $costData[] = [
+                'company' => $company,
+                'cost' => $companyCost,
+                'tokens' => $companyTokens,
+                'calls' => $companyCalls,
+                'employees' => $company->employees->count(),
+            ];
+            
+            $totalCost += $companyCost;
+            $totalTokens += $companyTokens;
+            $totalCalls += $companyCalls;
+        }
+
+        // Sort by cost (highest first)
+        usort($costData, function($a, $b) {
+            return $b['cost'] <=> $a['cost'];
+        });
+
+        return view('admin.simulation.costs', compact(
+            'costData',
+            'totalCost',
+            'totalTokens',
+            'totalCalls',
+            'startDate',
+            'endDate'
+        ));
     }
 
     public function store(Request $request)

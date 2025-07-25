@@ -64,6 +64,20 @@
                         <th class="text-left py-2 px-4 font-semibold">{{ __('words.created_at') }}</th>
                         <td class="py-2 px-4">{{ $company->created_at->format('Y-m-d') }}</td>
                     </tr>
+                    <tr class="border-b">
+                        <th class="text-left py-2 px-4 font-semibold">AI Calls - YTD</th>
+                        <td class="px-4 py-2">
+                            <span class="font-semibold text-blue-600">${{ number_format($company->getYtdAiCosts(), 2) }}</span>
+                            <span class="text-sm text-gray-500 ml-2">({{ $company->apiCalls()->whereYear('created_at', date('Y'))->count() }} calls)</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <th class="text-left py-2 px-4 font-semibold">AI Calls - MTD</th>
+                        <td class="px-4 py-2">
+                            <span class="font-semibold text-green-600">${{ number_format($company->getMtdAiCosts(), 2) }}</span>
+                            <span class="text-sm text-gray-500 ml-2">({{ $company->apiCalls()->whereYear('created_at', date('Y'))->whereMonth('created_at', date('n'))->count() }} calls)</span>
+                        </td>
+                    </tr>
 {{--                    <tr>--}}
 {{--                        <th class="text-left py-2 px-4 font-semibold">{{ __('words.phone') }}</th>--}}
 {{--                        <td class="py-2 px-4">{{ $company->phone }}</td>--}}

@@ -102,6 +102,11 @@
                        class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
                         إعدادات الشركات
                     </a>
+
+                    <a href="{{ route('admin.simulation.costs') }}"
+                       class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition">
+                        تكاليف المحاكاة
+                    </a>
                 </div>
                 </form>
             </div>

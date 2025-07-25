@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\TaskAssignedEvent;
 use App\Models\Employee;
 use App\Models\Task;
+use App\Services\ApiCallLogger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -31,16 +32,44 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
 
         $taskCount = rand(1, $this->maxTasks);
 
+        $requestPrompt = "أنشئ {$taskCount} مهام مناسبة لموظف {$this->employee->position}. كل مهمة تحتوي على عنوان ووصف. الرد يكون بصيغة JSON كمصفوفة: [{\"title\": \"...\", \"description\": \"...\"}, ...]";
+        
         $response = Http::withToken(config('services.openai.key'))
             ->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-4-turbo',
                 'messages' => [
                     ['role' => 'system', 'content' => 'You are a Saudi Arabian-based company assigning tasks to Saudi remote workers.'],
-                    ['role' => 'user', 'content' => "أنشئ {$taskCount} مهام مناسبة لموظف {$this->employee->position}. كل مهمة تحتوي على عنوان ووصف. الرد يكون بصيغة JSON كمصفوفة: [{\"title\": \"...\", \"description\": \"...\"}, ...]"],
+                    ['role' => 'user', 'content' => $requestPrompt],
                 ],
             ]);
 
         $content = $response->json('choices.0.message.content');
+        
+        // Log the API call
+        $tokensUsed = $response->json('usage.total_tokens', 0);
+        $company = $this->employee->company;
+        
+        try {
+            ApiCallLogger::logTaskGeneration(
+                company: $company,
+                tokensUsed: $tokensUsed,
+                model: 'gpt-4-turbo',
+                requestPrompt: $requestPrompt,
+                responseContent: $content,
+                metadata: [
+                    'employee_id' => $this->employee->id,
+                    'employee_position' => $this->employee->position,
+                    'task_count' => $taskCount,
+                    'response_status' => $response->status(),
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error('Failed to log API call for task generation', [
+                'company_id' => $company->id,
+                'employee_id' => $this->employee->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         // Strip ```json ... ``` formatting if present
         $content = preg_replace('/^```json\s*|\s*```$/', '', trim($content));
