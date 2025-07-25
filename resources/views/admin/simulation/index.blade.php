@@ -88,16 +88,21 @@
                         </div>
                     </div>
 
-                    <div class="flex gap-4">
-                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                            حفظ الإعدادات
-                        </button>
+                                    <div class="flex gap-4">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        حفظ الإعدادات
+                    </button>
 
-                        <a href="{{ route('admin.simulation.run') }}"
-                           class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-                            تشغيل المحاكاة الآن
-                        </a>
-                    </div>
+                    <a href="{{ route('admin.simulation.run') }}"
+                       class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                        تشغيل المحاكاة الآن
+                    </a>
+
+                    <a href="{{ route('admin.simulation.companies') }}"
+                       class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
+                        إعدادات الشركات
+                    </a>
+                </div>
                 </form>
             </div>
         </div>

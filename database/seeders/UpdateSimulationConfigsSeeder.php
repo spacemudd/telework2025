@@ -35,7 +35,7 @@ class UpdateSimulationConfigsSeeder extends Seeder
             $company->config()->create([
                 'tasks_per_day' => 1,
                 'auto_complete' => true,
-                'is_enabled' => false,
+                'is_enabled' => true, // Enable simulation by default
                 'completion_rate' => 70,
                 'in_progress_rate' => 20,
                 'comment_only_rate' => 10,
