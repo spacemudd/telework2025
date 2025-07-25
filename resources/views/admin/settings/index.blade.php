@@ -12,6 +12,11 @@
                     <p class="text-xs text-gray-600">تقرير شامل عن أداء الشركات والموظفين والمهام المنجزة مع إمكانية الفلترة.</p>
                 </a>
 
+                <a href="{{ route('admin.simulation.index') }}" class="block p-4 bg-white rounded shadow hover:shadow-md transition">
+                    <h2 class="font-bold text-sm mb-1">إعدادات المحاكاة</h2>
+                    <p class="text-xs text-gray-600">إعدادات نظام المحاكاة وتكوين المهام والاستجابات التلقائية للموظفين.</p>
+                </a>
+
                 <a href="#" class="block p-4 bg-white rounded shadow hover:shadow-md transition opacity-50 pointer-events-none">
                     <h2 class="font-bold text-sm mb-1">جدول الحضور</h2>
                     <p class="text-xs text-gray-600">خيارات وتنسيق جدول الحضور المستخدم في تقارير النظام.</p>

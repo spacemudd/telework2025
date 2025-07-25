@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SimulationConfig;
+use App\Models\Company;
+use App\Models\ApiCall;
 use App\Jobs\GenerateSimulatedTasksJob;
 use App\Jobs\SimulateEmployeeResponseJob;
+use Carbon\Carbon;
 
 class SimulationController extends Controller
 {
@@ -21,6 +24,53 @@ class SimulationController extends Controller
         ]);
 
         return view('admin.simulation.index', compact('config'));
+    }
+
+    public function costs(Request $request)
+    {
+        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::now()->format('Y-m-d'));
+        
+        $companies = Company::with(['apiCalls' => function($query) use ($startDate, $endDate) {
+            $query->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        }])->get();
+
+        $costData = [];
+        $totalCost = 0;
+        $totalTokens = 0;
+        $totalCalls = 0;
+
+        foreach ($companies as $company) {
+            $companyCost = $company->apiCalls->sum('total_cost');
+            $companyTokens = $company->apiCalls->sum('tokens_used');
+            $companyCalls = $company->apiCalls->count();
+            
+            $costData[] = [
+                'company' => $company,
+                'cost' => $companyCost,
+                'tokens' => $companyTokens,
+                'calls' => $companyCalls,
+                'employees' => $company->employees->count(),
+            ];
+            
+            $totalCost += $companyCost;
+            $totalTokens += $companyTokens;
+            $totalCalls += $companyCalls;
+        }
+
+        // Sort by cost (highest first)
+        usort($costData, function($a, $b) {
+            return $b['cost'] <=> $a['cost'];
+        });
+
+        return view('admin.simulation.costs', compact(
+            'costData',
+            'totalCost',
+            'totalTokens',
+            'totalCalls',
+            'startDate',
+            'endDate'
+        ));
     }
 
     public function store(Request $request)
@@ -57,8 +107,104 @@ class SimulationController extends Controller
     {
         dispatch_sync(new GenerateSimulatedTasksJob(null, optional(auth()->user())->id));
 
-        //SimulateEmployeeResponseJob::dispatch();
+        return redirect()->route('admin.simulation.index')
+            ->with('success', 'تم تشغيل المحاكاة بنجاح.');
+    }
 
-        return redirect()->route('admin.simulation.index')->with('success', 'تم تشغيل المحاكاة بنجاح.');
+    public function respond()
+    {
+        dispatch_sync(new SimulateEmployeeResponseJob());
+
+        return redirect()->route('admin.simulation.index')
+            ->with('success', 'تم تنفيذ ردود الموظفين بنجاح.');
+    }
+
+    public function companies()
+    {
+        $companies = \App\Models\Company::with(['config', 'employees'])->get();
+        
+        $enabledCompanies = $companies->filter(function ($company) {
+            return $company->config && $company->config->is_enabled;
+        });
+        
+        $disabledCompanies = $companies->filter(function ($company) {
+            return !$company->config || !$company->config->is_enabled;
+        });
+
+        $companiesWithoutConfig = $companies->filter(function ($company) {
+            return !$company->config;
+        });
+
+        $companiesWithConfig = $companies->filter(function ($company) {
+            return $company->config;
+        });
+
+        // Calculate statistics
+        $stats = [
+            'total_companies' => $companies->count(),
+            'enabled_companies' => $enabledCompanies->count(),
+            'disabled_companies' => $disabledCompanies->count(),
+            'companies_without_config' => $companiesWithoutConfig->count(),
+            'total_employees' => $companies->sum(function($company) { return $company->employees->count(); }),
+            'avg_tasks_per_day' => $companiesWithConfig->avg('config.tasks_per_day'),
+            'avg_completion_rate' => $companiesWithConfig->avg('config.completion_rate'),
+        ];
+
+        return view('admin.simulation.companies', compact(
+            'companies', 
+            'enabledCompanies', 
+            'disabledCompanies', 
+            'companiesWithoutConfig',
+            'stats'
+        ));
+    }
+
+    public function bulkEnable(Request $request)
+    {
+        $companyIdsJson = $request->input('company_ids', '[]');
+        $companyIds = json_decode($companyIdsJson, true) ?: [];
+        
+        if (empty($companyIds)) {
+            return back()->with('error', 'يرجى اختيار شركة واحدة على الأقل.');
+        }
+
+        $companies = \App\Models\Company::whereIn('id', $companyIds)->get();
+        
+        foreach ($companies as $company) {
+            if (!$company->config) {
+                $company->config()->create([
+                    'tasks_per_day' => 1,
+                    'auto_complete' => true,
+                    'is_enabled' => true, // Enable simulation by default
+                    'completion_rate' => 70,
+                    'in_progress_rate' => 20,
+                    'comment_only_rate' => 10,
+                ]);
+            } else {
+                $company->config()->update(['is_enabled' => true]);
+            }
+        }
+
+        return back()->with('success', 'تم تفعيل المحاكاة لـ ' . count($companies) . ' شركة.');
+    }
+
+    public function bulkDisable(Request $request)
+    {
+        $companyIdsJson = $request->input('company_ids', '[]');
+        $companyIds = json_decode($companyIdsJson, true) ?: [];
+        
+        if (empty($companyIds)) {
+            return back()->with('error', 'يرجى اختيار شركة واحدة على الأقل.');
+        }
+
+        $companies = \App\Models\Company::whereIn('id', $companyIds)->get();
+        
+        foreach ($companies as $company) {
+            if ($company->config) {
+                $company->config()->update(['is_enabled' => false]);
+            }
+        }
+
+        return back()->with('success', 'تم تعطيل المحاكاة لـ ' . count($companies) . ' شركة.');
     }
 }

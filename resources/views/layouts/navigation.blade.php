@@ -28,6 +28,9 @@
                         <x-nav-link :href="route('admin.employee-requests.index')" :active="request()->routeIs('admin.employee-requests.*')">
                             {{ __('words.requests') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.simulation.index')" :active="request()->routeIs('admin.simulation.*')">
+                            المحاكاة
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
                             {{ __('words.settings') }}
                         </x-nav-link>

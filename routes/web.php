@@ -59,6 +59,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     Route::get('/simulation', [SimulationController::class, 'index'])->name('admin.simulation.index');
     Route::post('/simulation', [SimulationController::class, 'store'])->name('admin.simulation.store');
     Route::get('/simulation/run', [SimulationController::class, 'run'])->name('admin.simulation.run');
+    Route::get('/simulation/companies', [SimulationController::class, 'companies'])->name('admin.simulation.companies');
+    Route::post('/simulation/companies/bulk-enable', [SimulationController::class, 'bulkEnable'])->name('admin.simulation.companies.bulk-enable');
+    Route::post('/simulation/companies/bulk-disable', [SimulationController::class, 'bulkDisable'])->name('admin.simulation.companies.bulk-disable');
+    Route::get('/simulation/costs', [SimulationController::class, 'costs'])->name('admin.simulation.costs');
 
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
 

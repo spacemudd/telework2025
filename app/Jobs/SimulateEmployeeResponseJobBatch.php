@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Task;
 use App\Models\TaskComment;
 use App\Models\SimulationConfig;
+use App\Services\ApiCallLogger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -190,6 +191,34 @@ class SimulateEmployeeResponseJobBatch implements ShouldQueue
 
             if ($response->successful()) {
                 $content = $response->json('choices.0.message.content');
+                
+                // Log the API call
+                $tokensUsed = $response->json('usage.total_tokens', 0);
+                $company = $task->employee->company;
+                
+                try {
+                    ApiCallLogger::logResponseGeneration(
+                        company: $company,
+                        tokensUsed: $tokensUsed,
+                        model: 'gpt-4-turbo',
+                        requestPrompt: $userPrompts[$responseType],
+                        responseContent: $content,
+                        metadata: [
+                            'task_id' => $task->id,
+                            'task_title' => $title,
+                            'response_type' => $responseType,
+                            'employee_id' => $task->employee->id,
+                            'response_status' => $response->status(),
+                        ]
+                    );
+                } catch (\Exception $e) {
+                    Log::error('Failed to log API call for response generation', [
+                        'company_id' => $company->id,
+                        'task_id' => $task->id,
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+                
                 return $content ?: $this->getFallbackResponse($responseType);
             }
             
