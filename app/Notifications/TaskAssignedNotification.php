@@ -15,18 +15,12 @@ class TaskAssignedNotification extends Notification implements ShouldQueue
     protected $task;
 
     /**
-     * The name of the queue the job should be sent to.
-     *
-     * @var string|null
-     */
-    public $queue = 'emails';
-
-    /**
      * Create a new notification instance.
      */
     public function __construct(Task $task)
     {
         $this->task = $task;
+        $this->onQueue('emails');
     }
 
     /**
