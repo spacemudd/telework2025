@@ -385,6 +385,8 @@ return [
     'select_option' => 'اختر خياراً',
     'message' => 'الرسالة',
     'submit' => 'إرسال',
+    'looking_for_job' => 'انا باحث عن عمل',
+    'looking_for_hire' => 'انا باحث عن موظف',
     
     // دعوة الفريق
     'team_invitation_subject' => 'تمت دعوتك للانضمام إلى فريق :company',

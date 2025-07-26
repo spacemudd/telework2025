@@ -384,6 +384,8 @@ return [
     'select_option' => 'Select an option',
     'message' => 'Message',
     'submit' => 'Submit',
+    'looking_for_job' => 'Looking for a job',
+    'looking_for_hire' => 'Looking for a hire',
     
     // Team Invitation
     'team_invitation_subject' => 'You have been invited to join :company team',

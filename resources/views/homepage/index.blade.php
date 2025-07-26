@@ -3,8 +3,10 @@
         {!! seo($SEOData) !!}
     </x-slot>
 
-    <div class="relative z-10 py-12 backdrop-blur-sm bg-blue-700/95">
-        <div class="max-w-4xl mx-auto px-4">
+    <div class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="py-12 backdrop-blur-sm bg-blue-700/95 rounded-[2rem] shadow-xl">
+                <div class="px-8">
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold text-white mb-2 tracking-tight">{{ __('words.search.title') }}</h2>
                 <p class="text-gray-100">{{ __('words.search.subtitle') }}</p>
@@ -52,6 +54,28 @@
                     #{{ __('words.search.popular_tags.ui_designer') }}
                 </a>
             </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="bg-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#" class="group inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:w-auto text-center">
+                    <span>{{ __('words.looking_for_job') }}</span>
+                    <svg class="w-5 h-5 rtl:rotate-180 ltr:ml-2 rtl:mr-2 transition-transform duration-300 ease-out transform ltr:group-hover:translate-x-1 rtl:group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+                <a href="#" class="group inline-flex items-center justify-center px-8 py-4 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 w-full sm:w-auto text-center">
+                    <span>{{ __('words.looking_for_hire') }}</span>
+                    <svg class="w-5 h-5 rtl:rotate-180 ltr:ml-2 rtl:mr-2 transition-transform duration-300 ease-out transform ltr:group-hover:translate-x-1 rtl:group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -77,7 +101,7 @@
 
     <main class="flex-grow">
         <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
+        <div class="bg-white relative overflow-hidden">
             <!-- Animated background elements -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
                 <div class="absolute -inset-[10px] opacity-50">
@@ -90,20 +114,20 @@
             <div class="container mx-auto px-4 py-20 relative">
                 <div class="grid grid-cols-12 gap-8 items-center">
                     <div class="col-span-12 lg:col-span-7 space-y-8">
-                        <h1 class="text-5xl md:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight text-center md:text-left rtl:md:text-right animate-fade-in-up">
+                        <h1 class="text-5xl md:text-5xl lg:text-7xl font-bold text-black leading-tight text-center md:text-left rtl:md:text-right animate-fade-in-up">
                             {{ __('words.hero.title') }}.
                         </h1>
                         <div class="space-y-6 animate-fade-in-up animation-delay-300">
-                            <p class="text-xl text-gray-600 dark:text-gray-300">
+                            <p class="text-xl text-black">
                                 {{ __('words.hero.description') }}
                             </p>
-                            <p class="text-lg text-gray-600 dark:text-gray-300">
+                            <p class="text-lg text-black">
                                 {{ __('words.hero.subtitle') }}
                             </p>
                         </div>
 
                         <div class="space-y-6 animate-fade-in-up animation-delay-500">
-                            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white text-center sm:text-left rtl:sm:text-right">{{ __('words.hero.i_am') }}</h2>
+                            <h2 class="text-2xl font-semibold text-black text-center sm:text-left rtl:sm:text-right">{{ __('words.hero.i_am') }}</h2>
                             <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
                                 <a href="#" class="group inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:w-auto text-center">
                                     <span>{{ __('words.hero.looking_for_employees') }}</span>
@@ -136,7 +160,7 @@
                                     <span>{{ __('words.hero.login_gmail') }}</span>
                                 </a>
                             </div>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 text-center sm:text-left rtl:sm:text-right">* {{ __('words.hero.no_risk') }}</p>
+                            <p class="text-sm text-black text-center sm:text-left rtl:sm:text-right">* {{ __('words.hero.no_risk') }}</p>
                         </div>
                     </div>
                     <div class="col-span-12 lg:col-span-5">
@@ -152,7 +176,7 @@
                                     <!-- Live Activity Indicator -->
                                     <div class="absolute top-4 right-4 flex items-center space-x-2 rtl:space-x-reverse">
                                         <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                        <span class="text-sm text-gray-600 dark:text-gray-300">
+                                        <span class="text-sm text-black">
                                             @if(LaravelLocalization::getCurrentLocaleDirection() === 'rtl')
                                                 النشاط
                                             @else
