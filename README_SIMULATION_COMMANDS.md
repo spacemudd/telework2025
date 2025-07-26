@@ -11,6 +11,7 @@ The `simulation:fill-missing-tasks` command is designed to fill in missing simul
 - **Avoids weekends**: Skips Friday and Saturday (weekends in Saudi Arabia)
 - **Respects company configuration**: Creates tasks according to each company's `tasks_per_day` setting
 - **Dry run mode**: Test the command without actually creating tasks
+- **Employee responses**: Optionally include simulated employee responses to tasks
 - **Progress tracking**: Shows progress bar and detailed output
 
 ### Usage
@@ -35,6 +36,16 @@ php artisan simulation:fill-missing-tasks --company-id="company-uuid-here"
 php artisan simulation:fill-missing-tasks --company-id="company-uuid-here" --dry-run
 ```
 
+#### Include Employee Responses
+```bash
+php artisan simulation:fill-missing-tasks --include-responses
+```
+
+#### Include Employee Responses with Dry Run
+```bash
+php artisan simulation:fill-missing-tasks --include-responses --dry-run
+```
+
 ### How It Works
 
 1. **Fetches Companies**: Gets all companies that have simulation enabled (`is_enabled = true`)
@@ -43,6 +54,7 @@ php artisan simulation:fill-missing-tasks --company-id="company-uuid-here" --dry
 4. **Weekend Filtering**: Skips Friday (day 5) and Saturday (day 6)
 5. **Task Creation**: For each missing day, creates tasks for each employee according to the company's `tasks_per_day` configuration
 6. **Job Dispatching**: Uses `GenerateSimulatedTasksForDateJob` to create tasks with proper timestamps
+7. **Employee Responses**: Optionally simulates employee responses based on company's `auto_complete` setting
 
 ### Output Example
 
@@ -82,4 +94,6 @@ Summary:
 - Tasks are created with random timestamps during working hours (8 AM to 5 PM GMT+3)
 - Each task is assigned to a random employee within the company
 - The command respects the company's `tasks_per_day` configuration
-- Weekend skipping is based on Saudi Arabia's weekend (Friday and Saturday) 
+- Weekend skipping is based on Saudi Arabia's weekend (Friday and Saturday)
+- Employee responses are only included if the company has `auto_complete` enabled and the `--include-responses` flag is used
+- Employee responses are delayed by 30 seconds to 5 minutes to simulate realistic timing 
