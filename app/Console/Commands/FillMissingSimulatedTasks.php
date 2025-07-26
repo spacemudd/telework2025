@@ -17,7 +17,7 @@ class FillMissingSimulatedTasks extends Command
      *
      * @var string
      */
-    protected $signature = 'simulation:fill-missing-tasks {--company-id= : Specific company ID to process} {--dry-run : Show what would be done without actually creating tasks}';
+    protected $signature = 'simulation:fill-missing-tasks {--company-id= : Specific company ID to process} {--dry-run : Show what would be done without actually creating tasks} {--include-responses : Include employee responses for created tasks}';
 
     /**
      * The console command description.
@@ -52,8 +52,14 @@ class FillMissingSimulatedTasks extends Command
         $this->info("Found {$companies->count()} companies with enabled simulation.");
 
         $isDryRun = $this->option('dry-run');
+        $includeResponses = $this->option('include-responses');
+        
         if ($isDryRun) {
             $this->warn('DRY RUN MODE: No tasks will actually be created.');
+        }
+        
+        if ($includeResponses) {
+            $this->info('INCLUDE RESPONSES MODE: Employee responses will be simulated for created tasks.');
         }
 
         $totalTasksCreated = 0;
@@ -103,7 +109,7 @@ class FillMissingSimulatedTasks extends Command
                 foreach ($company->employees as $employee) {
                     if (!$isDryRun) {
                         // Dispatch job to create tasks for this employee on this specific date
-                        GenerateSimulatedTasksForDateJob::dispatch($employee, $tasksPerDay, $date)->onQueue('openai');
+                        GenerateSimulatedTasksForDateJob::dispatch($employee, $tasksPerDay, $date, $includeResponses)->onQueue('openai');
                     }
                     
                     $companyTasksCreated += $tasksPerDay;

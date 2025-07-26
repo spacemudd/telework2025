@@ -21,12 +21,14 @@ class GenerateSimulatedTasksForDateJob implements ShouldQueue
     protected Employee $employee;
     protected int $maxTasks;
     protected Carbon $targetDate;
+    protected bool $includeResponses;
 
-    public function __construct(Employee $employee, int $maxTasks, Carbon $targetDate)
+    public function __construct(Employee $employee, int $maxTasks, Carbon $targetDate, bool $includeResponses = false)
     {
         $this->employee = $employee;
         $this->maxTasks = $maxTasks;
         $this->targetDate = $targetDate;
+        $this->includeResponses = $includeResponses;
     }
 
     public function handle(): void
@@ -123,6 +125,15 @@ class GenerateSimulatedTasksForDateJob implements ShouldQueue
 
             // Fire the task assigned event to send email notification
             event(new TaskAssignedEvent($task));
+            
+            // If auto_complete is enabled and includeResponses is true, simulate employee response after a delay
+            if ($this->includeResponses && $this->employee->company->config->auto_complete) {
+                // Dispatch employee response job with a delay to simulate realistic timing
+                $responseDelay = rand(30, 300); // 30 seconds to 5 minutes delay
+                \App\Jobs\SimulateEmployeeResponseJobBatch::dispatch(collect([$task]))
+                    ->delay(now()->addSeconds($responseDelay))
+                    ->onQueue('openai');
+            }
         }
     }
 } 
