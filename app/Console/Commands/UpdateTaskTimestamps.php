@@ -32,8 +32,6 @@ class UpdateTaskTimestamps extends Command
 
         // Build query for tasks
         $query = Task::query();
-        $query = $query->where('employee_id', '005f3fbe-5299-47f3-b6b0-b03c8703ac90');
-        $query = $query->where('id', '11964');
 
         // Filter by date (default to July 26th, 2025)
         $targetDate = $this->option('date') ?: '2025-07-26';
@@ -93,14 +91,12 @@ class UpdateTaskTimestamps extends Command
 
                 if (!$isDryRun) {
                     // Update the task timestamps and due date
-                    Log::info("Updating task ID {$task->id}: Original due date {$originalDueDate->format('Y-m-d')} -> New due date {$newDueDate->format('Y-m-d')} (added {$daysToAdd} days), New timestamp {$targetTimestamp->format('Y-m-d H:i:s')}");
-                    $task->update([
+                    $task->updateQuietly([
                         'created_at' => $targetTimestamp,
                         'updated_at' => $targetTimestamp,
                         'due_date' => $newDueDate,
                     ]);
                     $task->refresh();
-                    Log::info("Updated task ID {$task->id}: New due date {$task->due_date->format('Y-m-d')}");
                 }
 
                 $totalUpdated++;
