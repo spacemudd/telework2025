@@ -32,7 +32,7 @@ class UpdateTaskTimestamps extends Command
 
         // Build query for tasks
         $query = Task::query();
-        $query = $query->where('company_id', '005f3fbe-5299-47f3-b6b0-b03c8703ac90');
+        $query = $query->where('employee_id', '005f3fbe-5299-47f3-b6b0-b03c8703ac90');
 
         // Filter by date (default to July 26th, 2025)
         $targetDate = $this->option('date') ?: '2025-07-26';
