@@ -14,14 +14,14 @@ class UpdateTaskTimestamps extends Command
      *
      * @var string
      */
-    protected $signature = 'tasks:update-timestamps {--company-id= : Specific company ID to process} {--dry-run : Show what would be done without actually updating} {--limit= : Limit the number of tasks to process}';
+    protected $signature = 'tasks:update-timestamps {--company-id= : Specific company ID to process} {--dry-run : Show what would be done without actually updating} {--limit= : Limit the number of tasks to process} {--date= : Specific date to filter tasks (format: Y-m-d, default: 2025-07-26)}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update task timestamps by subtracting 1-3 days from due date';
+    protected $description = 'Update task timestamps and due dates based on created_at date';
 
     /**
      * Execute the console command.
@@ -32,6 +32,12 @@ class UpdateTaskTimestamps extends Command
 
         // Build query for tasks
         $query = Task::query();
+
+        // Filter by date (default to July 26th, 2025)
+        $targetDate = $this->option('date') ?: '2025-07-26';
+        $dateFilter = Carbon::parse($targetDate);
+        
+        $query->whereDate('created_at', $dateFilter);
 
         if ($companyId = $this->option('company-id')) {
             $query->where('company_id', $companyId);
@@ -48,7 +54,7 @@ class UpdateTaskTimestamps extends Command
             return 0;
         }
 
-        $this->info("Found {$tasks->count()} tasks to process.");
+        $this->info("Found {$tasks->count()} tasks to process for date: {$dateFilter->format('Y-m-d')}.");
 
         $isDryRun = $this->option('dry-run');
         
@@ -72,33 +78,34 @@ class UpdateTaskTimestamps extends Command
                     continue;
                 }
 
-                // Parse the due date
-                $dueDate = Carbon::parse($task->due_date);
+                // Use the task's due_date as the base date
+                $baseDate = Carbon::parse($task->due_date);
                 
-                // Subtract random 1-3 days from due date
-                $daysToSubtract = rand(1, 3);
-                $targetDate = $dueDate->copy()->subDays($daysToSubtract);
+                // Add random 1-3 days to the base date for the new due date
+                $daysToAdd = rand(1, 3);
+                $newDueDate = $baseDate->copy()->addDays($daysToAdd);
 
-                // Generate random timestamp during working hours (8 AM to 5 PM) for the target date
+                // Generate random timestamp during working hours (8 AM to 5 PM) for the base date
                 $randomWorkingHour = rand(8, 17); // 8 AM to 5 PM
                 $randomMinute = rand(0, 59);
                 $randomSecond = rand(0, 59);
                 
-                $targetTimestamp = $targetDate->copy()
+                $targetTimestamp = $baseDate->copy()
                     ->setTime($randomWorkingHour, $randomMinute, $randomSecond);
 
                 if (!$isDryRun) {
-                    // Update the task timestamps
+                    // Update the task timestamps and due date
                     $task->update([
                         'created_at' => $targetTimestamp,
                         'updated_at' => $targetTimestamp,
+                        'due_date' => $newDueDate,
                     ]);
                 }
 
                 $totalUpdated++;
 
                 if ($this->output->isVerbose()) {
-                    $this->line("Task ID {$task->id}: Due date {$dueDate->format('Y-m-d')} -> Target date {$targetTimestamp->format('Y-m-d H:i:s')} (subtracted {$daysToSubtract} days)");
+                    $this->line("Task ID {$task->id}: Original due date {$baseDate->format('Y-m-d')} -> New due date {$newDueDate->format('Y-m-d')} (added {$daysToAdd} days)");
                 }
 
             } catch (\Exception $e) {
