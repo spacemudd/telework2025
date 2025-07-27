@@ -18,6 +18,8 @@ class Task extends Model
         'priority',
         'status',
         'issx',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
