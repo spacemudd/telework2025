@@ -21,7 +21,7 @@ class UpdateTaskTimestamps extends Command
      *
      * @var string
      */
-    protected $description = 'Update task timestamps and due dates based on created_at date';
+    protected $description = 'Fix task data inconsistency: set due_date to created_at date and timestamps to 1-3 days after original due_date';
 
     /**
      * Execute the console command.
@@ -79,18 +79,18 @@ class UpdateTaskTimestamps extends Command
                 }
 
                 // Use the task's due_date as the base date
-                $baseDate = Carbon::parse($task->due_date);
+                $originalDueDate = Carbon::parse($task->due_date);
                 
-                // Add random 1-3 days to the base date for the new due date
+                // Add random 1-3 days to the original due_date for the new due_date
                 $daysToAdd = rand(1, 3);
-                $newDueDate = $baseDate->copy()->addDays($daysToAdd);
+                $newDueDate = $originalDueDate->copy()->addDays($daysToAdd);
 
-                // Generate random timestamp during working hours (8 AM to 5 PM) for the base date
+                // Generate random timestamp during working hours (8 AM to 5 PM) for the original due_date
                 $randomWorkingHour = rand(8, 17); // 8 AM to 5 PM
                 $randomMinute = rand(0, 59);
                 $randomSecond = rand(0, 59);
                 
-                $targetTimestamp = $baseDate->copy()
+                $targetTimestamp = $originalDueDate->copy()
                     ->setTime($randomWorkingHour, $randomMinute, $randomSecond);
 
                 if (!$isDryRun) {
@@ -105,7 +105,7 @@ class UpdateTaskTimestamps extends Command
                 $totalUpdated++;
 
                 if ($this->output->isVerbose()) {
-                    $this->line("Task ID {$task->id}: Original due date {$baseDate->format('Y-m-d')} -> New due date {$newDueDate->format('Y-m-d')} (added {$daysToAdd} days)");
+                    $this->line("Task ID {$task->id}: Original due date {$originalDueDate->format('Y-m-d')} -> New due date {$newDueDate->format('Y-m-d')} (added {$daysToAdd} days), New timestamp {$targetTimestamp->format('Y-m-d H:i:s')}");
                 }
 
             } catch (\Exception $e) {
