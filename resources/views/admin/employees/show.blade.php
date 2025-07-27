@@ -54,7 +54,7 @@
                     <tbody>
                         @foreach ($employee->tasks as $task)
                             <tr class="border-t">
-                                <td class="py-3 px-4">{{ $task->title }}</td>
+                                <td class="py-3 px-4" id="{{ $task->id }}">{{ $task->title }}</td>
                                 <td class="py-3 px-4">{{ $task->due_date }}</td>
                                 <td class="py-3 px-4">{{ __('words.' . $task->priority) }}</td>
                                 <td class="py-3 px-4">{{ __('words.' . $task->status) }}</td>
