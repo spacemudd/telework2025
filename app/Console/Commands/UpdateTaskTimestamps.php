@@ -14,7 +14,7 @@ class UpdateTaskTimestamps extends Command
      *
      * @var string
      */
-    protected $signature = 'tasks:update-timestamps {--company-id= : Specific company ID to process} {--dry-run : Show what would be done without actually updating} {--limit= : Limit the number of tasks to process} {--date= : Specific date to filter tasks (format: Y-m-d, default: 2025-07-26)}';
+    protected $signature = 'tasks:update-timestamps {--dry-run : Show what would be done without actually updating} {--limit= : Limit the number of tasks to process} {--date= : Specific date to filter tasks (format: Y-m-d, default: 2025-07-26)}';
 
     /**
      * The console command description.
@@ -32,16 +32,13 @@ class UpdateTaskTimestamps extends Command
 
         // Build query for tasks
         $query = Task::query();
+        $query = $query->where('company_id', '005f3fbe-5299-47f3-b6b0-b03c8703ac90');
 
         // Filter by date (default to July 26th, 2025)
         $targetDate = $this->option('date') ?: '2025-07-26';
         $dateFilter = Carbon::parse($targetDate);
         
         $query->whereDate('created_at', $dateFilter);
-
-        if ($companyId = $this->option('company-id')) {
-            $query->where('company_id', $companyId);
-        }
 
         if ($limit = $this->option('limit')) {
             $query->limit((int) $limit);
