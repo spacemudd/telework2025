@@ -192,7 +192,7 @@
                         <h2 class="text-2xl font-semibold text-gray-900">{{ __('words.pricing.enterprise.title') }}</h2>
                         <p class="mt-4 text-sm text-gray-500">{{ __('words.pricing.enterprise.description') }}</p>
                         <p class="mt-8">
-                            <span class="text-4xl font-extrabold text-gray-900">150 {{ __('words.currency') }}</span>
+                            <span class="text-4xl font-extrabold text-gray-900">1119 {{ __('words.currency') }}</span>
                             <span class="text-base font-medium text-gray-500">/{{ __('words.year') }}</span>
                         </p>
                         <a href="#contact" class="mt-8 block w-full bg-blue-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-blue-700">

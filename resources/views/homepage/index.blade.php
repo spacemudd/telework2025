@@ -193,13 +193,13 @@
         </div>
 
         <!-- Trusted Companies Section -->
-        <div class="bg-white dark:bg-gray-900">
+        <div class="bg-white">
             <div class="container mx-auto px-4 py-20">
                 <div class="text-center space-y-4 mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+                    <h2 class="text-3xl md:text-4xl font-bold text-black">
                         {{ __('words.companies.title') }}
                     </h2>
-                    <p class="text-xl text-gray-600 dark:text-gray-300">
+                    <p class="text-xl text-gray-600">
                         {{ __('words.companies.subtitle') }}
                     </p>
                 </div>
@@ -207,31 +207,31 @@
                 <!-- Company Logos Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-12 items-center justify-items-center opacity-90">
                     <!-- STC -->
-                    <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
+                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition-colors duration-200">
                         <img src="https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png"
                              alt="STC"
-                             class="h-12 w-auto object-contain dark:brightness-200"
+                             class="h-12 w-auto object-contain"
                              loading="lazy">
                     </div>
                     <!-- Aramco -->
-                    <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
+                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition-colors duration-200">
                         <img src="https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png"
                              alt="Aramco"
-                             class="h-12 w-auto object-contain dark:brightness-200"
+                             class="h-12 w-auto object-contain"
                              loading="lazy">
                     </div>
                     <!-- SABIC -->
-                    <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
+                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition-colors duration-200">
                         <img src="https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg"
                              alt="SABIC"
-                             class="h-12 w-auto object-contain dark:brightness-200"
+                             class="h-12 w-auto object-contain"
                              loading="lazy">
                     </div>
                     <!-- CCC -->
-                    <div class="h-24 flex items-center justify-center bg-transparent dark:bg-white/10 dark:backdrop-blur-sm rounded-lg p-8 transition-colors duration-200">
+                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition-colors duration-200">
                         <img src="https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c"
                              alt="CCC by STC"
-                             class="h-12 w-auto object-contain dark:brightness-200"
+                             class="h-12 w-auto object-contain"
                              loading="lazy">
                     </div>
                 </div>
@@ -239,13 +239,13 @@
         </div>
 
         <!-- Job Districts Section -->
-        <div class="bg-white dark:bg-gray-800">
+        <div class="bg-white">
             <div class="container mx-auto px-4 py-20">
                 <div class="text-center space-y-4 mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-navy-800 dark:text-white">
+                    <h2 class="text-3xl md:text-4xl font-bold text-black">
                     🌱 {{ __('words.opportunities.title') }}
                     </h2>
-                    <p class="text-xl text-navy-600 dark:text-gray-300 max-w-3xl mx-auto">
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                         {{ __('words.opportunities.subtitle') }}
                     </p>
                 </div>
@@ -253,152 +253,152 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- Sales and Marketing -->
                     <a href="#" class="group">
-                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg mb-4">
-                                <svg class="w-6 h-6 text-white dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg mb-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-navy-800 dark:text-white mb-2">{{ __('words.opportunities.districts.sales') }}</h3>
+                            <h3 class="text-xl font-semibold text-black mb-2">{{ __('words.opportunities.districts.sales') }}</h3>
                             <div class="flex items-center space-x-1 rtl:space-x-reverse mb-1">
                                 <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">4.8</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ltr:ml-2 rtl:mr-2">(234 {{ __('words.opportunities.skills') }})</span>
+                                <span class="text-sm text-gray-600">4.8</span>
+                                <span class="text-sm text-gray-500 ltr:ml-2 rtl:mr-2">(234 {{ __('words.opportunities.skills') }})</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- Accounting and Finance -->
                     <a href="#" class="group">
-                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg mb-4">
-                                <svg class="w-6 h-6 text-white dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg mb-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-navy-800 dark:text-white mb-2">{{ __('words.opportunities.districts.accounting') }}</h3>
+                            <h3 class="text-xl font-semibold text-black mb-2">{{ __('words.opportunities.districts.accounting') }}</h3>
                             <div class="flex items-center space-x-1 rtl:space-x-reverse mb-1">
                                 <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">4.5</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ltr:ml-2 rtl:mr-2">(187 {{ __('words.opportunities.skills') }})</span>
+                                <span class="text-sm text-gray-600">4.5</span>
+                                <span class="text-sm text-gray-500 ltr:ml-2 rtl:mr-2">(187 {{ __('words.opportunities.skills') }})</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- Management and Secretary -->
                     <a href="#" class="group">
-                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg mb-4">
-                                <svg class="w-6 h-6 text-white dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg mb-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-navy-800 dark:text-white mb-2">{{ __('words.opportunities.districts.management') }}</h3>
+                            <h3 class="text-xl font-semibold text-black mb-2">{{ __('words.opportunities.districts.management') }}</h3>
                             <div class="flex items-center space-x-1 rtl:space-x-reverse mb-1">
                                 <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">4.7</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ltr:ml-2 rtl:mr-2">(312 {{ __('words.opportunities.skills') }})</span>
+                                <span class="text-sm text-gray-600">4.7</span>
+                                <span class="text-sm text-gray-500 ltr:ml-2 rtl:mr-2">(312 {{ __('words.opportunities.skills') }})</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- IT and Software -->
                     <a href="#" class="group">
-                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg mb-4">
-                                <svg class="w-6 h-6 text-white dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg mb-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-navy-800 dark:text-white mb-2">{{ __('words.opportunities.districts.it') }}</h3>
+                            <h3 class="text-xl font-semibold text-black mb-2">{{ __('words.opportunities.districts.it') }}</h3>
                             <div class="flex items-center space-x-1 rtl:space-x-reverse mb-1">
                                 <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">4.9</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ltr:ml-2 rtl:mr-2">(456 {{ __('words.opportunities.skills') }})</span>
+                                <span class="text-sm text-gray-600">4.9</span>
+                                <span class="text-sm text-gray-500 ltr:ml-2 rtl:mr-2">(456 {{ __('words.opportunities.skills') }})</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- Legal Services -->
                     <a href="#" class="group">
-                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg mb-4">
-                                <svg class="w-6 h-6 text-white dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg mb-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-navy-800 dark:text-white mb-2">{{ __('words.opportunities.districts.legal') }}</h3>
+                            <h3 class="text-xl font-semibold text-black mb-2">{{ __('words.opportunities.districts.legal') }}</h3>
                             <div class="flex items-center space-x-1 rtl:space-x-reverse mb-1">
                                 <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">4.6</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ltr:ml-2 rtl:mr-2">(167 {{ __('words.opportunities.skills') }})</span>
+                                <span class="text-sm text-gray-600">4.6</span>
+                                <span class="text-sm text-gray-500 ltr:ml-2 rtl:mr-2">(167 {{ __('words.opportunities.skills') }})</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- HR -->
                     <a href="#" class="group">
-                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg mb-4">
-                                <svg class="w-6 h-6 text-white dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg mb-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-navy-800 dark:text-white mb-2">{{ __('words.opportunities.districts.hr') }}</h3>
+                            <h3 class="text-xl font-semibold text-black mb-2">{{ __('words.opportunities.districts.hr') }}</h3>
                             <div class="flex items-center space-x-1 rtl:space-x-reverse mb-1">
                                 <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">4.7</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ltr:ml-2 rtl:mr-2">(289 {{ __('words.opportunities.skills') }})</span>
+                                <span class="text-sm text-gray-600">4.7</span>
+                                <span class="text-sm text-gray-500 ltr:ml-2 rtl:mr-2">(289 {{ __('words.opportunities.skills') }})</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- Engineering -->
                     <a href="#" class="group">
-                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg mb-4">
-                                <svg class="w-6 h-6 text-white dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg mb-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-navy-800 dark:text-white mb-2">{{ __('words.opportunities.districts.engineering') }}</h3>
+                            <h3 class="text-xl font-semibold text-black mb-2">{{ __('words.opportunities.districts.engineering') }}</h3>
                             <div class="flex items-center space-x-1 rtl:space-x-reverse mb-1">
                                 <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">4.8</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ltr:ml-2 rtl:mr-2">(378 {{ __('words.opportunities.skills') }})</span>
+                                <span class="text-sm text-gray-600">4.8</span>
+                                <span class="text-sm text-gray-500 ltr:ml-2 rtl:mr-2">(378 {{ __('words.opportunities.skills') }})</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- Healthcare -->
                     <a href="#" class="group">
-                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg mb-4">
-                                <svg class="w-6 h-6 text-white dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-xl p-6 shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-gray-100">
+                            <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg mb-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-navy-800 dark:text-white mb-2">{{ __('words.opportunities.districts.healthcare') }}</h3>
+                            <h3 class="text-xl font-semibold text-black mb-2">{{ __('words.opportunities.districts.healthcare') }}</h3>
                             <div class="flex items-center space-x-1 rtl:space-x-reverse mb-1">
                                 <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">4.7</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ltr:ml-2 rtl:mr-2">(245 {{ __('words.opportunities.skills') }})</span>
+                                <span class="text-sm text-gray-600">4.7</span>
+                                <span class="text-sm text-gray-500 ltr:ml-2 rtl:mr-2">(245 {{ __('words.opportunities.skills') }})</span>
                             </div>
                         </div>
                     </a>
@@ -407,35 +407,35 @@
         </div>
 
         <!-- Enterprise Section -->
-        <div class="bg-white dark:bg-gray-800 py-20">
+        <div class="bg-white py-20">
             <div class="container mx-auto px-4">
                 <div class="grid grid-cols-12 gap-8 items-center">
                     <div class="col-span-12 lg:col-span-6 space-y-8">
                         <div class="space-y-4">
-                            <h2 class="text-3xl md:text-4xl font-bold text-navy-800 dark:text-white">
+                            <h2 class="text-3xl md:text-4xl font-bold text-black">
                                 {{ __('words.enterprise.title') }}
                             </h2>
-                            <p class="text-xl text-gray-600 dark:text-gray-300">
+                            <p class="text-xl text-gray-600">
                                 {{ __('words.enterprise.tagline') }}
                             </p>
                         </div>
 
-                        <div class="bg-gray-50 dark:bg-gray-800/50 rounded-3xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 backdrop-blur-sm">
+                        <div class="bg-gray-50 rounded-3xl p-8 shadow-sm border border-gray-100 backdrop-blur-sm">
                             <div class="space-y-6">
                                 <!-- Vetted Professionals -->
                                 <div class="flex items-start gap-4">
                                     <div class="flex-shrink-0">
-                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg">
+                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
                                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                                             </svg>
                                         </div>
                                     </div>
                                     <div>
-                                        <h3 class="text-xl font-semibold text-navy-800 dark:text-white">
+                                        <h3 class="text-xl font-semibold text-black">
                                             {{ __('words.enterprise.benefits.vetted.title') }}
                                         </h3>
-                                        <p class="mt-2 text-gray-600 dark:text-gray-300">
+                                        <p class="mt-2 text-gray-600">
                                             {{ __('words.enterprise.benefits.vetted.description') }}
                                         </p>
                                     </div>
@@ -444,17 +444,17 @@
                                 <!-- Save Time -->
                                 <div class="flex items-start gap-4">
                                     <div class="flex-shrink-0">
-                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg">
+                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
                                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                         </div>
                                     </div>
                                     <div>
-                                        <h3 class="text-xl font-semibold text-navy-800 dark:text-white">
+                                        <h3 class="text-xl font-semibold text-black">
                                             {{ __('words.enterprise.benefits.time.title') }}
                                         </h3>
-                                        <p class="mt-2 text-gray-600 dark:text-gray-300">
+                                        <p class="mt-2 text-gray-600">
                                             {{ __('words.enterprise.benefits.time.description') }}
                                         </p>
                                     </div>
@@ -463,17 +463,17 @@
                                 <!-- Reduce Costs -->
                                 <div class="flex items-start gap-4">
                                     <div class="flex-shrink-0">
-                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 dark:bg-blue-900 rounded-lg">
+                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
                                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                         </div>
                                     </div>
                                     <div>
-                                        <h3 class="text-xl font-semibold text-navy-800 dark:text-white">
+                                        <h3 class="text-xl font-semibold text-black">
                                             {{ __('words.enterprise.benefits.cost.title') }}
                                         </h3>
-                                        <p class="mt-2 text-gray-600 dark:text-gray-300">
+                                        <p class="mt-2 text-gray-600">
                                             {{ __('words.enterprise.benefits.cost.description') }}
                                         </p>
                                     </div>
@@ -548,10 +548,10 @@
         </div>
 
         <!-- Latest Jobs Section -->
-        <div class="bg-gray-50 dark:bg-gray-900">
+        <div class="bg-gray-50">
             <div class="container mx-auto px-4 py-20">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+                    <h2 class="text-3xl md:text-4xl font-bold text-black">
                         {{ __('words.latest_jobs.title') }}
                     </h2>
                 </div>
@@ -559,16 +559,16 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                     @foreach(__('words.latest_jobs.examples') as $job)
                         <a href="#" class="group">
-                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02]">
+                            <div class="bg-white rounded-xl shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02]">
                                 <div class="p-6 space-y-4">
-                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white line-clamp-2">
+                                    <h3 class="text-xl font-semibold text-black line-clamp-2">
                                         {{ $job['title'] }}
                                     </h3>
                                     <div class="space-y-2">
-                                        <div class="text-gray-600 dark:text-gray-300 font-medium">
+                                        <div class="text-gray-600 font-medium">
                                             {{ $job['company'] }}
                                         </div>
-                                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        <div class="text-sm text-gray-500">
                                             {{ __('words.latest_jobs.posted') }}: {{ $job['time_ago'] }}
                                         </div>
                                     </div>
