@@ -20,6 +20,23 @@
                     </div>
                 @endif
 
+                <!-- Month Filter -->
+                <div class="mb-6">
+                    <form method="GET" action="{{ route('admin.simulation.companies') }}" class="flex items-center gap-4">
+                        <label for="month" class="text-sm font-medium text-gray-700">اختر الشهر:</label>
+                        <select name="month" id="month" class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            @foreach($monthOptions as $value => $label)
+                                <option value="{{ $value }}" {{ $selectedMonth == $value ? 'selected' : '' }}>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+                            تطبيق
+                        </button>
+                    </form>
+                </div>
+
                 <!-- Summary Statistics -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-blue-50 p-4 rounded-lg">
@@ -55,6 +72,99 @@
                         <div class="text-sm text-teal-800">متوسط معدل الإكمال</div>
                     </div>
                 </div>
+
+                <!-- Companies with Missing Days Summary -->
+                @php
+                    $companiesWithMissingDays = $companies->filter(function($company) {
+                        return isset($company->task_creation_data) && $company->task_creation_data['days_without_tasks'] > 0;
+                    });
+                @endphp
+                @if($companiesWithMissingDays->count() > 0)
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold mb-4 text-orange-700">الشركات مع أيام بدون مهام</h2>
+                    <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @foreach($companiesWithMissingDays as $company)
+                            <div class="bg-white p-4 rounded border border-orange-200">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">{{ $company->name }}</h3>
+                                        <p class="text-sm text-gray-600">{{ $company->email }}</p>
+                                        <p class="text-xs text-orange-600 font-medium">
+                                            {{ $company->task_creation_data['days_without_tasks'] }} يوم بدون مهام
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            إجمالي المهام: {{ $company->task_creation_data['total_tasks'] }}
+                                        </p>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <a href="{{ route('admin.companies.simulation-config.index', $company->id) }}" 
+                                           class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition">
+                                            إعدادات
+                                        </a>
+                                        <a href="{{ route('admin.companies.show', $company->id) }}" 
+                                           class="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700 transition">
+                                            عرض
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                <!-- Comprehensive Missing Days Summary -->
+                @php
+                    $companiesWithComprehensiveMissingDays = $companies->filter(function($company) {
+                        $missingData = $company->getMissingDaysSinceFirstEmployee();
+                        return $missingData['total_missing_days'] > 0;
+                    });
+                @endphp
+                @if($companiesWithComprehensiveMissingDays->count() > 0)
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold mb-4 text-red-700">الشركات مع أيام مفقودة منذ إضافة أول موظف</h2>
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @foreach($companiesWithComprehensiveMissingDays as $company)
+                            @php
+                                $missingData = $company->getMissingDaysSinceFirstEmployee();
+                            @endphp
+                            <div class="bg-white p-4 rounded border border-red-200">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">{{ $company->name }}</h3>
+                                        <p class="text-sm text-gray-600">{{ $company->email }}</p>
+                                        <p class="text-xs text-red-600 font-medium">
+                                            {{ $missingData['total_missing_days'] }} يوم مفقود إجمالي
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            أول موظف: {{ $missingData['first_employee_date'] ? $missingData['first_employee_date']->format('Y-m-d') : 'غير محدد' }}
+                                        </p>
+                                        @if($missingData['last_task_date'])
+                                        <p class="text-xs text-gray-500">
+                                            آخر مهمة: {{ $missingData['last_task_date']->format('Y-m-d') }}
+                                        </p>
+                                        @endif
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <a href="{{ route('admin.companies.simulation-config.index', $company->id) }}" 
+                                           class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition">
+                                            إعدادات
+                                        </a>
+                                        <a href="{{ route('admin.companies.show', $company->id) }}" 
+                                           class="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700 transition">
+                                            عرض
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @endif
 
                 <!-- Companies with Disabled Simulation -->
                 @if($disabledCompanies->count() > 0)
@@ -133,6 +243,7 @@
                                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700">قيد التنفيذ</th>
                                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700">التعليقات فقط</th>
                                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700">الموظفين</th>
+                                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700">رسم بياني للمهام</th>
                                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700">الإجراءات</th>
                                 </tr>
                             </thead>
@@ -189,6 +300,24 @@
                                         {{ $company->employees->count() }}
                                     </td>
                                     <td class="px-4 py-3 text-center">
+                                        @if(isset($company->task_creation_data) && !empty($company->task_creation_data['dates']))
+                                            <div class="w-32 h-16 bg-gray-50 rounded border p-1">
+                                                <canvas id="chart-{{ $company->id }}" width="128" height="64"></canvas>
+                                            </div>
+                                            <div class="text-xs text-gray-500 mt-1">
+                                                <div class="font-medium">{{ $company->task_creation_data['total_tasks'] }} مهمة</div>
+                                                <div class="text-xs">
+                                                    {{ $company->task_creation_data['days_with_tasks'] }} يوم مع مهام
+                                                    @if($company->task_creation_data['days_without_tasks'] > 0)
+                                                        <br><span class="text-red-500">{{ $company->task_creation_data['days_without_tasks'] }} يوم بدون مهام</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="text-xs text-gray-400">لا توجد بيانات</div>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
                                         <div class="flex gap-2 justify-center">
                                             <a href="{{ route('admin.companies.simulation-config.index', $company->id) }}" 
                                                class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition">
@@ -211,6 +340,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const selectAllCheckbox = document.getElementById('select-all');
@@ -256,6 +386,89 @@ document.addEventListener('DOMContentLoaded', function() {
         selectAllCheckbox.checked = checkedBoxes.length === totalBoxes;
         selectAllCheckbox.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < totalBoxes;
     }
+
+    // Initialize charts for companies with task data
+    @foreach($companies as $company)
+        @if(isset($company->task_creation_data) && !empty($company->task_creation_data['dates']))
+            const ctx{{ $company->id }} = document.getElementById('chart-{{ $company->id }}').getContext('2d');
+            
+            // Determine chart color based on missing days
+            const hasMissingDays{{ $company->id }} = {{ $company->task_creation_data['days_without_tasks'] }} > 0;
+            const chartColor{{ $company->id }} = hasMissingDays{{ $company->id }} ? 'rgb(239, 68, 68)' : 'rgb(34, 197, 94)';
+            const backgroundColor{{ $company->id }} = hasMissingDays{{ $company->id }} ? 'rgba(239, 68, 68, 0.1)' : 'rgba(34, 197, 94, 0.1)';
+            
+            new Chart(ctx{{ $company->id }}, {
+                type: 'line',
+                data: {
+                    labels: @json($company->task_creation_data['dates']),
+                    datasets: [{
+                        label: 'المهام',
+                        data: @json($company->task_creation_data['counts']),
+                        borderColor: chartColor{{ $company->id }},
+                        backgroundColor: backgroundColor{{ $company->id }},
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.2,
+                        pointRadius: 0,
+                        pointHoverRadius: 3,
+                        pointHoverBackgroundColor: chartColor{{ $company->id }},
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: chartColor{{ $company->id }},
+                            borderWidth: 1,
+                            callbacks: {
+                                title: function(context) {
+                                    return 'اليوم ' + context[0].label;
+                                },
+                                label: function(context) {
+                                    return 'المهام: ' + context.parsed.y;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            display: false,
+                            grid: {
+                                display: false
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: 0
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        @endif
+    @endforeach
 });
 </script>
 @endsection 

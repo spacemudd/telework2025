@@ -119,8 +119,13 @@ class SimulationController extends Controller
             ->with('success', 'تم تنفيذ ردود الموظفين بنجاح.');
     }
 
-    public function companies()
+    public function companies(Request $request)
     {
+        // Get filter parameters
+        $selectedMonth = $request->input('month', now()->format('Y-m'));
+        $year = substr($selectedMonth, 0, 4);
+        $month = substr($selectedMonth, 5, 2);
+        
         $companies = \App\Models\Company::with(['config', 'employees'])->get();
         
         $enabledCompanies = $companies->filter(function ($company) {
@@ -150,13 +155,44 @@ class SimulationController extends Controller
             'avg_completion_rate' => $companiesWithConfig->avg('config.completion_rate'),
         ];
 
+        // Get task creation data for each company
+        $companiesWithTaskData = $companies->map(function ($company) use ($year, $month) {
+            $taskData = $company->getTaskCreationData($year, $month);
+            $company->task_creation_data = $taskData;
+            return $company;
+        });
+
+        // Generate month options for filter
+        $monthOptions = $this->generateMonthOptions();
+
         return view('admin.simulation.companies', compact(
             'companies', 
             'enabledCompanies', 
             'disabledCompanies', 
             'companiesWithoutConfig',
-            'stats'
+            'stats',
+            'selectedMonth',
+            'monthOptions'
         ));
+    }
+
+    /**
+     * Generate month options for the filter
+     */
+    private function generateMonthOptions()
+    {
+        $options = [];
+        $currentDate = \Carbon\Carbon::now()->startOfYear();
+        $endDate = \Carbon\Carbon::now();
+        
+        while ($currentDate->lte($endDate)) {
+            $value = $currentDate->format('Y-m');
+            $label = $currentDate->format('M Y');
+            $options[$value] = $label;
+            $currentDate->addMonth();
+        }
+        
+        return $options;
     }
 
     public function bulkEnable(Request $request)
