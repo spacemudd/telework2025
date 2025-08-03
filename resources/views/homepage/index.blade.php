@@ -114,53 +114,82 @@
             <div class="container mx-auto px-4 py-20 relative">
                 <div class="grid grid-cols-12 gap-8 items-center">
                     <div class="col-span-12 lg:col-span-7 space-y-8">
-                        <h1 class="text-5xl md:text-5xl lg:text-7xl font-bold text-black leading-tight text-center md:text-left rtl:md:text-right animate-fade-in-up">
-                            {{ __('words.hero.title') }}.
-                        </h1>
-                        <div class="space-y-6 animate-fade-in-up animation-delay-300">
-                            <p class="text-xl text-black">
-                                {{ __('words.hero.description') }}
+                        <!-- Arabic Navigation/Title -->
+                        <div class="text-center md:text-right mb-8">
+                            <h1 class="text-lg text-gray-600 mb-2">الرئيسية – من نحن</h1>
+                        </div>
+
+                        <!-- Main Headlines -->
+                        <div class="space-y-6 text-center md:text-right">
+                            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-black leading-tight">
+                                حلول توظيف سعودية.. تفهم حاجتك وتلبي طموحك
+                            </h2>
+                            <h3 class="text-2xl md:text-3xl font-semibold text-blue-600">
+                                مع هدف.. نجمع بين طموح الشركات وطموح السعوديين
+                            </h3>
+                            <div class="space-y-4 text-xl md:text-2xl font-medium text-gray-700">
+                                <p>المواهب السعودية.. وقود نجاح شركتك</p>
+                                <p>استثمر في السعوديين.. واربح مستقبل شركتك</p>
+                                <p>الكادر السعودي.. دعمك الحقيقي لتحقيق نمو مستدام وقوي</p>
+                            </div>
+                        </div>
+
+                        <!-- Hadaf Section -->
+                        <div class="bg-blue-50 rounded-2xl p-8 space-y-6 text-center md:text-right">
+                            <h3 class="text-3xl font-bold text-blue-800">هدف للتوظيف</h3>
+                            <p class="text-lg text-gray-700 leading-relaxed">
+                                نوصلك بالمكان اللي يستاهلك، لأن الوظيفة نمو، وانتماء، وترك أثر.
                             </p>
-                            <p class="text-lg text-black">
-                                {{ __('words.hero.subtitle') }}
+                            <p class="text-base text-gray-600 leading-relaxed">
+                                هدف للتوظيف مرخصة للوساطة لتوظيف السعوديين. خدماتنا متاحة بدوام كامل، جزئي، وعن بعد - هذا سلوجن للباحثين عن عمل. نحن نفخر بأن
                             </p>
                         </div>
 
-                        <div class="space-y-6 animate-fade-in-up animation-delay-500">
-                            <h2 class="text-2xl font-semibold text-black text-center sm:text-left rtl:sm:text-right">{{ __('words.hero.i_am') }}</h2>
-                            <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
-                                <a href="#" class="group inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:w-auto text-center">
-                                    <span>{{ __('words.hero.looking_for_employees') }}</span>
-                                    <svg class="w-5 h-5 rtl:rotate-180 ltr:ml-2 rtl:mr-2 transition-transform duration-300 ease-out transform ltr:group-hover:translate-x-1 rtl:group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </a>
-                                <a href="#" class="group inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 w-full sm:w-auto text-center">
-                                    <span>{{ __('words.hero.looking_for_job') }}</span>
-                                    <svg class="w-5 h-5 rtl:rotate-180 ltr:ml-2 rtl:mr-2 transition-transform duration-300 ease-out transform ltr:group-hover:translate-x-1 rtl:group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </a>
+                        <!-- Services Section -->
+                        <div class="space-y-6 text-center md:text-right">
+                            <h3 class="text-2xl font-bold text-black">خدماتنا</h3>
+                            <div class="bg-gray-50 rounded-xl p-6 space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="flex-shrink-0 w-3 h-3 bg-blue-600 rounded-full mt-2"></div>
+                                    <p class="text-gray-700 text-right">
+                                        خدمة التوظيف الفعلي - لأن احنا مرخصين للوساطة لتوظيف السعوديين
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="flex-shrink-0 w-3 h-3 bg-blue-600 rounded-full mt-2"></div>
+                                    <p class="text-gray-700 text-right">
+                                        خدمة العمل عن بعد - مزود خدمة معتمد في منصة العمل عن بعد التابعة لوزارة الموارد البشرية
+                                    </p>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="flex flex-col sm:flex-row gap-4 mt-4 items-center sm:items-start">
-                                <a href="#" class="group inline-flex items-center justify-center px-6 py-3 border border-[#0A66C2] text-base font-medium rounded-lg text-white bg-[#0A66C2] hover:bg-[#004182] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:w-auto text-center">
-                                    <svg class="w-5 h-5 ltr:mr-2 rtl:ml-2" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                    </svg>
-                                    <span>{{ __('words.hero.login_linkedin') }}</span>
+                        <!-- Partners Section -->
+                        <div class="space-y-4 text-center md:text-right">
+                            <h3 class="text-xl font-semibold text-black">لصاحب العمل – شركاؤنا من الكفاءات</h3>
+                            <p class="text-lg text-blue-600 font-medium">يثقون بنا - يثقون بهدف</p>
+                            <p class="text-base text-gray-600">المقارنة اللي يميزنا هي تكون لماذا هدف</p>
+                        </div>
+
+                        <!-- CTA Section -->
+                        <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center text-white space-y-6">
+                            <h3 class="text-2xl font-bold">ختامًا</h3>
+                            <p class="text-lg leading-relaxed">
+                                نوصلك بالمكان اللي يستاهلك،<br>
+                                لأن الوظيفة نمو، وانتماء، وترك أثر.
+                            </p>
+                            <div class="flex items-center justify-center gap-2 text-lg">
+                                <span>📞</span>
+                                <p>تواصل معنا اليوم—مع هدف للتوظيف، تبدأ رحلتك المهنية بخطوة مبنية على الثقة والرؤية.</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                                <a href="#" class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-lg text-white hover:bg-white hover:text-blue-600 transition duration-150 ease-in-out">
+                                    تواصل معنا
                                 </a>
-                                <a href="#" class="group inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:w-auto text-center">
-                                    <svg class="w-5 h-5 ltr:mr-2 rtl:ml-2" viewBox="0 0 24 24">
-                                        <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z"/>
-                                        <path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.067A11.965 11.965 0 0 0 12 24c2.933 0 5.735-1.043 7.834-3l-3.793-2.987Z"/>
-                                        <path fill="#4A90E2" d="M19.834 21c2.195-2.048 3.62-5.096 3.62-9 0-.71-.109-1.473-.272-2.182H12v4.637h6.436c-.317 1.559-1.17 2.766-2.395 3.558L19.834 21Z"/>
-                                        <path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.909 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z"/>
-                                    </svg>
-                                    <span>{{ __('words.hero.login_gmail') }}</span>
+                                <a href="#" class="inline-flex items-center justify-center px-8 py-3 border-2 border-transparent text-base font-medium rounded-lg text-blue-600 bg-white hover:bg-blue-50 transition duration-150 ease-in-out">
+                                    اعرف المزيد
                                 </a>
                             </div>
-                            <p class="text-sm text-black text-center sm:text-left rtl:sm:text-right">* {{ __('words.hero.no_risk') }}</p>
                         </div>
                     </div>
                     <div class="col-span-12 lg:col-span-5">
