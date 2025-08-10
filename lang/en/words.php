@@ -237,28 +237,46 @@ return [
         'title' => 'Latest jobs posted',
         'view_more' => 'View more',
         'posted' => 'Posted',
+        'contract_types' => [
+            'fulltime' => 'Full-time',
+            'parttime' => 'Part-time',
+            'hybrid' => 'Hybrid',
+            'remote' => 'Remote',
+        ],
         'examples' => [
             [
                 'title' => 'Senior Software Engineer',
-                'company' => 'Tech Solutions Ltd',
+                'company' => 'STC',
+                'company_logo' => 'https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png',
+                'contract_type' => 'fulltime',
+                'location' => 'Riyadh, Saudi Arabia',
                 'date' => '2024-03-20',
                 'time_ago' => '2 days ago'
             ],
             [
                 'title' => 'Legal Consultant',
-                'company' => 'Law Partners Group',
+                'company' => 'Saudi Aramco',
+                'company_logo' => 'https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png',
+                'contract_type' => 'hybrid',
+                'location' => 'Dhahran, Saudi Arabia',
                 'date' => '2024-03-19',
                 'time_ago' => '3 days ago'
             ],
             [
                 'title' => 'Financial Analyst',
-                'company' => 'Investment Corp',
+                'company' => 'SABIC',
+                'company_logo' => 'https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg',
+                'contract_type' => 'parttime',
+                'location' => 'Jubail, Saudi Arabia',
                 'date' => '2024-03-18',
                 'time_ago' => '4 days ago'
             ],
             [
                 'title' => 'HR Manager',
-                'company' => 'Global Services SA',
+                'company' => 'CCC by STC',
+                'company_logo' => 'https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c',
+                'contract_type' => 'remote',
+                'location' => 'Jeddah, Saudi Arabia',
                 'date' => '2024-03-17',
                 'time_ago' => '5 days ago'
             ]

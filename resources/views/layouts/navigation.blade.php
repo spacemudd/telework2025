@@ -1,4 +1,14 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    <!-- Announcement Bar -->
+    <div class="bg-blue-600 text-white text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center">
+            @if(app()->getLocale() === 'ar')
+                هدف تطلق منصة العمل عن بُعد 🚀 منصة رواتب للقوى العاملة العالمية بأكثر الأسعار تنافسية.
+            @else
+                Hadaf launches the telwork platform 🚀 The most competitively priced global workforce payroll platform.
+            @endif
+        </div>
+    </div>
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">

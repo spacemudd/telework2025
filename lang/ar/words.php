@@ -194,7 +194,7 @@ return [
     ],
     'opportunities' => [
         'title' => 'فرص جديدة في جميع القطاعات',
-        'subtitle' => 'جداول عمل مرنة، دوام كامل، دوام جزئي، عقود، للسعوديين وغير السعوديين، وغيرها في جميع مناطق المملكة العربية السعودية',
+        'subtitle' => 'جداول عمل مرنة، دوام كامل، دوام جزئي، عقود، للسعوديين، وغيرها في جميع مناطق المملكة العربية السعودية',
         'skills' => 'مهارة',
         'districts' => [
             'sales' => 'المبيعات والتسويق',
@@ -238,28 +238,46 @@ return [
         'title' => 'أحدث الوظائف المنشورة',
         'view_more' => 'عرض المزيد',
         'posted' => 'نُشر',
+        'contract_types' => [
+            'fulltime' => 'دوام كامل',
+            'parttime' => 'دوام جزئي',
+            'hybrid' => 'هجين',
+            'remote' => 'عن بُعد',
+        ],
         'examples' => [
             [
                 'title' => 'مهندس برمجيات أول',
-                'company' => 'تك سوليوشنز المحدودة',
+                'company' => 'إس تي سي',
+                'company_logo' => 'https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png',
+                'contract_type' => 'fulltime',
+                'location' => 'الرياض، المملكة العربية السعودية',
                 'date' => '2024-03-20',
                 'time_ago' => 'قبل يومين'
             ],
             [
                 'title' => 'مستشار قانوني',
-                'company' => 'مجموعة شركاء القانون',
+                'company' => 'أرامكو السعودية',
+                'company_logo' => 'https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png',
+                'contract_type' => 'hybrid',
+                'location' => 'الظهران، المملكة العربية السعودية',
                 'date' => '2024-03-19',
                 'time_ago' => 'قبل 3 أيام'
             ],
             [
                 'title' => 'محلل مالي',
-                'company' => 'شركة الاستثمار',
+                'company' => 'سابك',
+                'company_logo' => 'https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg',
+                'contract_type' => 'parttime',
+                'location' => 'الجبيل، المملكة العربية السعودية',
                 'date' => '2024-03-18',
                 'time_ago' => 'قبل 4 أيام'
             ],
             [
                 'title' => 'مدير موارد بشرية',
-                'company' => 'الخدمات العالمية',
+                'company' => 'سي سي سي التابعة لإس تي سي',
+                'company_logo' => 'https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c',
+                'contract_type' => 'remote',
+                'location' => 'جدة، المملكة العربية السعودية',
                 'date' => '2024-03-17',
                 'time_ago' => 'قبل 5 أيام'
             ]

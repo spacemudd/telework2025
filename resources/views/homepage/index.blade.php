@@ -3,6 +3,95 @@
         {!! seo($SEOData) !!}
     </x-slot>
 
+    <!-- Latest Jobs Section (Carousel) - Moved to Top -->
+        <div class="bg-gray-50">
+            <div class="container mx-auto px-4 py-12 md:py-16">
+            <div class="text-center space-y-2 mb-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-black">
+                    {{ __('words.latest_jobs.title') }}
+                </h2>
+                <p class="text-gray-600">
+                    {{ __('words.hero.looking_for_job') }}
+                </p>
+            </div>
+
+            <div x-data="{
+                    next() {
+                        const c = this.$refs.c;
+                        const gap = parseFloat(getComputedStyle(c).columnGap) || 12;
+                        const width = c.firstElementChild ? c.firstElementChild.getBoundingClientRect().width : 320;
+                        const delta = width + gap;
+                        c.scrollBy({ left: (document.dir === 'rtl' ? -delta : delta), behavior: 'smooth' });
+                    },
+                    prev() {
+                        const c = this.$refs.c;
+                        const gap = parseFloat(getComputedStyle(c).columnGap) || 12;
+                        const width = c.firstElementChild ? c.firstElementChild.getBoundingClientRect().width : 320;
+                        const delta = width + gap;
+                        c.scrollBy({ left: (document.dir === 'rtl' ? delta : -delta), behavior: 'smooth' });
+                    }
+                }" class="relative">
+                <!-- Carousel Track -->
+                <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-4" x-ref="c">
+                    @foreach(__('words.latest_jobs.examples') as $job)
+                            <a href="#" class="snap-start flex-none group px-2">
+                            <div class="bg-white rounded-xl border w-[400px] border-gray-100 shadow-sm group-hover:shadow transition-all duration-300 ease-in-out h-full flex flex-col">
+                                <div class="p-6 space-y-4 flex-1">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-10 w-10 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                                            <img src="{{ $job['company_logo'] ?? asset('img/hadaf.png') }}" alt="{{ $job['company'] }}" class="h-10 w-10 object-contain" loading="lazy">
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-sm text-gray-600 font-medium truncate">{{ $job['company'] }}</div>
+                                            <div class="text-xs text-gray-500 truncate">{{ $job['location'] ?? '' }}</div>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-black line-clamp-2">{{ $job['title'] }}</h3>
+                                    <div class="flex items-center flex-wrap gap-2">
+                                        @php $typeKey = $job['contract_type'] ?? 'fulltime'; @endphp
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                                            {{ __('words.latest_jobs.contract_types.' . $typeKey) }}
+                                        </span>
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-100">
+                                            {{ __('words.latest_jobs.posted') }}: {{ $job['time_ago'] }}
+                                        </span>
+                                    </div>
+                                </div>
+                                    <div class="px-6 pb-6">
+                                        <a href="{{ route('register') }}" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out">
+                                            {{ app()->getLocale() === 'ar' ? 'قدّم الآن' : 'Apply now' }}
+                                        </a>
+                                    </div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+
+                <!-- Controls -->
+                <div class="absolute inset-y-0 ltr:left-0 rtl:right-0 flex items-center">
+                    <button @click="prev" type="button" class="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow ring-1 ring-gray-200 text-gray-700 hover:bg-gray-50" aria-label="Previous">
+                        <svg class="h-5 w-5 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="absolute inset-y-0 ltr:right-0 rtl:left-0 flex items-center">
+                    <button @click="next" type="button" class="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow ring-1 ring-gray-200 text-gray-700 hover:bg-gray-50" aria-label="Next">
+                        <svg class="h-5 w-5 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out">
+                    {{ __('words.latest_jobs.view_more') }}
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="relative z-10 py-12">
         <div class="container mx-auto px-4">
             <div class="py-12 backdrop-blur-sm bg-blue-700/95 rounded-[2rem] shadow-xl">
@@ -79,26 +168,6 @@
         </div>
     </div>
 
-    <!-- Partner Logos -->
-    <div class="bg-white/90 backdrop-blur-sm py-10">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
-                <img src="{{ asset('img/takamol-logo@2x.png') }}"
-                     alt="Takamol Logo"
-                     class="h-12 w-auto object-contain"
-                     loading="lazy">
-                <img src="{{ asset('img/logo_v2_on_white.png') }}"
-                     alt="Hadaf Logo"
-                     class="h-12 w-auto object-contain"
-                     loading="lazy">
-                <img src="{{ asset('img/Saudi_Vision_2030_logo.svg') }}"
-                     alt="Saudi Vision 2030 Logo"
-                     class="h-12 w-auto object-contain"
-                     loading="lazy">
-            </div>
-        </div>
-    </div>
-
     <main class="flex-grow">
         <!-- Hero Section -->
         <div class="bg-white relative overflow-hidden">
@@ -113,7 +182,7 @@
 
             <div class="container mx-auto px-4 py-20 relative">
                 <div class="grid grid-cols-12 gap-8 items-center">
-                    <div class="col-span-12 lg:col-span-7 space-y-8">
+                    <div class="col-span-12 lg:col-span-12 space-y-8">
                         <!-- Arabic Navigation/Title -->
                         <div class="text-center md:text-right mb-8">
                             <h1 class="text-lg text-gray-600 mb-2">الرئيسية – من نحن</h1>
@@ -192,31 +261,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-span-12 lg:col-span-5">
-                        <div class="relative">
-                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl transform rotate-3"></div>
-                            <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 pb-5">
-                                <!-- Saudi Arabia Map Container -->
-                                <div class="relative w-full aspect-[4/3]">
-                                    <div id="saudi-map" class="w-full h-full">
-                                        <!-- Map will be injected here via JavaScript -->
-                                    </div>
-
-                                    <!-- Live Activity Indicator -->
-                                    <div class="absolute top-4 right-4 flex items-center space-x-2 rtl:space-x-reverse">
-                                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                        <span class="text-sm text-black">
-                                            @if(LaravelLocalization::getCurrentLocaleDirection() === 'rtl')
-                                                النشاط
-                                            @else
-                                                Live Activity
-                                            @endif
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -576,44 +621,25 @@
             </div>
         </div>
 
-        <!-- Latest Jobs Section -->
-        <div class="bg-gray-50">
-            <div class="container mx-auto px-4 py-20">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-black">
-                        {{ __('words.latest_jobs.title') }}
-                    </h2>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                    @foreach(__('words.latest_jobs.examples') as $job)
-                        <a href="#" class="group">
-                            <div class="bg-white rounded-xl shadow-sm group-hover:shadow-xl transition-all duration-500 ease-in-out transform group-hover:-translate-y-2 group-hover:scale-[1.02]">
-                                <div class="p-6 space-y-4">
-                                    <h3 class="text-xl font-semibold text-black line-clamp-2">
-                                        {{ $job['title'] }}
-                                    </h3>
-                                    <div class="space-y-2">
-                                        <div class="text-gray-600 font-medium">
-                                            {{ $job['company'] }}
-                                        </div>
-                                        <div class="text-sm text-gray-500">
-                                            {{ __('words.latest_jobs.posted') }}: {{ $job['time_ago'] }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-
-                <div class="text-center">
-                    <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out">
-                        {{ __('words.latest_jobs.view_more') }}
-                    </a>
-                </div>
+        <!-- Partner Logos -->
+    <div class="bg-white/90 backdrop-blur-sm py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
+                <img src="{{ asset('img/takamol-logo@2x.png') }}"
+                     alt="Takamol Logo"
+                     class="h-12 w-auto object-contain"
+                     loading="lazy">
+                <img src="{{ asset('img/logo_v2_on_white.png') }}"
+                     alt="Hadaf Logo"
+                     class="h-12 w-auto object-contain"
+                     loading="lazy">
+                <img src="{{ asset('img/Saudi_Vision_2030_logo.svg') }}"
+                     alt="Saudi Vision 2030 Logo"
+                     class="h-12 w-auto object-contain"
+                     loading="lazy">
             </div>
         </div>
+    </div>
 
     </main>
 </x-visitor-layout>
