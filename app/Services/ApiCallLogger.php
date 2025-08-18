@@ -72,8 +72,8 @@ class ApiCallLogger
         $costs = [
             'openai' => [
                 'gpt-4' => 0.03 / 1000, // $0.03 per 1K tokens
-                'gpt-4-turbo' => 0.01 / 1000, // $0.01 per 1K tokens
-                'gpt-3.5-turbo' => 0.002 / 1000, // $0.002 per 1K tokens
+                'gpt-4-turbo' => 0.01 / 1000, // $0.01 per 1K tokens (input only - this is simplified)
+                'gpt-3.5-turbo' => 0.0015 / 1000, // $0.50 input + $1.50 output per 1M tokens (averaged)
                 'gpt-3.5-turbo-16k' => 0.003 / 1000, // $0.003 per 1K tokens
             ],
             'anthropic' => [

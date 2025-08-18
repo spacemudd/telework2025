@@ -180,7 +180,7 @@ class SimulateEmployeeResponseJobBatch implements ShouldQueue
                     'Content-Type' => 'application/json',
                 ])
                 ->post('https://api.openai.com/v1/chat/completions', [
-                    'model' => 'gpt-4-turbo',
+                    'model' => 'gpt-3.5-turbo',
                     'messages' => [
                         ['role' => 'system', 'content' => $prompts[$responseType]],
                         ['role' => 'user', 'content' => $userPrompts[$responseType]],
@@ -200,7 +200,7 @@ class SimulateEmployeeResponseJobBatch implements ShouldQueue
                     ApiCallLogger::logResponseGeneration(
                         company: $company,
                         tokensUsed: $tokensUsed,
-                        model: 'gpt-4-turbo',
+                        model: 'gpt-3.5-turbo',
                         requestPrompt: $userPrompts[$responseType],
                         responseContent: $content,
                         metadata: [

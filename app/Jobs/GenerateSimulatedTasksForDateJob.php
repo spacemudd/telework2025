@@ -45,7 +45,7 @@ class GenerateSimulatedTasksForDateJob implements ShouldQueue
         
         $response = Http::withToken(config('services.openai.key'))
             ->post('https://api.openai.com/v1/chat/completions', [
-                'model' => 'gpt-4-turbo',
+                'model' => 'gpt-3.5-turbo',
                 'messages' => [
                     ['role' => 'system', 'content' => 'You are a Saudi Arabian-based company assigning tasks to Saudi remote workers.'],
                     ['role' => 'user', 'content' => $requestPrompt],
@@ -62,7 +62,7 @@ class GenerateSimulatedTasksForDateJob implements ShouldQueue
             ApiCallLogger::logTaskGeneration(
                 company: $company,
                 tokensUsed: $tokensUsed,
-                model: 'gpt-4-turbo',
+                model: 'gpt-3.5-turbo',
                 requestPrompt: $requestPrompt,
                 responseContent: $content,
                 metadata: [
