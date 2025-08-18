@@ -22,13 +22,15 @@ class GenerateSimulatedTasksForDateJob implements ShouldQueue
     protected int $maxTasks;
     protected Carbon $targetDate;
     protected bool $includeResponses;
+    protected bool $sendNotifications;
 
-    public function __construct(Employee $employee, int $maxTasks, Carbon $targetDate, bool $includeResponses = false)
+    public function __construct(Employee $employee, int $maxTasks, Carbon $targetDate, bool $includeResponses = false, bool $sendNotifications = true)
     {
         $this->employee = $employee;
         $this->maxTasks = $maxTasks;
         $this->targetDate = $targetDate;
         $this->includeResponses = $includeResponses;
+        $this->sendNotifications = $sendNotifications;
     }
 
     public function handle(): void
@@ -123,8 +125,10 @@ class GenerateSimulatedTasksForDateJob implements ShouldQueue
                 'updated_at' => $randomTimestamp,
             ]);
 
-            // Fire the task assigned event to send email notification
-            event(new TaskAssignedEvent($task));
+            // Fire the task assigned event to send email notification if enabled
+            if ($this->sendNotifications) {
+                event(new TaskAssignedEvent($task));
+            }
             
             // If auto_complete is enabled and includeResponses is true, simulate employee response after a delay
             if ($this->includeResponses && $this->employee->company->config->auto_complete) {
