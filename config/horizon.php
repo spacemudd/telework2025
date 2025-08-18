@@ -203,7 +203,7 @@ return [
             'timeout' => 120,
             'memory' => 128,
             'rate' => [
-                'limit' => 30,
+                'limit' => 600,
                 'every' => 60,
             ],
         ],
@@ -230,7 +230,7 @@ return [
                 'balanceCooldown' => 3,
             ],
             'openai' => [
-                'maxProcesses' => 1,
+                'maxProcesses' => 5,
             ],
             'emails' => [
                 'maxProcesses' => 1,
