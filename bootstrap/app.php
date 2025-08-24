@@ -9,6 +9,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Schema;
 use Sentry\Laravel\Integration;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
@@ -53,8 +54,14 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Schedule daily company tasks report for each company
         // 8:00 AM GMT+3 = 5:00 AM UTC
-        foreach (\App\Models\Company::all() as $company) {
-            $schedule->job(new \App\Jobs\CompanyTasksReport($company))->dailyAt('05:00');
+        try {
+            if (Schema::hasTable('companies')) {
+                foreach (\App\Models\Company::all() as $company) {
+                    $schedule->job(new \App\Jobs\CompanyTasksReport($company))->dailyAt('05:00');
+                }
+            }
+        } catch (\Exception $e) {
+            // Table doesn't exist yet, skip scheduling
         }
     })
     ->create();
