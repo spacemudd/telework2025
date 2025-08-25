@@ -24,11 +24,11 @@
                 <a href="{{ \LaravelLocalization::localizeURL('/') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     {{ __('words.home') }}
                 </a>
-                <a href="{{ \LaravelLocalization::localizeURL('/for-companies') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
-                    {{ __('words.nav.for_companies') }}
-                </a>
                 <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     {{ __('words.nav.jobs') }}
+                </a>
+                <a href="{{ \LaravelLocalization::localizeURL('/for-companies') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    {{ __('words.nav.for_companies') }}
                 </a>
                 @auth
                     <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
@@ -68,10 +68,10 @@
                 {{ __('words.home') }}
             </a>
             <a href="#" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
-                {{ __('words.nav.for_companies') }}
+                {{ __('words.nav.jobs') }}
             </a>
             <a href="#" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
-                {{ __('words.nav.jobs') }}
+                {{ __('words.nav.for_companies') }}
             </a>
             <a href="{{ route('login') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
                 {{ __('words.login') }}

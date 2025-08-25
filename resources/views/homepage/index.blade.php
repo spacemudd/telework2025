@@ -6,6 +6,9 @@
     <!-- Latest Jobs Section (Carousel) - Moved to Top -->
         <div class="bg-gray-50">
             <div class="container mx-auto px-4 py-12 md:py-16">
+                <div class="text-center mb-2">
+                    <span class="text-2xl font-bold text-blue-700">نبني الفريق ونصنع القادة.</span>
+                </div>
             <div class="text-center space-y-2 mb-6">
                 <h2 class="text-3xl md:text-4xl font-bold text-black">
                     {{ __('words.latest_jobs.title') }}
@@ -92,6 +95,102 @@
         </div>
     </div>
 
+    
+
+    <div class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <section class="bg-blue-700 text-white rounded-3xl shadow-xl my-12 px-8 py-16">
+                <div class="container mx-auto">
+                    <div class="flex flex-col md:flex-row gap-8 items-stretch">
+                        <!-- Right Section: Bullet List -->
+                        <div class="md:w-1/2 w-full flex flex-col justify-start border-b-2 md:border-b-0 md:border-e-2 border-blue-500 pe-0 md:pe-8 mb-8 md:mb-0 rtl:border-s-2 rtl:border-e-0 rtl:ps-8 rtl:pe-0">
+                            <h3 class="text-2xl font-bold mb-4">{{ __('words.features.title') }}</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full border-2 border-white bg-blue-600">
+                                        <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </span>
+                                    <span>{{ __('words.features.nationwide') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full border-2 border-white bg-blue-600">
+                                        <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </span>
+                                    <span>{{ __('words.features.flexible_hours') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full border-2 border-white bg-blue-600">
+                                        <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </span>
+                                    <span>{{ __('words.features.diverse_opportunities') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full border-2 border-white bg-blue-600">
+                                        <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </span>
+                                    <span>{{ __('words.features.easy_application') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full border-2 border-white bg-blue-600">
+                                        <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </span>
+                                    <span>{{ __('words.features.continuous_support') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full border-2 border-white bg-blue-600">
+                                        <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </span>
+                                    <span>{{ __('words.features.personalized_opportunities') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full border-2 border-white bg-blue-600">
+                                        <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </span>
+                                    <span>{{ __('words.features.transparent_followup') }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Left Section: Title, Paragraph, Button -->
+                        <div class="md:w-1/2 w-full flex flex-col justify-between">
+                            <h3 class="text-2xl font-bold mb-4">{{ __('words.homepage.cta_title') }}</h3>
+                            <p class="mb-8 text-lg">{{ __('words.homepage.cta_paragraph') }}</p>
+                            
+                            <!-- Professional Meeting Image -->
+                            <div class="mb-6">
+                                <img src="{{ asset('img/width_800.png') }}" 
+                                     alt="Professional team meeting around a table" 
+                                     class="w-full h-48 object-cover rounded-lg shadow-md"
+                                     loading="lazy">
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="{{ route('register') }}"
+                                   class="inline-block px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow hover:bg-blue-100 transition duration-150 ease-in-out text-base">
+                                    {{ app()->getLocale() === 'ar' ? 'افتح ملفك الآن' : 'Open your file now' }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!--
     <div class="relative z-10 py-12">
         <div class="container mx-auto px-4">
             <div class="py-12 backdrop-blur-sm bg-blue-700/95 rounded-[2rem] shadow-xl">
@@ -147,6 +246,167 @@
             </div>
         </div>
     </div>
+    -->
+
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    جميع القطاعات
+                </h2>
+            </div>
+            
+            <!-- Talent Categories Grid - 2x3 Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Developers -->
+                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
+                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" />
+                                <path d="M8 9l-2 3 2 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 9l2 3-2 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
+                        {{ __('words.developers') }}
+                    </h3>
+                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
+                        {{ __('words.developers_desc') }}
+                    </p>
+                    <!-- View Talents Button (appears on hover) -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                            {{ __('words.view_talents') }}
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Designers -->
+                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
+                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor"/>
+                                <path d="M8 8l8 8M16 8l-8 8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
+                        {{ __('words.designers') }}
+                    </h3>
+                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
+                        {{ __('words.designers_desc') }}
+                    </p>
+                    <!-- View Talents Button (appears on hover) -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                            {{ __('words.view_talents') }}
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Management Consultants -->
+                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
+                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <rect x="3" y="13" width="4" height="8" rx="1" stroke="currentColor"/>
+                                <rect x="10" y="9" width="4" height="12" rx="1" stroke="currentColor"/>
+                                <rect x="17" y="5" width="4" height="16" rx="1" stroke="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
+                        {{ __('words.management_consultants') }}
+                    </h3>
+                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
+                        {{ __('words.management_consultants_desc') }}
+                    </p>
+                    <!-- View Talents Button (appears on hover) -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                            {{ __('words.view_talents') }}
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Project Managers -->
+                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
+                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="8" stroke="currentColor"/>
+                                <path d="M12 8v4l3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
+                        {{ __('words.project_managers') }}
+                    </h3>
+                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
+                        {{ __('words.project_managers_desc') }}
+                    </p>
+                    <!-- View Talents Button (appears on hover) -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                            {{ __('words.view_talents') }}
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product Managers -->
+                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
+                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="8" stroke="currentColor"/>
+                                <path d="M12 8v4l3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
+                        {{ __('words.product_managers') }}
+                    </h3>
+                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
+                        {{ __('words.product_managers_desc') }}
+                    </p>
+                    <!-- View Talents Button (appears on hover) -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                            {{ __('words.view_talents') }}
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Marketing Experts -->
+                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
+                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13 13l6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
+                        {{ __('words.marketing_experts') }}
+                    </h3>
+                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
+                        {{ __('words.marketing_experts_desc') }}
+                    </p>
+                    <!-- View Talents Button (appears on hover) -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                            {{ __('words.view_talents') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <!-- Action Buttons -->
     <div class="bg-white py-12">
@@ -172,15 +432,15 @@
         <!-- Hero Section -->
         <div class="bg-white relative overflow-hidden">
             <!-- Animated background elements -->
-            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            {{-- <div class="absolute inset-0 overflow-hidden pointer-events-none">
                 <div class="absolute -inset-[10px] opacity-50">
                     <div class="absolute left-[10%] top-[20%] h-24 w-24 rounded-full bg-blue-400 mix-blend-multiply animate-blob"></div>
                     <div class="absolute right-[15%] top-[30%] h-32 w-32 rounded-full bg-indigo-400 mix-blend-multiply animate-blob animation-delay-2000"></div>
                     <div class="absolute left-[20%] bottom-[20%] h-28 w-28 rounded-full bg-purple-400 mix-blend-multiply animate-blob animation-delay-4000"></div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="container mx-auto px-4 py-20 relative">
+            {{-- <div class="container mx-auto px-4 py-20 relative">
                 <div class="grid grid-cols-12 gap-8 items-center">
                     <div class="col-span-12 lg:col-span-12 space-y-8">
                         <!-- Arabic Navigation/Title -->
@@ -264,17 +524,17 @@
                     
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Trusted Companies Section -->
         <div class="bg-white">
             <div class="container mx-auto px-4 py-20">
                 <div class="text-center space-y-4 mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-black">
-                        {{ __('words.companies.title') }}
+                        عملائنا
                     </h2>
                     <p class="text-xl text-gray-600">
-                        {{ __('words.companies.subtitle') }}
+                        جهات واثقة بنا
                     </p>
                 </div>
 
@@ -313,7 +573,7 @@
         </div>
 
         <!-- Job Districts Section -->
-        <div class="bg-white">
+        {{-- <div class="bg-white">
             <div class="container mx-auto px-4 py-20">
                 <div class="text-center space-y-4 mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-black">
@@ -478,7 +738,7 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Enterprise Section -->
         <div class="bg-white py-20">

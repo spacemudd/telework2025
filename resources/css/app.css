@@ -153,9 +153,9 @@ html[dir="rtl"] select {
     padding-left: 2rem;
 }
 
-html[dir="rtl"] input[type="email"],
-html[dir="rtl"] input[type="text"],
-html[dir="rtl"] input[type="password"] {
+html[dir="rtl"] input[type="email"]:not([dir="ltr"]),
+html[dir="rtl"] input[type="text"]:not([dir="ltr"]),
+html[dir="rtl"] input[type="password"]:not([dir="ltr"]) {
     text-align: right;
 }
 
@@ -170,6 +170,11 @@ html[dir="rtl"] .text-left {
 
 html[dir="rtl"] .text-right {
     text-align: left;
+}
+
+/* Ensure LTR inputs always have left-to-right text alignment */
+input[dir="ltr"] {
+    text-align: left !important;
 }
 
 #saudi-map {

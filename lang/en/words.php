@@ -404,6 +404,53 @@ return [
     'submit' => 'Submit',
     'looking_for_job' => 'Looking for a job',
     'looking_for_hire' => 'Looking for a hire',
+    'features' => [
+        'title' => 'Job opportunities in all sectors',
+        'nationwide' => 'All over the Kingdom',
+        'flexible_hours' => 'Full-time or part-time',
+        'diverse_opportunities' => 'Diverse opportunities in all specialties',
+        'easy_application' => 'Quick and easy application through the platform',
+        'continuous_support' => 'Continuous technical support for job seekers',
+        'personalized_opportunities' => 'Opportunities that match your skills and ambitions with guidance before and after the interview',
+        'transparent_followup' => 'Transparent follow-up until contract signing and work commencement',
+    ],
+    'homepage' => [
+        'cta_title' => 'Official remote opportunities with documented contracts and continuous follow-up after hiring',
+        'cta_paragraph' => '"Hadaf for Employment" is a Saudi intermediary company specialized in employing national talents and connecting employers with suitable talents. We operate under a license from the Ministry of Human Resources and Social Development in accordance with the regulations for Saudi employment intermediation activities, and as an approved service provider on the remote work platform, ensuring full compliance and documented implementation through the platform.',
+    ],
+    
+    // Talent section
+    'leverage_world_class_talent' => 'Leverage World-class Talent',
+    'leverage_world_class_talent_subtitle' => 'We are the largest, globally distributed network of top business, design, and technology talent, ready to tackle your most important initiatives.',
+    
+    'developers' => 'Developers',
+    'developers_desc' => 'Seasoned software engineers, coders, and architects with expertise across hundreds of technologies.',
+    
+    'designers' => 'Designers', 
+    'designers_desc' => 'Expert UI, UX, Visual, and Interaction designers as well as a wide range of illustrators, animators, and more.',
+    
+    'management_consultants' => 'Management Consultants',
+    'management_consultants_desc' => 'Finance experts, business strategists, M&A consultants, financial modelers, and more, with expertise ranging from market research to FP&A.',
+    
+    'project_managers' => 'Project Managers',
+    'project_managers_desc' => 'Digital and technical project managers, scrum masters, and more with expertise in numerous PM tools, frameworks, and styles.',
+    
+    'product_managers' => 'Product Managers', 
+    'product_managers_desc' => 'Digital product managers, scrum product owners with expertise in numerous industries like banking, healthcare, ecommerce, and more.',
+    
+    'marketing_experts' => 'Marketing Experts',
+    'marketing_experts_desc' => 'Experts in digital marketing, growth marketing, content creation, market research, brand strategy execution, social media marketing, and more.',
+    
+    'largest_global_network' => 'Largest Global Network',
+    'largest_global_network_desc' => 'Access to the largest network of top business, design, and technology talent worldwide.',
+    
+    'top_talent_ready' => 'Top Talent Ready',
+    'top_talent_ready_desc' => 'Pre-vetted professionals ready to tackle your most important initiatives immediately.',
+    
+    'tackle_important_initiatives' => 'Tackle Important Initiatives', 
+    'tackle_important_initiatives_desc' => 'Get the expertise you need to drive your business forward with confidence.',
+    
+    'view_talents' => 'View talents',
     
     // Team Invitation
     'team_invitation_subject' => 'You have been invited to join :company team',
