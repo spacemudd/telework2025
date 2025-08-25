@@ -66,4 +66,24 @@ return [
     'back' => 'رجوع',
     'complete_setup' => 'إكمال الإعداد',
 
+    // Job Seeker onboarding translations
+    'tell_us_about_yourself' => 'أخبرنا عن نفسك',
+    'help_customize_job_experience' => 'ساعدنا في تخصيص تجربة البحث عن الوظائف',
+    'full_name' => 'الاسم الكامل',
+    'skills' => 'المهارات',
+    'describe_your_skills' => 'صف مهاراتك وخبراتك ومجالات التخصص...',
+    'skills_help_text' => 'اذكر مهاراتك الأساسية والتقنيات ولغات البرمجة أو مجالات الخبرة',
+    'experience_level' => 'مستوى الخبرة',
+    'select_experience_level' => 'اختر مستوى خبرتك',
+    'entry_level' => 'مبتدئ (0-2 سنوات)',
+    'mid_level' => 'متوسط (3-5 سنوات)',
+    'senior_level' => 'متقدم (6-10 سنوات)',
+    'expert_level' => 'خبير (10+ سنوات)',
+    'preferred_work_type' => 'نوع العمل المفضل',
+    'select_work_type' => 'اختر ترتيب العمل المفضل لديك',
+    'full_time' => 'دوام كامل',
+    'part_time' => 'دوام جزئي',
+    'contract' => 'عقد',
+    'freelance' => 'عمل حر',
+
 ];

@@ -40,32 +40,38 @@ Route::group([
         Route::post('/select-role', [OnboardingController::class, 'selectRole'])->name('onboarding.select-role');
         Route::get('/company', [OnboardingController::class, 'showCompanyForm'])->name('onboarding.company');
         Route::post('/company', [OnboardingController::class, 'completeCompanyOnboarding'])->name('onboarding.company.complete');
+        Route::get('/job-seeker', [OnboardingController::class, 'showJobSeekerForm'])->name('onboarding.job-seeker');
+        Route::post('/job-seeker', [OnboardingController::class, 'completeJobSeekerOnboarding'])->name('onboarding.job-seeker.complete');
     });
 });
 
 // System URLs.
 
-Route::middleware([SetLocale::class, 'team_context'])->get('/dashboard', function () {
-    if (!auth()->check()) {
-        return redirect()->route('login');
-    }
+// Removed the main dashboard route to prevent redirect loops
+// Users should be redirected directly to their role-specific dashboards
 
-    if (auth()->user()->hasRole('admin')) {
+// Fallback dashboard route - redirects to onboarding if no role
+Route::middleware(['auth', SetLocale::class])->get('/dashboard', function () {
+    $user = auth()->user();
+    
+    if ($user->hasRole('admin')) {
         return redirect('/admin/dashboard');
     }
-
-    if (auth()->user()->hasRole('company')) {
+    
+    if ($user->hasRole('company')) {
         return redirect('/company/dashboard');
     }
-
-    if (auth()->user()->hasRole('employee')) {
+    
+    if ($user->hasRole('employee')) {
+        $employee = $user->employee;
+        if ($employee && $employee->company && $employee->company->name === 'Job Seeker Platform') {
+            return redirect('/employee/job-seeker-dashboard');
+        }
         return redirect('/employee/dashboard');
     }
-
-    Log::alert('User has no role', [
-        'user_id' => auth()->user()->id,
-        'user_email' => auth()->user()->email,
-    ]);
+    
+    // No role, redirect to onboarding
+    return redirect()->route('onboarding.index');
 })->name('dashboard');
 
 Route::get('dev-login', function() {
@@ -75,12 +81,12 @@ Route::get('dev-login', function() {
         throw new \Exception('No admin user found. Please create an admin user first.');
     }
     auth()->login(User::admins()->firstOrFail());
-    return redirect()->route('dashboard');
+    return redirect('/admin/dashboard');
 })->name('login.dev');
 
 Route::get('/admin/impersonate-stop', function () {
     auth()->user()->leaveImpersonation();
-    return redirect()->route('dashboard');
+    return redirect('/admin/dashboard');
 })->name('admin.impersonate.stop');
 
 Route::prefix('admin')->middleware(['auth', 'team_context', 'role:admin', SetLocale::class])->group(function () {
@@ -98,7 +104,7 @@ Route::prefix('admin')->middleware(['auth', 'team_context', 'role:admin', SetLoc
 
     Route::get('/impersonate/{user}', function (\App\Models\User $user) {
         auth()->user()->impersonate($user);
-        return redirect()->route('dashboard');
+        return redirect('/admin/dashboard');
     })->name('admin.impersonate');
 
 
@@ -159,8 +165,9 @@ Route::prefix('company')->middleware(['auth', 'team_context', 'role:company', Se
     Route::post('/tasks/{task}/comments', [\App\Http\Controllers\Company\TasksCommentController::class, 'store'])->name('company.tasks.comment');
 });
 
-Route::prefix('employee')->middleware(['auth', 'team_context', 'role:employee', SetLocale::class])->group(function () {
+Route::prefix('employee')->middleware(['auth', 'role:employee', SetLocale::class])->group(function () {
     Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
+    Route::get('/job-seeker-dashboard', [EmployeeDashboardController::class, 'jobSeekerDashboard'])->name('employee.job-seeker-dashboard');
     Route::put('/tasks/{task}/status', [\App\Http\Controllers\Employee\TaskController::class, 'updateStatus'])->name('employee.tasks.updateStatus');
 });
 

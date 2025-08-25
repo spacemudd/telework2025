@@ -31,7 +31,23 @@
                     {{ __('words.nav.for_companies') }}
                 </a>
                 @auth
-                    <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    @hasrole('admin')
+                        <a href="/admin/dashboard" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    @elsehasrole('company')
+                        <a href="/company/dashboard" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    @elsehasrole('employee')
+                        @php
+                            $employee = auth()->user()->employee;
+                            $isJobSeeker = $employee && $employee->company && $employee->company->name === 'Job Seeker Platform';
+                        @endphp
+                        @if($isJobSeeker)
+                            <a href="/employee/job-seeker-dashboard" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                        @else
+                            <a href="/employee/dashboard" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                        @endif
+                    @else
+                        <a href="{{ route('onboarding.index') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    @endhasrole
                         {{ __('words.dashboard') }}
                     </a>
                 @else

@@ -16,9 +16,25 @@ class OnboardingController extends Controller
      */
     public function index()
     {
-        // If user already has a role, redirect to dashboard
+        // If user already has a role, redirect to appropriate dashboard
         if (auth()->user()->roles->count() > 0) {
-            return redirect()->route('dashboard');
+            $user = auth()->user();
+            
+            if ($user->hasRole('admin')) {
+                return redirect('/admin/dashboard');
+            }
+            
+            if ($user->hasRole('company')) {
+                return redirect('/company/dashboard');
+            }
+            
+            if ($user->hasRole('employee')) {
+                $employee = $user->employee;
+                if ($employee && $employee->company && $employee->company->name === 'Job Seeker Platform') {
+                    return redirect('/employee/job-seeker-dashboard');
+                }
+                return redirect('/employee/dashboard');
+            }
         }
 
         return view('onboarding.index');
@@ -34,8 +50,9 @@ class OnboardingController extends Controller
         ]);
 
         if ($request->role_type === 'job_seeker') {
-            // For now, redirect back with disabled message
-            return back()->with('error', __('Job seeker option is coming soon!'));
+            // Store the selected role in session and redirect to job seeker onboarding
+            session(['onboarding_role' => 'job_seeker']);
+            return redirect()->route('onboarding.job-seeker');
         }
 
         // Store the selected role in session and redirect to company onboarding
@@ -112,6 +129,93 @@ class OnboardingController extends Controller
         // Clear onboarding session data
         session()->forget('onboarding_role');
 
-        return redirect()->route('dashboard')->with('success', __('Welcome! Your company profile has been set up successfully.'));
+        return redirect()->route('company.dashboard')->with('success', __('Welcome! Your company profile has been set up successfully.'));
+    }
+
+    /**
+     * Show job seeker onboarding form
+     */
+    public function showJobSeekerForm()
+    {
+        if (session('onboarding_role') !== 'job_seeker') {
+            return redirect()->route('onboarding.index');
+        }
+
+        return view('onboarding.job-seeker');
+    }
+
+    /**
+     * Handle job seeker onboarding completion
+     */
+    public function completeJobSeekerOnboarding(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'skills' => 'required|string|max:500',
+            'experience_level' => 'required|in:entry,mid_level,senior,expert',
+            'preferred_work_type' => 'required|in:full_time,part_time,contract,freelance'
+        ]);
+
+        DB::transaction(function () use ($request) {
+            $user = auth()->user();
+            
+            // Create a team for this job seeker user
+            if (!$user->team_id) {
+                $team = Team::create([
+                    'name' => $user->name . ' Team',
+                    'owner_id' => $user->id,
+                    'company_id' => null,
+                ]);
+
+                // Update user with team_id
+                $user->update(['team_id' => $team->id]);
+            }
+
+            // Update user's name
+            $user->update(['name' => $request->full_name]);
+
+            // Create a dummy company for job seekers (this allows us to create an employee record)
+            $company = \App\Models\Company::create([
+                'name' => 'Job Seeker Platform',
+                'email' => 'platform@hadaf.com',
+                'user_id' => $user->id,
+                'address' => 'Virtual Platform',
+                'cr_number' => 'JS-PLATFORM-' . time(),
+                'phone' => 'N/A',
+            ]);
+
+            // Update team with company_id
+            $team = $user->team;
+            $team->update(['company_id' => $company->id]);
+
+            // Create Employee record for job seeker
+            $employee = \App\Models\Employee::create([
+                'company_id' => $company->id,
+                'name' => $request->full_name,
+                'email' => $user->email,
+                'phone' => null,
+                'position' => 'Job Seeker',
+                'identity_number' => 'JS-' . time(), // Generate a unique identity number
+                'user_id' => $user->id,
+            ]);
+
+            // Store job seeker specific data in user meta or session for now
+            session([
+                'job_seeker_skills' => $request->skills,
+                'job_seeker_experience_level' => $request->experience_level,
+                'job_seeker_preferred_work_type' => $request->preferred_work_type,
+            ]);
+
+            // Set team context for role assignment
+            setPermissionsTeamId($user->team_id);
+            
+            // Assign the employee role to the user (job seekers are treated as employees)
+            $user->assignRole('employee');
+        });
+
+        // Clear onboarding session data
+        session()->forget('onboarding_role');
+
+        return redirect()->route('employee.job-seeker-dashboard')->with('success', __('Welcome! Your job seeker profile has been set up successfully.'));
     }
 }

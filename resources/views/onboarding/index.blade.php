@@ -40,24 +40,23 @@
                         </label>
                     </div>
 
-                    <!-- Job Seeker Option (Disabled) -->
-                    <div class="relative opacity-50">
+                    <!-- Job Seeker Option (Enabled) -->
+                    <div class="relative">
                         <input type="radio" 
                                id="job_seeker" 
                                name="role_type" 
                                value="job_seeker" 
                                class="sr-only peer" 
-                               disabled>
+                               required>
                         <label for="job_seeker" 
-                               class="flex flex-col items-center justify-center w-full p-6 text-gray-400 bg-gray-100 border-2 border-gray-200 rounded-lg cursor-not-allowed">
-                            <div class="flex items-center justify-center w-16 h-16 mb-4 bg-gray-200 rounded-full">
-                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                               class="flex flex-col items-center justify-center w-full p-6 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer hover:text-gray-600 hover:bg-gray-50 peer-checked:border-blue-600 peer-checked:text-blue-600 peer-checked:bg-blue-50">
+                            <div class="flex items-center justify-center w-16 h-16 mb-4 bg-blue-100 rounded-full">
+                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
                             </div>
                             <div class="text-lg font-semibold text-left rtl:text-left ltr:text-right">{{ __('auth.im_looking_for_job') }}</div>
                             <div class="text-sm text-left rtl:text-left ltr:text-right mt-2">{{ __('auth.i_want_find_remote_work') }}</div>
-                            <div class="text-xs text-left rtl:text-left ltr:text-right mt-2 text-red-500">{{ __('auth.coming_soon') }}</div>
                         </label>
                     </div>
                 </div>

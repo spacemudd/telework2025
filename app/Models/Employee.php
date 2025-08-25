@@ -20,6 +20,9 @@ class Employee extends Model
         'position',
         'identity_number',
         'user_id',
+        'skills',
+        'experience_level',
+        'preferred_work_type',
     ];
 
     protected static function booted()
