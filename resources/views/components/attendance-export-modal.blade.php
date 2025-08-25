@@ -106,4 +106,5 @@ document.getElementById('attendanceExportModal').addEventListener('click', funct
         closeAttendanceExportModal();
     }
 });
-</script> 
+</script>
+@endif 

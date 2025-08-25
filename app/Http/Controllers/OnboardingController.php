@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Team;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -66,15 +67,15 @@ class OnboardingController extends Controller
             'expected_time_to_hire' => 'required|in:immediately,1-2_weeks,1_month,3_months,6_months,not_sure'
         ]);
 
-                DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request) {
             $user = auth()->user();
             
-            // Create a team for this web company user (or use existing if they have one)
+            // Create a team for this company user
             if (!$user->team_id) {
                 $team = Team::create([
                     'name' => $request->company_name . ' Team',
                     'owner_id' => $user->id,
-                    'company_id' => null, // Web companies don't have a company record yet
+                    'company_id' => null, // Will be updated after company creation
                 ]);
 
                 // Update user with team_id
@@ -85,6 +86,19 @@ class OnboardingController extends Controller
                 $team->update(['name' => $request->company_name . ' Team']);
             }
 
+            // Create the actual Company record
+            $company = \App\Models\Company::create([
+                'name' => $request->company_name,
+                'email' => $user->email,
+                'user_id' => $user->id,
+                'address' => 'Address to be updated',
+                'cr_number' => 'CR to be updated',
+                'phone' => 'Phone to be updated',
+            ]);
+
+            // Update team with company_id
+            $team->update(['company_id' => $company->id]);
+
             // Update user's name to company name
             $user->update(['name' => $request->company_name]);
 
@@ -93,14 +107,6 @@ class OnboardingController extends Controller
             
             // Assign the company role to the user
             $user->assignRole('company');
-
-            // Store additional company data in session for now
-            // In a real application, you might want to create a Company model record
-            session([
-                'company_size' => $request->company_size,
-                'industry' => $request->industry,
-                'expected_time_to_hire' => $request->expected_time_to_hire
-            ]);
         });
 
         // Clear onboarding session data

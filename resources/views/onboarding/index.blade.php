@@ -35,8 +35,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                 </svg>
                             </div>
-                            <div class="text-lg font-semibold">{{ __('auth.i_represent_company') }}</div>
-                            <div class="text-sm text-center mt-2">{{ __('auth.i_want_hire_remote_workers') }}</div>
+                            <div class="text-lg font-semibold text-left rtl:text-left ltr:text-right">{{ __('auth.i_represent_company') }}</div>
+                            <div class="text-sm text-left rtl:text-left ltr:text-right mt-2">{{ __('auth.i_want_hire_remote_workers') }}</div>
                         </label>
                     </div>
 
@@ -55,9 +55,9 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
                             </div>
-                            <div class="text-lg font-semibold">{{ __('auth.im_looking_for_job') }}</div>
-                            <div class="text-sm text-center mt-2">{{ __('auth.i_want_find_remote_work') }}</div>
-                            <div class="text-xs text-center mt-2 text-red-500">{{ __('auth.coming_soon') }}</div>
+                            <div class="text-lg font-semibold text-left rtl:text-left ltr:text-right">{{ __('auth.im_looking_for_job') }}</div>
+                            <div class="text-sm text-left rtl:text-left ltr:text-right mt-2">{{ __('auth.i_want_find_remote_work') }}</div>
+                            <div class="text-xs text-left rtl:text-left ltr:text-right mt-2 text-red-500">{{ __('auth.coming_soon') }}</div>
                         </label>
                     </div>
                 </div>

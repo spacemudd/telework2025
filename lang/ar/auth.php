@@ -30,7 +30,7 @@ return [
     'welcome_get_started' => 'مرحباً! دعنا نبدأ',
     'select_what_describes_you' => 'يرجى اختيار ما يصفك بشكل أفضل',
     'i_represent_company' => 'أمثل شركة',
-    'i_want_hire_remote_workers' => 'أريد توظيف عمال عن بُعد',
+    'i_want_hire_remote_workers' => 'أريد موظفين',
     'im_looking_for_job' => 'أبحث عن وظيفة',
     'i_want_find_remote_work' => 'أريد العثور على فرص عمل عن بُعد',
     'coming_soon' => 'قريباً!',
