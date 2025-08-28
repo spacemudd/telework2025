@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Events;
-
-use App\Models\Task;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -11,13 +9,13 @@ class TaskAssignedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $task;
+    public int $taskId;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(Task $task)
+    public function __construct(int $taskId)
     {
-        $this->task = $task;
+        $this->taskId = $taskId;
     }
 } 

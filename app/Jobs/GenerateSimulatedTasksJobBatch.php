@@ -112,7 +112,7 @@ class GenerateSimulatedTasksJobBatch implements ShouldQueue
             ]);
 
             // Fire the task assigned event to send email notification
-            event(new TaskAssignedEvent($task));
+            event(new TaskAssignedEvent($task->id));
         }
     }
 }

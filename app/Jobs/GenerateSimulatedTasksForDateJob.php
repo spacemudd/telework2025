@@ -127,7 +127,7 @@ class GenerateSimulatedTasksForDateJob implements ShouldQueue
 
             // Fire the task assigned event to send email notification if enabled
             if ($this->sendNotifications) {
-                event(new TaskAssignedEvent($task));
+                event(new TaskAssignedEvent($task->id));
             }
             
             // If auto_complete is enabled and includeResponses is true, simulate employee response after a delay
