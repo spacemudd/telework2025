@@ -62,5 +62,5 @@
     @include('components.task-download-modal')
     
     <!-- Include Attendance Export Modal -->
-    <x-attendance-export-modal :company="$company ?? auth()->user()->owned_company" />
+    <x-attendance-export-modal :company="$company ?? auth()->user()->primaryCompany" />
 @endsection

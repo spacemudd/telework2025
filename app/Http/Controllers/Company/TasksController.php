@@ -14,7 +14,7 @@ class TasksController extends Controller
 {
     public function index(Request $request)
     {
-        $company = auth()->user()->owned_company;
+        $company = $this->getCurrentCompany();
         
         // Get all tasks for the company's employees
         $query = Task::whereHas('employee', function ($q) use ($company) {
@@ -50,7 +50,7 @@ class TasksController extends Controller
 
     public function export(Request $request)
     {
-        $company = auth()->user()->owned_company;
+        $company = $this->getCurrentCompany();
         
         // Get all tasks for the company's employees
         $query = Task::whereHas('employee', function ($q) use ($company) {
@@ -95,5 +95,28 @@ class TasksController extends Controller
         }
     }
 
-
+    private function getCurrentCompany()
+    {
+        $user = auth()->user();
+        $selectedCompanyId = session('selected_company_id');
+        
+        if ($selectedCompanyId) {
+            $company = $user->companies()->where('company_id', $selectedCompanyId)->first();
+            if ($company) {
+                return $company;
+            }
+        }
+        
+        // Fallback to primary company or first available company
+        $company = $user->primaryCompany;
+        if (!$company && $user->companies()->exists()) {
+            $company = $user->companies()->first();
+        }
+        
+        if (!$company) {
+            abort(403, 'You are not associated with any company.');
+        }
+        
+        return $company;
+    }
 } 

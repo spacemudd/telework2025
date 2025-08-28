@@ -13,7 +13,11 @@
     <div class="bg-white rounded-lg shadow p-6">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold"><span class="border border-orange-600 border-1 p-1">{{ $company->code }}</span> - {{ $company->name }}</h1>
-            <div>
+            <div class="flex gap-2">
+                <a href="{{ route('admin.companies.edit', $company->id) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm text-white hover:bg-blue-700 focus:outline-none transition">
+                    {{ __('words.edit') }}
+                </a>
+                
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-200 focus:outline-none transition">
@@ -37,7 +41,7 @@
                         <x-dropdown-link href="{{ route('admin.companies.simulation-config.index', $company->id) }}">
                             {{ __('words.simulation-config') }}
                         </x-dropdown-link>
-                        <x-dropdown-link href="{{ route('admin.impersonate', $company->user->id) }}">
+                        <x-dropdown-link href="{{ route('admin.impersonate', $company->owner->id) }}">
                             {{ __('words.login') }}
                         </x-dropdown-link>
                     </x-slot>

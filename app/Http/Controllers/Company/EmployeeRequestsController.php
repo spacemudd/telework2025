@@ -12,7 +12,8 @@ class EmployeeRequestsController extends Controller
 {
     public function index()
     {
-        $requests = auth()->user()->owned_company->employeeRequests()
+        $company = $this->getCurrentCompany();
+        $requests = $company->employeeRequests()
             ->latest()
             ->paginate(10);
         return view('company.employee_requests.index', compact('requests'));
@@ -31,7 +32,7 @@ class EmployeeRequestsController extends Controller
             'note' => 'nullable|string|max:1000',
         ]);
 
-        $company = auth()->user()->owned_company;
+        $company = $this->getCurrentCompany();
 
         $employeeRequest = $company->employeeRequests()->create([
             'job_title' => $request->job_title,
@@ -58,10 +59,37 @@ class EmployeeRequestsController extends Controller
 
     public function show($id)
     {
-        $request = auth()->user()->owned_company->employeeRequests()
+        $company = $this->getCurrentCompany();
+        
+        $request = $company->employeeRequests()
             ->with(['messages.sender'])
             ->findOrFail($id);
 
         return view('company.employee_requests.show', compact('request'));
+    }
+
+    private function getCurrentCompany()
+    {
+        $user = auth()->user();
+        $selectedCompanyId = session('selected_company_id');
+        
+        if ($selectedCompanyId) {
+            $company = $user->companies()->where('company_id', $selectedCompanyId)->first();
+            if ($company) {
+                return $company;
+            }
+        }
+        
+        // Fallback to primary company or first available company
+        $company = $user->primaryCompany;
+        if (!$company && $user->companies()->exists()) {
+            $company = $user->companies()->first();
+        }
+        
+        if (!$company) {
+            abort(403, 'You are not associated with any company.');
+        }
+        
+        return $company;
     }
 }

@@ -10,15 +10,40 @@ class CompanyDashboardController extends Controller
 {
     public function index()
     {
-        $company = auth()->user()->owned_company; // Assuming user has company relationship
-        $employees = $company ? $company->employees : [];
+        $company = $this->getCurrentCompany();
+        $employees = $company->employees;
 
         return view('company.dashboard', compact('company', 'employees'));
     }
 
+    private function getCurrentCompany()
+    {
+        $user = auth()->user();
+        $selectedCompanyId = session('selected_company_id');
+        
+        if ($selectedCompanyId) {
+            $company = $user->companies()->where('company_id', $selectedCompanyId)->first();
+            if ($company) {
+                return $company;
+            }
+        }
+        
+        // Fallback to primary company or first available company
+        $company = $user->primaryCompany;
+        if (!$company && $user->companies()->exists()) {
+            $company = $user->companies()->first();
+        }
+        
+        if (!$company) {
+            abort(403, 'You are not associated with any company.');
+        }
+        
+        return $company;
+    }
+
     public function exportAttendance(Request $request)
     {
-        $company = auth()->user()->owned_company;
+        $company = $this->getCurrentCompany();
 
         $now = Carbon::now();
         

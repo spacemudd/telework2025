@@ -11,9 +11,35 @@ class EmployeesController extends Controller
 {
     public function index()
     {
-        $employees = auth()->user()->owned_company->employees()->paginate(20);
+        $company = $this->getCurrentCompany();
+        $employees = $company->employees()->paginate(20);
 
         return view('company.employees.index', compact('employees'));
+    }
+
+    private function getCurrentCompany()
+    {
+        $user = auth()->user();
+        $selectedCompanyId = session('selected_company_id');
+        
+        if ($selectedCompanyId) {
+            $company = $user->companies()->where('company_id', $selectedCompanyId)->first();
+            if ($company) {
+                return $company;
+            }
+        }
+        
+        // Fallback to primary company or first available company
+        $company = $user->primaryCompany;
+        if (!$company && $user->companies()->exists()) {
+            $company = $user->companies()->first();
+        }
+        
+        if (!$company) {
+            abort(403, 'You are not associated with any company.');
+        }
+        
+        return $company;
     }
 
     public function show(Employee $employee)

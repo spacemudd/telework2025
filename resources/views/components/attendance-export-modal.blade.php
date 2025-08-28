@@ -1,5 +1,12 @@
 @props(['company'])
 
+@if(!$company)
+    @php
+        // If no company is provided, don't render the modal
+        return;
+    @endphp
+@endif
+
 @php
     $now = \Carbon\Carbon::now();
     $companyCreatedAt = \Carbon\Carbon::parse($company->created_at);

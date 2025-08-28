@@ -49,6 +49,11 @@
                         <x-nav-link :href="route('company.employee-requests.index')" :active="request()->routeIs('company.employee-requests.*')">
                             {{ __('words.requests') }}
                         </x-nav-link>
+                        
+                        <!-- Company Switcher -->
+                        <div class="flex items-center ml-8">
+                            <x-company-switcher />
+                        </div>
                     @endhasrole
 
                     @hasrole('employee')
