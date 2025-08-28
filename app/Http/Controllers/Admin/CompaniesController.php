@@ -38,14 +38,18 @@ class CompaniesController extends Controller
 
         // Check if user exists with this email
         $user = User::where('email', $validated['email'])->first();
+        $generatedPassword = null;
         
         if (!$user) {
             // Create new user
+            $generatedPassword = Str::random(12);
             $user = User::create([
                 'email' => $validated['email'],
                 'name' => $validated['name'],
-                'password' => Hash::make(Str::random(16)),
+                'password' => Hash::make($generatedPassword),
             ]);
+            // Assign company role
+            $user->assignRole('company');
         }
 
         // Create company
@@ -67,8 +71,8 @@ class CompaniesController extends Controller
             'comment_only_rate' => 10,
         ]);
 
-        // Note: CompanyApprovedEvent is no longer needed since we handle user creation here
-        // event(new CompanyApprovedEvent($company));
+        // Send invitation email to owner (queue)
+        Mail::to($user->email)->queue(new TeamInvitationMail($company, $user->email, $generatedPassword, 'owner'));
 
         return redirect()->route('admin.companies.index')->with('success', __('words.company_created_successfully'));
     }

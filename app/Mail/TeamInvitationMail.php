@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TeamInvitationMail extends Mailable
+class TeamInvitationMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -45,7 +45,13 @@ class TeamInvitationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.team_invitation',
+            markdown: 'emails.company_welcome',
+            with: [
+                'company' => is_object($this->company) && property_exists($this->company, 'name') ? $this->company->name : (string) $this->company,
+                'company_code' => is_object($this->company) && property_exists($this->company, 'code') ? $this->company->code : null,
+                'email' => $this->email,
+                'password' => $this->password,
+            ],
         );
     }
 
