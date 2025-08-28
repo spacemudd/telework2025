@@ -56,7 +56,7 @@
                         </div>
                     </a>
                     
-                    <a href="#" class="group flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:bg-blue-700 hover:text-white cursor-pointer transition-colors">
+                    <a href="{{ route('interview.start') }}" class="group flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:bg-blue-700 hover:text-white cursor-pointer transition-colors">
                         <div class="flex-shrink-0">
                             <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +66,15 @@
                         </div>
                         <div class="flex-1">
                             <h3 class="text-sm font-medium text-gray-700 group-hover:text-white">إجراء أول مقابلة</h3>
-                            <p class="text-xs text-gray-500 group-hover:text-white">قيد الانتظار</p>
+                            <p class="text-xs text-gray-500 group-hover:text-white">
+                                @if(auth()->user()->employee->interviews()->where('status', 'completed')->exists())
+                                    مكتمل
+                                @elseif(auth()->user()->employee->interviews()->whereIn('status', ['pending', 'in_progress'])->exists())
+                                    قيد التقدم
+                                @else
+                                    قيد الانتظار
+                                @endif
+                            </p>
                         </div>
                     </a>
                     

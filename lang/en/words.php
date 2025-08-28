@@ -451,6 +451,15 @@ return [
     'tackle_important_initiatives_desc' => 'Get the expertise you need to drive your business forward with confidence.',
     
     'view_talents' => 'View talents',
+    'talent_categories' => 'Talent Categories',
+    'explore_talent_categories_description' => 'Explore diverse talents across all sectors',
+    'select_talent_categories' => 'Select Talent Categories',
+    'select_talent_categories_help' => 'Select all talent categories that apply to you (you can choose multiple)',
+    'view_profile' => 'View Profile',
+    'all_experience_levels' => 'All Experience Levels',
+    'no_job_seekers_found' => 'No Job Seekers Found',
+    'no_job_seekers_in_category' => 'No job seekers in this category at the moment',
+    'profile_completed_successfully' => 'Your profile has been completed successfully!',
 
     // Job Seeker Dashboard
     'job_seeker_dashboard' => 'Job Seeker Dashboard',

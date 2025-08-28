@@ -96,6 +96,35 @@
                         @enderror
                     </div>
 
+                    <!-- Talent Categories -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            {{ __('words.select_talent_categories') }} <span class="text-red-500">*</span>
+                        </label>
+                        <p class="text-sm text-gray-500 mb-4">{{ __('words.select_talent_categories_help') }}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @foreach($talentCategories as $category)
+                            <label class="relative flex items-start cursor-pointer">
+                                <div class="flex items-center h-5">
+                                    <input type="checkbox" name="talent_categories[]" 
+                                           value="{{ $category->id }}" 
+                                           {{ in_array($category->id, old('talent_categories', [])) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <span class="font-medium text-gray-900">{{ $category->localized_name }}</span>
+                                    <p class="text-gray-500 text-xs mt-1">{{ $category->localized_description }}</p>
+                                </div>
+                            </label>
+                            @endforeach
+                        </div>
+                        
+                        @error('talent_categories')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <div class="flex items-center justify-between">
                         <a href="{{ route('onboarding.index') }}" 
                            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

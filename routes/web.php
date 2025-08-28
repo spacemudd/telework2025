@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeDashboardController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\CompanyPagesController;
+use App\Http\Controllers\TalentCategoryController;
+use App\Http\Controllers\InterviewController;
 
 
 // Public URLs.
@@ -34,6 +36,11 @@ Route::group([
     Route::get('/for-companies', [CompanyPagesController::class, 'forCompanies'])->name('company.for-companies');
     Route::post('/for-companies/contact', [CompanyPagesController::class, 'submitContactForm'])->name('company.contact.submit');
 
+    // Talent Categories Routes
+    Route::get('/talent-categories', [TalentCategoryController::class, 'index'])->name('talent-categories.index');
+    Route::get('/talent-categories/{category}', [TalentCategoryController::class, 'show'])->name('talent-categories.show');
+    Route::post('/talent-categories/search', [TalentCategoryController::class, 'search'])->name('talent-categories.search');
+
     // Onboarding Routes
     Route::middleware('auth')->prefix('onboarding')->group(function () {
         Route::get('/', [OnboardingController::class, 'index'])->name('onboarding.index');
@@ -41,7 +48,20 @@ Route::group([
         Route::get('/company', [OnboardingController::class, 'showCompanyForm'])->name('onboarding.company');
         Route::post('/company', [OnboardingController::class, 'completeCompanyOnboarding'])->name('onboarding.company.complete');
         Route::get('/job-seeker', [OnboardingController::class, 'showJobSeekerForm'])->name('onboarding.job-seeker');
+        Route::get('/job-seeker/onboarding', [OnboardingController::class, 'showJobSeekerOnboarding'])->name('onboarding.job-seeker.onboarding');
         Route::post('/job-seeker', [OnboardingController::class, 'completeJobSeekerOnboarding'])->name('onboarding.job-seeker.complete');
+    });
+
+    // Interview Routes - moved inside localized group
+    Route::middleware(['auth'])->prefix('interview')->name('interview.')->group(function () {
+        Route::get('/start', [InterviewController::class, 'start'])->name('start');
+        Route::get('/{interview}', [InterviewController::class, 'conduct'])->name('conduct');
+        Route::post('/{interview}/questions/{question}/response', [InterviewController::class, 'storeResponse'])->name('response.store');
+        Route::post('/{interview}/questions/{question}/re-record', [InterviewController::class, 'reRecord'])->name('response.re-record');
+        Route::post('/{interview}/complete', [InterviewController::class, 'complete'])->name('complete');
+        Route::get('/test-locale', [InterviewController::class, 'testLocale'])->name('test-locale');
+        Route::post('/test-upload', [InterviewController::class, 'testUpload'])->name('test-upload');
+        Route::get('/{interview}/questions/{question}/test-binding', [InterviewController::class, 'testRouteBinding'])->name('test-binding');
     });
 });
 

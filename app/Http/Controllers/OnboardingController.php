@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Team;
 use App\Models\Company;
+use App\Models\TalentCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -98,26 +99,21 @@ class OnboardingController extends Controller
                 // Update user with team_id
                 $user->update(['team_id' => $team->id]);
             } else {
-                // Use existing team but update its name
                 $team = $user->team;
-                $team->update(['name' => $request->company_name . ' Team']);
             }
 
-            // Create the actual Company record
-            $company = \App\Models\Company::create([
+            // Create the company
+            $company = Company::create([
                 'name' => $request->company_name,
                 'email' => $user->email,
                 'user_id' => $user->id,
                 'address' => 'Address to be updated',
-                'cr_number' => 'CR to be updated',
+                'cr_number' => 'CR-' . time(),
                 'phone' => 'Phone to be updated',
             ]);
 
             // Update team with company_id
             $team->update(['company_id' => $company->id]);
-
-            // Update user's name to company name
-            $user->update(['name' => $request->company_name]);
 
             // Set team context for role assignment
             setPermissionsTeamId($team->id);
@@ -141,7 +137,19 @@ class OnboardingController extends Controller
             return redirect()->route('onboarding.index');
         }
 
-        return view('onboarding.job-seeker');
+        $talentCategories = TalentCategory::active()->ordered()->get();
+        
+        return view('onboarding.job-seeker', compact('talentCategories'));
+    }
+
+    /**
+     * Show job seeker onboarding form with talent categories
+     */
+    public function showJobSeekerOnboarding()
+    {
+        $talentCategories = TalentCategory::active()->ordered()->get();
+        
+        return view('onboarding.job-seeker', compact('talentCategories'));
     }
 
     /**
@@ -151,6 +159,8 @@ class OnboardingController extends Controller
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
+            'talent_categories' => 'required|array|min:1',
+            'talent_categories.*' => 'exists:talent_categories,id',
             'skills' => 'required|string|max:500',
             'experience_level' => 'required|in:entry,mid_level,senior,expert',
             'preferred_work_type' => 'required|in:full_time,part_time,contract,freelance'
@@ -197,14 +207,15 @@ class OnboardingController extends Controller
                 'position' => 'Job Seeker',
                 'identity_number' => 'JS-' . time(), // Generate a unique identity number
                 'user_id' => $user->id,
+                'skills' => $request->skills,
+                'experience_level' => $request->experience_level,
+                'preferred_work_type' => $request->preferred_work_type,
+                'is_job_seeker' => true,
+                'profile_completed' => true,
             ]);
 
-            // Store job seeker specific data in user meta or session for now
-            session([
-                'job_seeker_skills' => $request->skills,
-                'job_seeker_experience_level' => $request->experience_level,
-                'job_seeker_preferred_work_type' => $request->preferred_work_type,
-            ]);
+            // Attach talent categories
+            $employee->talentCategories()->attach($request->talent_categories);
 
             // Set team context for role assignment
             setPermissionsTeamId($user->team_id);
@@ -216,6 +227,6 @@ class OnboardingController extends Controller
         // Clear onboarding session data
         session()->forget('onboarding_role');
 
-        return redirect()->route('employee.job-seeker-dashboard')->with('success', __('Welcome! Your job seeker profile has been set up successfully.'));
+        return redirect()->route('employee.job-seeker-dashboard')->with('success', __('words.profile_completed_successfully'));
     }
 }

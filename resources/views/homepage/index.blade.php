@@ -256,24 +256,21 @@
                 </h2>
             </div>
             
-            <!-- Talent Categories Grid - 2x3 Layout -->
+            <!-- Talent Categories Grid - Dynamic Layout -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                <!-- Developers -->
-                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
+                @foreach($talentCategories as $category)
+                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer"
+                     onclick="window.location.href='{{ route('talent-categories.show', $category) }}'">
                     <div class="flex justify-center mb-6">
                         <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
-                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" />
-                                <path d="M8 9l-2 3 2 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16 9l2 3-2 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            @include('components.talent-category-icon', ['icon' => $category->icon])
                         </div>
                     </div>
                     <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
-                        {{ __('words.developers') }}
+                        {{ $category->localized_name }}
                     </h3>
                     <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
-                        {{ __('words.developers_desc') }}
+                        {{ $category->localized_description }}
                     </p>
                     <!-- View Talents Button (appears on hover) -->
                     <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -282,127 +279,7 @@
                         </button>
                     </div>
                 </div>
-                
-                <!-- Designers -->
-                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
-                    <div class="flex justify-center mb-6">
-                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
-                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor"/>
-                                <path d="M8 8l8 8M16 8l-8 8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
-                        {{ __('words.designers') }}
-                    </h3>
-                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
-                        {{ __('words.designers_desc') }}
-                    </p>
-                    <!-- View Talents Button (appears on hover) -->
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
-                            {{ __('words.view_talents') }}
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Management Consultants -->
-                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
-                    <div class="flex justify-center mb-6">
-                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
-                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <rect x="3" y="13" width="4" height="8" rx="1" stroke="currentColor"/>
-                                <rect x="10" y="9" width="4" height="12" rx="1" stroke="currentColor"/>
-                                <rect x="17" y="5" width="4" height="16" rx="1" stroke="currentColor"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
-                        {{ __('words.management_consultants') }}
-                    </h3>
-                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
-                        {{ __('words.management_consultants_desc') }}
-                    </p>
-                    <!-- View Talents Button (appears on hover) -->
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
-                            {{ __('words.view_talents') }}
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Project Managers -->
-                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
-                    <div class="flex justify-center mb-6">
-                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
-                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="8" stroke="currentColor"/>
-                                <path d="M12 8v4l3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
-                        {{ __('words.project_managers') }}
-                    </h3>
-                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
-                        {{ __('words.project_managers_desc') }}
-                    </p>
-                    <!-- View Talents Button (appears on hover) -->
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
-                            {{ __('words.view_talents') }}
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Product Managers -->
-                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
-                    <div class="flex justify-center mb-6">
-                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
-                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="8" stroke="currentColor"/>
-                                <path d="M12 8v4l3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
-                        {{ __('words.product_managers') }}
-                    </h3>
-                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
-                        {{ __('words.product_managers_desc') }}
-                    </p>
-                    <!-- View Talents Button (appears on hover) -->
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
-                            {{ __('words.view_talents') }}
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Marketing Experts -->
-                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer">
-                    <div class="flex justify-center mb-6">
-                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
-                            <svg class="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M13 13l6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
-                        {{ __('words.marketing_experts') }}
-                    </h3>
-                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
-                        {{ __('words.marketing_experts_desc') }}
-                    </p>
-                    <!-- View Talents Button (appears on hover) -->
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
-                            {{ __('words.view_talents') }}
-                        </button>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

@@ -452,6 +452,15 @@ return [
     'tackle_important_initiatives_desc' => 'احصل على الخبرة التي تحتاجها لدفع عملك إلى الأمام بثقة.',
     
     'view_talents' => 'عرض المواهب',
+    'talent_categories' => 'فئات المواهب',
+    'explore_talent_categories_description' => 'اكتشف المواهب المتنوعة في جميع القطاعات',
+    'select_talent_categories' => 'اختر أنواع المواهب',
+    'select_talent_categories_help' => 'اختر جميع أنواع المواهب التي تنطبق عليك (يمكنك اختيار أكثر من واحد)',
+    'view_profile' => 'عرض الملف الشخصي',
+    'all_experience_levels' => 'جميع مستويات الخبرة',
+    'no_job_seekers_found' => 'لم يتم العثور على باحثين عن عمل',
+    'no_job_seekers_in_category' => 'لا يوجد باحثون عن عمل في هذه الفئة حالياً',
+    'profile_completed_successfully' => 'تم إكمال ملفك الشخصي بنجاح!',
 
     // لوحة تحكم الباحث عن عمل
     'job_seeker_dashboard' => 'لوحة تحكم الباحث عن عمل',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
+use App\Models\TalentCategory;
 
 class HomepageController extends Controller
 {
@@ -16,6 +17,8 @@ class HomepageController extends Controller
             image: asset('img/logo_v2_on_white.png')
         );
 
-        return view('homepage.index', compact('SEOData'));
+        $talentCategories = TalentCategory::active()->ordered()->get();
+
+        return view('homepage.index', compact('SEOData', 'talentCategories'));
     }
 }
