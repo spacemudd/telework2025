@@ -1,21 +1,24 @@
-<x-mail::message>
-# {{ __('words.team_invitation_greeting') }}
+@component('mail::message')
+<div style="direction: rtl; text-align: right; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+# مرحبًا بكم في منصة العمل عن بُعد
 
-{{ __('words.team_invitation_intro', ['company' => $company->name, 'role' => __('words.' . $role)]) }}
+تمت دعوتكم للانضمام إلى منصة العمل عن بُعد الخاصة بـ {{ $companyName }}.
 
-{{ __('words.team_invitation_account_details') }}
+**بيانات الدخول:**
+@component('mail::panel')
+- البريد الإلكتروني: {{ $email }}
+@if (!empty($password))
+- كلمة المرور: {{ $password }}
+@endif
+@endcomponent
 
-**{{ __('words.email') }}:** {{ $email }}  
-**{{ __('words.password') }}:** {{ $password }}
+@component('mail::button', ['url' => url('/login')])
+دخول النظام
+@endcomponent
 
-{{ __('words.team_invitation_login_prompt') }}
+في حال وجود أي استفسارات أو مشاكل تقنية، يُرجى التواصل مع فريق الدعم.
 
-<x-mail::button :url="route('login')">
-{{ __('words.task_assigned_login_button') }}
-</x-mail::button>
-
-{{ __('words.team_invitation_note') }}
-
-{{ __('words.team_invitation_regards') }}
-
-</x-mail::message>
+مع تحيات،
+فريق هدف للتوظيف
+</div>
+@endcomponent
