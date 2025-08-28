@@ -70,7 +70,7 @@ class Company extends Model
 
     public function primaryUser()
     {
-        return $this->users()->where('is_primary', true)->first();
+        return $this->users()->wherePivot('is_primary', true)->first();
     }
 
     /**
@@ -79,11 +79,38 @@ class Company extends Model
     public function getOwnerAttribute()
     {
         if ($this->users()->exists()) {
-            return $this->primaryUser();
+            // Prefer explicit owner role on the pivot
+            $ownerByRole = $this->users()->wherePivot('role', 'owner')->first();
+            if ($ownerByRole) {
+                return $ownerByRole;
+            }
+
+            // Then try primary flag
+            $primary = $this->primaryUser();
+            if ($primary) {
+                return $primary;
+            }
+
+            // As a last resort, return any attached user
+            return $this->users()->first();
         }
-        
-        // Fallback to old email-based lookup during migration
-        return User::where('email', $this->email)->first();
+
+        // Fallbacks during/after migration
+        if (!empty($this->owner_email)) {
+            $byOwnerEmail = User::where('email', $this->owner_email)->first();
+            if ($byOwnerEmail) {
+                return $byOwnerEmail;
+            }
+        }
+
+        // Legacy: company email used as owner email previously
+        $byCompanyEmail = User::where('email', $this->email)->first();
+        if ($byCompanyEmail) {
+            return $byCompanyEmail;
+        }
+
+        // Legacy belongsTo if present
+        return $this->user;
     }
 
     public function emailEvents()
