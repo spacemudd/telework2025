@@ -16,26 +16,26 @@ class InterviewService
         $employee = $interview->employee;
         $talentCategories = $employee->talentCategories;
         
-        // Default questions for all job seekers
+        // Default questions for all job seekers - Keep these short and simple
         $defaultQuestions = [
             [
-                'en' => 'Tell me your name and a little bit about yourself. Try to keep it under a minute.',
-                'ar' => 'أخبرني باسمك وقليلاً عن نفسك. حاول أن تبقي الإجابة تحت دقيقة واحدة.',
+                'en' => 'Tell me about yourself briefly.',
+                'ar' => 'أخبرني عن نفسك بإيجاز.',
                 'order' => 1,
             ],
             [
-                'en' => 'What are your main skills and how did you develop them?',
-                'ar' => 'ما هي مهاراتك الرئيسية وكيف طورتها؟',
+                'en' => 'What are your main skills?',
+                'ar' => 'ما هي مهاراتك الرئيسية؟',
                 'order' => 2,
             ],
             [
-                'en' => 'Describe a challenging project you worked on and how you overcame obstacles.',
-                'ar' => 'صف مشروعاً صعباً عملت عليه وكيف تغلبت على العقبات.',
+                'en' => 'Describe a challenging project you worked on.',
+                'ar' => 'صف مشروعاً صعباً عملت عليه.',
                 'order' => 3,
             ],
             [
-                'en' => 'What are your career goals for the next 3-5 years?',
-                'ar' => 'ما هي أهدافك المهنية للسنوات 3-5 القادمة؟',
+                'en' => 'What are your career goals?',
+                'ar' => 'ما هي أهدافك المهنية؟',
                 'order' => 4,
             ],
         ];
@@ -51,10 +51,14 @@ class InterviewService
 
         // Create questions in database
         foreach ($defaultQuestions as $questionData) {
+            // Validate question length
+            $validatedEn = $this->validateQuestionLength($questionData['en'], 'en');
+            $validatedAr = $this->validateQuestionLength($questionData['ar'], 'ar');
+            
             InterviewQuestion::create([
                 'interview_id' => $interview->id,
-                'question_text' => $questionData['en'],
-                'question_text_ar' => $questionData['ar'],
+                'question_text' => $validatedEn,
+                'question_text_ar' => $validatedAr,
                 'question_order' => $questionData['order'],
             ]);
         }
@@ -69,7 +73,7 @@ class InterviewService
                 ->post('https://api.openai.com/v1/chat/completions', [
                     'model' => 'gpt-4-turbo',
                     'messages' => [
-                        ['role' => 'system', 'content' => 'You are an expert HR interviewer. Generate 2-3 relevant interview questions based on the candidate\'s profile.'],
+                        ['role' => 'system', 'content' => 'You are an expert HR interviewer. Generate 2-3 SHORT and SIMPLE interview questions based on the candidate\'s profile. Each question should be concise and focus on one clear topic.'],
                         ['role' => 'user', 'content' => $prompt],
                     ],
                     'max_tokens' => 300,
@@ -95,11 +99,12 @@ class InterviewService
     {
         $locale = $language === 'ar' ? 'Arabic' : 'English';
         
-        return "Generate 2-3 interview questions in {$locale} for a job seeker with the following profile:\n" .
+        return "Generate 2-3 short and simple interview questions in {$locale} for a job seeker with the following profile:\n" .
                "Skills: {$employee->skills}\n" .
                "Experience Level: {$employee->experience_level}\n" .
                "Preferred Work Type: {$employee->preferred_work_type}\n" .
                "Talent Categories: " . $employee->talentCategories->pluck('name')->implode(', ') . "\n" .
+               "IMPORTANT: Keep each question short and simple - maximum 15 words in English or 20 words in Arabic. Focus on one clear topic per question.\n" .
                "Format: Return only the questions, one per line, in {$locale}.";
     }
 
@@ -112,9 +117,12 @@ class InterviewService
         foreach ($lines as $line) {
             $line = trim($line);
             if (!empty($line) && !str_starts_with($line, 'Q') && !str_starts_with($line, 'Question')) {
+                // Ensure question is not too long
+                $truncatedLine = $this->truncateQuestion($line, $language);
+                
                 $questions[] = [
-                    'en' => $line,
-                    'ar' => $this->translateQuestion($line, $language),
+                    'en' => $truncatedLine,
+                    'ar' => $this->translateQuestion($truncatedLine, $language),
                     'order' => $order++,
                 ];
             }
@@ -147,5 +155,91 @@ class InterviewService
         }
 
         return $question;
+    }
+
+    protected function truncateQuestion(string $question, string $language): string
+    {
+        $maxWords = $language === 'ar' ? 20 : 15;
+        $words = explode(' ', trim($question));
+        
+        if (count($words) <= $maxWords) {
+            return $question;
+        }
+        
+        // Log when questions are truncated
+        Log::info('Interview question truncated', [
+            'original_length' => count($words),
+            'max_words' => $maxWords,
+            'language' => $language,
+            'original_question' => $question
+        ]);
+        
+        // Truncate to max words and add ellipsis if needed
+        $truncated = implode(' ', array_slice($words, 0, $maxWords));
+        
+        // Add appropriate ellipsis based on language
+        if ($language === 'ar') {
+            return $truncated . '...';
+        } else {
+            return $truncated . '...';
+        }
+    }
+
+    protected function validateQuestionLength(string $question, string $language): string
+    {
+        $maxWords = $language === 'ar' ? 20 : 15;
+        $words = explode(' ', trim($question));
+
+        if (count($words) > $maxWords) {
+            // Log when questions are truncated
+            Log::info('Interview question truncated for validation', [
+                'original_length' => count($words),
+                'max_words' => $maxWords,
+                'language' => $language,
+                'original_question' => $question
+            ]);
+            return implode(' ', array_slice($words, 0, $maxWords)) . '...';
+        }
+        return $question;
+    }
+
+    /**
+     * Clean up existing long questions in the database
+     * This method can be called via artisan command or scheduled task
+     */
+    public function cleanupLongQuestions(): int
+    {
+        $updatedCount = 0;
+        
+        // Get all interview questions
+        $questions = InterviewQuestion::all();
+        
+        foreach ($questions as $question) {
+            $originalEn = $question->question_text;
+            $originalAr = $question->question_text_ar;
+            
+            $validatedEn = $this->validateQuestionLength($originalEn, 'en');
+            $validatedAr = $this->validateQuestionLength($originalAr, 'ar');
+            
+            // Update if questions were truncated
+            if ($validatedEn !== $originalEn || $validatedAr !== $originalAr) {
+                $question->update([
+                    'question_text' => $validatedEn,
+                    'question_text_ar' => $validatedAr,
+                ]);
+                $updatedCount++;
+                
+                Log::info('Cleaned up long interview question', [
+                    'question_id' => $question->id,
+                    'interview_id' => $question->interview_id,
+                    'original_en' => $originalEn,
+                    'original_ar' => $originalAr,
+                    'updated_en' => $validatedEn,
+                    'updated_ar' => $validatedAr,
+                ]);
+            }
+        }
+        
+        return $updatedCount;
     }
 }

@@ -8,6 +8,40 @@
 
             <h1 class="text-2xl font-bold mb-6">مرحباً {{ auth()->user()->name }}</h1>
 
+            <!-- Flash Messages -->
+            @if(session('info'))
+                <div class="mb-6 bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>{{ session('info') }}</span>
+                    </div>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>{{ session('error') }}</span>
+                    </div>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                </div>
+            @endif
+
             <!-- Profile Completeness Box -->
             <div class="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl shadow-lg p-6">
                 <div class="flex items-center justify-between mb-4">
@@ -28,7 +62,7 @@
                 
                 <!-- Completion Items -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="#" class="group flex items-center gap-3 p-3 bg-white rounded-lg border border-blue-100 hover:bg-blue-700 hover:text-white cursor-pointer transition-colors">
+                    <div class="group flex items-center gap-3 p-3 bg-green-50 rounded-lg border border-green-200 cursor-not-allowed">
                         <div class="flex-shrink-0">
                             <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
                                 <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -37,12 +71,12 @@
                             </div>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-sm font-medium text-gray-900 group-hover:text-white">تفاصيل الملف الشخصي</h3>
-                            <p class="text-xs text-gray-500 group-hover:text-white">مكتمل</p>
+                            <h3 class="text-sm font-medium text-green-900">تفاصيل الملف الشخصي</h3>
+                            <p class="text-xs text-green-600">مكتمل</p>
                         </div>
-                    </a>
+                    </div>
                     
-                    <a href="#" class="group flex items-center gap-3 p-3 bg-white rounded-lg border border-blue-100 hover:bg-blue-700 hover:text-white cursor-pointer transition-colors">
+                    <div class="group flex items-center gap-3 p-3 bg-green-50 rounded-lg border border-green-200 cursor-not-allowed">
                         <div class="flex-shrink-0">
                             <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
                                 <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -51,32 +85,57 @@
                             </div>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-sm font-medium text-gray-900 group-hover:text-white">رفع السيرة الذاتية</h3>
-                            <p class="text-xs text-gray-500 group-hover:text-white">مكتمل</p>
+                            <h3 class="text-sm font-medium text-green-900">رفع السيرة الذاتية</h3>
+                            <p class="text-xs text-green-600">مكتمل</p>
                         </div>
-                    </a>
+                    </div>
                     
-                    <a href="{{ route('interview.start') }}" class="group flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:bg-blue-700 hover:text-white cursor-pointer transition-colors">
-                        <div class="flex-shrink-0">
-                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
+                    @if(auth()->user()->employee->interviews()->where('status', 'completed')->exists())
+                        <!-- Interview Completed - Button Disabled -->
+                        <div class="group flex items-center gap-3 p-3 bg-green-50 rounded-lg border border-green-200 cursor-not-allowed">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-sm font-medium text-green-900">إجراء أول مقابلة</h3>
+                                <p class="text-xs text-green-600">مكتمل</p>
                             </div>
                         </div>
-                        <div class="flex-1">
-                            <h3 class="text-sm font-medium text-gray-700 group-hover:text-white">إجراء أول مقابلة</h3>
-                            <p class="text-xs text-gray-500 group-hover:text-white">
-                                @if(auth()->user()->employee->interviews()->where('status', 'completed')->exists())
-                                    مكتمل
-                                @elseif(auth()->user()->employee->interviews()->whereIn('status', ['pending', 'in_progress'])->exists())
-                                    قيد التقدم
-                                @else
-                                    قيد الانتظار
-                                @endif
-                            </p>
-                        </div>
-                    </a>
+                    @elseif(auth()->user()->employee->interviews()->whereIn('status', ['pending', 'in_progress'])->exists())
+                        <!-- Interview In Progress - Button Active -->
+                        <a href="{{ route('interview.start') }}" class="group flex items-center gap-3 p-3 bg-white rounded-lg border border-blue-200 hover:bg-blue-700 hover:text-white cursor-pointer transition-colors">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-sm font-medium text-gray-700 group-hover:text-white">إجراء أول مقابلة</h3>
+                                <p class="text-xs text-gray-500 group-hover:text-white">قيد التقدم</p>
+                            </div>
+                        </a>
+                    @else
+                        <!-- No Interview - Button Active -->
+                        <a href="{{ route('interview.start') }}" class="group flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:bg-blue-700 hover:text-white cursor-pointer transition-colors">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-sm font-medium text-gray-700 group-hover:text-white">إجراء أول مقابلة</h3>
+                                <p class="text-xs text-gray-500 group-hover:text-white">قيد الانتظار</p>
+                            </div>
+                        </a>
+                    @endif
                     
                     <a href="#" class="group flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:bg-blue-700 hover:text-white cursor-pointer transition-colors">
                         <div class="flex-shrink-0">

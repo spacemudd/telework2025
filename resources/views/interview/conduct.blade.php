@@ -1,29 +1,71 @@
 @extends('layouts.employee')
 
-@section('employee-content')
-<!-- Debug Information -->
-@if(config('app.debug'))
-<div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
-    <strong>Debug Info:</strong><br>
-    Locale: {{ app()->getLocale() }}<br>
-    Interview ID: {{ $interview->id ?? 'NULL' }}<br>
-    Questions Count: {{ $questions->count() ?? 'NULL' }}<br>
-    Current Question: {{ $currentQuestion ? $currentQuestion->id : 'NULL' }}<br>
-    User: {{ auth()->user()->name ?? 'NULL' }}
+@push('styles')
+<style>
+    .question-text {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        line-height: 1.6;
+        max-width: 100%;
+        padding: 1rem;
+        background-color: #f8fafc;
+        border-radius: 0.5rem;
+        border-left: 4px solid #3b82f6;
+    }
     
-    <!-- Test Upload Button -->
-    <div class="mt-3">
-        <button onclick="testUpload()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Test Upload
-        </button>
-    </div>
-</div>
-@endif
+    .question-text.rtl {
+        text-align: right;
+        border-left: none;
+        border-right: 4px solid #3b82f6;
+    }
+    
+    .question-text.ltr {
+        text-align: left;
+    }
+    
+    /* Section visibility management */
+    .section-hidden {
+        opacity: 0;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        transition: all 0.5s ease-in-out;
+    }
+    
+    .section-visible {
+        opacity: 1;
+        visibility: visible;
+        height: auto;
+        overflow: visible;
+        transition: all 0.5s ease-in-out;
+    }
+    
+    /* Responsive adjustments for mobile */
+    @media (max-width: 640px) {
+        .question-text {
+            font-size: 1rem;
+            padding: 0.75rem;
+            line-height: 1.5;
+        }
+    }
+    
+    /* Ensure proper text wrapping for very long questions */
+    .question-text {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+</style>
+@endpush
+
+@section('employee-content')
 
 <div class="py-12">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <!-- Welcome Section -->
-        <div id="welcome-section" class="mb-8 text-center">
+        <div id="welcome-section" class="mb-8 text-center section-visible">
             <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-12 shadow-lg">
                 <div id="welcome-text" class="opacity-100 transition-all duration-1000">
                     <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
@@ -52,7 +94,7 @@
         </div>
 
         <!-- Language Selection -->
-        <div id="language-selection" class="mb-8 opacity-100 transition-all duration-1000">
+        <div id="language-selection" class="mb-8 section-hidden" style="display: none;">
             <div class="bg-white rounded-xl p-8 shadow-md text-center">
                 <h3 class="text-2xl font-semibold text-gray-800 mb-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                     {{ app()->getLocale() === 'ar' ? 'هل تفضل اللغة الإنجليزية أم العربية؟' : 'Do you prefer English or Arabic?' }}
@@ -69,7 +111,7 @@
         </div>
 
         <!-- Question Section -->
-        <div id="question-section" class="opacity-0 transition-all duration-1000 hidden">
+        <div id="question-section" class="section-hidden" style="display: none;">
             <div class="bg-white rounded-xl p-8 shadow-md">
                 <div class="mb-6">
                     <div class="flex items-center justify-between mb-4">
@@ -82,7 +124,7 @@
                         </div>
                     </div>
                     
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 question-text {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                         {{ $currentQuestion ? $currentQuestion->localized_question : '' }}
                     </h3>
                 </div>
@@ -150,7 +192,7 @@
         </div>
 
         <!-- Completion Section -->
-        <div id="completion-section" class="opacity-0 transition-all duration-1000 hidden">
+        <div id="completion-section" class="section-hidden" style="display: none;">
             <div class="bg-white rounded-xl p-8 shadow-md text-center">
                 <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,8 +218,6 @@
 
 @push('scripts')
 <script>
-    console.log('Interview script loading...');
-    
     let mediaRecorder;
     let audioChunks = [];
     let currentQuestion = @json($currentQuestion);
@@ -185,16 +225,29 @@
     let currentLanguage = '{{ app()->getLocale() }}';
     let isRecording = false;
 
-    console.log('Script variables initialized:', {
-        currentQuestion,
-        questions,
-        currentLanguage
-    });
+    // Helper function to show/hide sections properly
+    function showSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.style.display = 'block';
+        // Small delay to ensure display is set before adding visible class
+        setTimeout(() => {
+            section.classList.remove('section-hidden');
+            section.classList.add('section-visible');
+        }, 10);
+    }
+
+    function hideSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.classList.remove('section-visible');
+        section.classList.add('section-hidden');
+        // Hide the element after transition
+        setTimeout(() => {
+            section.style.display = 'none';
+        }, 500);
+    }
 
     // Welcome animation sequence - simplified
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded, starting animations...');
-        
         // Show welcome text immediately
         document.getElementById('welcome-text').style.opacity = '1';
         
@@ -205,35 +258,22 @@
         
         // Show language selection after 2 seconds
         setTimeout(() => {
-            document.getElementById('language-selection').style.opacity = '1';
+            showSection('language-selection');
         }, 2000);
     });
 
     function selectLanguage(lang) {
-        console.log('selectLanguage called with:', lang);
         currentLanguage = lang;
-        console.log('Language selected:', lang);
         
-        // Hide language selection
-        document.getElementById('language-selection').style.opacity = '0';
+        // Hide welcome and language selection sections
+        hideSection('welcome-section');
+        hideSection('language-selection');
         
+        // Show question section
         setTimeout(() => {
-            // Show question section
-            const questionSection = document.getElementById('question-section');
-            questionSection.classList.remove('hidden');
-            questionSection.style.opacity = '1';
+            showSection('question-section');
         }, 500);
     }
-
-    // Make functions globally available for debugging
-    window.selectLanguage = selectLanguage;
-    window.startRecording = startRecording;
-    window.stopRecording = stopRecording;
-    window.playRecording = playRecording;
-    window.reRecord = reRecord;
-    window.submitRecording = submitRecording;
-
-    console.log('All functions defined and made global');
 
     async function startRecording() {
         try {
@@ -243,8 +283,6 @@
             const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 
                             MediaRecorder.isTypeSupported('audio/ogg') ? 'audio/ogg' : 
                             MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/wav';
-            
-            console.log('Using MIME type:', mimeType);
             
             mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
             audioChunks = [];
@@ -310,11 +348,6 @@
         formData.append('recording_duration', Math.ceil(audioBlob.size / 1000)); // Approximate duration
 
         try {
-            console.log('Submitting recording...', {
-                interview_id: currentQuestion.interview_id,
-                question_id: currentQuestion.id,
-                audio_size: audioBlob.size
-            });
 
             const response = await fetch(`/interview/${currentQuestion.interview_id}/questions/${currentQuestion.id}/response`, {
                 method: 'POST',
@@ -324,28 +357,22 @@
                 body: formData
             });
 
-            console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
-
             // Check if response is JSON
             const contentType = response.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
                 // Response is not JSON, get the text to see what it is
                 const responseText = await response.text();
-                console.error('Non-JSON response received:', responseText);
                 throw new Error(`Server returned non-JSON response: ${response.status} ${response.statusText}`);
             }
 
             const result = await response.json();
-            console.log('Response parsed successfully:', result);
             
             if (result.success) {
                 if (result.is_completed) {
-                    // Interview completed
-                    document.getElementById('question-section').style.opacity = '0';
+                    // Interview completed - hide question section and show completion
+                    hideSection('question-section');
                     setTimeout(() => {
-                        document.getElementById('completion-section').classList.remove('hidden');
-                        document.getElementById('completion-section').style.opacity = '1';
+                        showSection('completion-section');
                     }, 500);
                 } else if (result.next_question) {
                     // Move to next question
@@ -357,12 +384,6 @@
                 alert('Error: ' + result.message);
             }
         } catch (error) {
-            console.error('Error submitting recording:', error);
-            console.error('Error details:', {
-                name: error.name,
-                message: error.message,
-                stack: error.stack
-            });
             alert('Error submitting recording: ' + error.message);
         }
     }
@@ -370,7 +391,12 @@
     function updateQuestionDisplay() {
         // Update question text and progress
         const questionText = currentLanguage === 'ar' ? currentQuestion.question_text_ar : currentQuestion.question_text;
-        document.querySelector('#question-section h3').textContent = questionText;
+        const questionElement = document.querySelector('#question-section h3');
+        questionElement.textContent = questionText;
+        
+        // Update CSS classes for proper text alignment
+        questionElement.className = `text-xl font-semibold text-gray-800 mb-4 question-text ${currentLanguage === 'ar' ? 'rtl' : 'ltr'}`;
+        questionElement.setAttribute('dir', currentLanguage === 'ar' ? 'rtl' : 'ltr');
         
         const progress = ((currentQuestion.question_order - 1) / questions.length) * 100;
         document.querySelector('#question-section .bg-blue-600').style.width = progress + '%';
@@ -379,69 +405,6 @@
             `${currentLanguage === 'ar' ? 'السؤال' : 'Question'} ${currentQuestion.question_order} ${currentLanguage === 'ar' ? 'من' : 'of'} ${questions.length}`;
     }
 
-    function testUpload() {
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'audio/*';
-        fileInput.onchange = async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('audio_file', file);
-                formData.append('recording_duration', Math.ceil(file.size / 1000)); // Approximate duration
-
-                try {
-                    console.log('Testing file upload...');
-                    const response = await fetch(`/interview/${currentQuestion.interview_id}/questions/${currentQuestion.id}/response`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        },
-                        body: formData
-                    });
-
-                    const result = await response.json();
-                    console.log('Test upload response:', result);
-                    alert('Test upload successful! Response: ' + JSON.stringify(result));
-                } catch (error) {
-                    console.error('Error testing file upload:', error);
-                    alert('Error testing file upload: ' + error.message);
-                }
-            }
-        };
-        fileInput.click();
-    }
-
-    async function testRouteBinding() {
-        const interviewId = currentQuestion.interview_id;
-        const questionId = currentQuestion.id;
-
-        try {
-            console.log('Testing route binding...', { interviewId, questionId });
-            const response = await fetch(`/interview/${interviewId}/questions/${questionId}/test-binding`, {
-                method: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                }
-            });
-
-            console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Route binding test response:', result);
-                alert('Route binding test successful! Response: ' + JSON.stringify(result));
-            } else {
-                const responseText = await response.text();
-                console.error('Route binding test failed:', responseText);
-                alert('Route binding test failed. Check console for details.');
-            }
-        } catch (error) {
-            console.error('Error testing route binding:', error);
-            alert('Error testing route binding: ' + error.message);
-        }
-    }
 </script>
 @endpush
 @endsection

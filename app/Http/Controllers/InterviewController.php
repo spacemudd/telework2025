@@ -34,6 +34,16 @@ class InterviewController extends Controller
             return redirect()->route('dashboard')->with('error', 'Access denied');
         }
 
+        // Check if user already has a completed interview
+        $completedInterview = $employee->interviews()
+            ->where('status', 'completed')
+            ->first();
+
+        if ($completedInterview) {
+            return redirect()->route('employee.job-seeker-dashboard')
+                ->with('info', 'You have already completed your interview.');
+        }
+
         // Debug locale information
         \Log::info('Interview start method - Locale debug', [
             'request_locale' => request()->segment(1),
@@ -83,6 +93,12 @@ class InterviewController extends Controller
         ]);
 
         $this->authorize('view', $interview);
+
+        // Check if interview is already completed
+        if ($interview->status === 'completed') {
+            return redirect()->route('employee.job-seeker-dashboard')
+                ->with('info', 'تم إكمال هذه المقابلة بالفعل.');
+        }
 
         // Temporarily set the app locale to match the interview language
         $originalLocale = app()->getLocale();
