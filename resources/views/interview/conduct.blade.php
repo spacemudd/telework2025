@@ -152,6 +152,81 @@
     #permissions-warning .border-amber-300 {
         border-color: #f59e0b;
     }
+
+    /* Camera preview styling */
+    #camera-preview {
+        border: 2px solid #e5e7eb;
+        border-radius: 0.5rem;
+        transition: border-color 0.3s ease;
+    }
+
+    #camera-preview:hover {
+        border-color: #3b82f6;
+    }
+
+    /* Professional video interface styling */
+    #main-video {
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    #main-video:hover {
+        transform: scale(1.02);
+        box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Recording overlay styling */
+    #recording-overlay {
+        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 32px rgba(220, 38, 38, 0.3);
+    }
+
+    /* Status icon animations */
+    #video-status-icon {
+        transition: all 0.3s ease-in-out;
+    }
+
+    #video-status-icon:hover {
+        transform: scale(1.1);
+    }
+
+    /* Button hover effects */
+    .group:hover .w-6 {
+        transform: scale(1.1);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    /* Review actions styling */
+    #review-actions {
+        animation: slideInUp 0.6s ease-out;
+    }
+
+    /* Timer styling */
+    #timer-container {
+        animation: fadeInScale 0.4s ease-out;
+    }
+
+    @keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* RTL specific adjustments for video interface */
+    #permissions-warning.rtl #recording-overlay {
+        right: auto;
+        left: 1rem;
+    }
+
+    #permissions-warning.ltr #recording-overlay {
+        left: auto;
+        right: 1rem;
+    }
 </style>
 @endpush
 
@@ -273,69 +348,123 @@
                     <div id="timer" class="timer">02:00</div>
                 </div>
 
-                <!-- Recording Controls -->
-                <div class="space-y-4">
+                <!-- Professional Video Interface -->
+                <div class="space-y-6">
+                    <!-- Single Video Display Container -->
+                    <div class="bg-gradient-to-br from-slate-50 to-gray-100 rounded-2xl p-8 shadow-lg border border-gray-200">
+                        <!-- Video Header -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                                <div id="video-status-icon" class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <svg id="status-svg" class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 id="video-status-title" class="text-lg font-semibold text-gray-800" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                        {{ app()->getLocale() === 'ar' ? 'معاينة الكاميرا' : 'Camera Preview' }}
+                                    </h4>
+                                    <p id="video-status-subtitle" class="text-sm text-gray-600" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                        {{ app()->getLocale() === 'ar' ? 'تأكد من أن الكاميرا تعمل بشكل صحيح' : 'Ensure your camera is working properly' }}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Timer Display -->
+                            <div id="timer-container" class="hidden">
+                                <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-2">
+                                    <div class="text-xs text-red-600 mb-1" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                        {{ app()->getLocale() === 'ar' ? 'الوقت المتبقي' : 'Time Remaining' }}
+                                    </div>
+                                    <div id="timer" class="text-xl font-bold text-red-700">02:00</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Single Video Element -->
+                        <div class="relative">
+                            <video id="main-video" autoplay muted class="w-full max-w-2xl mx-auto rounded-xl shadow-2xl border-4 border-white"></video>
+                            
+                            <!-- Recording Overlay -->
+                            <div id="recording-overlay" class="hidden absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium animate-pulse">
+                                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                    <div class="w-2 h-2 bg-white rounded-full"></div>
+                                    <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                        {{ app()->getLocale() === 'ar' ? 'جاري التسجيل' : 'RECORDING' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Control Buttons -->
                     <div class="flex items-center justify-center space-x-4 rtl:space-x-reverse">
+                        <!-- Record Button -->
                         <button id="record-btn" onclick="startRecording()" 
-                                class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center">
-                            <svg class="w-5 h-5 mr-2 rtl:ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10"/>
-                                <circle cx="12" cy="12" r="3"/>
-                            </svg>
+                                class="group bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center space-x-3 rtl:space-x-reverse">
+                            <div class="w-6 h-6 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </div>
                             <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                {{ app()->getLocale() === 'ar' ? 'تسجيل' : 'Record' }}
+                                {{ app()->getLocale() === 'ar' ? 'بدء التسجيل' : 'Begin Recording' }}
                             </span>
                         </button>
                         
+                        <!-- Stop Button -->
                         <button id="stop-btn" onclick="stopRecording()" 
-                                class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors hidden">
+                                class="hidden group bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center space-x-3 rtl:space-x-reverse">
+                            <div class="w-6 h-6 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </div>
                             <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                {{ app()->getLocale() === 'ar' ? 'إيقاف' : 'Stop' }}
+                                {{ app()->getLocale() === 'ar' ? 'إيقاف التسجيل' : 'Stop Recording' }}
                             </span>
                         </button>
                     </div>
 
-                    <!-- Live Video Preview Container -->
-                    <div id="live-preview-container" class="hidden mb-4">
-                        <div class="bg-gray-50 rounded-lg p-4">
-                            <h4 class="font-medium text-gray-800 mb-3 text-center" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                {{ app()->getLocale() === 'ar' ? 'معاينة مباشرة:' : 'Live Preview:' }}
+                    <!-- Review Actions (Hidden until recording is complete) -->
+                    <div id="review-actions" class="hidden">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4 text-center" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                {{ app()->getLocale() === 'ar' ? 'مراجعة التسجيل' : 'Review Your Recording' }}
                             </h4>
-                            <video id="live-video" autoplay muted class="video-preview"></video>
-                        </div>
-                    </div>
-
-                    <!-- Recording Status -->
-                    <div id="recording-status" class="text-center hidden">
-                        <div class="inline-flex items-center px-4 py-2 bg-red-100 text-red-800 rounded-full">
-                            <div class="w-2 h-2 bg-red-600 rounded-full mr-2 rtl:ml-2 animate-pulse"></div>
-                            <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                {{ app()->getLocale() === 'ar' ? 'جاري التسجيل...' : 'Recording...' }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Video Player -->
-                    <div id="video-player" class="hidden">
-                        <div class="bg-gray-50 rounded-lg p-4">
-                            <h4 class="font-medium text-gray-800 mb-3" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                {{ app()->getLocale() === 'ar' ? 'شاهد تسجيلك:' : 'Watch your recording:' }}
-                            </h4>
-                            <video id="recorded-video" controls class="video-preview"></video>
-                            <div class="flex gap-3 mt-3 justify-center">
-                                <button onclick="playRecording()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                            <p class="text-gray-600 text-center mb-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                {{ app()->getLocale() === 'ar' ? 'شاهد تسجيلك وتأكد من رضاك عنه قبل المتابعة' : 'Watch your recording and confirm you are satisfied before proceeding' }}
+                            </p>
+                            
+                            <div class="flex gap-4 justify-center">
+                                <button onclick="playRecording()" 
+                                        class="group bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center space-x-2 rtl:space-x-reverse">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
                                     <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                                         {{ app()->getLocale() === 'ar' ? 'تشغيل' : 'Play' }}
                                     </span>
                                 </button>
-                                <button onclick="reRecord()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm">
+                                
+                                <button onclick="reRecord()" 
+                                        class="group bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center space-x-2 rtl:space-x-reverse">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                    </svg>
                                     <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                                         {{ app()->getLocale() === 'ar' ? 'إعادة تسجيل' : 'Re-record' }}
                                     </span>
                                 </button>
-                                <button id="submit-btn" onclick="submitRecording()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm">
+                                
+                                <button id="submit-btn" onclick="submitRecording()" 
+                                        class="group bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center space-x-2 rtl:space-x-reverse">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
                                     <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                        {{ app()->getLocale() === 'ar' ? 'إرسال' : 'Submit' }}
+                                        {{ app()->getLocale() === 'ar' ? 'تأكيد والمتابعة' : 'Confirm & Continue' }}
                                     </span>
                                 </button>
                             </div>
@@ -468,6 +597,8 @@
             showSection('permissions-warning');
             // Update warning text based on selected language
             updateWarningText(lang);
+            // Update button text based on selected language
+            updateButtonText(lang);
         }, 500);
     }
 
@@ -478,6 +609,9 @@
         // Show question section
         setTimeout(() => {
             showSection('question-section');
+            // Initialize camera preview and set initial state
+            initializeCameraPreview();
+            updateVideoInterface('preview');
         }, 500);
     }
 
@@ -533,12 +667,115 @@
         }
     }
 
-    async function startRecording() {
+    // Function to initialize camera preview
+    async function initializeCameraPreview() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ 
                 video: true, 
-                audio: true 
+                audio: false // Only video for preview
             });
+            
+            const mainVideo = document.getElementById('main-video');
+            mainVideo.srcObject = stream;
+            
+            // Store the stream for later use in recording
+            window.cameraPreviewStream = stream;
+            
+        } catch (error) {
+            console.error('Error accessing camera for preview:', error);
+            // Don't show error notification here, just log it
+            // User will see the error when they try to record
+        }
+    }
+
+    // Function to update button text based on language
+    function updateButtonText(lang) {
+        const recordBtn = document.getElementById('record-btn').querySelector('span');
+        const stopBtn = document.getElementById('stop-btn').querySelector('span');
+        
+        if (lang === 'ar') {
+            recordBtn.textContent = 'بدء التسجيل';
+            recordBtn.setAttribute('dir', 'rtl');
+            stopBtn.textContent = 'إيقاف التسجيل';
+            stopBtn.setAttribute('dir', 'rtl');
+        } else {
+            recordBtn.textContent = 'Begin Recording';
+            recordBtn.setAttribute('dir', 'ltr');
+            stopBtn.textContent = 'Stop Recording';
+            stopBtn.setAttribute('dir', 'ltr');
+        }
+    }
+
+    // Function to update video interface based on current state
+    function updateVideoInterface(state, stream = null) {
+        const mainVideo = document.getElementById('main-video');
+        const statusIcon = document.getElementById('video-status-icon');
+        const statusSvg = document.getElementById('status-svg');
+        const statusTitle = document.getElementById('video-status-title');
+        const statusSubtitle = document.getElementById('video-status-subtitle');
+        const recordingOverlay = document.getElementById('recording-overlay');
+        const reviewActions = document.getElementById('review-actions');
+        
+        if (state === 'preview') {
+            // Camera preview state
+            statusIcon.className = 'w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center';
+            statusSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2 2v8a2 2 0 002 2z"/>';
+            statusTitle.textContent = currentLanguage === 'ar' ? 'معاينة الكاميرا' : 'Camera Preview';
+            statusSubtitle.textContent = currentLanguage === 'ar' ? 'تأكد من أن الكاميرا تعمل بشكل صحيح' : 'Ensure your camera is working properly';
+            recordingOverlay.classList.add('hidden');
+            reviewActions.classList.add('hidden');
+            mainVideo.controls = false;
+            mainVideo.autoplay = true;
+            mainVideo.muted = true;
+            
+        } else if (state === 'recording') {
+            // Recording state
+            statusIcon.className = 'w-8 h-8 bg-red-100 rounded-full flex items-center justify-center';
+            statusSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>';
+            statusTitle.textContent = currentLanguage === 'ar' ? 'جاري التسجيل' : 'Recording in Progress';
+            statusSubtitle.textContent = currentLanguage === 'ar' ? 'تسجيل إجابتك على السؤال' : 'Recording your answer to the question';
+            recordingOverlay.classList.remove('hidden');
+            reviewActions.classList.add('hidden');
+            mainVideo.controls = false;
+            mainVideo.autoplay = true;
+            mainVideo.muted = true;
+            
+            if (stream) {
+                mainVideo.srcObject = stream;
+            }
+            
+        } else if (state === 'review') {
+            // Review state
+            statusIcon.className = 'w-8 h-8 bg-green-100 rounded-full flex items-center justify-center';
+            statusSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>';
+            statusTitle.textContent = currentLanguage === 'ar' ? 'مراجعة التسجيل' : 'Review Recording';
+            statusSubtitle.textContent = currentLanguage === 'ar' ? 'شاهد تسجيلك وتأكد من رضاك عنه' : 'Watch your recording and confirm satisfaction';
+            recordingOverlay.classList.add('hidden');
+            reviewActions.classList.remove('hidden');
+            mainVideo.controls = true;
+            mainVideo.autoplay = false;
+            mainVideo.muted = false;
+        }
+    }
+
+    async function startRecording() {
+        try {
+            // Use existing camera preview stream and add audio
+            let stream;
+            if (window.cameraPreviewStream) {
+                // Clone the existing video stream and add audio
+                const videoTrack = window.cameraPreviewStream.getVideoTracks()[0];
+                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const audioTrack = audioStream.getAudioTracks()[0];
+                
+                stream = new MediaStream([videoTrack, audioTrack]);
+            } else {
+                // Fallback: request both video and audio
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: true, 
+                    audio: true 
+                });
+            }
             
             // Get supported MIME types for video
             const mimeType = MediaRecorder.isTypeSupported('video/webm') ? 'video/webm' : 
@@ -555,8 +792,11 @@
             mediaRecorder.onstop = () => {
                 const videoBlob = new Blob(videoChunks, { type: mimeType });
                 const videoUrl = URL.createObjectURL(videoBlob);
-                document.getElementById('recorded-video').src = videoUrl;
-                document.getElementById('video-player').classList.remove('hidden');
+                
+                // Update main video to show recorded content
+                const mainVideo = document.getElementById('main-video');
+                mainVideo.src = videoUrl;
+                mainVideo.srcObject = null; // Remove stream
                 
                 // Store the MIME type for submission
                 window.recordedMimeType = mimeType;
@@ -565,10 +805,8 @@
             mediaRecorder.start();
             isRecording = true;
             
-            // Show live preview
-            const liveVideo = document.getElementById('live-video');
-            liveVideo.srcObject = stream;
-            document.getElementById('live-preview-container').classList.remove('hidden');
+            // Update video interface for recording state
+            updateVideoInterface('recording', stream);
             
             // Start timer and show timer container
             startTimer();
@@ -576,7 +814,6 @@
             
             document.getElementById('record-btn').classList.add('hidden');
             document.getElementById('stop-btn').classList.remove('hidden');
-            document.getElementById('recording-status').classList.remove('hidden');
             
         } catch (error) {
             console.error('Error accessing camera/microphone:', error);
@@ -597,10 +834,8 @@
             mediaRecorder.stream.getTracks().forEach(track => track.stop());
             isRecording = false;
             
-            // Hide live preview
-            const liveVideo = document.getElementById('live-video');
-            liveVideo.srcObject = null;
-            document.getElementById('live-preview-container').classList.add('hidden');
+            // Update video interface for review state
+            updateVideoInterface('review');
 
             // Stop timer and hide timer container
             stopTimer();
@@ -608,20 +843,23 @@
             
             document.getElementById('record-btn').classList.remove('hidden');
             document.getElementById('stop-btn').classList.add('hidden');
-            document.getElementById('recording-status').classList.add('hidden');
         }
     }
 
     function playRecording() {
-        document.getElementById('recorded-video').play();
+        document.getElementById('main-video').play();
     }
 
     function reRecord() {
-        document.getElementById('video-player').classList.add('hidden');
+        // Reset to preview state
+        updateVideoInterface('preview');
         videoChunks = [];
         // Reset timer display
         timeRemaining = 120;
         updateTimerDisplay();
+        
+        // Re-initialize camera preview
+        initializeCameraPreview();
     }
 
     async function submitRecording() {
@@ -722,6 +960,13 @@
         
         document.querySelector('#question-section .text-sm').textContent = 
             `${currentLanguage === 'ar' ? 'السؤال' : 'Question'} ${currentQuestion.question_order} ${currentLanguage === 'ar' ? 'من' : 'of'} ${questions.length}`;
+        
+        // Update button text to match current language
+        updateButtonText(currentLanguage);
+        
+        // Reset video interface to preview state for new question
+        updateVideoInterface('preview');
+        initializeCameraPreview();
     }
 
     // Error notification function
