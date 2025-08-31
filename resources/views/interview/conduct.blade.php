@@ -108,6 +108,50 @@
         left: auto;
         right: 1rem;
     }
+
+    /* Permissions warning styling */
+    #permissions-warning {
+        animation: slideInUp 0.6s ease-out;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* RTL specific adjustments for permissions warning */
+    #permissions-warning.rtl {
+        text-align: right;
+    }
+
+    #permissions-warning.rtl .flex {
+        flex-direction: row-reverse;
+    }
+
+    #permissions-warning.rtl .space-x-4 > * + * {
+        margin-left: 0;
+        margin-right: 1rem;
+    }
+
+    #permissions-warning.ltr {
+        text-align: left;
+    }
+
+    /* Enhanced warning styling */
+    #permissions-warning .bg-amber-100 {
+        background-color: #fef3c7;
+        border-color: #f59e0b;
+    }
+
+    #permissions-warning .border-amber-300 {
+        border-color: #f59e0b;
+    }
 </style>
 @endpush
 
@@ -157,6 +201,47 @@
                     <button onclick="selectLanguage('ar')" class="language-btn bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
                         العربية
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy & Permissions Warning -->
+        <div id="permissions-warning" class="mb-8 section-hidden" style="display: none;">
+            <div class="bg-amber-50 border-2 border-amber-300 rounded-xl p-8 shadow-lg">
+                <div class="flex items-start space-x-4 rtl:space-x-reverse">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-amber-800 mb-3" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                            {{ app()->getLocale() === 'ar' ? 'تنبيه مهم: الوصول إلى الكاميرا والميكروفون' : 'Important Notice: Camera & Microphone Access Required' }}
+                        </h3>
+                        <div class="text-amber-700 space-y-3" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                            <p class="leading-relaxed">
+                                {{ app()->getLocale() === 'ar' ? 'نحتاج إلى الوصول إلى كاميرا الويب والميكروفون الخاص بك لإجراء هذه المقابلة.' : 'We need access to your webcam and microphone to conduct this interview.' }}
+                            </p>
+                            <p class="leading-relaxed">
+                                {{ app()->getLocale() === 'ar' ? 'معلوماتك محمية ومؤمنة ولن يتم مشاهدتها من قبل أي شخص باستثناء مدير التوظيف للوظائف التي تتقدم إليها.' : 'Your information is secured and will not be viewed by anyone except the hiring manager for the job(s) you apply for.' }}
+                            </p>
+                            <div class="bg-amber-100 border border-amber-200 rounded-lg p-4 mt-4">
+                                <p class="text-sm font-medium text-amber-800" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                    {{ app()->getLocale() === 'ar' ? '🔒 حماية الخصوصية: جميع التسجيلات مشفرة ومخزنة بأمان' : '🔒 Privacy Protection: All recordings are encrypted and stored securely' }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <button onclick="proceedToInterview()" 
+                                    class="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+                                <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                    {{ app()->getLocale() === 'ar' ? 'أفهم وأوافق على المتابعة' : 'I Understand & Agree to Continue' }}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -378,10 +463,74 @@
         hideSection('welcome-section');
         hideSection('language-selection');
         
+        // Show permissions warning first
+        setTimeout(() => {
+            showSection('permissions-warning');
+            // Update warning text based on selected language
+            updateWarningText(lang);
+        }, 500);
+    }
+
+    function proceedToInterview() {
+        // Hide permissions warning
+        hideSection('permissions-warning');
+        
         // Show question section
         setTimeout(() => {
             showSection('question-section');
         }, 500);
+    }
+
+    // Function to update warning text based on selected language
+    function updateWarningText(lang) {
+        const warningTitle = document.getElementById('permissions-warning').querySelector('h3');
+        const warningContent = document.getElementById('permissions-warning').querySelector('.text-amber-700');
+        const privacyNote = document.getElementById('permissions-warning').querySelector('.bg-amber-100 p');
+        const proceedButton = document.getElementById('permissions-warning').querySelector('button span');
+        
+        if (lang === 'ar') {
+            // Arabic text
+            warningTitle.textContent = 'تنبيه مهم: الوصول إلى الكاميرا والميكروفون';
+            warningTitle.setAttribute('dir', 'rtl');
+            warningContent.setAttribute('dir', 'rtl');
+            warningContent.innerHTML = `
+                <p class="leading-relaxed">
+                    نحتاج إلى الوصول إلى كاميرا الويب والميكروفون الخاص بك لإجراء هذه المقابلة.
+                </p>
+                <p class="leading-relaxed">
+                    معلوماتك محمية ومؤمنة ولن يتم مشاهدتها من قبل أي شخص باستثناء مدير التوظيف للوظائف التي تتقدم إليها.
+                </p>
+            `;
+            privacyNote.textContent = '🔒 حماية الخصوصية: جميع التسجيلات مشفرة ومخزنة بأمان';
+            privacyNote.setAttribute('dir', 'rtl');
+            proceedButton.textContent = 'أفهم وأوافق على المتابعة';
+            proceedButton.setAttribute('dir', 'rtl');
+            
+            // Update container classes for RTL
+            document.getElementById('permissions-warning').classList.add('rtl');
+            document.getElementById('permissions-warning').classList.remove('ltr');
+        } else {
+            // English text
+            warningTitle.textContent = 'Important Notice: Camera & Microphone Access Required';
+            warningTitle.setAttribute('dir', 'ltr');
+            warningContent.setAttribute('dir', 'ltr');
+            warningContent.innerHTML = `
+                <p class="leading-relaxed">
+                    We need access to your webcam and microphone to conduct this interview.
+                </p>
+                <p class="leading-relaxed">
+                    Your information is secured and will not be viewed by anyone except the hiring manager for the job(s) you apply for.
+                </p>
+            `;
+            privacyNote.textContent = '🔒 Privacy Protection: All recordings are encrypted and stored securely';
+            privacyNote.setAttribute('dir', 'ltr');
+            proceedButton.textContent = 'I Understand & Agree to Continue';
+            proceedButton.setAttribute('dir', 'ltr');
+            
+            // Update container classes for LTR
+            document.getElementById('permissions-warning').classList.add('ltr');
+            document.getElementById('permissions-warning').classList.remove('rtl');
+        }
     }
 
     async function startRecording() {
