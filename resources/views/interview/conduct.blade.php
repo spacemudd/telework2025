@@ -43,12 +43,48 @@
         transition: all 0.5s ease-in-out;
     }
     
+    /* Timer styles */
+    .timer {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #1f2937;
+    }
+    
+    .timer.warning {
+        color: #f59e0b;
+    }
+    
+    .timer.danger {
+        color: #dc2626;
+    }
+    
+    .timer-container {
+        background: #f3f4f6;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    /* Video preview styles */
+    .video-preview {
+        width: 100%;
+        max-width: 500px;
+        border-radius: 0.5rem;
+        margin: 0 auto;
+        display: block;
+    }
+    
     /* Responsive adjustments for mobile */
     @media (max-width: 640px) {
         .question-text {
             font-size: 1rem;
             padding: 0.75rem;
             line-height: 1.5;
+        }
+        
+        .timer {
+            font-size: 1.25rem;
         }
     }
     
@@ -86,7 +122,7 @@
                             {{ app()->getLocale() === 'ar' ? 'مرحباً. سأطرح عليك بضع أسئلة حول ملفك الشخصي.' : 'Welcome. I will ask you a few questions about your portfolio.' }}
                         </p>
                         <p class="text-sm text-gray-600" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                            {{ app()->getLocale() === 'ar' ? 'يرجى التأكد من تشغيل الميكروفون الخاص بك.' : 'Please make sure your microphone is enabled.' }}
+                            {{ app()->getLocale() === 'ar' ? 'يرجى التأكد من تشغيل الكاميرا والميكروفون الخاص بك.' : 'Please make sure your camera and microphone are enabled.' }}
                         </p>
                     </div>
                 </div>
@@ -129,6 +165,14 @@
                     </h3>
                 </div>
 
+                <!-- Timer Display -->
+                <div id="timer-container" class="timer-container hidden">
+                    <div class="text-sm text-gray-600 mb-2" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                        {{ app()->getLocale() === 'ar' ? 'الوقت المتبقي:' : 'Time remaining:' }}
+                    </div>
+                    <div id="timer" class="timer">02:00</div>
+                </div>
+
                 <!-- Recording Controls -->
                 <div class="space-y-4">
                     <div class="flex items-center justify-center space-x-4 rtl:space-x-reverse">
@@ -161,14 +205,14 @@
                         </div>
                     </div>
 
-                    <!-- Audio Player -->
-                    <div id="audio-player" class="hidden">
+                    <!-- Video Player -->
+                    <div id="video-player" class="hidden">
                         <div class="bg-gray-50 rounded-lg p-4">
                             <h4 class="font-medium text-gray-800 mb-3" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                {{ app()->getLocale() === 'ar' ? 'استمع إلى تسجيلك:' : 'Listen to your recording:' }}
+                                {{ app()->getLocale() === 'ar' ? 'شاهد تسجيلك:' : 'Watch your recording:' }}
                             </h4>
-                            <audio id="recorded-audio" controls class="w-full"></audio>
-                            <div class="flex gap-3 mt-3">
+                            <video id="recorded-video" controls class="video-preview"></video>
+                            <div class="flex gap-3 mt-3 justify-center">
                                 <button onclick="playRecording()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
                                     <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                                         {{ app()->getLocale() === 'ar' ? 'تشغيل' : 'Play' }}
@@ -219,11 +263,13 @@
 @push('scripts')
 <script>
     let mediaRecorder;
-    let audioChunks = [];
+    let videoChunks = [];
     let currentQuestion = @json($currentQuestion);
     let questions = @json($questions);
     let currentLanguage = '{{ app()->getLocale() }}';
     let isRecording = false;
+    let timerInterval;
+    let timeRemaining = 120; // 2 minutes in seconds
 
     // Helper function to show/hide sections properly
     function showSection(sectionId) {
@@ -244,6 +290,44 @@
         setTimeout(() => {
             section.style.display = 'none';
         }, 500);
+    }
+
+    // Timer functions
+    function startTimer() {
+        timeRemaining = 120; // Reset to 2 minutes
+        updateTimerDisplay();
+        
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            updateTimerDisplay();
+            
+            if (timeRemaining <= 0) {
+                stopRecording();
+            }
+        }, 1000);
+    }
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        const timerElement = document.getElementById('timer');
+        
+        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Update timer color based on remaining time
+        timerElement.className = 'timer';
+        if (timeRemaining <= 30) {
+            timerElement.classList.add('danger');
+        } else if (timeRemaining <= 60) {
+            timerElement.classList.add('warning');
+        }
     }
 
     // Welcome animation sequence - simplified
@@ -277,25 +361,28 @@
 
     async function startRecording() {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: true, 
+                audio: true 
+            });
             
-            // Get supported MIME types
-            const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 
-                            MediaRecorder.isTypeSupported('audio/ogg') ? 'audio/ogg' : 
-                            MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/wav';
+            // Get supported MIME types for video
+            const mimeType = MediaRecorder.isTypeSupported('video/webm') ? 'video/webm' : 
+                            MediaRecorder.isTypeSupported('video/mp4') ? 'video/mp4' : 
+                            MediaRecorder.isTypeSupported('video/ogg') ? 'video/ogg' : 'video/webm';
             
             mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
-            audioChunks = [];
+            videoChunks = [];
 
             mediaRecorder.ondataavailable = (event) => {
-                audioChunks.push(event.data);
+                videoChunks.push(event.data);
             };
 
             mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: mimeType });
-                const audioUrl = URL.createObjectURL(audioBlob);
-                document.getElementById('recorded-audio').src = audioUrl;
-                document.getElementById('audio-player').classList.remove('hidden');
+                const videoBlob = new Blob(videoChunks, { type: mimeType });
+                const videoUrl = URL.createObjectURL(videoBlob);
+                document.getElementById('recorded-video').src = videoUrl;
+                document.getElementById('video-player').classList.remove('hidden');
                 
                 // Store the MIME type for submission
                 window.recordedMimeType = mimeType;
@@ -304,13 +391,22 @@
             mediaRecorder.start();
             isRecording = true;
             
+            // Show live preview
+            const liveVideo = document.getElementById('live-video');
+            liveVideo.srcObject = stream;
+            document.getElementById('live-preview-container').classList.remove('hidden');
+            
+            // Start timer and show timer container
+            startTimer();
+            document.getElementById('timer-container').classList.remove('hidden');
+            
             document.getElementById('record-btn').classList.add('hidden');
             document.getElementById('stop-btn').classList.remove('hidden');
             document.getElementById('recording-status').classList.remove('hidden');
             
         } catch (error) {
-            console.error('Error accessing microphone:', error);
-            alert('Please enable microphone access to continue.');
+            console.error('Error accessing camera/microphone:', error);
+            alert('Please enable camera and microphone access to continue.');
         }
     }
 
@@ -320,6 +416,15 @@
             mediaRecorder.stream.getTracks().forEach(track => track.stop());
             isRecording = false;
             
+            // Hide live preview
+            const liveVideo = document.getElementById('live-video');
+            liveVideo.srcObject = null;
+            document.getElementById('live-preview-container').classList.add('hidden');
+
+            // Stop timer and hide timer container
+            stopTimer();
+            document.getElementById('timer-container').classList.add('hidden');
+            
             document.getElementById('record-btn').classList.remove('hidden');
             document.getElementById('stop-btn').classList.add('hidden');
             document.getElementById('recording-status').classList.add('hidden');
@@ -327,28 +432,30 @@
     }
 
     function playRecording() {
-        document.getElementById('recorded-audio').play();
+        document.getElementById('recorded-video').play();
     }
 
     function reRecord() {
-        document.getElementById('audio-player').classList.add('hidden');
-        audioChunks = [];
+        document.getElementById('video-player').classList.add('hidden');
+        videoChunks = [];
+        // Reset timer display
+        timeRemaining = 120;
+        updateTimerDisplay();
     }
 
     async function submitRecording() {
-        const audioBlob = new Blob(audioChunks, { type: window.recordedMimeType });
+        const videoBlob = new Blob(videoChunks, { type: window.recordedMimeType });
         const formData = new FormData();
         
         // Get the correct file extension based on MIME type
-        const fileExtension = window.recordedMimeType === 'audio/webm' ? 'webm' :
-                             window.recordedMimeType === 'audio/ogg' ? 'ogg' :
-                             window.recordedMimeType === 'audio/mp4' ? 'm4a' : 'wav';
+        const fileExtension = window.recordedMimeType === 'video/webm' ? 'webm' :
+                             window.recordedMimeType === 'video/mp4' ? 'mp4' :
+                             window.recordedMimeType === 'video/ogg' ? 'ogg' : 'webm';
         
-        formData.append('audio_file', audioBlob, `recording.${fileExtension}`);
-        formData.append('recording_duration', Math.ceil(audioBlob.size / 1000)); // Approximate duration
+        formData.append('video_file', videoBlob, `recording.${fileExtension}`);
+        formData.append('recording_duration', Math.ceil(videoBlob.size / 1000)); // Approximate duration
 
         try {
-
             const response = await fetch(`/interview/${currentQuestion.interview_id}/questions/${currentQuestion.id}/response`, {
                 method: 'POST',
                 headers: {
@@ -378,7 +485,7 @@
                     // Move to next question
                     currentQuestion = result.next_question;
                     updateQuestionDisplay();
-                    document.getElementById('audio-player').classList.add('hidden');
+                    document.getElementById('video-player').classList.add('hidden');
                 }
             } else {
                 alert('Error: ' + result.message);
