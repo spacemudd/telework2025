@@ -93,6 +93,21 @@
         white-space: pre-wrap;
         word-break: break-word;
     }
+
+    /* Notification positioning for RTL/LTR */
+    .error-notification, .success-notification {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .error-notification.rtl, .success-notification.rtl {
+        right: auto;
+        left: 1rem;
+    }
+
+    .error-notification.ltr, .success-notification.ltr {
+        left: auto;
+        right: 1rem;
+    }
 </style>
 @endpush
 
@@ -195,6 +210,16 @@
                         </button>
                     </div>
 
+                    <!-- Live Video Preview Container -->
+                    <div id="live-preview-container" class="hidden mb-4">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3 text-center" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                {{ app()->getLocale() === 'ar' ? 'معاينة مباشرة:' : 'Live Preview:' }}
+                            </h4>
+                            <video id="live-video" autoplay muted class="video-preview"></video>
+                        </div>
+                    </div>
+
                     <!-- Recording Status -->
                     <div id="recording-status" class="text-center hidden">
                         <div class="inline-flex items-center px-4 py-2 bg-red-100 text-red-800 rounded-full">
@@ -223,7 +248,7 @@
                                         {{ app()->getLocale() === 'ar' ? 'إعادة تسجيل' : 'Re-record' }}
                                     </span>
                                 </button>
-                                <button onclick="submitRecording()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm">
+                                <button id="submit-btn" onclick="submitRecording()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm">
                                     <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                                         {{ app()->getLocale() === 'ar' ? 'إرسال' : 'Submit' }}
                                     </span>
@@ -406,7 +431,14 @@
             
         } catch (error) {
             console.error('Error accessing camera/microphone:', error);
-            alert('Please enable camera and microphone access to continue.');
+            
+            // Show user-friendly error message
+            const errorMessage = error.name === 'NotAllowedError' 
+                ? 'Camera and microphone access denied. Please allow access and refresh the page.'
+                : 'Unable to access camera/microphone. Please check your device permissions.';
+            
+            // Create and show error notification
+            showErrorNotification(errorMessage);
         }
     }
 
@@ -444,6 +476,31 @@
     }
 
     async function submitRecording() {
+        // Validate recording exists
+        if (!videoChunks || videoChunks.length === 0) {
+            showErrorNotification('No recording available. Please record your answer first.');
+            return;
+        }
+
+        if (!window.recordedMimeType) {
+            showErrorNotification('Recording format not detected. Please try recording again.');
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = document.getElementById('submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                {{ app()->getLocale() === 'ar' ? 'جاري الإرسال...' : 'Submitting...' }}
+            </span>
+        `;
+        submitBtn.disabled = true;
+
         const videoBlob = new Blob(videoChunks, { type: window.recordedMimeType });
         const formData = new FormData();
         
@@ -452,7 +509,7 @@
                              window.recordedMimeType === 'video/mp4' ? 'mp4' :
                              window.recordedMimeType === 'video/ogg' ? 'ogg' : 'webm';
         
-        formData.append('video_file', videoBlob, `recording.${fileExtension}`);
+        formData.append('audio_file', videoBlob, `recording.${fileExtension}`);
         formData.append('recording_duration', Math.ceil(videoBlob.size / 1000)); // Approximate duration
 
         try {
@@ -477,21 +534,27 @@
             if (result.success) {
                 if (result.is_completed) {
                     // Interview completed - hide question section and show completion
+                    showSuccessNotification('Interview completed successfully!');
                     hideSection('question-section');
                     setTimeout(() => {
                         showSection('completion-section');
                     }, 500);
                 } else if (result.next_question) {
                     // Move to next question
+                    showSuccessNotification('Response recorded successfully!');
                     currentQuestion = result.next_question;
                     updateQuestionDisplay();
                     document.getElementById('video-player').classList.add('hidden');
                 }
             } else {
-                alert('Error: ' + result.message);
+                showErrorNotification('Error: ' + result.message);
             }
         } catch (error) {
-            alert('Error submitting recording: ' + error.message);
+            showErrorNotification('Error submitting recording: ' + error.message);
+        } finally {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
         }
     }
 
@@ -510,6 +573,78 @@
         
         document.querySelector('#question-section .text-sm').textContent = 
             `${currentLanguage === 'ar' ? 'السؤال' : 'Question'} ${currentQuestion.question_order} ${currentLanguage === 'ar' ? 'من' : 'of'} ${questions.length}`;
+    }
+
+    // Error notification function
+    function showErrorNotification(message) {
+        // Remove existing error notifications
+        const existingError = document.querySelector('.error-notification');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Create error notification
+        const errorDiv = document.createElement('div');
+        const isRTL = currentLanguage === 'ar';
+        errorDiv.className = `error-notification fixed top-4 ${isRTL ? 'left-4' : 'right-4'} bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded z-50 max-w-md ${isRTL ? 'rtl' : 'ltr'}`;
+        errorDiv.innerHTML = `
+            <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>${message}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-auto text-red-500 hover:text-red-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(errorDiv);
+        
+        // Auto-remove after 8 seconds
+        setTimeout(() => {
+            if (errorDiv.parentElement) {
+                errorDiv.remove();
+            }
+        }, 8000);
+    }
+
+    // Success notification function
+    function showSuccessNotification(message) {
+        // Remove existing success notifications
+        const existingSuccess = document.querySelector('.success-notification');
+        if (existingSuccess) {
+            existingSuccess.remove();
+        }
+        
+        // Create success notification
+        const successDiv = document.createElement('div');
+        const isRTL = currentLanguage === 'ar';
+        successDiv.className = `success-notification fixed top-4 ${isRTL ? 'left-4' : 'right-4'} bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded z-50 max-w-md ${isRTL ? 'rtl' : 'ltr'}`;
+        successDiv.innerHTML = `
+            <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>${message}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-auto text-green-500 hover:text-green-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(successDiv);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (successDiv.parentElement) {
+                successDiv.remove();
+            }
+        }, 5000);
     }
 
 </script>
