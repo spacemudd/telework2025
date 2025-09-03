@@ -7,12 +7,9 @@
         <div class="" style="background-color: rgb(31, 41, 55)">
             <div class="container mx-auto px-4 py-16 md:py-20">
                 <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
-                        {{ app()->getLocale() === 'ar' ? 'أحدث الوظائف المنشورة' : 'Find your dream job' }}
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-12">
+                        {{ app()->getLocale() === 'ar' ? 'نبني الفريق ونصنع القادة' : 'We build the team and make the leaders' }}
                     </h1>
-                    <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-                        {{ __('words.hero.looking_for_job') }}
-                    </p>
 
                     <!-- Search Card -->
                     <div class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto">
