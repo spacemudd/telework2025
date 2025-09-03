@@ -617,6 +617,9 @@
             </div>
         </div> --}}
 
+        <!-- Instagram Embeds Section -->
+        <x-instagram-embeds />
+
         <!-- Enterprise Section -->
         <div class="bg-white py-20">
             <div class="container mx-auto px-4">

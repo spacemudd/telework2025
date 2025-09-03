@@ -206,6 +206,11 @@ return [
             'healthcare' => 'Healthcare Services'
         ]
     ],
+    'instagram' => [
+        'title' => 'Follow Us on Instagram',
+        'subtitle' => 'Stay updated with our latest news and opportunities',
+        'follow_button' => 'Follow on Instagram'
+    ],
     'enterprise' => [
         'title' => 'Hadaf for Enterprise',
         'tagline' => 'Our network of vetted professionals',

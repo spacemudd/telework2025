@@ -37,6 +37,14 @@ class InterviewQuestion extends Model
         });
     }
 
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
+
     public function interview(): BelongsTo
     {
         return $this->belongsTo(Interview::class);

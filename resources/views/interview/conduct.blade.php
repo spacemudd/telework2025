@@ -168,12 +168,20 @@
     #main-video {
         transition: all 0.3s ease-in-out;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        transform-origin: center center;
     }
 
     #main-video:hover {
         transform: scale(1.02);
         box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
     }
+
+    /* Mirror effect styling */
+    #main-video.mirrored {
+        transform: scaleX(-1);
+    }
+
+
 
     /* Recording overlay styling */
     #recording-overlay {
@@ -385,6 +393,8 @@
                         <div class="relative">
                             <video id="main-video" autoplay muted class="w-full max-w-2xl mx-auto rounded-xl shadow-2xl border-4 border-white"></video>
                             
+
+                            
                             <!-- Recording Overlay -->
                             <div id="recording-overlay" class="hidden absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium animate-pulse">
                                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
@@ -509,6 +519,21 @@
     let isRecording = false;
     let timerInterval;
     let timeRemaining = 120; // 2 minutes in seconds
+    let isMirrored = true; // Always mirrored by default
+
+    // Debug logging for currentQuestion
+    console.log('Current question data:', currentQuestion);
+    console.log('Questions data:', questions);
+    
+    // Test debug endpoint
+    if (currentQuestion && currentQuestion.interview_id) {
+        const debugUrl = `${window.location.pathname}/debug`;
+        console.log('Testing debug endpoint:', debugUrl);
+        fetch(debugUrl)
+            .then(response => response.json())
+            .then(data => console.log('Debug endpoint response:', data))
+            .catch(error => console.error('Debug endpoint error:', error));
+    }
 
     // Helper function to show/hide sections properly
     function showSection(sectionId) {
@@ -583,6 +608,8 @@
         setTimeout(() => {
             showSection('language-selection');
         }, 2000);
+        
+
     });
 
     function selectLanguage(lang) {
@@ -670,16 +697,37 @@
     // Function to initialize camera preview
     async function initializeCameraPreview() {
         try {
+            console.log('Initializing camera preview...');
+            
             const stream = await navigator.mediaDevices.getUserMedia({ 
                 video: true, 
                 audio: false // Only video for preview
             });
             
+            console.log('Camera stream obtained:', stream);
+            
             const mainVideo = document.getElementById('main-video');
+            if (!mainVideo) {
+                console.error('Main video element not found in initializeCameraPreview');
+                return;
+            }
+            
+            console.log('Setting video stream and ensuring visibility...');
             mainVideo.srcObject = stream;
+            
+            // Ensure video is visible
+            mainVideo.classList.remove('hidden');
             
             // Store the stream for later use in recording
             window.cameraPreviewStream = stream;
+            
+            // Always apply mirror effect for natural user experience
+            mainVideo.style.transform = 'scaleX(-1)';
+            
+            console.log('Camera preview initialized successfully');
+            
+            // Check final video visibility state
+            checkVideoVisibility();
             
         } catch (error) {
             console.error('Error accessing camera for preview:', error);
@@ -690,20 +738,45 @@
 
     // Function to update button text based on language
     function updateButtonText(lang) {
-        const recordBtn = document.getElementById('record-btn').querySelector('span');
-        const stopBtn = document.getElementById('stop-btn').querySelector('span');
+        const recordBtn = document.getElementById('record-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        
+        if (!recordBtn || !stopBtn) {
+            console.warn('Record or stop button not found in updateButtonText');
+            return;
+        }
+        
+        const recordBtnSpan = recordBtn.querySelector('span');
+        const stopBtnSpan = stopBtn.querySelector('span');
+        
+        if (!recordBtnSpan || !stopBtnSpan) {
+            console.warn('Button span elements not found in updateButtonText');
+            return;
+        }
         
         if (lang === 'ar') {
-            recordBtn.textContent = 'بدء التسجيل';
-            recordBtn.setAttribute('dir', 'rtl');
-            stopBtn.textContent = 'إيقاف التسجيل';
-            stopBtn.setAttribute('dir', 'rtl');
+            recordBtnSpan.textContent = 'بدء التسجيل';
+            recordBtnSpan.setAttribute('dir', 'rtl');
+            stopBtnSpan.textContent = 'إيقاف التسجيل';
+            stopBtnSpan.setAttribute('dir', 'rtl');
         } else {
-            recordBtn.textContent = 'Begin Recording';
-            recordBtn.setAttribute('dir', 'ltr');
-            stopBtn.textContent = 'Stop Recording';
-            stopBtn.setAttribute('dir', 'ltr');
+            recordBtnSpan.textContent = 'Begin Recording';
+            recordBtnSpan.setAttribute('dir', 'ltr');
+            stopBtnSpan.textContent = 'Stop Recording';
+            stopBtnSpan.setAttribute('dir', 'ltr');
         }
+    }
+
+
+
+    // Helper function to safely get DOM elements
+    function safeGetElement(id, context = 'function') {
+        const element = document.getElementById(id);
+        if (!element) {
+            console.warn(`Element with ID '${id}' not found in ${context}`);
+            return null;
+        }
+        return element;
     }
 
     // Function to update video interface based on current state
@@ -716,6 +789,12 @@
         const recordingOverlay = document.getElementById('recording-overlay');
         const reviewActions = document.getElementById('review-actions');
         
+        // Check if all required elements exist
+        if (!mainVideo || !statusIcon || !statusSvg || !statusTitle || !statusSubtitle || !recordingOverlay || !reviewActions) {
+            console.warn('One or more video interface elements not found in updateVideoInterface');
+            return;
+        }
+        
         if (state === 'preview') {
             // Camera preview state
             statusIcon.className = 'w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center';
@@ -724,6 +803,9 @@
             statusSubtitle.textContent = currentLanguage === 'ar' ? 'تأكد من أن الكاميرا تعمل بشكل صحيح' : 'Ensure your camera is working properly';
             recordingOverlay.classList.add('hidden');
             reviewActions.classList.add('hidden');
+            
+            // Ensure video is visible and properly configured for preview
+            mainVideo.classList.remove('hidden');
             mainVideo.controls = false;
             mainVideo.autoplay = true;
             mainVideo.muted = true;
@@ -731,11 +813,14 @@
         } else if (state === 'recording') {
             // Recording state
             statusIcon.className = 'w-8 h-8 bg-red-100 rounded-full flex items-center justify-center';
-            statusSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>';
+            statusSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>';
             statusTitle.textContent = currentLanguage === 'ar' ? 'جاري التسجيل' : 'Recording in Progress';
             statusSubtitle.textContent = currentLanguage === 'ar' ? 'تسجيل إجابتك على السؤال' : 'Recording your answer to the question';
             recordingOverlay.classList.remove('hidden');
             reviewActions.classList.add('hidden');
+            
+            // Ensure video is visible and properly configured for recording
+            mainVideo.classList.remove('hidden');
             mainVideo.controls = false;
             mainVideo.autoplay = true;
             mainVideo.muted = true;
@@ -752,6 +837,9 @@
             statusSubtitle.textContent = currentLanguage === 'ar' ? 'شاهد تسجيلك وتأكد من رضاك عنه' : 'Watch your recording and confirm satisfaction';
             recordingOverlay.classList.add('hidden');
             reviewActions.classList.remove('hidden');
+            
+            // Ensure video is visible and properly configured for review
+            mainVideo.classList.remove('hidden');
             mainVideo.controls = true;
             mainVideo.autoplay = false;
             mainVideo.muted = false;
@@ -891,29 +979,165 @@
         const videoBlob = new Blob(videoChunks, { type: window.recordedMimeType });
         const formData = new FormData();
         
+        // Check file size
+        const fileSizeMB = (videoBlob.size / (1024 * 1024)).toFixed(2);
+        console.log('File size check:', {
+            size_bytes: videoBlob.size,
+            size_mb: fileSizeMB,
+            mime_type: window.recordedMimeType
+        });
+        
+        // Check if file is too large (PHP limit is 10MB)
+        if (videoBlob.size > 10 * 1024 * 1024) {
+            showErrorNotification(`File too large (${fileSizeMB}MB). Maximum size is 10MB. Please record a shorter video.`);
+            return;
+        }
+        
         // Get the correct file extension based on MIME type
         const fileExtension = window.recordedMimeType === 'video/webm' ? 'webm' :
                              window.recordedMimeType === 'video/mp4' ? 'mp4' :
                              window.recordedMimeType === 'video/ogg' ? 'ogg' : 'webm';
         
         formData.append('audio_file', videoBlob, `recording.${fileExtension}`);
-        formData.append('recording_duration', Math.ceil(videoBlob.size / 1000)); // Approximate duration
+        
+        // Use actual recording duration from timer, not file size
+        const actualDuration = 120 - timeRemaining; // 120 seconds total - remaining time = actual recording time
+        formData.append('recording_duration', Math.max(1, actualDuration)); // Ensure minimum 1 second
+        
+        console.log('Recording duration calculation:', {
+            total_time: 120,
+            time_remaining: timeRemaining,
+            actual_duration: actualDuration,
+            file_size_bytes: videoBlob.size,
+            file_size_mb: fileSizeMB
+        });
 
         try {
-            const response = await fetch(`/interview/${currentQuestion.interview_id}/questions/${currentQuestion.id}/response`, {
+            // Debug logging
+            console.log('Submitting recording for:', {
+                interview_id: currentQuestion.interview_id,
+                question_id: currentQuestion.id,
+                currentQuestion: currentQuestion
+            });
+            
+                    // Debug URL construction
+        const pathSegments = window.location.pathname.split('/');
+        const localeSegment = pathSegments[1];
+        const baseUrl = localeSegment && (localeSegment === 'en' || localeSegment === 'ar') ? `/${localeSegment}` : '';
+        const fullUrl = `${baseUrl}/interview/${currentQuestion.interview_id}/questions/${currentQuestion.id}/response`;
+        
+        console.log('URL construction:', {
+            pathSegments: pathSegments,
+            localeSegment: localeSegment,
+            baseUrl: baseUrl,
+            fullUrl: fullUrl,
+            currentPath: window.location.pathname,
+            currentQuestionData: currentQuestion
+        });
+
+        // Check if user is still authenticated
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        if (!csrfToken) {
+            console.error('CSRF token not found - user may not be authenticated');
+            showErrorNotification('Authentication error. Please refresh the page and try again.');
+            return;
+        }
+        
+        console.log('CSRF token found:', csrfToken.getAttribute('content').substring(0, 10) + '...');
+
+        // Test the basic interview route first
+        try {
+            console.log('Testing basic interview route...');
+            
+            // Test the debug route first (no auth required)
+            const debugResponse = await fetch(`${baseUrl}/interview/debug-route`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            console.log('Debug route response:', {
+                status: debugResponse.status,
+                ok: debugResponse.ok,
+                headers: Object.fromEntries(debugResponse.headers.entries())
+            });
+            
+            if (debugResponse.ok) {
+                const debugData = await debugResponse.json();
+                console.log('Debug route data:', debugData);
+            } else {
+                console.error('Debug route failed:', debugResponse.status, debugResponse.statusText);
+                const debugText = await debugResponse.text();
+                console.error('Debug route response text:', debugText.substring(0, 200));
+            }
+            
+            // Now test the authenticated route
+            const testResponse = await fetch(`${baseUrl}/interview/${currentQuestion.interview_id}/test-response`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                }
+            });
+            console.log('Test route response:', {
+                status: testResponse.status,
+                ok: testResponse.ok,
+                headers: Object.fromEntries(testResponse.headers.entries())
+            });
+            
+            if (testResponse.ok) {
+                const testData = await testResponse.json();
+                console.log('Test route data:', testData);
+            } else {
+                console.error('Test route failed:', testResponse.status, testResponse.statusText);
+                const testText = await testResponse.text();
+                console.error('Test route response text:', testText.substring(0, 200));
+            }
+        } catch (testError) {
+            console.error('Test route error:', testError);
+        }
+            
+            // Additional validation
+            if (!currentQuestion.interview_id) {
+                console.error('Missing interview_id in currentQuestion:', currentQuestion);
+                throw new Error('Interview ID is missing. Please refresh the page and try again.');
+            }
+            
+            if (!currentQuestion.id) {
+                console.error('Missing question id in currentQuestion:', currentQuestion);
+                throw new Error('Question ID is missing. Please refresh the page and try again.');
+            }
+
+            // Check if we have the required IDs
+            if (!currentQuestion.interview_id || !currentQuestion.id) {
+                // Try to get interview_id from the questions array if available
+                if (questions && questions.length > 0 && questions[0].interview_id) {
+                    currentQuestion.interview_id = questions[0].interview_id;
+                } else {
+                    throw new Error('Missing interview or question ID. Please refresh the page and try again.');
+                }
+            }
+
+            const response = await fetch(`${fullUrl}`, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
                 },
                 body: formData
             });
+
+            // Debug logging
+            console.log('Response status:', response.status);
+            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
             // Check if response is JSON
             const contentType = response.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
                 // Response is not JSON, get the text to see what it is
                 const responseText = await response.text();
-                throw new Error(`Server returned non-JSON response: ${response.status} ${response.statusText}`);
+                console.error('Non-JSON response received:', responseText);
+                throw new Error(`Server returned non-JSON response: ${response.status} ${response.statusText}. Response: ${responseText.substring(0, 200)}`);
             }
 
             const result = await response.json();
@@ -931,12 +1155,13 @@
                     showSuccessNotification('Response recorded successfully!');
                     currentQuestion = result.next_question;
                     updateQuestionDisplay();
-                    document.getElementById('video-player').classList.add('hidden');
+                    // Note: updateQuestionDisplay() will handle showing the video via updateVideoInterface('preview')
                 }
             } else {
                 showErrorNotification('Error: ' + result.message);
             }
         } catch (error) {
+            console.error('Full error details:', error);
             showErrorNotification('Error submitting recording: ' + error.message);
         } finally {
             // Restore button state
@@ -949,23 +1174,51 @@
         // Update question text and progress
         const questionText = currentLanguage === 'ar' ? currentQuestion.question_text_ar : currentQuestion.question_text;
         const questionElement = document.querySelector('#question-section h3');
+        
+        if (!questionElement) {
+            console.warn('Question element not found in updateQuestionDisplay');
+            return;
+        }
+        
         questionElement.textContent = questionText;
         
         // Update CSS classes for proper text alignment
         questionElement.className = `text-xl font-semibold text-gray-800 mb-4 question-text ${currentLanguage === 'ar' ? 'rtl' : 'ltr'}`;
         questionElement.setAttribute('dir', currentLanguage === 'ar' ? 'rtl' : 'ltr');
         
-        const progress = ((currentQuestion.question_order - 1) / questions.length) * 100;
-        document.querySelector('#question-section .bg-blue-600').style.width = progress + '%';
+        // Safely update progress bar
+        const progressBar = document.querySelector('#question-section .bg-blue-600');
+        if (progressBar) {
+            const progress = ((currentQuestion.question_order - 1) / questions.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
         
-        document.querySelector('#question-section .text-sm').textContent = 
-            `${currentLanguage === 'ar' ? 'السؤال' : 'Question'} ${currentQuestion.question_order} ${currentLanguage === 'ar' ? 'من' : 'of'} ${questions.length}`;
+        // Safely update question counter
+        const questionCounter = document.querySelector('#question-section .text-sm');
+        if (questionCounter) {
+            questionCounter.textContent = 
+                `${currentLanguage === 'ar' ? 'السؤال' : 'Question'} ${currentQuestion.question_order} ${currentLanguage === 'ar' ? 'من' : 'of'} ${questions.length}`;
+        }
         
         // Update button text to match current language
         updateButtonText(currentLanguage);
         
         // Reset video interface to preview state for new question
+        console.log('Moving to next question, updating video interface...');
         updateVideoInterface('preview');
+        
+        // Ensure video is visible after interface update
+        const mainVideo = safeGetElement('main-video', 'updateQuestionDisplay');
+        if (mainVideo) {
+            console.log('Video element found, ensuring visibility...');
+            mainVideo.classList.remove('hidden');
+            
+            // Check video visibility state
+            checkVideoVisibility();
+        } else {
+            console.warn('Video element not found in updateQuestionDisplay');
+        }
+        
         initializeCameraPreview();
     }
 
@@ -1003,6 +1256,36 @@
                 errorDiv.remove();
             }
         }, 8000);
+    }
+
+    // Global error handler for DOM element access
+    window.addEventListener('error', function(event) {
+        if (event.error && event.error.message && event.error.message.includes('classList')) {
+            console.warn('DOM element access error detected:', event.error.message);
+            console.warn('This usually means an element was not found in the DOM');
+        }
+    });
+
+    // Helper function to check video visibility state
+    function checkVideoVisibility() {
+        const mainVideo = document.getElementById('main-video');
+        if (!mainVideo) {
+            console.warn('Video element not found in checkVideoVisibility');
+            return;
+        }
+        
+        const computedStyle = window.getComputedStyle(mainVideo);
+        console.log('Video visibility state:', {
+            element: mainVideo,
+            hidden_class: mainVideo.classList.contains('hidden'),
+            display: computedStyle.display,
+            visibility: computedStyle.visibility,
+            opacity: computedStyle.opacity,
+            width: computedStyle.width,
+            height: computedStyle.height,
+            srcObject: mainVideo.srcObject ? 'has_stream' : 'no_stream',
+            src: mainVideo.src || 'no_src'
+        });
     }
 
     // Success notification function

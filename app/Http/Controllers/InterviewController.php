@@ -114,6 +114,11 @@ class InterviewController extends Controller
         $questions = $interview->questions;
         $currentQuestion = $questions->where('response_audio_url', null)->first();
 
+        // Add interview_id to currentQuestion for frontend use
+        if ($currentQuestion) {
+            $currentQuestion->interview_id = $interview->id;
+        }
+
         // Add more debugging
         \Log::info('Interview data prepared', [
             'questions_count' => $questions->count(),
@@ -132,22 +137,120 @@ class InterviewController extends Controller
 
     public function storeResponse(Request $request, Interview $interview, InterviewQuestion $question)
     {
+        // Debug logging for route model binding
+        \Log::info('Route model binding debug', [
+            'interview_id' => $interview->id ?? 'NULL',
+            'question_id' => $question->id ?? 'NULL',
+            'request_path' => $request->path(),
+            'request_url' => $request->url(),
+            'request_method' => $request->method(),
+            'user_id' => auth()->id(),
+            'user_authenticated' => auth()->check(),
+            'user_roles' => auth()->user() ? auth()->user()->getRoleNames() : 'no_user',
+            'request_headers' => $request->headers->all(),
+            'csrf_token' => $request->header('X-CSRF-TOKEN'),
+            'content_type' => $request->header('Content-Type'),
+            'content_length' => $request->header('Content-Length'),
+            'request_size' => $request->getContent() ? strlen($request->getContent()) : 'no_content'
+        ]);
+
+        // Add additional validation
+        if (!$interview) {
+            \Log::error('Interview not found in storeResponse', ['request' => $request->all()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Interview not found'
+            ], 404);
+        }
+
+        if (!$question) {
+            \Log::error('Question not found in storeResponse', [
+                'interview_id' => $interview->id,
+                'request' => $request->all()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Question not found'
+            ], 404);
+        }
+
+        // Verify the question belongs to the interview
+        if ($question->interview_id !== $interview->id) {
+            \Log::error('Question does not belong to interview', [
+                'question_interview_id' => $question->interview_id,
+                'interview_id' => $interview->id
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid question for this interview'
+            ], 400);
+        }
+
         $this->authorize('update', $interview);
 
         \Log::info('Interview response submission started', [
             'interview_id' => $interview->id,
             'question_id' => $question->id,
             'user_id' => auth()->id(),
-            'request_data' => $request->all()
+            'request_data' => $request->all(),
+            'recording_duration_received' => $request->recording_duration,
+            'recording_duration_type' => gettype($request->recording_duration)
         ]);
 
-        $request->validate([
-            'audio_file' => 'required|file|mimes:mp3,wav,m4a,webm,ogg,mp4|max:10240', // Accept more audio/video formats
-            'recording_duration' => 'required|integer|min:1|max:300', // 5 minutes max
+        // Check file size before validation
+        $maxFileSize = min(
+            (int) ini_get('upload_max_filesize') * 1024 * 1024, // Convert MB to bytes
+            (int) ini_get('post_max_size') * 1024 * 1024, // Convert MB to bytes
+            10 * 1024 * 1024 // 10MB fallback
+        );
+        
+        \Log::info('File size limits', [
+            'php_upload_max_filesize' => ini_get('upload_max_filesize'),
+            'php_post_max_size' => ini_get('post_max_size'),
+            'calculated_max_size' => $maxFileSize,
+            'request_has_file' => $request->hasFile('audio_file')
         ]);
+        
+        $request->validate([
+            'audio_file' => 'required|file|mimes:mp3,wav,m4a,webm,ogg,mp4|max:' . ($maxFileSize / 1024), // Use calculated max size
+            'recording_duration' => 'required|integer|min:1|max:600', // 10 minutes max
+        ]);
+        
+        // Additional validation for recording duration
+        $recordingDuration = (int) $request->recording_duration;
+        if ($recordingDuration <= 0 || $recordingDuration > 600) {
+            \Log::warning('Invalid recording duration received', [
+                'received_duration' => $recordingDuration,
+                'request_data' => $request->all()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid recording duration. Must be between 1 and 600 seconds.'
+            ], 400);
+        }
 
         try {
             $audioFile = $request->file('audio_file');
+            
+            \Log::info('File upload details', [
+                'file_exists' => $audioFile ? 'yes' : 'no',
+                'file_size' => $audioFile ? $audioFile->getSize() : 'N/A',
+                'mime_type' => $audioFile ? $audioFile->getMimeType() : 'N/A',
+                'original_name' => $audioFile ? $audioFile->getClientOriginalName() : 'N/A',
+                'is_valid' => $audioFile ? $audioFile->isValid() : 'N/A',
+                'error' => $audioFile ? $audioFile->getError() : 'N/A'
+            ]);
+            
+            if (!$audioFile || !$audioFile->isValid()) {
+                \Log::error('Invalid file upload', [
+                    'file_error' => $audioFile ? $audioFile->getError() : 'no_file',
+                    'file_size' => $audioFile ? $audioFile->getSize() : 'N/A'
+                ]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid file upload'
+                ], 400);
+            }
             
             // Get the original file extension
             $originalExtension = $audioFile->getClientOriginalExtension();
@@ -184,6 +287,11 @@ class InterviewController extends Controller
 
             // Store in S3 (configured in filesystems.php)
             try {
+                \Log::info('Attempting S3 storage', [
+                    's3_config' => config('filesystems.disks.s3'),
+                    'file_path' => $fileName
+                ]);
+                
                 $path = Storage::disk('s3')->putFileAs(
                     dirname($fileName),
                     $audioFile,
@@ -197,34 +305,68 @@ class InterviewController extends Controller
                 ]);
                 
                 // Fallback to local storage
-                $path = Storage::disk('local')->putFileAs(
-                    'interviews/' . $interview->id,
-                    $audioFile,
-                    $question->id . '_' . time() . '.' . $extension
-                );
-                \Log::info('Audio file stored successfully in local storage', ['path' => $path]);
+                try {
+                    \Log::info('Attempting local storage fallback', [
+                        'local_path' => 'interviews/' . $interview->id,
+                        'file_name' => $question->id . '_' . time() . '.' . $extension
+                    ]);
+                    
+                    $path = Storage::disk('local')->putFileAs(
+                        'interviews/' . $interview->id,
+                        $audioFile,
+                        $question->id . '_' . time() . '.' . $extension
+                    );
+                    \Log::info('Audio file stored successfully in local storage', ['path' => $path]);
+                } catch (\Exception $localError) {
+                    \Log::error('Local storage also failed', [
+                        'local_error' => $localError->getMessage(),
+                        'file_size' => $audioFile->getSize(),
+                        'mime_type' => $audioFile->getMimeType()
+                    ]);
+                    throw new \Exception('Failed to store file in both S3 and local storage: ' . $localError->getMessage());
+                }
             }
 
+            \Log::info('Updating question with response data', [
+                'question_id' => $question->id,
+                'response_audio_url' => $path,
+                'recording_duration' => $request->recording_duration
+            ]);
+            
             $question->update([
                 'response_audio_url' => $path,
                 'recording_duration' => $request->recording_duration,
                 'answered_at' => now(),
             ]);
+            
+            \Log::info('Question updated successfully');
 
             // Check if all questions are answered
             $unansweredQuestions = $interview->questions()->whereNull('response_audio_url')->count();
+            \Log::info('Checking interview completion', [
+                'unanswered_questions' => $unansweredQuestions,
+                'total_questions' => $interview->questions()->count()
+            ]);
             
             if ($unansweredQuestions === 0) {
+                \Log::info('Marking interview as completed');
                 $interview->update([
                     'status' => 'completed',
                     'completed_at' => now(),
                 ]);
+                \Log::info('Interview marked as completed');
             }
 
+            $nextQuestion = $interview->questions()->whereNull('response_audio_url')->first();
+            \Log::info('Preparing success response', [
+                'next_question_id' => $nextQuestion ? $nextQuestion->id : null,
+                'is_completed' => $unansweredQuestions === 0
+            ]);
+            
             return response()->json([
                 'success' => true,
                 'message' => 'Response recorded successfully',
-                'next_question' => $interview->questions()->whereNull('response_audio_url')->first(),
+                'next_question' => $nextQuestion,
                 'is_completed' => $unansweredQuestions === 0,
             ]);
 
@@ -293,6 +435,20 @@ class InterviewController extends Controller
         ]);
     }
 
+    public function debugInterview(Interview $interview)
+    {
+        return response()->json([
+            'interview_id' => $interview->id,
+            'interview_status' => $interview->status,
+            'questions_count' => $interview->questions()->count(),
+            'unanswered_questions' => $interview->questions()->whereNull('response_audio_url')->count(),
+            'current_question' => $interview->questions()->whereNull('response_audio_url')->first(),
+            'user_id' => auth()->id(),
+            'employee_id' => $interview->employee_id,
+            'route_parameters' => request()->route()->parameters(),
+        ]);
+    }
+
     public function testUpload(Request $request)
     {
         try {
@@ -357,6 +513,20 @@ class InterviewController extends Controller
             ],
             'user_id' => auth()->id(),
             'interview_user_id' => $interview->user_id
+        ]);
+    }
+
+    public function testResponse(Interview $interview)
+    {
+        $this->authorize('view', $interview);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Test response endpoint working',
+            'interview_id' => $interview->id,
+            'user_authenticated' => auth()->check(),
+            'user_id' => auth()->id(),
+            'timestamp' => now()->toISOString()
         ]);
     }
 }

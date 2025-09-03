@@ -52,6 +52,15 @@ Route::group([
         Route::post('/job-seeker', [OnboardingController::class, 'completeJobSeekerOnboarding'])->name('onboarding.job-seeker.complete');
     });
 
+    // Debug route for testing basic routing
+    Route::get('/interview/debug-route', function() {
+        return response()->json([
+            'message' => 'Basic interview route working',
+            'timestamp' => now()->toISOString(),
+            'locale' => app()->getLocale()
+        ]);
+    })->name('interview.debug-route');
+
     // Interview Routes - moved inside localized group
     Route::middleware(['auth'])->prefix('interview')->name('interview.')->group(function () {
         Route::get('/start', [InterviewController::class, 'start'])->name('start');
@@ -62,6 +71,10 @@ Route::group([
         Route::get('/test-locale', [InterviewController::class, 'testLocale'])->name('test-locale');
         Route::post('/test-upload', [InterviewController::class, 'testUpload'])->name('test-upload');
         Route::get('/{interview}/questions/{question}/test-binding', [InterviewController::class, 'testRouteBinding'])->name('test-binding');
+        Route::get('/{interview}/debug', [InterviewController::class, 'debugInterview'])->name('debug-interview');
+        
+        // Test route for debugging
+        Route::get('/{interview}/test-response', [InterviewController::class, 'testResponse'])->name('test-response');
     });
 });
 
@@ -96,11 +109,28 @@ Route::middleware(['auth', SetLocale::class])->get('/dashboard', function () {
 
 Route::get('dev-login', function() {
     if (app()->isProduction()) return 404;
-    $admin = User::admins()->first();
-    if (!$admin) {
+    
+    // Find admin user directly from the database
+    $adminUser = \DB::table('model_has_roles')
+        ->join('users', 'model_has_roles.model_id', '=', 'users.id')
+        ->where('model_has_roles.role_id', 1) // admin role
+        ->where('model_has_roles.model_type', 'App\\Models\\User')
+        ->select('users.*')
+        ->first();
+    
+    if (!$adminUser) {
         throw new \Exception('No admin user found. Please create an admin user first.');
     }
-    auth()->login(User::admins()->firstOrFail());
+    
+    // Convert to User model and login
+    $user = User::find($adminUser->id);
+    auth()->login($user);
+    
+    // Set team context for the admin user
+    if ($user->team_id) {
+        setPermissionsTeamId($user->team_id);
+    }
+    
     return redirect('/admin/dashboard');
 })->name('login.dev');
 

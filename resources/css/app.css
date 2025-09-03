@@ -144,7 +144,11 @@
 
 /* RTL Support */
 html[dir="rtl"] {
-    font-family: 'IBM Plex Arabic', sans-serif;
+    font-family: 'Zain', 'IBM Plex Arabic', sans-serif;
+}
+
+html[dir="rtl"] .font-sans {
+    font-family: 'Zain', 'IBM Plex Arabic', 'Figtree', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 
 html[dir="rtl"] select {
