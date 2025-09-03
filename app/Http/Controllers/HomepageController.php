@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use App\Models\TalentCategory;
+use Illuminate\Support\Facades\File;
 
 class HomepageController extends Controller
 {
@@ -19,6 +20,15 @@ class HomepageController extends Controller
 
         $talentCategories = TalentCategory::active()->ordered()->get();
 
-        return view('homepage.index', compact('SEOData', 'talentCategories'));
+        $logos = collect(File::files(public_path('logos')))
+            ->filter(function ($file) {
+                $ext = strtolower($file->getExtension());
+                return in_array($ext, ['png', 'jpg', 'jpeg', 'svg', 'webp']);
+            })
+            ->sortBy(fn($file) => $file->getFilename())
+            ->map(fn($file) => 'logos/' . $file->getFilename())
+            ->values();
+
+        return view('homepage.index', compact('SEOData', 'talentCategories', 'logos'));
     }
 }

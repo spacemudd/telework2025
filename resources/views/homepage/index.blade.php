@@ -256,6 +256,7 @@
 
     
 
+    {{-- 
     <div class="relative z-10 py-12">
         <div class="container mx-auto px-4">
             <section class="bg-blue-700 text-white rounded-3xl shadow-xl my-12 px-8 py-16">
@@ -348,6 +349,7 @@
             </section>
         </div>
     </div>
+--}}
 
     <!--
     <div class="relative z-10 py-12">
@@ -541,35 +543,12 @@
                 </div>
 
                 <!-- Company Logos Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-12 items-center justify-items-center opacity-90">
-                    <!-- STC -->
-                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition-colors duration-200">
-                        <img src="https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png"
-                             alt="STC"
-                             class="h-12 w-auto object-contain"
-                             loading="lazy">
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-12 items-center justify-items-center opacity-90">
+                    @foreach(($logos ?? collect()) as $index => $logo)
+                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition duration-200 ease-in-out filter grayscale hover:grayscale-0">
+                        <img src="{{ asset($logo) }}" alt="Client Logo {{ $index + 1 }}" class="h-12 w-auto object-contain" loading="lazy">
                     </div>
-                    <!-- Aramco -->
-                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition-colors duration-200">
-                        <img src="https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png"
-                             alt="Aramco"
-                             class="h-12 w-auto object-contain"
-                             loading="lazy">
-                    </div>
-                    <!-- SABIC -->
-                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition-colors duration-200">
-                        <img src="https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg"
-                             alt="SABIC"
-                             class="h-12 w-auto object-contain"
-                             loading="lazy">
-                    </div>
-                    <!-- CCC -->
-                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition-colors duration-200">
-                        <img src="https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c"
-                             alt="CCC by STC"
-                             class="h-12 w-auto object-contain"
-                             loading="lazy">
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -744,6 +723,113 @@
 
         <!-- Instagram Embeds Section -->
         <x-instagram-embeds />
+
+        <!-- Enterprise Section -->
+        <div class="bg-white py-20">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-12 gap-8 items-center">
+                    <div class="col-span-12 lg:col-span-6 space-y-8">
+                        <div class="space-y-4">
+                            <h2 class="text-3xl md:text-4xl font-bold text-black">
+                                هدف للشركات
+                            </h2>
+                            <p class="text-xl text-gray-600">
+                                نوصلكم بأفضل الكفاءات.. بسرعة، ثقة، وبتكلفة أقل
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-3xl p-8 shadow-sm border border-gray-100 backdrop-blur-sm">
+                            <div class="space-y-6">
+                                <!-- Vetted Professionals -->
+                                <div class="flex items-start gap-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-semibold text-black">
+                                            كفاءات موثوقة جاهزة للعمل
+                                        </h3>
+                                        <p class="mt-2 text-gray-600">
+                                            اختروا من شبكة المحترفين الذين اجتازوا التقييم المسبق والتحقق من خبراتهم، لتضمنوا جودة أعلى وموظفين يعتمد عليهم.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Save Time -->
+                                <div class="flex items-start gap-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-semibold text-black">
+                                            توظيف أسرع وأسهل
+                                        </h3>
+                                        <p class="mt-2 text-gray-600">
+                                            وفروا وقتكم الثمين عبر منصتنا الذكية التي تختصر خطوات البحث والاختيار، لتجدوا المرشح المناسب في وقت قياسي.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Reduce Costs -->
+                                <div class="flex items-start gap-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-semibold text-black">
+                                            جودة عالية بتكلفة أقل
+                                        </h3>
+                                        <p class="mt-2 text-gray-600">
+                                            قلّل من مصاريف التوظيف والتشغيل مع الحفاظ على أعلى المعايير، لأننا نجمع بين الكفاءة والجودة والاحترافية
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-12 lg:col-span-6">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl transform rotate-3"></div>
+                            <div class="relative rounded-2xl shadow-xl overflow-hidden aspect-[4/3]">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                                <img
+                                    class="absolute inset-0 w-full h-full object-cover object-center"
+                                    src="{{ asset('img/enterprise-team.jpg') }}"
+                                    alt="Enterprise Team"
+                                >
+                                <div class="absolute bottom-0 left-0 right-0 p-8 z-20">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                                        </svg>
+                                        <span class="text-white font-semibold">{{ __('words.enterprise.rating') }}</span>
+                                    </div>
+                                    <div class="ltr:ml-8 rtl:mr-8">
+                                        <p class="text-gray-200 text-sm mb-4">{{ __('words.enterprise.rating_subtitle') }}</p>
+                                    </div>
+                                    <h3 class="text-2xl md:text-3xl font-bold text-white leading-tight">
+                                        {{ __('words.enterprise.image_overlay') }}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Companies Section with stats and pricing (shadcn-style) -->
         <div id="companies" class="bg-white py-20">
