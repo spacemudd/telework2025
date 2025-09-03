@@ -8,7 +8,7 @@
             <div class="container mx-auto px-4 py-16 md:py-20">
                 <div class="max-w-4xl mx-auto text-center">
                     <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
-                        {{ app()->getLocale() === 'ar' ? 'اعثر على وظيفة أحلامك' : 'Find your dream job' }}
+                        {{ app()->getLocale() === 'ar' ? 'أحدث الوظائف المنشورة' : 'Find your dream job' }}
                     </h1>
                     <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
                         {{ __('words.hero.looking_for_job') }}
@@ -19,11 +19,11 @@
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div class="relative">
                                 <svg class="absolute rtl:left-3 ltr:right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                <input type="text" placeholder="{{ app()->getLocale() === 'ar' ? 'البحث عن وظيفة...' : 'Search for a job...' }}" class="block w-full border border-gray-300 rounded-md py-2.5 rtl:pr-10 ltr:pl-10 px-3 text-right focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent" />
+                                <input type="text" placeholder="{{ app()->getLocale() === 'ar' ? 'البحث عن وظيفة...' : 'Search for a job...' }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 rtl:pl-10 rtl:pr-3 ltr:pr-10 ltr:pl-3 rtl:text-right ltr:text-left focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent" />
                             </div>
 
                             <div>
-                                <select class="block w-full border border-gray-300 rounded-md py-2.5 px-3 text-right bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
+                                <select dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
                                     <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'المدينة' : 'City' }}</option>
                                     <option value="riyadh">{{ app()->getLocale() === 'ar' ? 'الرياض' : 'Riyadh' }}</option>
                                     <option value="jeddah">{{ app()->getLocale() === 'ar' ? 'جدة' : 'Jeddah' }}</option>
@@ -34,7 +34,7 @@
                             </div>
 
                             <div>
-                                <select class="block w-full border border-gray-300 rounded-md py-2.5 px-3 text-right bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
+                                <select dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
                                     <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'المجال' : 'Field' }}</option>
                                     <option value="technology">{{ app()->getLocale() === 'ar' ? 'التكنولوجيا' : 'Technology' }}</option>
                                     <option value="finance">{{ app()->getLocale() === 'ar' ? 'المالية' : 'Finance' }}</option>
@@ -45,7 +45,7 @@
                             </div>
 
                             <div>
-                                <button type="button" class="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-md text-white" style="background-color: rgb(31, 41, 55)">
+                                <button type="button" class="w-full inline-flex items-center rtl:flex-row-reverse justify-center px-4 py-2.5 text-sm font-medium rounded-md text-white" style="background-color: rgb(31, 41, 55)">
                                     <svg class="h-4 w-4 rtl:ml-2 ltr:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                     {{ app()->getLocale() === 'ar' ? 'بحث' : 'Search' }}
                                 </button>
@@ -86,14 +86,14 @@
 
                 <!-- Filters -->
                 <div class="flex flex-wrap gap-3 mb-8 justify-center">
-                    <select class="w-48 border border-gray-300 rounded-md py-2.5 px-3 text-right bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
+                    <select dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="w-48 border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
                         <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'نوع العمل' : 'Work type' }}</option>
                         <option value="fulltime">{{ __('words.latest_jobs.contract_types.fulltime') }}</option>
                         <option value="parttime">{{ __('words.latest_jobs.contract_types.parttime') }}</option>
                         <option value="contract">{{ __('words.latest_jobs.contract_types.contract') }}</option>
                         <option value="remote">{{ __('words.latest_jobs.contract_types.remote') }}</option>
                     </select>
-                    <select class="w-48 border border-gray-300 rounded-md py-2.5 px-3 text-right bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
+                    <select dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="w-48 border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
                         <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'مستوى الخبرة' : 'Experience level' }}</option>
                         <option value="entry">{{ app()->getLocale() === 'ar' ? 'مبتدئ' : 'Entry' }}</option>
                         <option value="mid">{{ app()->getLocale() === 'ar' ? 'متوسط' : 'Mid' }}</option>
@@ -117,8 +117,8 @@
                                         {{ $job['time_ago'] ?? '' }}
                                     </div>
                                 </div>
-                                <h3 class="text-right text-lg font-semibold leading-tight text-gray-900">{{ $job['title'] }}</h3>
-                                <div class="text-right flex items-center text-gray-600 mt-1">
+                                <h3 class="text-left text-lg font-semibold leading-tight text-gray-900">{{ $job['title'] }}</h3>
+                                <div class="text-left flex items-center text-gray-600 mt-1">
                                     <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
                                     {{ $job['company'] }}
                                 </div>
@@ -149,6 +149,110 @@
                 </div>
             </div>
         </section>
+
+    <!-- جميع القطاعات Section -->
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">جميع القطاعات</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- المبيعات -->
+                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 8h18M3 13h18M3 18h18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">المبيعات</h3>
+                    </div>
+                </div>
+                <!-- المحاسبة -->
+                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m-4-4h8m5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">المحاسبة</h3>
+                    </div>
+                </div>
+                <!-- الإدارة -->
+                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M8 6h8a2 2 0 012 2v10a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">الإدارة</h3>
+                    </div>
+                </div>
+                <!-- الموارد البشرية -->
+                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">الموارد البشرية</h3>
+                    </div>
+                </div>
+                <!-- خدمة العملاء -->
+                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 13V8a6 6 0 10-12 0v5m0 0a3 3 0 106 0m-6 0v5a3 3 0 006 0" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">خدمة العملاء</h3>
+                    </div>
+                </div>
+                <!-- المطاعم و المقاهي -->
+                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M10 14h4m-7 4h10" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">المطاعم و المقاهي</h3>
+                    </div>
+                </div>
+                <!-- السفر والسياحة -->
+                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 6.5L21 3l-3.5 10.5-7 7L3 21l7.5-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">السفر والسياحة</h3>
+                    </div>
+                </div>
+                <!-- البيع التجزئة والخدمات -->
+                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">البيع التجزئة والخدمات</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <a href="#" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">عرض المزير من القطاعات</a>
+            </div>
+        </div>
+    </section>
 
     
 
@@ -303,41 +407,7 @@
     </div>
     -->
 
-    <section class="bg-white py-16">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                    جميع القطاعات
-                </h2>
-            </div>
-            
-            <!-- Talent Categories Grid - Dynamic Layout -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                @foreach($talentCategories as $category)
-                <div class="group relative bg-gray-50 hover:bg-blue-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer"
-                     onclick="window.location.href='{{ route('talent-categories.show', $category) }}'">
-                    <div class="flex justify-center mb-6">
-                        <div class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300">
-                            @include('components.talent-category-icon', ['icon' => $category->icon])
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-300">
-                        {{ $category->localized_name }}
-                    </h3>
-                    <p class="text-gray-600 group-hover:text-blue-100 text-sm leading-relaxed mb-6 transition-colors duration-300">
-                        {{ $category->localized_description }}
-                    </p>
-                    <!-- View Talents Button (appears on hover) -->
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
-                            {{ __('words.view_talents') }}
-                        </button>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
+
 
 
     <!-- Action Buttons -->
