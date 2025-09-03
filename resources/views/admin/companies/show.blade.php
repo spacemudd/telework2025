@@ -195,7 +195,7 @@
             <h2 class="text-xl font-semibold mb-4">{{ __('words.employees') }} ({{ $company->employees()->count() }})</h2>
 
             <div class="flex justify-end mb-4">
-                <a href="{{ route('admin.employees.create', ['company' => $company->id]) }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                <a href="{{ route('admin.companies.employees.create', ['company' => $company->id]) }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
                     {{ __('words.add_employee') }}
                 </a>
             </div>

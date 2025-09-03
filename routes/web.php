@@ -186,7 +186,7 @@ Route::prefix('admin')->middleware(['auth', 'team_context', 'role:admin', SetLoc
     Route::post('/employee-requests/{employee_request}/messages', [\App\Http\Controllers\Admin\EmployeeRequestMessageController::class, 'store'])->name('admin.employee-requests.messages.store');
 
     Route::prefix('companies/{company}')->group(function () {
-        Route::get('/employees/create', [CompanyEmployeesController::class, 'create'])->name('admin.employees.create');
+        Route::get('/employees/create', [CompanyEmployeesController::class, 'create'])->name('admin.companies.employees.create');
         Route::get('/employees/{employee}', [CompanyEmployeesController::class, 'show'])->name('admin.companies.employees.show');
         Route::get('/employees/{employee}/edit', [CompanyEmployeesController::class, 'edit'])->name('admin.companies.employees.edit');
         Route::put('/employees/{employee}', [CompanyEmployeesController::class, 'update'])->name('admin.companies.employees.update');
