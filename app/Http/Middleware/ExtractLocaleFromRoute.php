@@ -5,12 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class SetLocale
+class ExtractLocaleFromRoute
 {
     /**
      * Handle an incoming request.
@@ -19,15 +16,22 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // First check if user is authenticated and has a locale preference
-        if (auth()->check() && auth()->user()->locale) {
-            App::setLocale(auth()->user()->locale);
+        // Get the locale from the route parameter
+        $locale = $request->route('locale');
+        
+        // If locale is provided and is supported, set it
+        if ($locale && in_array($locale, ['en', 'ar'])) {
+            App::setLocale($locale);
+            
+            // Store in session for persistence
+            session(['locale' => $locale]);
         } else {
-            // Fallback to session locale or default
+            // If no locale in URL, check session or use default
             $sessionLocale = session('locale');
             if ($sessionLocale && in_array($sessionLocale, ['en', 'ar'])) {
                 App::setLocale($sessionLocale);
             } else {
+                // Use default locale from config
                 App::setLocale(config('app.locale', 'en'));
             }
         }

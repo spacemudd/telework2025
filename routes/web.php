@@ -27,8 +27,10 @@ use App\Http\Controllers\InterviewController;
 
 // Public URLs.
 Route::group([
-    'prefix' => LaravelLocalization::setLocale(),
-    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
+    'prefix' => '{locale?}',
+    'middleware' => [ 'extract_locale' ],
+    'where' => ['locale' => 'en|ar']
+], function() {
     Route::get('/', [HomepageController::class, 'index']);
     Route::get('/privacy', [\App\Http\Controllers\LegalController::class, 'privacy'])->name('legal.privacy');
     Route::get('/terms', [\App\Http\Controllers\LegalController::class, 'terms'])->name('legal.terms');
@@ -52,14 +54,7 @@ Route::group([
         Route::post('/job-seeker', [OnboardingController::class, 'completeJobSeekerOnboarding'])->name('onboarding.job-seeker.complete');
     });
 
-    // Debug route for testing basic routing
-    Route::get('/interview/debug-route', function() {
-        return response()->json([
-            'message' => 'Basic interview route working',
-            'timestamp' => now()->toISOString(),
-            'locale' => app()->getLocale()
-        ]);
-    })->name('interview.debug-route');
+    
 
     // Interview Routes - moved inside localized group
     Route::middleware(['auth'])->prefix('interview')->name('interview.')->group(function () {
@@ -231,13 +226,18 @@ Route::get('/lang/{locale}', function ($locale) {
     if (! in_array($locale, ['en', 'ar'])) {
         abort(400);
     }
+    
+    // Set locale in session
+    session(['locale' => $locale]);
     App::setLocale($locale);
 
+    // Update user locale if authenticated
     if (auth()->check()) {
         $user = auth()->user();
         $user->locale = $locale;
         $user->save();
     }
+    
     return redirect()->back();
 });
 

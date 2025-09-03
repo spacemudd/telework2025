@@ -13,8 +13,10 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'prefix' => LaravelLocalization::setLocale(),
-    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function() {
+    'prefix' => '{locale?}',
+    'middleware' => [ 'extract_locale' ],
+    'where' => ['locale' => 'en|ar']
+], function() {
 
 Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
     ->name('password.request');
