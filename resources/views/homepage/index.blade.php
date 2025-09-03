@@ -3,97 +3,152 @@
         {!! seo($SEOData) !!}
     </x-slot>
 
-    <!-- Latest Jobs Section (Carousel) - Moved to Top -->
-        <div class="bg-gray-50">
-            <div class="container mx-auto px-4 py-12 md:py-16">
-                <div class="text-center mb-2">
-                    <span class="text-2xl font-bold text-blue-700">نبني الفريق ونصنع القادة.</span>
-                </div>
-            <div class="text-center space-y-2 mb-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-black">
-                    {{ __('words.latest_jobs.title') }}
-                </h2>
-                <p class="text-gray-600">
-                    {{ __('words.hero.looking_for_job') }}
-                </p>
-            </div>
+    <!-- Hero Section (shadcn-style) -->
+        <div class="" style="background-color: rgb(31, 41, 55)">
+            <div class="container mx-auto px-4 py-16 md:py-20">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                        {{ app()->getLocale() === 'ar' ? 'اعثر على وظيفة أحلامك' : 'Find your dream job' }}
+                    </h1>
+                    <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+                        {{ __('words.hero.looking_for_job') }}
+                    </p>
 
-            <div x-data="{
-                    next() {
-                        const c = this.$refs.c;
-                        const gap = parseFloat(getComputedStyle(c).columnGap) || 12;
-                        const width = c.firstElementChild ? c.firstElementChild.getBoundingClientRect().width : 320;
-                        const delta = width + gap;
-                        c.scrollBy({ left: (document.dir === 'rtl' ? -delta : delta), behavior: 'smooth' });
-                    },
-                    prev() {
-                        const c = this.$refs.c;
-                        const gap = parseFloat(getComputedStyle(c).columnGap) || 12;
-                        const width = c.firstElementChild ? c.firstElementChild.getBoundingClientRect().width : 320;
-                        const delta = width + gap;
-                        c.scrollBy({ left: (document.dir === 'rtl' ? delta : -delta), behavior: 'smooth' });
-                    }
-                }" class="relative">
-                <!-- Carousel Track -->
-                <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-4" x-ref="c">
+                    <!-- Search Card -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="relative">
+                                <svg class="absolute rtl:left-3 ltr:right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                <input type="text" placeholder="{{ app()->getLocale() === 'ar' ? 'البحث عن وظيفة...' : 'Search for a job...' }}" class="block w-full border border-gray-300 rounded-md py-2.5 rtl:pr-10 ltr:pl-10 px-3 text-right focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent" />
+                            </div>
+
+                            <div>
+                                <select class="block w-full border border-gray-300 rounded-md py-2.5 px-3 text-right bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
+                                    <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'المدينة' : 'City' }}</option>
+                                    <option value="riyadh">{{ app()->getLocale() === 'ar' ? 'الرياض' : 'Riyadh' }}</option>
+                                    <option value="jeddah">{{ app()->getLocale() === 'ar' ? 'جدة' : 'Jeddah' }}</option>
+                                    <option value="dammam">{{ app()->getLocale() === 'ar' ? 'الدمام' : 'Dammam' }}</option>
+                                    <option value="makkah">{{ app()->getLocale() === 'ar' ? 'مكة المكرمة' : 'Makkah' }}</option>
+                                    <option value="medina">{{ app()->getLocale() === 'ar' ? 'المدينة المنورة' : 'Medina' }}</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <select class="block w-full border border-gray-300 rounded-md py-2.5 px-3 text-right bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
+                                    <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'المجال' : 'Field' }}</option>
+                                    <option value="technology">{{ app()->getLocale() === 'ar' ? 'التكنولوجيا' : 'Technology' }}</option>
+                                    <option value="finance">{{ app()->getLocale() === 'ar' ? 'المالية' : 'Finance' }}</option>
+                                    <option value="healthcare">{{ app()->getLocale() === 'ar' ? 'الرعاية الصحية' : 'Healthcare' }}</option>
+                                    <option value="education">{{ app()->getLocale() === 'ar' ? 'التعليم' : 'Education' }}</option>
+                                    <option value="engineering">{{ app()->getLocale() === 'ar' ? 'الهندسة' : 'Engineering' }}</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <button type="button" class="w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-md text-white" style="background-color: rgb(31, 41, 55)">
+                                    <svg class="h-4 w-4 rtl:ml-2 ltr:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    {{ app()->getLocale() === 'ar' ? 'بحث' : 'Search' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                        <div class="text-center">
+                            <h3 class="text-3xl font-bold mb-2">+5000</h3>
+                            <p class="text-gray-300">{{ app()->getLocale() === 'ar' ? 'وظيفة متاحة' : 'Open jobs' }}</p>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-3xl font-bold mb-2">+200</h3>
+                            <p class="text-gray-300">{{ app()->getLocale() === 'ar' ? 'شركة معتمدة' : 'Verified companies' }}</p>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-3xl font-bold mb-2">+10000</h3>
+                            <p class="text-gray-300">{{ app()->getLocale() === 'ar' ? 'موظف تم توظيفهم' : 'Candidates hired' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Listings Grid (shadcn-style) -->
+        <section id="jobs" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" style="color: rgb(31, 41, 55)">
+                        {{ __('words.latest_jobs.title') }}
+                    </h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        {{ app()->getLocale() === 'ar' ? 'اكتشف الفرص الوظيفية المتنوعة من أفضل الشركات في المملكة' : 'Discover diverse opportunities from top companies in the Kingdom' }}
+                    </p>
+                </div>
+
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-3 mb-8 justify-center">
+                    <select class="w-48 border border-gray-300 rounded-md py-2.5 px-3 text-right bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
+                        <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'نوع العمل' : 'Work type' }}</option>
+                        <option value="fulltime">{{ __('words.latest_jobs.contract_types.fulltime') }}</option>
+                        <option value="parttime">{{ __('words.latest_jobs.contract_types.parttime') }}</option>
+                        <option value="contract">{{ __('words.latest_jobs.contract_types.contract') }}</option>
+                        <option value="remote">{{ __('words.latest_jobs.contract_types.remote') }}</option>
+                    </select>
+                    <select class="w-48 border border-gray-300 rounded-md py-2.5 px-3 text-right bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
+                        <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'مستوى الخبرة' : 'Experience level' }}</option>
+                        <option value="entry">{{ app()->getLocale() === 'ar' ? 'مبتدئ' : 'Entry' }}</option>
+                        <option value="mid">{{ app()->getLocale() === 'ar' ? 'متوسط' : 'Mid' }}</option>
+                        <option value="senior">{{ app()->getLocale() === 'ar' ? 'خبير' : 'Senior' }}</option>
+                        <option value="lead">{{ app()->getLocale() === 'ar' ? 'قيادي' : 'Lead' }}</option>
+                    </select>
+                </div>
+
+                <!-- Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach(__('words.latest_jobs.examples') as $job)
-                            <a href="#" class="snap-start flex-none group px-2">
-                            <div class="bg-white rounded-xl border w-[400px] border-gray-100 shadow-sm group-hover:shadow transition-all duration-300 ease-in-out h-full flex flex-col">
-                                <div class="p-6 space-y-4 flex-1">
-                                    <div class="flex items-center gap-3">
-                                        <div class="h-10 w-10 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                                            <img src="{{ $job['company_logo'] ?? asset('img/hadaf.png') }}" alt="{{ $job['company'] }}" class="h-10 w-10 object-contain" loading="lazy">
-                                        </div>
-                                        <div class="min-w-0">
-                                            <div class="text-sm text-gray-600 font-medium truncate">{{ $job['company'] }}</div>
-                                            <div class="text-xs text-gray-500 truncate">{{ $job['location'] ?? '' }}</div>
-                                        </div>
-                                    </div>
-                                    <h3 class="text-lg font-semibold text-black line-clamp-2">{{ $job['title'] }}</h3>
-                                    <div class="flex items-center flex-wrap gap-2">
-                                        @php $typeKey = $job['contract_type'] ?? 'fulltime'; @endphp
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                                            {{ __('words.latest_jobs.contract_types.' . $typeKey) }}
-                                        </span>
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-100">
-                                            {{ __('words.latest_jobs.posted') }}: {{ $job['time_ago'] }}
-                                        </span>
+                        @php $typeKey = $job['contract_type'] ?? 'fulltime'; @endphp
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow">
+                            <div class="p-5 border-b border-gray-100">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                                        {{ __('words.latest_jobs.contract_types.' . $typeKey) }}
+                                    </span>
+                                    <div class="flex items-center text-gray-500 text-sm">
+                                        <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        {{ $job['time_ago'] ?? '' }}
                                     </div>
                                 </div>
-                                    <div class="px-6 pb-6">
-                                        <a href="{{ route('register') }}" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out">
-                                            {{ app()->getLocale() === 'ar' ? 'قدّم الآن' : 'Apply now' }}
-                                        </a>
-                                    </div>
+                                <h3 class="text-right text-lg font-semibold leading-tight text-gray-900">{{ $job['title'] }}</h3>
+                                <div class="text-right flex items-center text-gray-600 mt-1">
+                                    <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
+                                    {{ $job['company'] }}
+                                </div>
                             </div>
-                        </a>
+                            <div class="p-5">
+                                <div class="flex items-center justify-between text-sm text-gray-600">
+                                    <div class="flex items-center">
+                                        <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1118 0z"/></svg>
+                                        {{ $job['location'] ?? (app()->getLocale() === 'ar' ? 'عن بُعد' : 'Remote') }}
+                                    </div>
+                                    <div class="flex items-center text-gray-700" style="color: rgb(31, 41, 55)">
+                                        <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"/></svg>
+                                        {{ app()->getLocale() === 'ar' ? '—' : '—' }}
+                                    </div>
+                                </div>
+                                <a href="{{ route('register') }}" class="w-full inline-flex items-center justify-center px-4 py-2 mt-4 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">
+                                    {{ app()->getLocale() === 'ar' ? 'عرض التفاصيل' : 'View details' }}
+                                </a>
+                            </div>
+                        </div>
                     @endforeach
                 </div>
 
-                <!-- Controls -->
-                <div class="absolute inset-y-0 ltr:left-0 rtl:right-0 flex items-center">
-                    <button @click="prev" type="button" class="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow ring-1 ring-gray-200 text-gray-700 hover:bg-gray-50" aria-label="Previous">
-                        <svg class="h-5 w-5 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="absolute inset-y-0 ltr:right-0 rtl:left-0 flex items-center">
-                    <button @click="next" type="button" class="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow ring-1 ring-gray-200 text-gray-700 hover:bg-gray-50" aria-label="Next">
-                        <svg class="h-5 w-5 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
+                <div class="text-center mt-12">
+                    <a href="#" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
+                        {{ app()->getLocale() === 'ar' ? 'عرض المزيد من الوظائف' : 'Load more jobs' }}
+                    </a>
                 </div>
             </div>
-
-            <div class="text-center mt-10">
-                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out">
-                    {{ __('words.latest_jobs.view_more') }}
-                </a>
-            </div>
-        </div>
-    </div>
+        </section>
 
     
 
@@ -620,107 +675,111 @@
         <!-- Instagram Embeds Section -->
         <x-instagram-embeds />
 
-        <!-- Enterprise Section -->
-        <div class="bg-white py-20">
+        <!-- Companies Section with stats and pricing (shadcn-style) -->
+        <div id="companies" class="bg-white py-20">
             <div class="container mx-auto px-4">
-                <div class="grid grid-cols-12 gap-8 items-center">
-                    <div class="col-span-12 lg:col-span-6 space-y-8">
-                        <div class="space-y-4">
-                            <h2 class="text-3xl md:text-4xl font-bold text-black">
-                                {{ __('words.enterprise.title') }}
-                            </h2>
-                            <p class="text-xl text-gray-600">
-                                {{ __('words.enterprise.tagline') }}
-                            </p>
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: rgb(31, 41, 55)">
+                        {{ app()->getLocale() === 'ar' ? 'هل أنت شركة توظيف؟' : 'Are you an employer?' }}
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        {{ app()->getLocale() === 'ar' ? 'انضم إلى شبكتنا من أفضل الشركات واعثر على أفضل المواهب لفريقك' : 'Join our network of top companies and hire the best talent' }}
+                    </p>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+                    <div class="text-center">
+                        <div class="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                            <svg class="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
-
-                        <div class="bg-gray-50 rounded-3xl p-8 shadow-sm border border-gray-100 backdrop-blur-sm">
-                            <div class="space-y-6">
-                                <!-- Vetted Professionals -->
-                                <div class="flex items-start gap-4">
-                                    <div class="flex-shrink-0">
-                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
-                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-semibold text-black">
-                                            {{ __('words.enterprise.benefits.vetted.title') }}
-                                        </h3>
-                                        <p class="mt-2 text-gray-600">
-                                            {{ __('words.enterprise.benefits.vetted.description') }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Save Time -->
-                                <div class="flex items-start gap-4">
-                                    <div class="flex-shrink-0">
-                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
-                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-semibold text-black">
-                                            {{ __('words.enterprise.benefits.time.title') }}
-                                        </h3>
-                                        <p class="mt-2 text-gray-600">
-                                            {{ __('words.enterprise.benefits.time.description') }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Reduce Costs -->
-                                <div class="flex items-start gap-4">
-                                    <div class="flex-shrink-0">
-                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-lg">
-                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-semibold text-black">
-                                            {{ __('words.enterprise.benefits.cost.title') }}
-                                        </h3>
-                                        <p class="mt-2 text-gray-600">
-                                            {{ __('words.enterprise.benefits.cost.description') }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+50,000</h3>
+                        <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'باحث عن عمل نشط' : 'Active candidates' }}</p>
                     </div>
+                    <div class="text-center">
+                        <div class="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                            <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V7a4 4 0 018 0v4m-1 2v4a4 4 0 11-8 0v-4m-4 0h12"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">85%</h3>
+                        <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'معدل نجاح التوظيف' : 'Hiring success rate' }}</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                            <svg class="h-8 w-8 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M9 3v18M3 9h18M3 15h18"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+200</h3>
+                        <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'شركة تثق بنا' : 'Companies trust us' }}</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                            <svg class="h-8 w-8 text-orange-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">15</h3>
+                        <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'يوم متوسط مدة التوظيف' : 'Avg. days to hire' }}</p>
+                    </div>
+                </div>
 
-                    <div class="col-span-12 lg:col-span-6">
-                        <div class="relative">
-                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl transform rotate-3"></div>
-                            <div class="relative rounded-2xl shadow-xl overflow-hidden aspect-[4/3]">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
-                                <img
-                                    class="absolute inset-0 w-full h-full object-cover object-center"
-                                    src="{{ asset('img/enterprise-team.jpg') }}"
-                                    alt="Enterprise Team"
-                                >
-                                <div class="absolute bottom-0 left-0 right-0 p-8 z-20">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-                                        </svg>
-                                        <span class="text-white font-semibold">{{ __('words.enterprise.rating') }}</span>
-                                    </div>
-                                    <div class="ltr:ml-8 rtl:mr-8">
-                                        <p class="text-gray-200 text-sm mb-4">{{ __('words.enterprise.rating_subtitle') }}</p>
-                                    </div>
-                                    <h3 class="text-2xl md:text-3xl font-bold text-white leading-tight">
-                                        {{ __('words.enterprise.image_overlay') }}
-                                    </h3>
+                <!-- Pricing -->
+                <div class="mb-16">
+                    <h3 class="text-2xl font-bold text-center mb-12" style="color: rgb(31, 41, 55)">
+                        {{ app()->getLocale() === 'ar' ? 'اختر الخطة المناسبة لشركتك' : 'Choose the right plan' }}
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <!-- Basic -->
+                        <div class="relative border rounded-lg p-6">
+                            <div class="text-center">
+                                <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الأساسية' : 'Basic' }}</h4>
+                                <div class="mb-4">
+                                    <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">499 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
+                                    <span class="text-gray-600">/{{ app()->getLocale() === 'ar' ? 'شهرياً' : 'mo' }}</span>
                                 </div>
+                                <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'مثالية للشركات الصغيرة' : 'Great for small teams' }}</p>
                             </div>
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'نشر حتى 5 وظائف شهرياً' : 'Post up to 5 jobs/mo' }}</span></li>
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'عرض في نتائج البحث' : 'Search visibility' }}</span></li>
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'دعم فني أساسي' : 'Basic support' }}</span></li>
+                            </ul>
+                            <a href="#" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'اختر هذه الخطة' : 'Choose plan' }}</a>
+                        </div>
+
+                        <!-- Pro (popular) -->
+                        <div class="relative border-2 rounded-lg p-6 shadow-xl" style="border-color: rgb(31, 41, 55)">
+                            <div class="absolute -top-4 right-1/2 translate-x-1/2">
+                                <span class="inline-flex items-center px-4 py-1 text-white text-sm rounded-full" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'الأكثر شعبية' : 'Most popular' }}</span>
+                            </div>
+                            <div class="text-center">
+                                <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الاحترافية' : 'Pro' }}</h4>
+                                <div class="mb-4">
+                                    <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">999 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
+                                    <span class="text-gray-600">/{{ app()->getLocale() === 'ar' ? 'شهرياً' : 'mo' }}</span>
+                                </div>
+                                <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'الأفضل للشركات المتوسطة' : 'Best for growing teams' }}</p>
+                            </div>
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'نشر حتى 20 وظيفة شهرياً' : 'Post up to 20 jobs/mo' }}</span></li>
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'أولوية في نتائج البحث' : 'Priority placement' }}</span></li>
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'دعم فني مخصص' : 'Dedicated support' }}</span></li>
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'تقارير تفصيلية' : 'Detailed reports' }}</span></li>
+                            </ul>
+                            <a href="#" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'اختر هذه الخطة' : 'Choose plan' }}</a>
+                        </div>
+
+                        <!-- Enterprise -->
+                        <div class="relative border rounded-lg p-6">
+                            <div class="text-center">
+                                <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'خطة المؤسسات' : 'Enterprise' }}</h4>
+                                <div class="mb-4">
+                                    <span class="text-2xl font-bold" style="color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact us' }}</span>
+                                </div>
+                                <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'حلول مخصصة للمؤسسات الكبيرة' : 'Custom solutions for large orgs' }}</p>
+                            </div>
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'وظائف غير محدودة' : 'Unlimited jobs' }}</span></li>
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'أولوية قصوى في العرض' : 'Top priority' }}</span></li>
+                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'مدير حساب مخصص' : 'Account manager' }}</span></li>
+                            </ul>
+                            <a href="#" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact sales' }}</a>
                         </div>
                     </div>
                 </div>

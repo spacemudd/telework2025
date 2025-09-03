@@ -4,9 +4,9 @@
     <div class="bg-blue-600 text-white text-sm">
         <div class="container mx-auto px-4 py-3 text-center">
             @if(app()->getLocale() === 'ar')
-                هدف تطلق منصة العمل عن بُعد 🚀 منصة رواتب للقوى العاملة العالمية بأكثر الأسعار تنافسية.
+            نبني الفريق ونصنع القادة 👨‍💻 👩‍💻
             @else
-                Hadaf launches the telwork platform 🚀 The most competitively priced global workforce payroll platform.
+                We build the team and make the leaders 👨‍💻👩‍💻
             @endif
         </div>
     </div>
