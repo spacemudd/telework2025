@@ -1,4 +1,20 @@
 <div class="relative bg-white overflow-hidden" style="filter: contrast(100%) brightness(100%); background: linear-gradient(30deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.25) 100%), url(http://localhost:8000/img/grainy-noise.svg);">
+    <!-- Large Image - Absolute positioned on right side of entire page -->
+    <img src="/img/girls.png" alt="Professional women" class="hero-image-large fixed bottom-0 right-0 object-cover opacity-20 z-0" style="width: 40vw;">
+    <style>
+        @media (max-width: 1023px) {
+            .hero-image-large {
+                width: 50vw !important;
+            }
+        }
+        @media (max-width: 767px) {
+            .hero-image-large {
+                width: 60vw !important;
+                opacity: 0.15 !important;
+            }
+        }
+    </style>
+    
     <!-- Upward shadow at the bottom to create a stamped effect -->
     <div class="pointer-events-none absolute inset-x-0 bottom-0 h-3 md:h-4" style="background: linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0)); z-index: 10;"></div>
     <div class="container mx-auto px-4 py-16 md:py-20 relative z-30">
@@ -68,15 +84,6 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
                     <!-- Left Side: Title and Benefits -->
                     <div class="flex flex-col justify-center relative">
-                        <!-- Image - Absolute positioned -->
-                        <img src="/img/girls.png" alt="Professional women" class="hero-image absolute object-cover opacity-30 z-0" style="right: -30px;">
-                        <style>
-                            @media (min-width: 1024px) {
-                                .hero-image {
-                                    right: -100px !important;
-                                }
-                            }
-                        </style>
                         
                         <div class="relative z-20">
                             <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 xs:text-center sm:text-start">
