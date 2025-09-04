@@ -1,12 +1,14 @@
 <div class="relative bg-white overflow-hidden" style="filter: contrast(100%) brightness(100%); background: linear-gradient(30deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.25) 100%), url(http://localhost:8000/img/grainy-noise.svg);">
-    <div class="container mx-auto px-4 py-16 md:py-20 relative z-10">
+    <!-- Upward shadow at the bottom to create a stamped effect -->
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-3 md:h-4" style="background: linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0)); z-index: 10;"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative z-30">
         <div class="max-w-4xl mx-auto text-center">
-            <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-12 relative z-40">
                 {{ __('words.hero.title') }}
             </h1>
 
             <!-- Search Card -->
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto relative z-40">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="relative">
                         <svg class="absolute rtl:left-3 ltr:right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -45,17 +47,17 @@
             </div>
 
             <!-- New elements for the hero section, based on the image -->
-            <div class="mb-12">
+            <div class="mb-12 relative z-40">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                     {{ __('words.hero.job_seekers_connected') }}
                 </span>
             </div>
 
-            <p class="mt-4 text-lg text-gray-600 mb-12">
+            <p class="mt-4 text-lg text-gray-600 mb-12 relative z-40">
                 {{ __('words.hero.description') }}
             </p>
 
-            <div class="mb-16 relative z-20">
+            <div class="mb-16 relative z-40">
                 <button type="button" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
                     🌟 {{ app()->getLocale() === 'ar' ? 'افتح حسابك الآن' : 'Open an account - Apply now' }}
                 </button>
