@@ -55,7 +55,7 @@
                 {{ __('words.hero.description') }}
             </p>
 
-            <div class="mb-16">
+            <div class="mb-16 relative z-20">
                 <button type="button" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
                     🌟 {{ app()->getLocale() === 'ar' ? 'افتح حسابك الآن' : 'Open an account - Apply now' }}
                 </button>
@@ -66,40 +66,46 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
                     <!-- Left Side: Title and Benefits -->
                     <div class="flex flex-col justify-center relative">
-                        <!-- Background Image -->
-                        <div class="absolute inset-0 opacity-10 bg-contain bg-center bg-no-repeat" style="background-image: url('/img/girls.png');"></div>
+                        <!-- Image - Absolute positioned -->
+                        <img src="/img/girls.png" alt="Professional women" class="hero-image absolute object-cover opacity-30 z-0" style="right: -30px;">
+                        <style>
+                            @media (min-width: 1024px) {
+                                .hero-image {
+                                    right: -100px !important;
+                                }
+                            }
+                        </style>
                         
-                        <!-- Content with backdrop -->
-                        <div class="relative z-10 bg-white/80 backdrop-blur-sm rounded-lg p-6">
+                        <div class="relative z-20">
                             <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 xs:text-center sm:text-start">
                                 {{ app()->getLocale() === 'ar' ? 'رحلة التوظيف' : 'Hiring Journey' }}
                             </h2>
                             
                             <ul class="space-y-3 text-base text-gray-700">
-                                <li class="flex items-center justify-center lg:justify-start {{ app()->getLocale() === 'ar' ? 'lg:flex-row lg:text-left' : 'lg:flex-row-reverse lg:text-right' }} text-center">
-                                    <svg class="h-5 w-5 text-green-500 flex-shrink-0 {{ app()->getLocale() === 'ar' ? 'mr-3' : 'ml-3' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    {{ app()->getLocale() === 'ar' ? 'لا عاد تشيل هم تصميم سيرة ذاتية' : 'No more worrying about CV design' }}
-                                </li>
-                                <li class="flex items-center justify-center lg:justify-start {{ app()->getLocale() === 'ar' ? 'lg:flex-row lg:text-left' : 'lg:flex-row-reverse lg:text-right' }} text-center">
-                                    <svg class="h-5 w-5 text-green-500 flex-shrink-0 {{ app()->getLocale() === 'ar' ? 'mr-3' : 'ml-3' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    {{ app()->getLocale() === 'ar' ? 'ننبهك و نعيد جدولة التوظيف متى ما احببت' : 'We notify and reschedule hiring whenever you prefer' }}
-                                </li>
-                                <li class="flex items-center justify-center lg:justify-start {{ app()->getLocale() === 'ar' ? 'lg:flex-row lg:text-left' : 'lg:flex-row-reverse lg:text-right' }} text-center">
-                                    <svg class="h-5 w-5 text-green-500 flex-shrink-0 {{ app()->getLocale() === 'ar' ? 'mr-3' : 'ml-3' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    {{ app()->getLocale() === 'ar' ? 'حدد طلباتك و بيئة العمل المراد بها' : 'Define your requirements and desired work environment' }}
-                                </li>
+                            <li class="flex items-center justify-center lg:justify-start {{ app()->getLocale() === 'ar' ? 'lg:flex-row lg:text-left' : 'lg:flex-row-reverse lg:text-right' }} text-center">
+                                <svg class="h-5 w-5 text-green-500 flex-shrink-0 {{ app()->getLocale() === 'ar' ? 'mr-3' : 'ml-3' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                {{ app()->getLocale() === 'ar' ? 'لا عاد تشيل هم تصميم سيرة ذاتية' : 'No more worrying about CV design' }}
+                            </li>
+                            <li class="flex items-center justify-center lg:justify-start {{ app()->getLocale() === 'ar' ? 'lg:flex-row lg:text-left' : 'lg:flex-row-reverse lg:text-right' }} text-center">
+                                <svg class="h-5 w-5 text-green-500 flex-shrink-0 {{ app()->getLocale() === 'ar' ? 'mr-3' : 'ml-3' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                {{ app()->getLocale() === 'ar' ? 'ننبهك و نعيد جدولة التوظيف متى ما احببت' : 'We notify and reschedule hiring whenever you prefer' }}
+                            </li>
+                            <li class="flex items-center justify-center lg:justify-start {{ app()->getLocale() === 'ar' ? 'lg:flex-row lg:text-left' : 'lg:flex-row-reverse lg:text-right' }} text-center">
+                                <svg class="h-5 w-5 text-green-500 flex-shrink-0 {{ app()->getLocale() === 'ar' ? 'mr-3' : 'ml-3' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                {{ app()->getLocale() === 'ar' ? 'حدد طلباتك و بيئة العمل المراد بها' : 'Define your requirements and desired work environment' }}
+                            </li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Right Side: Three Process Steps -->
-                    <div class="space-y-4">
+                    <div class="space-y-4 relative z-20">
                         <!-- Discovery -->
                         <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
                             <div class="flex items-center gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row text-left' : 'flex-row-reverse text-right' }}">
