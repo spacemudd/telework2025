@@ -5,7 +5,7 @@
         <div class="container mx-auto px-4 py-3 text-center">
             @if(app()->getLocale() === 'ar')
             <h2 class="text-xl font-bold mb-2">نكشف عن مشاركتنا في مؤتمر 2025 لقطاع التوظيف 🚀</h2>
-            <p class="text-lg">نحن فخورون بالإعلان عن مشاركتنا في أهم حدث تقني في مجال التوظيف هذا العام. انضموا إلينا لاكتشاف مستقبل العمل عن بُعد والابتكارات التي ستغير وجه القطاع.</p>
+            <p class="text-lg">نحن فخورون بالإعلان عن مشاركتنا ملتقى قادرون للتوظيف. انضموا إلينا <a href="https://x.com/search?q=%23ملتقى_قادرون_للتوظيف" target="_blank" class="text-white"><span class="border-b-2 border-yellow-300">#ملتقى_قادرون_للتوظيف</span></a>.</p>
             @else
                 <h2 class="text-xl font-bold mb-2">We unveil our participation in the 2025 Employment Sector Conference 🚀</h2>
                 <p class="text-lg">We are proud to announce our participation in the most important technical event in the employment sector this year. Join us to discover the future of remote work and innovations that will change the face of the sector.</p>

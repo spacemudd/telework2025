@@ -1,15 +1,15 @@
 <div class="relative bg-white overflow-hidden" style="filter: contrast(100%) brightness(100%); background: linear-gradient(30deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.25) 100%), url(http://localhost:8000/img/grainy-noise.svg);">
     <!-- Large Image - Absolute positioned on right side of entire page -->
-    <img src="/img/girls.png" alt="Professional women" class="hero-image-large fixed bottom-0 right-0 object-cover opacity-20 z-0" style="width: 40vw;">
+    <img src="/img/girls_two.png" alt="Professional women" class="hero-image-large fixed right-0 top-1/2 -translate-y-1/2 object-cover opacity-20 z-0" style="width: 60vw;">
     <style>
         @media (max-width: 1023px) {
             .hero-image-large {
-                width: 50vw !important;
+                width: 70vw !important;
             }
         }
         @media (max-width: 767px) {
             .hero-image-large {
-                width: 60vw !important;
+                width: 80vw !important;
                 opacity: 0.15 !important;
             }
         }
@@ -116,18 +116,18 @@
                     <!-- Right Side: Three Process Steps -->
                     <div class="space-y-4 relative z-20">
                         <!-- Discovery -->
-                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
+                        <div class="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
                             <div class="flex items-center gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row text-left' : 'flex-row-reverse text-right' }}">
-                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-800 mb-1">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-1">
                                         {{ app()->getLocale() === 'ar' ? 'الاكتشاف' : 'Discovery' }}
                                     </h3>
-                                    <p class="text-sm text-gray-600">
+                                    <p class="text-base text-gray-600">
                                         {{ app()->getLocale() === 'ar' ? 'نحضر لك قائمة بالوظائف التي يمكنك التقدم إليها' : 'We prepare for you a list of job opportunities that you can apply to' }}
                                     </p>
                                 </div>
@@ -135,18 +135,18 @@
                         </div>
 
                         <!-- Prospect -->
-                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
+                        <div class="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
                             <div class="flex items-center gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row text-left' : 'flex-row-reverse text-right' }}">
-                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-800 mb-1">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-1">
                                         {{ app()->getLocale() === 'ar' ? 'الترشيح' : 'Prospect' }}
                                     </h3>
-                                    <p class="text-sm text-gray-600">
+                                    <p class="text-base text-gray-600">
                                         {{ app()->getLocale() === 'ar' ? 'سنرتب لك المقابلات مع الشركات المهتمة بتوظيفك' : 'We will set you up with interviews and hiring companies' }}
                                     </p>
                                 </div>
@@ -154,18 +154,18 @@
                         </div>
 
                         <!-- Hiring -->
-                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
+                        <div class="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
                             <div class="flex items-center gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row text-left' : 'flex-row-reverse text-right' }}">
-                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 713.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                                <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-800 mb-1">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-1">
                                         {{ app()->getLocale() === 'ar' ? 'التوظيف' : 'Hiring' }}
                                     </h3>
-                                    <p class="text-sm text-gray-600">
+                                    <p class="text-base text-gray-600">
                                         {{ app()->getLocale() === 'ar' ? 'سنرافقك في كل خطوة حتى يتم توظيفك' : 'We will accompany you with every step until you are hired' }}
                                     </p>
                                 </div>
