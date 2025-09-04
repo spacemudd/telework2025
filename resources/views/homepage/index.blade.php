@@ -4,70 +4,7 @@
     </x-slot>
 
     <!-- Hero Section (shadcn-style) -->
-        <div class="" style="background-color: rgb(31, 41, 55)">
-            <div class="container mx-auto px-4 py-16 md:py-20">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-12">
-                        {{ app()->getLocale() === 'ar' ? 'نبني الفريق ونصنع القادة' : 'We build the team and make the leaders' }}
-                    </h1>
-
-                    <!-- Search Card -->
-                    <div class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div class="relative">
-                                <svg class="absolute rtl:left-3 ltr:right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                <input type="text" placeholder="{{ app()->getLocale() === 'ar' ? 'البحث عن وظيفة...' : 'Search for a job...' }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 rtl:pl-10 rtl:pr-3 ltr:pr-10 ltr:pl-3 rtl:text-right ltr:text-left focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent" />
-                            </div>
-
-                            <div>
-                                <select dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
-                                    <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'المدينة' : 'City' }}</option>
-                                    <option value="riyadh">{{ app()->getLocale() === 'ar' ? 'الرياض' : 'Riyadh' }}</option>
-                                    <option value="jeddah">{{ app()->getLocale() === 'ar' ? 'جدة' : 'Jeddah' }}</option>
-                                    <option value="dammam">{{ app()->getLocale() === 'ar' ? 'الدمام' : 'Dammam' }}</option>
-                                    <option value="makkah">{{ app()->getLocale() === 'ar' ? 'مكة المكرمة' : 'Makkah' }}</option>
-                                    <option value="medina">{{ app()->getLocale() === 'ar' ? 'المدينة المنورة' : 'Medina' }}</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <select dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
-                                    <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'المجال' : 'Field' }}</option>
-                                    <option value="technology">{{ app()->getLocale() === 'ar' ? 'التكنولوجيا' : 'Technology' }}</option>
-                                    <option value="finance">{{ app()->getLocale() === 'ar' ? 'المالية' : 'Finance' }}</option>
-                                    <option value="healthcare">{{ app()->getLocale() === 'ar' ? 'الرعاية الصحية' : 'Healthcare' }}</option>
-                                    <option value="education">{{ app()->getLocale() === 'ar' ? 'التعليم' : 'Education' }}</option>
-                                    <option value="engineering">{{ app()->getLocale() === 'ar' ? 'الهندسة' : 'Engineering' }}</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <button type="button" class="w-full inline-flex items-center rtl:flex-row-reverse justify-center px-4 py-2.5 text-sm font-medium rounded-md text-white" style="background-color: rgb(31, 41, 55)">
-                                    <svg class="h-4 w-4 rtl:ml-2 ltr:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                    {{ app()->getLocale() === 'ar' ? 'بحث' : 'Search' }}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Stats -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-                        <div class="text-center">
-                            <h3 class="text-3xl font-bold mb-2">+5000</h3>
-                            <p class="text-gray-300">{{ app()->getLocale() === 'ar' ? 'وظيفة متاحة' : 'Open jobs' }}</p>
-                        </div>
-                        <div class="text-center">
-                            <h3 class="text-3xl font-bold mb-2">+200</h3>
-                            <p class="text-gray-300">{{ app()->getLocale() === 'ar' ? 'شركة معتمدة' : 'Verified companies' }}</p>
-                        </div>
-                        <div class="text-center">
-                            <h3 class="text-3xl font-bold mb-2">+10000</h3>
-                            <p class="text-gray-300">{{ app()->getLocale() === 'ar' ? 'موظف تم توظيفهم' : 'Candidates hired' }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-homepage.hero />
 
         <!-- Job Listings Grid (shadcn-style) -->
         <section id="jobs" class="py-16 bg-gray-50">
@@ -76,27 +13,6 @@
                     <h2 class="text-3xl md:text-4xl font-bold mb-3" style="color: rgb(31, 41, 55)">
                         {{ __('words.latest_jobs.title') }}
                     </h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">
-                        {{ app()->getLocale() === 'ar' ? 'اكتشف الفرص الوظيفية المتنوعة من أفضل الشركات في المملكة' : 'Discover diverse opportunities from top companies in the Kingdom' }}
-                    </p>
-                </div>
-
-                <!-- Filters -->
-                <div class="flex flex-wrap gap-3 mb-8 justify-center">
-                    <select dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="w-48 border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
-                        <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'نوع العمل' : 'Work type' }}</option>
-                        <option value="fulltime">{{ __('words.latest_jobs.contract_types.fulltime') }}</option>
-                        <option value="parttime">{{ __('words.latest_jobs.contract_types.parttime') }}</option>
-                        <option value="contract">{{ __('words.latest_jobs.contract_types.contract') }}</option>
-                        <option value="remote">{{ __('words.latest_jobs.contract_types.remote') }}</option>
-                    </select>
-                    <select dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="w-48 border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent">
-                        <option value="" selected disabled>{{ app()->getLocale() === 'ar' ? 'مستوى الخبرة' : 'Experience level' }}</option>
-                        <option value="entry">{{ app()->getLocale() === 'ar' ? 'مبتدئ' : 'Entry' }}</option>
-                        <option value="mid">{{ app()->getLocale() === 'ar' ? 'متوسط' : 'Mid' }}</option>
-                        <option value="senior">{{ app()->getLocale() === 'ar' ? 'خبير' : 'Senior' }}</option>
-                        <option value="lead">{{ app()->getLocale() === 'ar' ? 'قيادي' : 'Lead' }}</option>
-                    </select>
                 </div>
 
                 <!-- Cards -->
@@ -345,8 +261,7 @@
                 </div>
             </section>
         </div>
-    </div>
---}}
+    </div>--}}
 
     <!--
     <div class="relative z-10 py-12">
@@ -405,7 +320,6 @@
         </div>
     </div>
     -->
-
 
 
 
@@ -542,7 +456,7 @@
                 <!-- Company Logos Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-12 items-center justify-items-center opacity-90">
                     @foreach(($logos ?? collect()) as $index => $logo)
-                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition duration-200 ease-in-out filter grayscale hover:grayscale-0">
+                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition duration-200 ease-in-out">
                         <img src="{{ asset($logo) }}" alt="Client Logo {{ $index + 1 }}" class="h-12 w-auto object-contain" loading="lazy">
                     </div>
                     @endforeach
@@ -718,8 +632,7 @@
             </div>
         </div> --}}
 
-        <!-- Instagram Embeds Section -->
-        <x-instagram-embeds />
+
 
         <!-- Enterprise Section -->
         <div class="bg-white py-20">

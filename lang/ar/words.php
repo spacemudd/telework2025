@@ -178,15 +178,21 @@ return [
     'homepage-title' => 'الصفحة الرئيسية - للعمل عن بعد',
     'home' => 'الرئيسية',
     'hero' => [
-        'title' => 'وظّف أفضل 10٪ من العاملين عن بُعد',
-        'description' => 'هدف هي منصة للمحامين ومساعدي الأعمال والمصممين والمبرمجين وغيرهم.',
-        'subtitle' => 'تقوم الشركات الكبرى والشركات الناشئة بتوظيف المصممين المستقلين من هدف لمشاريعهم الحيوية.',
-        'i_am' => 'أنا:',
-        'looking_for_employees' => 'أبحث عن موظفين',
-        'looking_for_job' => 'أبحث عن وظيفة',
-        'no_risk' => 'اشتراك بدون مخاطر. يمكنك الإلغاء في أي وقت.',
-        'login_linkedin' => 'تسجيل الدخول باستخدام لينكد إن',
-        'login_gmail' => 'تسجيل الدخول باستخدام Gmail'
+        'title' => 'نبني الفريق ونصنع القادة',
+        'description' => '',
+        'job_seekers_connected' => 'نربطك بالقوى العاملة بخطوات سهلة',
+        'browse_jobs' => 'تصفح الوظائف',
+        'hire_talent' => 'توظيف أفضل المواهب',
+        'trusted_by' => 'موثوق به من قبل الشركات الناشئة و Fortune 500',
+        'company_stripe' => 'سترايب',
+        'company_google' => 'جوجل',
+        'company_microsoft' => 'مايكروسوفت',
+        'company_citibank' => 'سيتي بنك',
+        'company_shopify' => 'شوبيفاي',
+        'search_job_placeholder' => 'البحث عن وظيفة...',
+        'city_placeholder' => 'المدينة',
+        'field_placeholder' => 'المجال',
+        'search_button' => 'بحث',
     ],
     'companies' => [
         'title' => 'انضم إلى شبكتنا الموثوقة من رواد الأعمال',
@@ -240,7 +246,7 @@ return [
         'rating_subtitle' => 'من قبل المحترفين المستقلين'
     ],
     'latest_jobs' => [
-        'title' => 'أحدث الوظائف المنشورة',
+        'title' => 'الوظائف المنشورة',
         'view_more' => 'عرض المزيد',
         'posted' => 'نُشر',
         'contract_types' => [
