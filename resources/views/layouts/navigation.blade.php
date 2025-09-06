@@ -86,6 +86,9 @@
                     @endhasrole
 
                     @hasrole('employee')
+                        <x-nav-link href="{{ \LaravelLocalization::localizeURL('/') }}" :active="request()->is('/')">
+                            {{ __('words.home') }}
+                        </x-nav-link>
                         @php
                             $employee = auth()->check() ? auth()->user()->employee : null;
                             $isJobSeeker = $employee && $employee->company && $employee->company->name === 'Job Seeker Platform';
@@ -173,6 +176,9 @@
                     {{ __('words.dashboard') }}
                 </x-responsive-nav-link>
             @elsehasrole('employee')
+                <x-responsive-nav-link href="{{ \LaravelLocalization::localizeURL('/') }}" :active="request()->is('/')">
+                    {{ __('words.home') }}
+                </x-responsive-nav-link>
                 @php
                     $employee = auth()->check() ? auth()->user()->employee : null;
                     $isJobSeeker = $employee && $employee->company && $employee->company->name === 'Job Seeker Platform';

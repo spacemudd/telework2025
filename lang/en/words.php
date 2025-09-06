@@ -304,7 +304,9 @@ return [
             'title' => 'Companies',
             'how_it_works' => 'How it works',
             'pricing' => 'Prices',
-            'hire' => 'Hire now'
+            'hire' => 'Hire now',
+            'post_job' => 'Post a job',
+            'browse_candidates' => 'Browse candidates'
         ],
         'jobs' => [
             'title' => 'Looking for jobs',
@@ -651,4 +653,12 @@ return [
     'share' => 'Share',
     'share_job' => 'Share Job',
     'response_recorded_successfully' => 'Response recorded successfully!',
+
+    'promo_rise_title' => 'Rise to the top',
+    'promo_rise_desc' => 'Boosted profiles increases your chance of getting hired by up to 2x.',
+    'promo_rise_action' => 'Boost now',
+    'promo_ai_title' => 'Let AI submit to jobs for you!',
+    'promo_ai_desc' => 'Our intelligent systems apply to jobs for you. Sit back and relax while we find the perfect opportunities.',
+    'promo_ai_action' => 'Activate AI apply',
+    'boosted' => 'BOOSTED',
 ];
