@@ -27,11 +27,20 @@ class InterviewController extends Controller
 
     public function start()
     {
+        // Add detailed debug logging
+        \Log::info('Interview start method called', [
+            'user_id' => auth()->id(),
+            'url' => request()->url(),
+            'full_url' => request()->fullUrl(),
+            'method' => request()->method(),
+            'headers' => request()->headers->all()
+        ]);
+        
         $user = Auth::user();
         $employee = $user->employee;
 
         if (!$employee || !$employee->is_job_seeker) {
-            return redirect()->route('dashboard')->with('error', 'Access denied');
+            return redirect()->route('dashboard', ['locale' => app()->getLocale()])->with('error', 'Access denied');
         }
 
         // Check if user already has a completed interview
@@ -40,7 +49,7 @@ class InterviewController extends Controller
             ->first();
 
         if ($completedInterview) {
-            return redirect()->route('employee.job-seeker-dashboard')
+            return redirect()->route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()])
                 ->with('info', 'You have already completed your interview.');
         }
 
@@ -59,8 +68,19 @@ class InterviewController extends Controller
             ->whereIn('status', ['pending', 'in_progress'])
             ->first();
 
+        \Log::info('Existing interview check', [
+            'has_existing_interview' => $existingInterview ? true : false,
+            'interview_id' => $existingInterview ? $existingInterview->id : null,
+            'interview_status' => $existingInterview ? $existingInterview->status : null
+        ]);
+
         if ($existingInterview) {
-            return redirect()->route('interview.conduct', $existingInterview);
+            \Log::info('Redirecting to existing interview', [
+                'interview_id' => $existingInterview->id,
+                'interview_object' => $existingInterview->toArray(),
+                'redirect_url' => route('interview.conduct', ['locale' => app()->getLocale(), 'interview' => $existingInterview->id])
+            ]);
+            return redirect()->route('interview.conduct', ['locale' => app()->getLocale(), 'interview' => $existingInterview->id]);
         }
 
         // Get the current locale from LaravelLocalization
@@ -79,11 +99,51 @@ class InterviewController extends Controller
         // Generate questions based on talent categories
         $this->interviewService->generateQuestions($interview);
 
-        return redirect()->route('interview.conduct', $interview);
+        \Log::info('Redirecting to new interview', [
+            'interview_id' => $interview->id,
+            'interview_object' => $interview->toArray(),
+            'redirect_url' => route('interview.conduct', ['locale' => app()->getLocale(), 'interview' => $interview->id])
+        ]);
+        return redirect()->route('interview.conduct', ['locale' => app()->getLocale(), 'interview' => $interview->id]);
     }
 
-    public function conduct(Interview $interview)
+    public function conduct($interview)
     {
+        // Add detailed debug logging
+        \Log::info('Interview conduct method called with raw parameter', [
+            'raw_interview_param' => $interview,
+            'param_type' => gettype($interview),
+            'user_id' => auth()->id(),
+            'url' => request()->url(),
+            'full_url' => request()->fullUrl(),
+            'route_parameters' => request()->route()->parameters()
+        ]);
+        
+        // The issue is that the route parameter might be the locale instead of the interview ID
+        // Let's get the interview ID from the route parameters correctly
+        $routeParams = request()->route()->parameters();
+        $interviewId = $routeParams['interview'] ?? $interview;
+        
+        \Log::info('Corrected interview ID', [
+            'original_param' => $interview,
+            'route_params' => $routeParams,
+            'corrected_id' => $interviewId
+        ]);
+        
+        // Find the interview by ID since route model binding isn't working correctly with UUIDs
+        $interview = Interview::find($interviewId);
+        
+        \Log::info('Interview lookup result', [
+            'found_interview' => $interview ? true : false,
+            'interview_id' => $interview ? $interview->id : null,
+            'all_interviews_for_user' => Interview::where('user_id', auth()->id())->pluck('id', 'status')->toArray()
+        ]);
+        
+        if (!$interview) {
+            return redirect()->route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()])
+                ->with('error', 'Interview not found');
+        }
+        
         // Add debugging
         \Log::info('Interview conduct method called', [
             'interview_id' => $interview->id,
@@ -96,7 +156,7 @@ class InterviewController extends Controller
 
         // Check if interview is already completed
         if ($interview->status === 'completed') {
-            return redirect()->route('employee.job-seeker-dashboard')
+            return redirect()->route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()])
                 ->with('info', 'تم إكمال هذه المقابلة بالفعل.');
         }
 
@@ -135,8 +195,59 @@ class InterviewController extends Controller
         return $view;
     }
 
-    public function storeResponse(Request $request, Interview $interview, InterviewQuestion $question)
+    public function storeResponse(Request $request, $interview, $question)
     {
+        // Add detailed debug logging
+        \Log::info('StoreResponse method called', [
+            'raw_interview_param' => $interview,
+            'raw_question_param' => $question,
+            'user_id' => auth()->id(),
+            'url' => request()->url(),
+            'route_parameters' => request()->route()->parameters()
+        ]);
+        
+        // The issue is that the route parameter might be the locale instead of the interview ID
+        // Let's get the interview ID from the route parameters correctly
+        $routeParams = request()->route()->parameters();
+        $interviewId = $routeParams['interview'] ?? $interview;
+        $questionId = $routeParams['question'] ?? $question;
+        
+        \Log::info('Corrected IDs in storeResponse', [
+            'original_interview_param' => $interview,
+            'original_question_param' => $question,
+            'route_params' => $routeParams,
+            'corrected_interview_id' => $interviewId,
+            'corrected_question_id' => $questionId
+        ]);
+        
+        // Find the interview by ID since route model binding isn't working correctly with UUIDs
+        $interview = Interview::find($interviewId);
+        
+        if (!$interview) {
+            \Log::error('Interview not found in storeResponse', [
+                'interview_id' => $interviewId,
+                'user_id' => auth()->id()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Interview not found'
+            ], 404);
+        }
+        
+        // Find the question by ID since route model binding isn't working correctly with UUIDs
+        $question = InterviewQuestion::find($questionId);
+        
+        if (!$question) {
+            \Log::error('Question not found in storeResponse', [
+                'question_id' => $questionId,
+                'interview_id' => $interview->id,
+                'user_id' => auth()->id()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Question not found'
+            ], 404);
+        }
         // Debug logging for route model binding
         \Log::info('Route model binding debug', [
             'interview_id' => $interview->id ?? 'NULL',
@@ -365,7 +476,7 @@ class InterviewController extends Controller
             
             return response()->json([
                 'success' => true,
-                'message' => 'Response recorded successfully',
+                'message' => __('words.response_recorded_successfully'),
                 'next_question' => $nextQuestion,
                 'is_completed' => $unansweredQuestions === 0,
             ]);
@@ -386,8 +497,15 @@ class InterviewController extends Controller
         }
     }
 
-    public function complete(Interview $interview)
+    public function complete($interview)
     {
+        // Find the interview by ID since route model binding isn't working correctly with UUIDs
+        $interview = Interview::find($interview);
+        
+        if (!$interview) {
+            return redirect()->route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()])
+                ->with('error', 'Interview not found');
+        }
         $this->authorize('update', $interview);
 
         $interview->update([
@@ -395,12 +513,37 @@ class InterviewController extends Controller
             'completed_at' => now(),
         ]);
 
-        return redirect()->route('employee.job-seeker-dashboard')
+        return redirect()->route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()])
             ->with('success', 'Interview completed successfully!');
     }
 
-    public function reRecord(Request $request, Interview $interview, InterviewQuestion $question)
+    public function reRecord(Request $request, $interview, $question)
     {
+        // The issue is that the route parameter might be the locale instead of the interview ID
+        // Let's get the interview ID from the route parameters correctly
+        $routeParams = request()->route()->parameters();
+        $interviewId = $routeParams['interview'] ?? $interview;
+        $questionId = $routeParams['question'] ?? $question;
+        
+        // Find the interview by ID since route model binding isn't working correctly with UUIDs
+        $interview = Interview::find($interviewId);
+        
+        if (!$interview) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Interview not found'
+            ], 404);
+        }
+        
+        // Find the question by ID since route model binding isn't working correctly with UUIDs
+        $question = InterviewQuestion::find($questionId);
+        
+        if (!$question) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Question not found'
+            ], 404);
+        }
         $this->authorize('update', $interview);
 
         // Delete old audio file
@@ -435,8 +578,17 @@ class InterviewController extends Controller
         ]);
     }
 
-    public function debugInterview(Interview $interview)
+    public function debugInterview($interview)
     {
+        // Find the interview by ID since route model binding isn't working correctly with UUIDs
+        $interview = Interview::find($interview);
+        
+        if (!$interview) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Interview not found'
+            ], 404);
+        }
         return response()->json([
             'interview_id' => $interview->id,
             'interview_status' => $interview->status,
@@ -497,8 +649,33 @@ class InterviewController extends Controller
         }
     }
 
-    public function testRouteBinding(Interview $interview, InterviewQuestion $question)
+    public function testRouteBinding($interview, $question)
     {
+        // The issue is that the route parameter might be the locale instead of the interview ID
+        // Let's get the interview ID from the route parameters correctly
+        $routeParams = request()->route()->parameters();
+        $interviewId = $routeParams['interview'] ?? $interview;
+        $questionId = $routeParams['question'] ?? $question;
+        
+        // Find the interview by ID since route model binding isn't working correctly with UUIDs
+        $interview = Interview::find($interviewId);
+        
+        if (!$interview) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Interview not found'
+            ], 404);
+        }
+        
+        // Find the question by ID since route model binding isn't working correctly with UUIDs
+        $question = InterviewQuestion::find($questionId);
+        
+        if (!$question) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Question not found'
+            ], 404);
+        }
         return response()->json([
             'success' => true,
             'interview' => [
@@ -516,8 +693,17 @@ class InterviewController extends Controller
         ]);
     }
 
-    public function testResponse(Interview $interview)
+    public function testResponse($interview)
     {
+        // Find the interview by ID since route model binding isn't working correctly with UUIDs
+        $interview = Interview::find($interview);
+        
+        if (!$interview) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Interview not found'
+            ], 404);
+        }
         $this->authorize('view', $interview);
         
         return response()->json([

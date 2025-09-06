@@ -95,4 +95,9 @@ class User extends Authenticatable
     {
         return $query->role('admin');
     }
+    
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class);
+    }
 }

@@ -5,7 +5,7 @@
 @section('admin-content')
     <div class="container mx-auto">
         <div class="p-6">
-            <h1 class="text-2xl font-bold mb-6">{{ __('words.companies') }}</h1>
+            <h1 class="text-2xl font-bold mb-6">{{ __('words.companies-page-title') }}</h1>
             <div class="flex justify-end mb-4 gap-2">
                 <a href="{{ route('admin.companies.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
                     {{ __('words.create_company') }}

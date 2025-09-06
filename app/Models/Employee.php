@@ -25,6 +25,7 @@ class Employee extends Model
         'preferred_work_type',
         'is_job_seeker',
         'profile_completed',
+        'cv_path',
     ];
 
     protected $casts = [

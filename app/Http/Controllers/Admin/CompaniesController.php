@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CompaniesController extends Controller
@@ -255,6 +256,27 @@ class CompaniesController extends Controller
                          ->with('success', 'تم إرسال البريد الإلكتروني بنجاح.');
     }
 
+    public function uploadLogo(Request $request, Company $company)
+    {
+        $request->validate([
+            'logo' => ['required', 'image', 'max:2048'], // 2MB max
+        ]);
+        
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            // Delete existing logo if it exists
+            if ($company->getFirstMedia('logos')) {
+                $company->getFirstMedia('logos')->delete();
+            }
+            
+            // Upload new logo
+            $company->addMediaFromRequest('logo')
+                ->toMediaCollection('logos');
+        }
+        
+        return redirect()->route('admin.companies.edit', $company->id)
+                        ->with('success', __('words.company_logo_uploaded_successfully'));
+    }
+    
     public function export()
     {
         $companies = \App\Models\Company::with(['employees'])->get();

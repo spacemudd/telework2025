@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Traits\SecureMediaUrls;
 
-class Company extends Model
+class Company extends Model implements HasMedia
 {
-    use SoftDeletes;
+    use SoftDeletes, InteractsWithMedia, SecureMediaUrls;
     protected $keyType = 'string';
     public $incrementing = false;
 
@@ -18,6 +21,7 @@ class Company extends Model
         'address',
         'cr_number',
         'phone',
+        'logo_path',
         'user_id',
         'owner_email',
         'migration_completed',
@@ -250,7 +254,7 @@ class Company extends Model
                 'last_task_date' => null
             ];
         }
-
+        
         $firstEmployeeDate = $firstEmployee->created_at;
         $startDate = $firstEmployeeDate->copy()->startOfDay();
         $endDate = now()->endOfDay();
@@ -294,5 +298,23 @@ class Company extends Model
             'last_task_date' => $lastTask ? $lastTask->created_at : null,
             'all_missing_days' => $missingDays
         ];
+    }
+    
+    /**
+     * Get job postings for this company
+     */
+    public function jobPostings()
+    {
+        return $this->hasMany(JobPosting::class);
+    }
+
+    /**
+     * Register media collections for the company
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('logos')
+            ->singleFile()
+            ->useDisk('s3');
     }
 }

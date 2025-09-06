@@ -90,5 +90,6 @@ return [
     'forgot_password' => 'Forgot your password?',
     'log_in' => 'Log in',
     'sign_in_with_google' => 'Sign in with Google',
+    'sign_in_with_linkedin' => 'Sign in with LinkedIn',
 
 ];

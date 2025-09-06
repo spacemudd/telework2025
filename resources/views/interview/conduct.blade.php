@@ -1152,7 +1152,7 @@
                     }, 500);
                 } else if (result.next_question) {
                     // Move to next question
-                    showSuccessNotification('Response recorded successfully!');
+                    showSuccessNotification('{{ __("words.response_recorded_successfully") }}');
                     currentQuestion = result.next_question;
                     updateQuestionDisplay();
                     // Note: updateQuestionDisplay() will handle showing the video via updateVideoInterface('preview')

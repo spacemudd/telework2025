@@ -105,116 +105,110 @@
     </div>
 
     <!-- Pricing Section -->
-    <div class="bg-white py-16 sm:py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                    {{ __('words.pricing.title') }}
+    <div class="bg-white py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: rgb(31, 41, 55)">
+                    {{ app()->getLocale() === 'ar' ? 'هل أنت شركة توظيف؟' : 'Are you an employer?' }}
                 </h2>
-                <p class="mt-4 text-xl text-gray-500">
-                    {{ __('words.pricing.subtitle') }}
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    {{ app()->getLocale() === 'ar' ? 'انضم إلى شبكتنا من أفضل الشركات واعثر على أفضل المواهب لفريقك' : 'Join our network of top companies and hire the best talent' }}
                 </p>
-                <div class="mt-4">
-                    <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                        {{ __('words.pricing.yearly_discount', ['discount' => '30%']) }}
-                    </span>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+                <div class="text-center">
+                    <div class="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <svg class="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+50,000</h3>
+                    <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'باحث عن عمل نشط' : 'Active candidates' }}</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V7a4 4 0 018 0v4m-1 2v4a4 4 0 11-8 0v-4m-4 0h12"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">85%</h3>
+                    <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'معدل نجاح التوظيف' : 'Hiring success rate' }}</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <svg class="h-8 w-8 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M9 3v18M3 9h18M3 15h18"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+200</h3>
+                    <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'شركة تثق بنا' : 'Companies trust us' }}</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <svg class="h-8 w-8 text-orange-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">15</h3>
+                    <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'يوم متوسط مدة التوظيف' : 'Avg. days to hire' }}</p>
                 </div>
             </div>
 
-            <div class="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:grid-cols-3">
-                <!-- Basic Package -->
-                <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200">
-                    <div class="p-6">
-                        <h2 class="text-2xl font-semibold text-gray-900">{{ __('words.pricing.basic.title') }}</h2>
-                        <p class="mt-4 text-sm text-gray-500">{{ __('words.pricing.basic.description') }}</p>
-                        <p class="mt-8">
-                            <span class="text-4xl font-extrabold text-gray-900">240 {{ __('words.currency') }}</span>
-                            <span class="text-base font-medium text-gray-500">/{{ __('words.month') }}</span>
-                        </p>
-                        <a href="#contact" class="mt-8 block w-full bg-blue-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-blue-700">
-                            {{ __('words.pricing.get_started') }}
-                        </a>
-                    </div>
-                    <div class="pt-6 pb-8 px-6">
-                        <h3 class="text-xs font-medium text-gray-900 tracking-wide uppercase">{{ __('words.pricing.features') }}</h3>
-                        <ul class="mt-6 space-y-4">
-                            <li class="flex space-x-3">
-                                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="text-sm text-gray-500">{{ __('words.pricing.basic.features.ads', ['count' => '3']) }}</span>
-                            </li>
-                            <li class="flex space-x-3">
-                                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="text-sm text-gray-500">{{ __('words.pricing.basic.features.users', ['count' => '3']) }}</span>
-                            </li>
+            <!-- Pricing -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-center mb-12" style="color: rgb(31, 41, 55)">
+                    {{ app()->getLocale() === 'ar' ? 'اختر الخطة المناسبة لشركتك' : 'Choose the right plan' }}
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Basic -->
+                    <div class="relative border rounded-lg p-6">
+                        <div class="text-center">
+                            <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الأساسية' : 'Basic' }}</h4>
+                            <div class="mb-4">
+                                <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">499 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
+                                <span class="text-gray-600">/{{ app()->getLocale() === 'ar' ? 'شهرياً' : 'mo' }}</span>
+                            </div>
+                            <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'مثالية للقطاع الخاص الصغير' : 'Great for small teams' }}</p>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'نشر حتى 5 وظائف شهرياً' : 'Post up to 5 jobs/mo' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'عرض في نتائج البحث' : 'Search visibility' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'دعم فني أساسي' : 'Basic support' }}</span></li>
                         </ul>
+                        <a href="#contact" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'اختر هذه الخطة' : 'Choose plan' }}</a>
                     </div>
-                </div>
 
-                <!-- Pro Package -->
-                <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200">
-                    <div class="p-6">
-                        <h2 class="text-2xl font-semibold text-gray-900">{{ __('words.pricing.pro.title') }}</h2>
-                        <p class="mt-4 text-sm text-gray-500">{{ __('words.pricing.pro.description') }}</p>
-                        <p class="mt-8">
-                            <span class="text-4xl font-extrabold text-gray-900">350 {{ __('words.currency') }}</span>
-                            <span class="text-base font-medium text-gray-500">/{{ __('words.month') }}</span>
-                        </p>
-                        <a href="#contact" class="mt-8 block w-full bg-blue-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-blue-700">
-                            {{ __('words.pricing.get_started') }}
-                        </a>
-                    </div>
-                    <div class="pt-6 pb-8 px-6">
-                        <h3 class="text-xs font-medium text-gray-900 tracking-wide uppercase">{{ __('words.pricing.features') }}</h3>
-                        <ul class="mt-6 space-y-4">
-                            <li class="flex space-x-3">
-                                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="text-sm text-gray-500">{{ __('words.pricing.pro.features.ads', ['count' => '6']) }}</span>
-                            </li>
-                            <li class="flex space-x-3">
-                                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="text-sm text-gray-500">{{ __('words.pricing.pro.features.users', ['count' => '3']) }}</span>
-                            </li>
+                    <!-- Pro (popular) -->
+                    <div class="relative border-2 rounded-lg p-6 shadow-xl" style="border-color: rgb(31, 41, 55)">
+                        <div class="absolute -top-4 right-1/2 translate-x-1/2">
+                            <span class="inline-flex items-center px-4 py-1 text-white text-sm rounded-full" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'الأكثر شعبية' : 'Most popular' }}</span>
+                        </div>
+                        <div class="text-center">
+                            <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الاحترافية' : 'Pro' }}</h4>
+                            <div class="mb-4">
+                                <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">999 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
+                                <span class="text-gray-600">/{{ app()->getLocale() === 'ar' ? 'شهرياً' : 'mo' }}</span>
+                            </div>
+                            <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'الأفضل للقطاع الخاص المتوسط' : 'Best for growing teams' }}</p>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'نشر حتى 20 وظيفة شهرياً' : 'Post up to 20 jobs/mo' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'أولوية في نتائج البحث' : 'Priority placement' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'دعم فني مخصص' : 'Dedicated support' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'تقارير تفصيلية' : 'Detailed reports' }}</span></li>
                         </ul>
+                        <a href="#contact" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'اختر هذه الخطة' : 'Choose plan' }}</a>
                     </div>
-                </div>
 
-                <!-- Enterprise Package -->
-                <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200">
-                    <div class="p-6">
-                        <h2 class="text-2xl font-semibold text-gray-900">{{ __('words.pricing.enterprise.title') }}</h2>
-                        <p class="mt-4 text-sm text-gray-500">{{ __('words.pricing.enterprise.description') }}</p>
-                        <p class="mt-8">
-                            <span class="text-4xl font-extrabold text-gray-900">1119 {{ __('words.currency') }}</span>
-                            <span class="text-base font-medium text-gray-500">/{{ __('words.year') }}</span>
-                        </p>
-                        <a href="#contact" class="mt-8 block w-full bg-blue-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-blue-700">
-                            {{ __('words.pricing.get_started') }}
-                        </a>
-                    </div>
-                    <div class="pt-6 pb-8 px-6">
-                        <h3 class="text-xs font-medium text-gray-900 tracking-wide uppercase">{{ __('words.pricing.features') }}</h3>
-                        <ul class="mt-6 space-y-4">
-                            <li class="flex space-x-3">
-                                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="text-sm text-gray-500">{{ __('words.pricing.enterprise.features.ads', ['count' => '150']) }}</span>
-                            </li>
-                            <li class="flex space-x-3">
-                                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="text-sm text-gray-500">{{ __('words.pricing.enterprise.features.users', ['count' => '3']) }}</span>
-                            </li>
+                    <!-- Enterprise -->
+                    <div class="relative border rounded-lg p-6">
+                        <div class="text-center">
+                            <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'خطة المؤسسات' : 'Enterprise' }}</h4>
+                            <div class="mb-4">
+                                <span class="text-2xl font-bold" style="color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact us' }}</span>
+                            </div>
+                            <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'حلول مخصصة للمؤسسات الكبيرة' : 'Custom solutions for large orgs' }}</p>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'وظائف غير محدودة' : 'Unlimited jobs' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'أولوية قصوى في العرض' : 'Top priority' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'مدير حساب مخصص' : 'Account manager' }}</span></li>
                         </ul>
+                        <a href="#contact" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact sales' }}</a>
                     </div>
                 </div>
             </div>

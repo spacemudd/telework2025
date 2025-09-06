@@ -26,7 +26,7 @@
                 <a href="{{ \LaravelLocalization::localizeURL('/') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     {{ __('words.home') }}
                 </a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     {{ __('words.nav.jobs') }}
                 </a>
                 <a href="{{ \LaravelLocalization::localizeURL('/for-companies') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">

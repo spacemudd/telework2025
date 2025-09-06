@@ -83,10 +83,43 @@ class SocialAuthController extends Controller
     /**
      * Handle LinkedIn OAuth callback
      */
-    public function handleLinkedInCallback()
+    public function handleLinkedInCallback(Request $request)
     {
         try {
+            // Log all request parameters for debugging
+            \Log::info('LinkedIn Callback Request:', [
+                'all_params' => $request->all(),
+                'query_params' => $request->query(),
+                'code' => $request->get('code'),
+                'state' => $request->get('state'),
+                'error' => $request->get('error'),
+                'error_description' => $request->get('error_description'),
+            ]);
+            
+            // Check if there's an error from LinkedIn
+            if ($request->has('error')) {
+                \Log::error('LinkedIn OAuth Error from callback:', [
+                    'error' => $request->get('error'),
+                    'error_description' => $request->get('error_description'),
+                ]);
+                throw new \Exception('LinkedIn OAuth Error: ' . $request->get('error_description', $request->get('error')));
+            }
+            
+            // Check if code parameter is missing
+            if (!$request->has('code')) {
+                \Log::error('LinkedIn OAuth: No authorization code received');
+                throw new \Exception('No authorization code received from LinkedIn');
+            }
+            
             $linkedinUser = Socialite::driver('linkedin')->user();
+            
+            // Log the LinkedIn user data for debugging
+            \Log::info('LinkedIn User Data:', [
+                'id' => $linkedinUser->getId(),
+                'name' => $linkedinUser->getName(),
+                'email' => $linkedinUser->getEmail(),
+                'avatar' => $linkedinUser->getAvatar(),
+            ]);
             
             // Check if user already exists
             $user = User::where('email', $linkedinUser->getEmail())->first();
@@ -123,8 +156,14 @@ class SocialAuthController extends Controller
             return redirect()->intended(route('dashboard', ['locale' => $locale], absolute: false));
             
         } catch (\Exception $e) {
+            // Log the actual error for debugging
+            \Log::error('LinkedIn OAuth Error:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            
             $locale = session('oauth_locale', 'en');
-            return redirect()->route('login', ['locale' => $locale])->with('error', 'Authentication failed. Please try again.');
+            return redirect()->route('login', ['locale' => $locale])->with('error', 'Authentication failed: ' . $e->getMessage());
         }
     }
 }

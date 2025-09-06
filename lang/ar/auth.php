@@ -90,5 +90,6 @@ return [
     'forgot_password' => 'نسيت كلمة المرور؟',
     'log_in' => 'تسجيل الدخول',
     'sign_in_with_google' => 'الدخول عبر جوجل',
+    'sign_in_with_linkedin' => 'الدخول عبر لينكد إن',
 
 ];

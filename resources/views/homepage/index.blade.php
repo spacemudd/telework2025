@@ -4,168 +4,13 @@
     </x-slot>
 
     <!-- Hero Section (shadcn-style) -->
-        <x-homepage.hero />
+        <x-homepage.hero :cities="$cities" :job-categories="$jobCategories" />
 
-        <!-- Job Listings Grid (shadcn-style) -->
-        <section id="jobs" class="py-16 bg-gray-50">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-3" style="color: rgb(31, 41, 55)">
-                        {{ __('words.latest_jobs.title') }}
-                    </h2>
-                </div>
+        <!-- Job Listings Section -->
+        <x-job-listings :job-postings="$jobPostings" />
 
-                <!-- Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach(__('words.latest_jobs.examples') as $job)
-                        @php $typeKey = $job['contract_type'] ?? 'fulltime'; @endphp
-                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow">
-                            <div class="p-5 border-b border-gray-100">
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                                        {{ __('words.latest_jobs.contract_types.' . $typeKey) }}
-                                    </span>
-                                    <div class="flex items-center text-gray-500 text-sm">
-                                        <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                        {{ $job['time_ago'] ?? '' }}
-                                    </div>
-                                </div>
-                                <h3 class="text-left text-lg font-semibold leading-tight text-gray-900">{{ $job['title'] }}</h3>
-                                <div class="text-left flex items-center text-gray-600 mt-1">
-                                    <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
-                                    {{ $job['company'] }}
-                                </div>
-                            </div>
-                            <div class="p-5">
-                                <div class="flex items-center justify-between text-sm text-gray-600">
-                                    <div class="flex items-center">
-                                        <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1118 0z"/></svg>
-                                        {{ $job['location'] ?? (app()->getLocale() === 'ar' ? 'عن بُعد' : 'Remote') }}
-                                    </div>
-                                    <div class="flex items-center text-gray-700" style="color: rgb(31, 41, 55)">
-                                        <svg class="h-4 w-4 rtl:ml-1 ltr:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"/></svg>
-                                        {{ app()->getLocale() === 'ar' ? '—' : '—' }}
-                                    </div>
-                                </div>
-                                <a href="{{ route('register') }}" class="w-full inline-flex items-center justify-center px-4 py-2 mt-4 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">
-                                    {{ app()->getLocale() === 'ar' ? 'عرض التفاصيل' : 'View details' }}
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="text-center mt-12">
-                    <a href="#" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
-                        {{ app()->getLocale() === 'ar' ? 'عرض المزيد من الوظائف' : 'Load more jobs' }}
-                    </a>
-                </div>
-            </div>
-        </section>
-
-    <!-- جميع القطاعات Section -->
-    <section class="bg-white py-16">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">جميع القطاعات</h2>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- المبيعات -->
-                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 8h18M3 13h18M3 18h18" />
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">المبيعات</h3>
-                    </div>
-                </div>
-                <!-- المحاسبة -->
-                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m-4-4h8m5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">المحاسبة</h3>
-                    </div>
-                </div>
-                <!-- الإدارة -->
-                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M8 6h8a2 2 0 012 2v10a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">الإدارة</h3>
-                    </div>
-                </div>
-                <!-- الموارد البشرية -->
-                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">الموارد البشرية</h3>
-                    </div>
-                </div>
-                <!-- خدمة العملاء -->
-                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 13V8a6 6 0 10-12 0v5m0 0a3 3 0 106 0m-6 0v5a3 3 0 006 0" />
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">خدمة العملاء</h3>
-                    </div>
-                </div>
-                <!-- المطاعم و المقاهي -->
-                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M10 14h4m-7 4h10" />
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">المطاعم و المقاهي</h3>
-                    </div>
-                </div>
-                <!-- السفر والسياحة -->
-                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 6.5L21 3l-3.5 10.5-7 7L3 21l7.5-7z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">السفر والسياحة</h3>
-                    </div>
-                </div>
-                <!-- البيع التجزئة والخدمات -->
-                <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-900 rtl:text-right ltr:text-left">البيع التجزئة والخدمات</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center">
-                <a href="#" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">عرض المزير من القطاعات</a>
-            </div>
-        </div>
-    </section>
+    <!-- Job Categories Section -->
+    <x-job-categories />
 
     
 
@@ -453,13 +298,28 @@
                     </p>
                 </div>
 
-                <!-- Company Logos Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-12 items-center justify-items-center opacity-90">
-                    @foreach(($logos ?? collect()) as $index => $logo)
-                    <div class="h-24 flex items-center justify-center bg-transparent rounded-lg p-8 transition duration-200 ease-in-out">
-                        <img src="{{ asset($logo) }}" alt="Client Logo {{ $index + 1 }}" class="h-12 w-auto object-contain" loading="lazy">
+                <!-- Company Logos Carousel Animation -->
+                <div class="relative overflow-hidden">
+                    <div class="flex animate-carousel">
+                        <!-- First set of logos -->
+                        @foreach(($logos ?? collect()) as $index => $logo)
+                        <div class="flex-shrink-0 w-32 h-24 flex items-center justify-center mx-8">
+                            <img src="{{ asset($logo) }}" 
+                                 alt="Client Logo {{ $index + 1 }}" 
+                                 class="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200" 
+                                 loading="lazy">
+                        </div>
+                        @endforeach
+                        <!-- Duplicate set for seamless loop -->
+                        @foreach(($logos ?? collect()) as $index => $logo)
+                        <div class="flex-shrink-0 w-32 h-24 flex items-center justify-center mx-8">
+                            <img src="{{ asset($logo) }}" 
+                                 alt="Client Logo {{ $index + 1 }}" 
+                                 class="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200" 
+                                 loading="lazy">
+                        </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
             </div>
         </div>
@@ -641,7 +501,7 @@
                     <div class="col-span-12 lg:col-span-6 space-y-8">
                         <div class="space-y-4">
                             <h2 class="text-3xl md:text-4xl font-bold text-black">
-                                هدف للشركات
+                                هدف للقطاع الخاص
                             </h2>
                             <p class="text-xl text-gray-600">
                                 نوصلكم بأفضل الكفاءات.. بسرعة، ثقة، وبتكلفة أقل
@@ -785,70 +645,6 @@
                     </div>
                 </div>
 
-                <!-- Pricing -->
-                <div class="mb-16">
-                    <h3 class="text-2xl font-bold text-center mb-12" style="color: rgb(31, 41, 55)">
-                        {{ app()->getLocale() === 'ar' ? 'اختر الخطة المناسبة لشركتك' : 'Choose the right plan' }}
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                        <!-- Basic -->
-                        <div class="relative border rounded-lg p-6">
-                            <div class="text-center">
-                                <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الأساسية' : 'Basic' }}</h4>
-                                <div class="mb-4">
-                                    <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">499 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
-                                    <span class="text-gray-600">/{{ app()->getLocale() === 'ar' ? 'شهرياً' : 'mo' }}</span>
-                                </div>
-                                <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'مثالية للشركات الصغيرة' : 'Great for small teams' }}</p>
-                            </div>
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'نشر حتى 5 وظائف شهرياً' : 'Post up to 5 jobs/mo' }}</span></li>
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'عرض في نتائج البحث' : 'Search visibility' }}</span></li>
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'دعم فني أساسي' : 'Basic support' }}</span></li>
-                            </ul>
-                            <a href="#" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'اختر هذه الخطة' : 'Choose plan' }}</a>
-                        </div>
-
-                        <!-- Pro (popular) -->
-                        <div class="relative border-2 rounded-lg p-6 shadow-xl" style="border-color: rgb(31, 41, 55)">
-                            <div class="absolute -top-4 right-1/2 translate-x-1/2">
-                                <span class="inline-flex items-center px-4 py-1 text-white text-sm rounded-full" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'الأكثر شعبية' : 'Most popular' }}</span>
-                            </div>
-                            <div class="text-center">
-                                <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الاحترافية' : 'Pro' }}</h4>
-                                <div class="mb-4">
-                                    <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">999 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
-                                    <span class="text-gray-600">/{{ app()->getLocale() === 'ar' ? 'شهرياً' : 'mo' }}</span>
-                                </div>
-                                <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'الأفضل للشركات المتوسطة' : 'Best for growing teams' }}</p>
-                            </div>
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'نشر حتى 20 وظيفة شهرياً' : 'Post up to 20 jobs/mo' }}</span></li>
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'أولوية في نتائج البحث' : 'Priority placement' }}</span></li>
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'دعم فني مخصص' : 'Dedicated support' }}</span></li>
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'تقارير تفصيلية' : 'Detailed reports' }}</span></li>
-                            </ul>
-                            <a href="#" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'اختر هذه الخطة' : 'Choose plan' }}</a>
-                        </div>
-
-                        <!-- Enterprise -->
-                        <div class="relative border rounded-lg p-6">
-                            <div class="text-center">
-                                <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'خطة المؤسسات' : 'Enterprise' }}</h4>
-                                <div class="mb-4">
-                                    <span class="text-2xl font-bold" style="color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact us' }}</span>
-                                </div>
-                                <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'حلول مخصصة للمؤسسات الكبيرة' : 'Custom solutions for large orgs' }}</p>
-                            </div>
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'وظائف غير محدودة' : 'Unlimited jobs' }}</span></li>
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'أولوية قصوى في العرض' : 'Top priority' }}</span></li>
-                                <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'مدير حساب مخصص' : 'Account manager' }}</span></li>
-                            </ul>
-                            <a href="#" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact sales' }}</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 

@@ -42,6 +42,10 @@
         stroke-dasharray: 2;
     }
 
+    .animate-carousel {
+        animation: carousel 30s linear infinite;
+    }
+
     .map-dot {
         transition: opacity 1s ease-in-out;
     }
@@ -140,6 +144,15 @@
     0% { opacity: 0.2; }
     50% { opacity: 1; }
     100% { opacity: 0.2; }
+}
+
+@keyframes carousel {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 /* RTL Support */

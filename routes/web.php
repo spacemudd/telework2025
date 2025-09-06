@@ -16,6 +16,8 @@ use App\Http\Middleware\SetLocale;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\Admin\JobPostingsController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeDashboardController;
@@ -23,6 +25,10 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\CompanyPagesController;
 use App\Http\Controllers\TalentCategoryController;
 use App\Http\Controllers\InterviewController;
+use App\Http\Controllers\EmployeeCvController;
+use App\Http\Controllers\CompanyTasksReportController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MediaController;
 
 
 // Include auth routes
@@ -32,6 +38,9 @@ require __DIR__.'/auth.php';
 Route::get('/', function () {
     return redirect('/ar');
 });
+
+// Media routes - no locale prefix needed
+Route::get('/media/{id}', [MediaController::class, 'show'])->name('media.show');
 
 // Public URLs.
 Route::group([
@@ -50,6 +59,24 @@ Route::group([
     Route::get('/talent-categories', [TalentCategoryController::class, 'index'])->name('talent-categories.index');
     Route::get('/talent-categories/{category}', [TalentCategoryController::class, 'show'])->name('talent-categories.show');
     Route::post('/talent-categories/search', [TalentCategoryController::class, 'search'])->name('talent-categories.search');
+    
+    // Job Routes
+    Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
+    Route::get('/jobs/{jobPosting}', [JobController::class, 'show'])->name('jobs.show')->where('jobPosting', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+    
+    // Debug route for job posting
+    Route::get('/debug-job/{id}', function($id) {
+        $job = \App\Models\JobPosting::find($id);
+        if ($job) {
+            return 'Job found: ' . $job->title;
+        }
+        return 'Job not found with ID: ' . $id;
+    });
+    
+    Route::middleware('auth')->group(function() {
+        Route::post('/jobs/{jobPosting}/apply', [JobController::class, 'apply'])->name('jobs.apply')->where('jobPosting', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+        Route::get('/my-applications', [JobController::class, 'myApplications'])->name('jobs.my-applications');
+    });
 
     // Onboarding Routes
     Route::middleware('auth')->prefix('onboarding')->group(function () {
@@ -180,6 +207,13 @@ Route::prefix('admin')->middleware(['auth', 'team_context', 'role:admin', SetLoc
     Route::post('/companies/{company}/users/detach', [CompaniesController::class, 'detachUser'])->name('admin.companies.users.detach');
     Route::put('/companies/{company}/users/role', [CompaniesController::class, 'updateUserRole'])->name('admin.companies.users.role');
 
+    // Company logo upload route
+    Route::post('/companies/{company}/upload-logo', [CompaniesController::class, 'uploadLogo'])->name('admin.companies.upload-logo');
+
+    // Job Postings routes
+    Route::resource('/job-postings', JobPostingsController::class)->names('admin.job-postings');
+    Route::post('/job-postings/{jobPosting}/toggle-status', [JobPostingsController::class, 'toggleStatus'])->name('admin.job-postings.toggle-status');
+
     Route::resource('/employees', EmployeesController::class)->names('admin.employees');
 
     Route::resource('/support-tickets', \App\Http\Controllers\Admin\SupportTicketsController::class)->names('admin.support-tickets');
@@ -221,6 +255,9 @@ Route::prefix('company')->middleware(['auth', 'team_context', 'role:company', Se
 Route::prefix('employee')->middleware(['auth', 'role:employee', SetLocale::class])->group(function () {
     Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
     Route::get('/job-seeker-dashboard', [EmployeeDashboardController::class, 'jobSeekerDashboard'])->name('employee.job-seeker-dashboard');
+    Route::post('/cv/upload', [EmployeeCvController::class, 'upload'])->name('employee.cv.upload');
+    Route::get('/cv/view', [EmployeeCvController::class, 'view'])->name('employee.cv.view');
+    Route::delete('/cv/delete', [EmployeeCvController::class, 'delete'])->name('employee.cv.delete');
     Route::put('/tasks/{task}/status', [\App\Http\Controllers\Employee\TaskController::class, 'updateStatus'])->name('employee.tasks.updateStatus');
 });
 
