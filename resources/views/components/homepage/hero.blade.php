@@ -76,13 +76,13 @@
             <div class="mb-16 relative z-40">
                 @auth
                     <!-- Logged in user - Single Journey Button -->
-                    <a href="{{ route('dashboard', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
+                    <a href="{{ URL::localized('dashboard') }}" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
                         <span class="{{ app()->getLocale() === 'ar' ? 'ml-2' : 'mr-2' }}">🚀</span>
                         {{ app()->getLocale() === 'ar' ? 'ابدأ رحتلك' : 'Begin your journey' }}
                     </a>
                 @else
                     <!-- Guest user - Original buttons -->
-                    <a href="{{ route('register', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
+                    <a href="{{ URL::localized('register') }}" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
                         🌟 {{ app()->getLocale() === 'ar' ? 'افتح حسابك الآن' : 'Open an account - Apply now' }}
                     </a>
                     

@@ -59,7 +59,7 @@
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                    <a href="{{ URL::localized('login') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                         {{ __('words.login') }}
                     </a>
                 @endauth
@@ -124,7 +124,7 @@
                     </button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                <a href="{{ URL::localized('login') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
                     {{ __('words.login') }}
                 </a>
             @endauth

@@ -159,10 +159,8 @@ class OnboardingController extends Controller
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
-            'talent_categories' => 'required|array|min:1',
-            'talent_categories.*' => 'exists:talent_categories,id',
             'skills' => 'required|string|max:500',
-            'experience_level' => 'required|in:entry,mid_level,senior,expert',
+            'experience_level' => 'required|in:none,1_3_years,3_5_years,5_plus_years',
             'preferred_work_type' => 'required|in:full_time,part_time,contract,freelance'
         ]);
 

@@ -28,6 +28,11 @@ use App\Http\Controllers\InterviewController;
 // Include auth routes
 require __DIR__.'/auth.php';
 
+// Redirect root to Arabic version
+Route::get('/', function () {
+    return redirect('/ar');
+});
+
 // Public URLs.
 Route::group([
     'prefix' => '{locale?}',
@@ -74,36 +79,36 @@ Route::group([
         // Test route for debugging
         Route::get('/{interview}/test-response', [InterviewController::class, 'testResponse'])->name('test-response');
     });
+
+    // Fallback dashboard route - redirects to onboarding if no role
+    Route::middleware(['auth'])->get('/dashboard', function () {
+        $user = auth()->user();
+        
+        if ($user->hasRole('admin')) {
+            return redirect('/admin/dashboard');
+        }
+        
+        if ($user->hasRole('company')) {
+            return redirect('/company/dashboard');
+        }
+        
+        if ($user->hasRole('employee')) {
+            $employee = $user->employee;
+            if ($employee && $employee->company && $employee->company->name === 'Job Seeker Platform') {
+                return redirect('/employee/job-seeker-dashboard');
+            }
+            return redirect('/employee/dashboard');
+        }
+        
+        // No role, redirect to onboarding
+        return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
+    })->name('dashboard');
 });
 
 // System URLs.
 
 // Removed the main dashboard route to prevent redirect loops
 // Users should be redirected directly to their role-specific dashboards
-
-// Fallback dashboard route - redirects to onboarding if no role
-Route::middleware(['auth', SetLocale::class])->get('/dashboard', function () {
-    $user = auth()->user();
-    
-    if ($user->hasRole('admin')) {
-        return redirect('/admin/dashboard');
-    }
-    
-    if ($user->hasRole('company')) {
-        return redirect('/company/dashboard');
-    }
-    
-    if ($user->hasRole('employee')) {
-        $employee = $user->employee;
-        if ($employee && $employee->company && $employee->company->name === 'Job Seeker Platform') {
-            return redirect('/employee/job-seeker-dashboard');
-        }
-        return redirect('/employee/dashboard');
-    }
-    
-    // No role, redirect to onboarding
-    return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
-})->name('dashboard');
 
 Route::get('dev-login', function() {
     if (app()->isProduction()) return 404;

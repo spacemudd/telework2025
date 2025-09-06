@@ -73,17 +73,22 @@ return [
     'skills' => 'Skills',
     'describe_your_skills' => 'Describe your skills, expertise, and areas of specialization...',
     'skills_help_text' => 'List your key skills, technologies, programming languages, or areas of expertise',
-    'experience_level' => 'Experience Level',
-    'select_experience_level' => 'Select your experience level',
-    'entry_level' => 'Entry Level (0-2 years)',
-    'mid_level' => 'Mid Level (3-5 years)',
-    'senior_level' => 'Senior Level (6-10 years)',
-    'expert_level' => 'Expert Level (10+ years)',
+    'years_of_experience' => 'Years of Experience',
+    'none' => 'None',
+    '1_3_years' => '1-3',
+    '3_5_years' => '3-5',
+    '5_plus_years' => '5+',
     'preferred_work_type' => 'Preferred Work Type',
     'select_work_type' => 'Select your preferred work arrangement',
     'full_time' => 'Full Time',
     'part_time' => 'Part Time',
     'contract' => 'Contract',
     'freelance' => 'Freelance',
+
+    // Login page translations
+    'remember_me' => 'Remember me',
+    'forgot_password' => 'Forgot your password?',
+    'log_in' => 'Log in',
+    'sign_in_with_google' => 'Sign in with Google',
 
 ];
