@@ -4,7 +4,7 @@
 
 @section('employee-content')
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="max-w-7xl mx-auto">
+        <div class="max-w-5xl mx-auto">
 
             <h1 class="text-3xl font-bold text-gray-800 mb-8">مرحباً {{ auth()->user()->name }}</h1>
 
@@ -212,7 +212,7 @@
 
             <!-- Job Search Stats -->
             <div class="mb-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-2xl shadow-lg">
                         <div class="flex items-center gap-4">
                             <div class="bg-white bg-opacity-20 p-3 rounded-full">
@@ -358,7 +358,7 @@
             <!-- Quick Actions -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                 <h2 class="text-xl font-bold text-gray-800 mb-6">إجراءات سريعة</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
                     <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="group">
                         <div class="mx-auto flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full group-hover:bg-blue-200 transition-colors">
                             <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
