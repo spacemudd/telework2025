@@ -30,7 +30,7 @@
                             <a href="/employee/dashboard">
                         @endif
                     @else
-                        <a href="{{ route('onboarding.index') }}">
+                        <a href="{{ route('onboarding.index', ['locale' => app()->getLocale()]) }}">
                     @endhasrole
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
@@ -184,7 +184,7 @@
                     </x-responsive-nav-link>
                 @endif
             @else
-                <x-responsive-nav-link :href="route('onboarding.index')" :active="request()->routeIs('onboarding.*')">
+                <x-responsive-nav-link :href="route('onboarding.index', ['locale' => app()->getLocale()])" :active="request()->routeIs('onboarding.*')">
                     {{ __('words.dashboard') }}
                 </x-responsive-nav-link>
             @endhasrole

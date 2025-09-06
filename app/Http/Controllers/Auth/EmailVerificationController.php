@@ -31,6 +31,6 @@ class EmailVerificationController extends Controller
             event(new Verified($user));
         }
 
-        return redirect()->route('password.request')->with('status', 'Your email has been verified! Please reset your password.');
+        return redirect()->route('password.request', ['locale' => app()->getLocale()])->with('status', 'Your email has been verified! Please reset your password.');
     }
 }

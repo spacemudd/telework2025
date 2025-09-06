@@ -16,7 +16,7 @@
                 </div>
             @endif
 
-            <form class="mt-8 space-y-6" action="{{ route('onboarding.select-role') }}" method="POST">
+            <form class="mt-8 space-y-6" action="{{ route('onboarding.select-role', ['locale' => app()->getLocale()]) }}" method="POST">
                 @csrf
                 
                 <div class="space-y-4">

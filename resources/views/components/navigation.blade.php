@@ -48,10 +48,16 @@
                             <a href="/employee/dashboard" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                         @endif
                     @else
-                        <a href="{{ route('onboarding.index') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                        <a href="{{ route('onboarding.index', ['locale' => app()->getLocale()]) }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     @endhasrole
                         {{ __('words.dashboard') }}
                     </a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
+                            {{ app()->getLocale() === 'ar' ? 'تسجيل خروج' : 'Log out' }}
+                        </button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                         {{ __('words.login') }}
@@ -91,9 +97,37 @@
             <a href="#" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
                 {{ __('words.nav.for_companies') }}
             </a>
-            <a href="{{ route('login') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
-                {{ __('words.login') }}
-            </a>
+            @auth
+                @hasrole('admin')
+                    <a href="/admin/dashboard" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                @elsehasrole('company')
+                    <a href="/company/dashboard" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                @elsehasrole('employee')
+                    @php
+                        $employee = auth()->user()->employee;
+                        $isJobSeeker = $employee && $employee->company && $employee->company->name === 'Job Seeker Platform';
+                    @endphp
+                    @if($isJobSeeker)
+                        <a href="/employee/job-seeker-dashboard" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                    @else
+                        <a href="/employee/dashboard" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                    @endif
+                @else
+                    <a href="{{ route('onboarding.index', ['locale' => app()->getLocale()]) }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                @endhasrole
+                    {{ __('words.dashboard') }}
+                </a>
+                <form method="POST" action="{{ route('logout') }}" class="block">
+                    @csrf
+                    <button type="submit" class="w-full text-left pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                        {{ app()->getLocale() === 'ar' ? 'تسجيل خروج' : 'Log out' }}
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition duration-150 ease-in-out">
+                    {{ __('words.login') }}
+                </a>
+            @endauth
             <div class="pl-3 pr-4 py-2 border-t border-gray-100">
                 <div class="flex space-x-4 rtl:space-x-reverse">
                     <a href="/en" class="text-sm text-gray-600 hover:text-gray-900">English</a>

@@ -11,7 +11,7 @@
             </div>
 
             <div class="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
-                <form class="space-y-6" action="{{ route('onboarding.company.complete') }}" method="POST">
+                <form class="space-y-6" action="{{ route('onboarding.company.complete', ['locale' => app()->getLocale()]) }}" method="POST">
                     @csrf
 
                     <!-- Company Name -->
@@ -111,7 +111,7 @@
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <a href="{{ route('onboarding.index') }}" 
+                        <a href="{{ route('onboarding.index', ['locale' => app()->getLocale()]) }}" 
                            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>

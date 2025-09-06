@@ -25,6 +25,9 @@ use App\Http\Controllers\TalentCategoryController;
 use App\Http\Controllers\InterviewController;
 
 
+// Include auth routes
+require __DIR__.'/auth.php';
+
 // Public URLs.
 Route::group([
     'prefix' => '{locale?}',
@@ -99,7 +102,7 @@ Route::middleware(['auth', SetLocale::class])->get('/dashboard', function () {
     }
     
     // No role, redirect to onboarding
-    return redirect()->route('onboarding.index');
+    return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
 })->name('dashboard');
 
 Route::get('dev-login', function() {

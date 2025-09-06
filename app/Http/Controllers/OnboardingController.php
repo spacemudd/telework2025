@@ -53,12 +53,12 @@ class OnboardingController extends Controller
         if ($request->role_type === 'job_seeker') {
             // Store the selected role in session and redirect to job seeker onboarding
             session(['onboarding_role' => 'job_seeker']);
-            return redirect()->route('onboarding.job-seeker');
+            return redirect()->route('onboarding.job-seeker', ['locale' => app()->getLocale()]);
         }
 
         // Store the selected role in session and redirect to company onboarding
         session(['onboarding_role' => 'company']);
-        return redirect()->route('onboarding.company');
+        return redirect()->route('onboarding.company', ['locale' => app()->getLocale()]);
     }
 
     /**
@@ -67,7 +67,7 @@ class OnboardingController extends Controller
     public function showCompanyForm()
     {
         if (session('onboarding_role') !== 'company') {
-            return redirect()->route('onboarding.index');
+            return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
         }
 
         return view('onboarding.company');
@@ -125,7 +125,7 @@ class OnboardingController extends Controller
         // Clear onboarding session data
         session()->forget('onboarding_role');
 
-        return redirect()->route('company.dashboard')->with('success', __('Welcome! Your company profile has been set up successfully.'));
+        return redirect()->route('company.dashboard', ['locale' => app()->getLocale()])->with('success', __('Welcome! Your company profile has been set up successfully.'));
     }
 
     /**
@@ -134,7 +134,7 @@ class OnboardingController extends Controller
     public function showJobSeekerForm()
     {
         if (session('onboarding_role') !== 'job_seeker') {
-            return redirect()->route('onboarding.index');
+            return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
         }
 
         $talentCategories = TalentCategory::active()->ordered()->get();
@@ -227,6 +227,6 @@ class OnboardingController extends Controller
         // Clear onboarding session data
         session()->forget('onboarding_role');
 
-        return redirect()->route('employee.job-seeker-dashboard')->with('success', __('words.profile_completed_successfully'));
+        return redirect()->route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()])->with('success', __('words.profile_completed_successfully'));
     }
 }
