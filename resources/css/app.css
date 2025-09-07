@@ -42,8 +42,33 @@
         stroke-dasharray: 2;
     }
 
-    .animate-carousel {
-        animation: carousel 30s linear infinite;
+    /* Simple Logo Slider */
+    .logo-slider {
+        background: white;
+        height: 100px;
+        margin: auto;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+    }
+    
+    .logo-slide-track {
+        animation: scroll 30s linear infinite;
+        display: flex;
+        width: fit-content;
+    }
+    
+    .logo-slide-track:hover {
+        animation-play-state: paused;
+    }
+    
+    .logo-slide {
+        height: 100px;
+        width: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 20px;
     }
 
     .map-dot {
@@ -146,7 +171,7 @@
     100% { opacity: 0.2; }
 }
 
-@keyframes carousel {
+@keyframes scroll {
     0% {
         transform: translateX(0);
     }

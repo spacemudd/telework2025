@@ -300,24 +300,24 @@
                     </p>
                 </div>
 
-                <!-- Company Logos Carousel Animation -->
-                <div class="relative overflow-hidden">
-                    <div class="flex animate-carousel">
+                <!-- Simple Logo Slider -->
+                <div class="logo-slider">
+                    <div class="logo-slide-track">
                         <!-- First set of logos -->
                         @foreach(($logos ?? collect()) as $index => $logo)
-                        <div class="flex-shrink-0 w-32 h-24 flex items-center justify-center mx-8">
+                        <div class="logo-slide">
                             <img src="{{ asset($logo) }}" 
                                  alt="Client Logo {{ $index + 1 }}" 
-                                 class="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200" 
+                                 class="h-12 w-auto max-w-[120px] object-contain opacity-90 hover:opacity-100 transition-opacity duration-200" 
                                  loading="lazy">
                         </div>
                         @endforeach
                         <!-- Duplicate set for seamless loop -->
                         @foreach(($logos ?? collect()) as $index => $logo)
-                        <div class="flex-shrink-0 w-32 h-24 flex items-center justify-center mx-8">
+                        <div class="logo-slide">
                             <img src="{{ asset($logo) }}" 
                                  alt="Client Logo {{ $index + 1 }}" 
-                                 class="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200" 
+                                 class="h-12 w-auto max-w-[120px] object-contain opacity-90 hover:opacity-100 transition-opacity duration-200" 
                                  loading="lazy">
                         </div>
                         @endforeach
@@ -574,12 +574,12 @@
 
                     <div class="col-span-12 lg:col-span-6">
                         <div class="relative">
-                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl transform rotate-3"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl transform rotate-3"></div>
                             <div class="relative rounded-2xl shadow-xl overflow-hidden aspect-[4/3]">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
                                 <img
                                     class="absolute inset-0 w-full h-full object-cover object-center"
-                                    src="{{ asset('img/enterprise-team.jpg') }}"
+                                    src="{{ asset('img/promo-enterprise-team.png') }}"
                                     alt="Enterprise Team"
                                 >
                                 <div class="absolute bottom-0 left-0 right-0 p-8 z-20">
@@ -608,10 +608,10 @@
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: rgb(31, 41, 55)">
-                        {{ app()->getLocale() === 'ar' ? 'هل أنت شركة توظيف؟' : 'Are you an employer?' }}
+                        {{ app()->getLocale() === 'ar' ? 'هل تبحث عن موظفين؟' : 'Are you an employer?' }}
                     </h2>
                     <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        {{ app()->getLocale() === 'ar' ? 'انضم إلى شبكتنا من أفضل الشركات واعثر على أفضل المواهب لفريقك' : 'Join our network of top companies and hire the best talent' }}
+                        {{ app()->getLocale() === 'ar' ? 'انضم الى هدف و اعثر على افضل المواهب لفريقك' : 'Join our network of top companies and hire the best talent' }}
                     </p>
                 </div>
 
@@ -626,21 +626,21 @@
                     </div>
                     <div class="text-center scroll-animate delay-200">
                         <div class="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                            <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V7a4 4 0 018 0v4m-1 2v4a4 4 0 11-8 0v-4m-4 0h12"/></svg>
+                            <svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">85%</h3>
                         <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'معدل نجاح التوظيف' : 'Hiring success rate' }}</p>
                     </div>
                     <div class="text-center scroll-animate delay-300">
                         <div class="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                            <svg class="h-8 w-8 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M9 3v18M3 9h18M3 15h18"/></svg>
+                            <svg class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                         </div>
                         <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+200</h3>
                         <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'شركة تثق بنا' : 'Companies trust us' }}</p>
                     </div>
                     <div class="text-center scroll-animate delay-400">
                         <div class="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                            <svg class="h-8 w-8 text-orange-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
+                            <svg class="h-8 w-8 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">15</h3>
                         <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'يوم متوسط مدة التوظيف' : 'Avg. days to hire' }}</p>

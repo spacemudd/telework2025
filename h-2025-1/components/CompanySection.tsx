@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { Building2, Users, TrendingUp, Award, Check, Star } from "lucide-react";
+import { Building2, Users, TrendingUp, Clock, Check, Star } from "lucide-react";
 
 const plans = [
   {
@@ -57,10 +57,10 @@ export function CompanySection() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-6" style={{ color: 'rgb(31, 41, 55)' }}>
-            هل أنت شركة توظيف؟
+            هل تبحث عن موظفين؟
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            انضم إلى شبكتنا من أفضل الشركات واعثر على أفضل المواهب لفريقك
+            انضم الى هدف و اعثر على افضل المواهب لفريقك
           </p>
           
           {/* Stats for Companies */}
@@ -81,14 +81,14 @@ export function CompanySection() {
             </div>
             <div className="text-center">
               <div className="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Award className="h-8 w-8 text-purple-600" />
+                <Building2 className="h-8 w-8 text-purple-600" />
               </div>
               <h3 className="text-2xl font-bold mb-2" style={{ color: 'rgb(31, 41, 55)' }}>+200</h3>
               <p className="text-gray-600">شركة تثق بنا</p>
             </div>
             <div className="text-center">
               <div className="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Building2 className="h-8 w-8 text-orange-600" />
+                <Clock className="h-8 w-8 text-orange-600" />
               </div>
               <h3 className="text-2xl font-bold mb-2" style={{ color: 'rgb(31, 41, 55)' }}>15</h3>
               <p className="text-gray-600">يوم متوسط مدة التوظيف</p>

@@ -51,6 +51,16 @@ require __DIR__.'/auth.php';
 // Media routes - no locale prefix needed
 Route::get('/media/{id}', [MediaController::class, 'show'])->name('media.show');
 
+// Legal pages - Arabic only, no locale prefix needed
+Route::get('/privacy', function() {
+    app()->setLocale('ar');
+    return app(\App\Http\Controllers\LegalController::class)->privacy();
+})->name('legal.privacy');
+Route::get('/terms', function() {
+    app()->setLocale('ar');
+    return app(\App\Http\Controllers\LegalController::class)->terms();
+})->name('legal.terms');
+
 // Public URLs.
 Route::group([
     'prefix' => '{locale?}',
@@ -58,8 +68,6 @@ Route::group([
     'where' => ['locale' => 'en|ar']
 ], function() {
     Route::get('/', [HomepageController::class, 'index']);
-    Route::get('/privacy', [\App\Http\Controllers\LegalController::class, 'privacy'])->name('legal.privacy');
-    Route::get('/terms', [\App\Http\Controllers\LegalController::class, 'terms'])->name('legal.terms');
 
     Route::get('/for-companies', [CompanyPagesController::class, 'forCompanies'])->name('company.for-companies');
     Route::post('/for-companies/contact', [CompanyPagesController::class, 'submitContactForm'])->name('company.contact.submit');
@@ -69,6 +77,9 @@ Route::group([
     Route::get('/talent-categories/{category}', [TalentCategoryController::class, 'show'])->name('talent-categories.show');
     Route::post('/talent-categories/search', [TalentCategoryController::class, 'search'])->name('talent-categories.search');
     
+    // Vacancies Route
+    Route::get('/vacancies', [\App\Http\Controllers\VacanciesController::class, 'index'])->name('vacancies.index');
+
     // Job Routes
     Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
     Route::get('/jobs/{jobPosting}', [JobController::class, 'show'])->name('jobs.show')->where('jobPosting', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');

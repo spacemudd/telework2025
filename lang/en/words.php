@@ -325,6 +325,11 @@ return [
             'copyright' => '© 2024 Hadaf Company. All rights reserved.'
         ]
     ],
+    'vacancies' => [
+        'no_vacancies_title' => 'No Open Vacancies',
+        'no_vacancies_message' => 'We are not currently hiring, but we are always looking for talented people to join our team. Please check back later.',
+        'back_home' => 'Back to Home'
+    ],
     'search' => [
         'title' => 'Explore Global Connectivity',
         'subtitle' => 'Discover real-time telework activity across Saudi Arabia',
@@ -343,7 +348,7 @@ return [
         ]
     ],
     'nav' => [
-        'for_companies' => 'For Companies',
+        'for_companies' => 'Private Sector',
         'jobs' => 'Jobs',
     ],
     'pricing' => [

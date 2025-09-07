@@ -40,18 +40,13 @@
                             </h3>
                             <ul class="space-y-2">
                                 <li>
-                                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                                        {{ __('words.footer.company.about') }}
+                                    <a href="/{{ app()->getLocale() }}" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                        الرئيسية
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                    <a href="{{ route('vacancies.index', ['locale' => app()->getLocale()]) }}" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                                         {{ __('words.footer.company.careers') }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                                        {{ __('words.footer.company.contact') }}
                                     </a>
                                 </li>
                             </ul>
@@ -64,17 +59,17 @@
                             </h3>
                             <ul class="space-y-2">
                                 <li>
-                                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                    <a href="{{ route('company.for-companies', ['locale' => app()->getLocale()]) }}" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                                         {{ __('words.footer.companies.how_it_works') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                    <a href="{{ route('company.for-companies', ['locale' => app()->getLocale()]) }}#pricing" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                                         {{ __('words.footer.companies.pricing') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                    <a href="{{ route('register', ['locale' => app()->getLocale()]) }}" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                                         {{ __('words.footer.companies.hire') }}
                                     </a>
                                 </li>
@@ -88,12 +83,12 @@
                             </h3>
                             <ul class="space-y-2">
                                 <li>
-                                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                    <a href="{{ route('register', ['locale' => app()->getLocale()]) }}" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                                         {{ __('words.footer.jobs.submit_cv') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                    <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                                         {{ __('words.footer.jobs.search') }}
                                     </a>
                                 </li>

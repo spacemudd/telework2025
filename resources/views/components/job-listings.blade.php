@@ -1,5 +1,5 @@
 <!-- Job Listings Grid (shadcn-style) -->
-<section id="jobs" class="py-16 bg-gray-50">
+<section id="jobs" class="py-8 bg-gray-50">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-bold mb-3" style="color: rgb(31, 41, 55)">
@@ -21,9 +21,9 @@
                         <div class="flex flex-col h-full">
                             <div class="flex-grow">
                                 <div class="flex items-start mb-4">
-                                    <div class="w-16 h-16 flex-shrink-0 mr-4 rtl:ml-4 rtl:mr-0 overflow-hidden rounded-lg bg-gray-100 border border-gray-200">
+                                    <div class="job-listing-logo-container w-16 h-16 flex-shrink-0 mr-4 rtl:ml-4 rtl:mr-0 overflow-hidden rounded-lg bg-gray-100 border border-gray-200 p-2">
                                         @if($jobPosting->company->getFirstMedia('logos'))
-                                            <img src="{{ $jobPosting->company->getSecureMediaUrlForCollection('logos') }}" alt="{{ $jobPosting->company->name }}" class="w-full h-full object-contain">
+                                            <img src="{{ $jobPosting->company->getSecureMediaUrlForCollection('logos') }}" alt="{{ $jobPosting->company->name }}" class="w-full h-full object-contain job-listing-logo">
                                         @else
                                             <div class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">
                                                 <span class="text-xl font-bold">{{ substr($jobPosting->company->name, 0, 1) }}</span>
@@ -124,3 +124,50 @@
         @endif
     </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const colorThief = new ColorThief();
+
+        function isColorLight(rgb) {
+            // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+            const hsp = Math.sqrt(
+                0.299 * (rgb[0] * rgb[0]) +
+                0.587 * (rgb[1] * rgb[1]) +
+                0.114 * (rgb[2] * rgb[2])
+            );
+            return hsp > 127.5;
+        }
+
+        const logos = document.querySelectorAll('.job-listing-logo');
+
+        logos.forEach(logo => {
+            // Ensure the image is loaded before we try to get its color
+            if (logo.complete) {
+                processLogo(logo);
+            } else {
+                logo.addEventListener('load', function () {
+                    processLogo(this);
+                });
+            }
+        });
+
+        function processLogo(logo) {
+            try {
+                const dominantColor = colorThief.getColor(logo);
+                const container = logo.closest('.job-listing-logo-container');
+
+                if (dominantColor && container) {
+                    if (!isColorLight(dominantColor)) { // if color is dark
+                        // If logo is dark, use a white background for better contrast.
+                        container.style.backgroundColor = '#ffffff';
+                    }
+                    // If logo is light, the default gray-100 background is fine.
+                }
+            } catch (e) {
+                console.error('Error processing logo with ColorThief:', e);
+            }
+        }
+    });
+</script>

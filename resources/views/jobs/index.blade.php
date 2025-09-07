@@ -5,12 +5,6 @@
     <div class="bg-gray-50">
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ __('words.browse_jobs') }}</h1>
-                    <p class="text-lg text-gray-600">
-                        تصفح تفاصيل الوظيفة، والوصف الوظيفي، وموقع الوظيفة. أنشئ سيرتك الذاتية وقدّم عليها الآن
-                    </p>
-                </div>
 
                 <!-- Filters -->
                 <div class="bg-white p-6 rounded-xl shadow-lg mb-8">

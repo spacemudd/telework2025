@@ -109,10 +109,10 @@
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: rgb(31, 41, 55)">
-                    {{ app()->getLocale() === 'ar' ? 'هل أنت شركة توظيف؟' : 'Are you an employer?' }}
+                    {{ app()->getLocale() === 'ar' ? 'هل تبحث عن موظفين؟' : 'Are you an employer?' }}
                 </h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    {{ app()->getLocale() === 'ar' ? 'انضم إلى شبكتنا من أفضل الشركات واعثر على أفضل المواهب لفريقك' : 'Join our network of top companies and hire the best talent' }}
+                    {{ app()->getLocale() === 'ar' ? 'انضم الى هدف و اعثر على افضل المواهب لفريقك' : 'Join our network of top companies and hire the best talent' }}
                 </p>
             </div>
 
@@ -127,21 +127,21 @@
                 </div>
                 <div class="text-center scroll-animate delay-200">
                     <div class="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                        <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V7a4 4 0 018 0v4m-1 2v4a4 4 0 11-8 0v-4m-4 0h12"/></svg>
+                        <svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
                     <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">85%</h3>
                     <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'معدل نجاح التوظيف' : 'Hiring success rate' }}</p>
                 </div>
                 <div class="text-center scroll-animate delay-300">
                     <div class="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                        <svg class="h-8 w-8 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M9 3v18M3 9h18M3 15h18"/></svg>
+                        <svg class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                     </div>
                     <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+200</h3>
                     <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'شركة تثق بنا' : 'Companies trust us' }}</p>
                 </div>
                 <div class="text-center scroll-animate delay-400">
                     <div class="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                        <svg class="h-8 w-8 text-orange-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
+                        <svg class="h-8 w-8 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
                     <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">15</h3>
                     <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'يوم متوسط مدة التوظيف' : 'Avg. days to hire' }}</p>
@@ -149,7 +149,7 @@
             </div>
 
             <!-- Pricing -->
-            <div class="mb-16">
+            <div id="pricing" class="mb-16">
                 <h3 class="text-2xl font-bold text-center mb-12" style="color: rgb(31, 41, 55)">
                     {{ app()->getLocale() === 'ar' ? 'اختر الخطة المناسبة لشركتك' : 'Choose the right plan' }}
                 </h3>

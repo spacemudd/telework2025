@@ -46,7 +46,12 @@ class HomepageController extends Controller
         $logos = collect(File::files(public_path('logos')))
             ->filter(function ($file) {
                 $ext = strtolower($file->getExtension());
-                return in_array($ext, ['png', 'jpg', 'jpeg', 'svg', 'webp']);
+                $filename = strtolower($file->getFilename());
+                // Exclude cards.png or any payment card logos
+                return in_array($ext, ['png', 'jpg', 'jpeg', 'svg', 'webp']) && 
+                       !str_contains($filename, 'cards') && 
+                       !str_contains($filename, 'visa') && 
+                       !str_contains($filename, 'mada');
             })
             ->sortBy(fn($file) => $file->getFilename())
             ->map(fn($file) => 'logos/' . $file->getFilename())
