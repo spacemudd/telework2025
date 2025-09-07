@@ -438,7 +438,7 @@
                 </p>
             </div>
             <div class="mt-12">
-                <form action="{{ route('company.contact.submit') }}" method="POST" class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                <form action="{{ route('company.contact.submit', ['locale' => app()->getLocale()]) }}" method="POST" class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                     @csrf
                     <div class="sm:col-span-2">
                         <label for="name" class="block text-sm font-medium text-gray-700">{{ __('words.name') }}</label>
