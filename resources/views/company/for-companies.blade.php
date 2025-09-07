@@ -33,7 +33,7 @@
     </div>
 
     <!-- Benefits Section -->
-    <div class="py-12 bg-gray-50">
+    <div class="py-12 bg-gray-50 scroll-animate">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
                 <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -105,7 +105,7 @@
     </div>
 
     <!-- Pricing Section -->
-    <div class="bg-white py-20">
+    <div class="bg-white py-20 scroll-animate">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: rgb(31, 41, 55)">
@@ -118,28 +118,28 @@
 
             <!-- Stats -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-                <div class="text-center">
+                <div class="text-center scroll-animate delay-100">
                     <div class="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                         <svg class="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
                     <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+50,000</h3>
                     <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'باحث عن عمل نشط' : 'Active candidates' }}</p>
                 </div>
-                <div class="text-center">
+                <div class="text-center scroll-animate delay-200">
                     <div class="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                         <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V7a4 4 0 018 0v4m-1 2v4a4 4 0 11-8 0v-4m-4 0h12"/></svg>
                     </div>
                     <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">85%</h3>
                     <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'معدل نجاح التوظيف' : 'Hiring success rate' }}</p>
                 </div>
-                <div class="text-center">
+                <div class="text-center scroll-animate delay-300">
                     <div class="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                         <svg class="h-8 w-8 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M9 3v18M3 9h18M3 15h18"/></svg>
                     </div>
                     <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+200</h3>
                     <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'شركة تثق بنا' : 'Companies trust us' }}</p>
                 </div>
-                <div class="text-center">
+                <div class="text-center scroll-animate delay-400">
                     <div class="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                         <svg class="h-8 w-8 text-orange-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
                     </div>
@@ -155,7 +155,7 @@
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                     <!-- Basic -->
-                    <div class="relative border rounded-lg p-6">
+                    <div class="relative border rounded-lg p-6 scroll-animate delay-100">
                         <div class="text-center">
                             <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الأساسية' : 'Basic' }}</h4>
                             <div class="mb-4">
@@ -173,7 +173,7 @@
                     </div>
 
                     <!-- Pro (popular) -->
-                    <div class="relative border-2 rounded-lg p-6 shadow-xl" style="border-color: rgb(31, 41, 55)">
+                    <div class="relative border-2 rounded-lg p-6 shadow-xl scroll-animate delay-200" style="border-color: rgb(31, 41, 55)">
                         <div class="absolute -top-4 right-1/2 translate-x-1/2">
                             <span class="inline-flex items-center px-4 py-1 text-white text-sm rounded-full" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'الأكثر شعبية' : 'Most popular' }}</span>
                         </div>
@@ -195,7 +195,7 @@
                     </div>
 
                     <!-- Enterprise -->
-                    <div class="relative border rounded-lg p-6">
+                    <div class="relative border rounded-lg p-6 scroll-animate delay-300">
                         <div class="text-center">
                             <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'خطة المؤسسات' : 'Enterprise' }}</h4>
                             <div class="mb-4">
@@ -216,7 +216,7 @@
     </div>
 
     <!-- Comparison Table -->
-    <div class="bg-gray-50 py-16 sm:py-24">
+    <div class="bg-gray-50 py-16 sm:py-24 scroll-animate">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -369,7 +369,7 @@
     </div>
 
     <!-- FAQ Section -->
-    <div class="bg-white py-16 sm:py-24">
+    <div class="bg-white py-16 sm:py-24 scroll-animate">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -427,7 +427,7 @@
     </div>
 
     <!-- Contact Form -->
-    <div id="contact" class="bg-gray-50 py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
+    <div id="contact" class="bg-gray-50 py-16 px-4 sm:px-6 lg:py-24 lg:px-8 scroll-animate">
         <div class="max-w-3xl mx-auto">
             <div class="text-center">
                 <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">

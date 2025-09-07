@@ -78,6 +78,9 @@
                         <x-nav-link :href="route('company.employee-requests.index')" :active="request()->routeIs('company.employee-requests.*')">
                             {{ __('words.requests') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('company.job-postings.index')" :active="request()->routeIs('company.job-postings.*')">
+                            {{ __('words.job_postings') }}
+                        </x-nav-link>
                         
                         <!-- Company Switcher -->
                         <div class="flex items-center ml-8">

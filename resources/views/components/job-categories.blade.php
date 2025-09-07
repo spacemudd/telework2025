@@ -20,7 +20,7 @@
         </div>
 
         <div class="text-center">
-            <a href="#" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">{{ __('words.view_more_sectors') }}</a>
+            <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">{{ __('words.view_more_sectors') }}</a>
         </div>
     </div>
 </section>

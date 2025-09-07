@@ -47,7 +47,7 @@
                 بيئة تجريبية
             </div>
         @endif
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100 flex flex-col">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -60,7 +60,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="flex-1">
                 @yield('content')
             </main>
 

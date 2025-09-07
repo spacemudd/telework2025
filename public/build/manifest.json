@@ -1,13 +1,24 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DRuOxUAA.css",
+    "file": "assets/app-Ca8IsKKE.css",
     "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/scroll-animations.css": {
+    "file": "assets/scroll-animations-CjDEwxMf.css",
+    "src": "resources/css/scroll-animations.css",
     "isEntry": true
   },
   "resources/js/app.js": {
     "file": "assets/app-BJEeGw6v.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/scroll-animations.js": {
+    "file": "assets/scroll-animations-CibNuO1H.js",
+    "name": "scroll-animations",
+    "src": "resources/js/scroll-animations.js",
     "isEntry": true
   }
 }

@@ -1,0 +1,54 @@
+/* Scroll Animation Styles */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-animate.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Optional: Different animation delays for staggered effects */
+.scroll-animate.delay-100 {
+    transition-delay: 0.1s;
+}
+
+.scroll-animate.delay-200 {
+    transition-delay: 0.2s;
+}
+
+.scroll-animate.delay-300 {
+    transition-delay: 0.3s;
+}
+
+.scroll-animate.delay-400 {
+    transition-delay: 0.4s;
+}
+
+.scroll-animate.delay-500 {
+    transition-delay: 0.5s;
+}
+
+/* Optional: Different animation durations */
+.scroll-animate.duration-fast {
+    transition-duration: 0.4s;
+}
+
+.scroll-animate.duration-slow {
+    transition-duration: 0.8s;
+}
+
+/* Optional: Different easing functions */
+.scroll-animate.ease-in {
+    transition-timing-function: ease-in;
+}
+
+.scroll-animate.ease-out {
+    transition-timing-function: ease-out;
+}
+
+.scroll-animate.ease-in-out {
+    transition-timing-function: ease-in-out;
+}

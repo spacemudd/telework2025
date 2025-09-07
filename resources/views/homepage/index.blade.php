@@ -10,7 +10,9 @@
         <x-job-listings :job-postings="$jobPostings" />
 
     <!-- Job Categories Section -->
-    <x-job-categories />
+    <div class="scroll-animate">
+        <x-job-categories />
+    </div>
 
     
 
@@ -169,7 +171,7 @@
 
 
     <!-- Action Buttons -->
-    <div class="bg-white py-12">
+    <div class="bg-white py-12 scroll-animate">
         <div class="container mx-auto px-4">
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a href="#" class="group inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:w-auto text-center">
@@ -287,7 +289,7 @@
         </div> --}}
 
         <!-- Trusted Companies Section -->
-        <div class="bg-white">
+        <div class="bg-white scroll-animate">
             <div class="container mx-auto px-4 py-20">
                 <div class="text-center space-y-4 mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-black">
@@ -495,7 +497,7 @@
 
 
         <!-- Enterprise Section -->
-        <div class="bg-white py-20">
+        <div class="bg-white py-20 scroll-animate">
             <div class="container mx-auto px-4">
                 <div class="grid grid-cols-12 gap-8 items-center">
                     <div class="col-span-12 lg:col-span-6 space-y-8">
@@ -602,7 +604,7 @@
         </div>
 
         <!-- Companies Section with stats and pricing (shadcn-style) -->
-        <div id="companies" class="bg-white py-20">
+        <div id="companies" class="bg-white py-20 scroll-animate">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: rgb(31, 41, 55)">
@@ -615,28 +617,28 @@
 
                 <!-- Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-                    <div class="text-center">
+                    <div class="text-center scroll-animate delay-100">
                         <div class="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                             <svg class="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
                         <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+50,000</h3>
                         <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'باحث عن عمل نشط' : 'Active candidates' }}</p>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center scroll-animate delay-200">
                         <div class="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                             <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V7a4 4 0 018 0v4m-1 2v4a4 4 0 11-8 0v-4m-4 0h12"/></svg>
                         </div>
                         <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">85%</h3>
                         <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'معدل نجاح التوظيف' : 'Hiring success rate' }}</p>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center scroll-animate delay-300">
                         <div class="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                             <svg class="h-8 w-8 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M9 3v18M3 9h18M3 15h18"/></svg>
                         </div>
                         <h3 class="text-2xl font-bold mb-2" style="color: rgb(31, 41, 55)">+200</h3>
                         <p class="text-gray-600">{{ app()->getLocale() === 'ar' ? 'شركة تثق بنا' : 'Companies trust us' }}</p>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center scroll-animate delay-400">
                         <div class="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                             <svg class="h-8 w-8 text-orange-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
                         </div>
@@ -649,7 +651,7 @@
         </div>
 
         <!-- CTA Section -->
-        <div class="relative bg-blue-600 dark:bg-blue-800">
+        <div class="relative bg-blue-600 dark:bg-blue-800 scroll-animate">
             <!-- Pattern Background -->
             <div class="absolute inset-0 opacity-[0.08] mix-blend-overlay">
                 <svg class="w-full h-full text-white" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -683,7 +685,7 @@
         </div>
 
         <!-- Partner Logos -->
-    <div class="bg-white/90 backdrop-blur-sm py-10">
+    <div class="bg-white/90 backdrop-blur-sm py-10 scroll-animate">
         <div class="container mx-auto px-4">
             <div class="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
                 <img src="{{ asset('img/takamol-logo@2x.png') }}"

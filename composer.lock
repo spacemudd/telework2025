@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d2fdfcdeaaa2a0a6ae79de1180fd85c",
+    "content-hash": "3f9a720924e92b86b782995f262ba947",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -362,6 +362,64 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "codebuglab/noon-payment-laravel",
+            "version": "v0.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codebuglab/noon-payment-laravel.git",
+                "reference": "72d812bf5e1b73b241cc0357aa56c03f9f98edc5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codebuglab/noon-payment-laravel/zipball/72d812bf5e1b73b241cc0357aa56c03f9f98edc5",
+                "reference": "72d812bf5e1b73b241cc0357aa56c03f9f98edc5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "orchestra/canvas": "^6.4",
+                "orchestra/testbench": "^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "CodeBugLab\\NoonPayment\\NoonPaymentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CodeBugLab\\NoonPayment\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Elkomy",
+                    "email": "mo.ah.elkomy@gmail.com"
+                }
+            ],
+            "description": "Integrate noon payment API with Laravel",
+            "keywords": [
+                "api",
+                "laravel",
+                "noon payment",
+                "online",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/codebuglab/noon-payment-laravel/issues",
+                "source": "https://github.com/codebuglab/noon-payment-laravel/tree/v0.0.8"
+            },
+            "time": "2022-03-29T08:59:53+00:00"
         },
         {
             "name": "composer/pcre",

@@ -250,6 +250,8 @@ Route::prefix('company')->middleware(['auth', 'team_context', 'role:company', Se
     Route::post('/support-tickets/{ticket}/messages', [\App\Http\Controllers\Company\SupportTicketsMessageController::class, 'store'])->name('company.support-tickets.messages.store');
     Route::resource('/employee-requests', \App\Http\Controllers\Company\EmployeeRequestsController::class)->names('company.employee-requests');
     Route::post('/tasks/{task}/comments', [\App\Http\Controllers\Company\TasksCommentController::class, 'store'])->name('company.tasks.comment');
+    Route::resource('/job-postings', \App\Http\Controllers\Company\JobPostingController::class)->names('company.job-postings');
+    Route::post('/job-postings/{jobPosting}/toggle-status', [\App\Http\Controllers\Company\JobPostingController::class, 'toggleStatus'])->name('company.job-postings.toggle-status');
 });
 
 Route::prefix('employee')->middleware(['auth', 'role:employee', SetLocale::class])->group(function () {
@@ -289,6 +291,15 @@ Route::get('/lang/{locale}', function ($locale) {
 
 Route::post('/employee/tracker/ping', [TrackerController::class, 'ping'])->name('employee.tracker.ping');
 Route::post('/employee/tracker/stop', [TrackerController::class, 'stop'])->name('employee.tracker.stop');
+
+// Payment routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/payment/subscription/initiate', [\App\Http\Controllers\PaymentController::class, 'initiateSubscription'])->name('payment.subscription.initiate');
+    Route::get('/payment/subscription/status', [\App\Http\Controllers\PaymentController::class, 'checkSubscriptionStatus'])->name('payment.subscription.status');
+});
+
+// Noon payment callback (no auth required)
+Route::get('/payment/noon/callback', [\App\Http\Controllers\PaymentController::class, 'handleCallback'])->name('payment.noon.callback');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/settings.php';

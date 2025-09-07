@@ -389,56 +389,7 @@
         </div>
     </div>
 
-    <!-- Promo Modal -->
-    <div id="promoModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg max-w-md w-full p-6 text-center">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 id="promoModalTitle" class="text-lg font-semibold">التقديم الذكي بالذكاء الاصطناعي</h3>
-                    <button onclick="closePromoModal()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div id="promoModalBody">
-                    <ul class="space-y-2 text-start text-gray-600 mb-6">
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span>التقديم التلقائي للوظائف المنشورة حديثاً.</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span>كتابة ملخص سيرتك الذاتية تلقائياً لخطاب التقديم.</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span>قبول الدعوات.</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span>إرسال ملخص أسبوعي للوظائف التي تم التقديم عليها.</span>
-                        </li>
-                    </ul>
-                    <div class="my-6">
-                        <p class="text-4xl font-bold text-gray-800">103.5 ر.س <span class="text-lg font-normal text-gray-500">/ 3 أشهر</span></p>
-                    </div>
-                    <button class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white transition-transform hover:scale-105 mb-4" style="background-color: #012d48;" onmouseover="this.style.backgroundColor='#001a2e';" onmouseout="this.style.backgroundColor='#012d48';" onfocus="this.style.outline='2px solid #012d48'; this.style.outlineOffset='2px';" onblur="this.style.outline='none';">
-                        اشترك الآن
-                    </button>
-                    <div class="mt-4">
-                        <img src="{{ asset('logos/cards.png') }}" alt="طرق الدفع" class="h-8 mx-auto">
-                    </div>
-                </div>
-                <div class="flex justify-end gap-2 mt-6">
-                    <button type="button" onclick="closePromoModal()"
-                            class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-full text-sm">
-                        {{ __('words.close') }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-employee.promo-modal />
 @endsection
 
 @push('scripts')
@@ -459,20 +410,5 @@ document.getElementById('cvUploadModal').addEventListener('click', function(e) {
     }
 });
 
-function openPromoModal(event) {
-    event.preventDefault();
-    document.getElementById('promoModal').classList.remove('hidden');
-}
-
-function closePromoModal() {
-    document.getElementById('promoModal').classList.add('hidden');
-}
-
-// Close modal when clicking outside
-document.getElementById('promoModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closePromoModal();
-    }
-});
 </script>
 @endpush
