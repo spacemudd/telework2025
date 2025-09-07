@@ -30,7 +30,7 @@
                     </li>
                 </ul>
                 <div class="my-6">
-                    <p class="text-4xl font-bold text-gray-800">103.5 ر.س <span class="text-lg font-normal text-gray-500">/ 3 أشهر</span></p>
+                    <p class="text-4xl font-bold text-gray-800">103.5 ر.س <span class="text-lg font-normal text-gray-500">/ 1 شهر</span></p>
                 </div>
                 <button id="subscribeBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white transition-transform hover:scale-105 mb-4" style="background-color: #012d48;" onmouseover="this.style.backgroundColor='#001a2e';" onmouseout="this.style.backgroundColor='#012d48';" onfocus="this.style.outline='2px solid #012d48'; this.style.outlineOffset='2px';" onblur="this.style.outline='none';" onclick="initiateSubscription('3_months')">
                     <span id="subscribeBtnText">اشترك الآن</span>
