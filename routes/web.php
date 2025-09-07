@@ -39,6 +39,11 @@ Route::get('/', function () {
     return redirect('/ar');
 });
 
+// Redirect /login to /ar/login
+Route::get('/login', function () {
+    return redirect('/ar/login');
+});
+
 // Media routes - no locale prefix needed
 Route::get('/media/{id}', [MediaController::class, 'show'])->name('media.show');
 
