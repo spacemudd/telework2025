@@ -30,10 +30,6 @@ use App\Http\Controllers\CompanyTasksReportController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MediaController;
 
-
-// Include auth routes
-require __DIR__.'/auth.php';
-
 // Redirect root to Arabic version
 Route::get('/', function () {
     return redirect('/ar');
@@ -48,6 +44,9 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return redirect('/ar/register');
 });
+
+// Include auth routes
+require __DIR__.'/auth.php';
 
 // Media routes - no locale prefix needed
 Route::get('/media/{id}', [MediaController::class, 'show'])->name('media.show');
