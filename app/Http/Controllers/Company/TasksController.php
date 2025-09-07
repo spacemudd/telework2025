@@ -16,6 +16,10 @@ class TasksController extends Controller
     {
         $company = $this->getCurrentCompany();
         
+        if (!$company) {
+            return redirect()->route('onboarding.company')->with('error', 'يرجى إكمال إعداد الشركة أولاً');
+        }
+        
         // Get all tasks for the company's employees
         $query = Task::whereHas('employee', function ($q) use ($company) {
             $q->where('company_id', $company->id);
@@ -51,6 +55,10 @@ class TasksController extends Controller
     public function export(Request $request)
     {
         $company = $this->getCurrentCompany();
+        
+        if (!$company) {
+            return redirect()->route('onboarding.company')->with('error', 'يرجى إكمال إعداد الشركة أولاً');
+        }
         
         // Get all tasks for the company's employees
         $query = Task::whereHas('employee', function ($q) use ($company) {

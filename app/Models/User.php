@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, Impersonate;
+    use HasFactory, Notifiable, HasRoles, Impersonate, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'team_id',
+        'google_id',
+        'linkedin_id',
     ];
 
     /**
@@ -46,6 +49,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 
     public function owned_company()
@@ -86,5 +94,10 @@ class User extends Authenticatable
     function scopeAdmins($query)
     {
         return $query->role('admin');
+    }
+    
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class);
     }
 }

@@ -19,6 +19,12 @@ class SupportTicketsController extends Controller
 
     public function create()
     {
+        $company = auth()->user()->owned_company;
+        
+        if (!$company) {
+            return redirect()->route('onboarding.company')->with('error', 'يرجى إكمال إعداد الشركة أولاً');
+        }
+        
         return view('company.support_tickets.create');
     }
 

@@ -24,6 +24,34 @@
             </a>
         </div>
 
+        <!-- Company Logo Upload -->
+        <div class="mb-8 p-4 border border-gray-200 rounded-md">
+            <h2 class="text-lg font-semibold mb-4">{{ __('words.logo') }}</h2>
+            <div class="flex items-center">
+                <div class="w-24 h-24 bg-gray-100 border border-gray-200 rounded-md overflow-hidden mr-4">
+                    @if($company->getFirstMedia('logos'))
+                        <img src="{{ $company->getSecureMediaUrlForCollection('logos') }}" alt="{{ $company->name }}" class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center text-gray-400">
+                            <span>{{ __('words.no_logo') }}</span>
+                        </div>
+                    @endif
+                </div>
+                <form method="POST" action="{{ route('admin.companies.upload-logo', $company->id) }}" enctype="multipart/form-data" class="flex-1">
+                    @csrf
+                    <div class="flex items-center">
+                        <input type="file" name="logo" id="logo" accept="image/*" class="border border-gray-300 py-2 px-3 rounded-md w-full">
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md ml-2">
+                            {{ __('words.upload_logo') }}
+                        </button>
+                    </div>
+                    @error('logo')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </form>
+            </div>
+        </div>
+        
         <!-- Company Properties Form -->
         <form method="POST" action="{{ route('admin.companies.update', $company->id) }}" class="space-y-4 mb-8">
             @csrf

@@ -19,8 +19,17 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check()) {
+        // First check if user is authenticated and has a locale preference
+        if (auth()->check() && auth()->user()->locale) {
             App::setLocale(auth()->user()->locale);
+        } else {
+            // Fallback to session locale or default
+            $sessionLocale = session('locale');
+            if ($sessionLocale && in_array($sessionLocale, ['en', 'ar'])) {
+                App::setLocale($sessionLocale);
+            } else {
+                App::setLocale(config('app.locale', 'en'));
+            }
         }
 
         return $next($request);

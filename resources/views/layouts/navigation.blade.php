@@ -1,11 +1,37 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    <!-- Announcement Bar -->
+    <div class="bg-blue-600 text-white text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center">
+            @if(app()->getLocale() === 'ar')
+            نبني الفريق ونصنع القادة
+            @else
+                We build the team and make the leaders
+            @endif
+        </div>
+    </div>
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    @hasrole('admin')
+                        <a href="/admin/dashboard">
+                    @elsehasrole('company')
+                        <a href="/company/dashboard">
+                    @elsehasrole('employee')
+                        @php
+                            $employee = auth()->check() ? auth()->user()->employee : null;
+                            $isJobSeeker = $employee && $employee->company && $employee->company->name === 'Job Seeker Platform';
+                        @endphp
+                        @if($isJobSeeker)
+                            <a href="/employee/job-seeker-dashboard">
+                        @else
+                            <a href="/employee/dashboard">
+                        @endif
+                    @else
+                        <a href="{{ route('onboarding.index', ['locale' => app()->getLocale()]) }}">
+                    @endhasrole
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -13,14 +39,17 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 rtl:space-x-reverse sm:-my-px sm:flex sm:ms-10">
                     @hasrole('admin')
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.dashboard')">
+                        <x-nav-link href="/admin/dashboard" :active="request()->routeIs('admin.dashboard')">
                             {{ __('words.dashboard') }}
                         </x-nav-link>
                         <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.*')">
-                            {{ __('words.companies') }}
+                            {{ __('words.companies-page-title') }}
                         </x-nav-link>
                         <x-nav-link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
                             {{ __('words.employees') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.job-postings.index')" :active="request()->routeIs('admin.job-postings.*')">
+                            {{ __('words.job_postings') }}
                         </x-nav-link>
                         <x-nav-link :href="route('admin.support-tickets.index')" :active="request()->routeIs('admin.support-tickets.*')">
                             {{ __('words.support') }}
@@ -34,7 +63,7 @@
                     @endhasrole
 
                     @hasrole('company')
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('company.dashboard')">
+                        <x-nav-link href="/company/dashboard" :active="request()->routeIs('company.dashboard')">
                             {{ __('words.dashboard') }}
                         </x-nav-link>
                         <x-nav-link :href="route('company.employees.index')" :active="request()->routeIs('company.employees.*')">
@@ -49,6 +78,9 @@
                         <x-nav-link :href="route('company.employee-requests.index')" :active="request()->routeIs('company.employee-requests.*')">
                             {{ __('words.requests') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('company.job-postings.index')" :active="request()->routeIs('company.job-postings.*')">
+                            {{ __('words.job_postings') }}
+                        </x-nav-link>
                         
                         <!-- Company Switcher -->
                         <div class="flex items-center ml-8">
@@ -57,9 +89,22 @@
                     @endhasrole
 
                     @hasrole('employee')
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('employee.dashboard')">
-                            {{ __('words.dashboard') }}
+                        <x-nav-link href="{{ \LaravelLocalization::localizeURL('/') }}" :active="request()->is('/')">
+                            {{ __('words.home') }}
                         </x-nav-link>
+                        @php
+                            $employee = auth()->check() ? auth()->user()->employee : null;
+                            $isJobSeeker = $employee && $employee->company && $employee->company->name === 'Job Seeker Platform';
+                        @endphp
+                        @if($isJobSeeker)
+                            <x-nav-link href="/employee/job-seeker-dashboard" :active="request()->routeIs('employee.job-seeker-dashboard')">
+                                {{ __('words.dashboard') }}
+                            </x-nav-link>
+                        @else
+                            <x-nav-link href="/employee/dashboard" :active="request()->routeIs('employee.dashboard')">
+                                {{ __('words.dashboard') }}
+                            </x-nav-link>
+                        @endif
                     @endhasrole
                 </div>
             </div>
@@ -69,7 +114,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div>{{ Auth::check() ? Auth::user()->name : 'Guest' }}</div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -125,16 +170,43 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('words.dashboard') }}
-            </x-responsive-nav-link>
+            @hasrole('admin')
+                <x-responsive-nav-link href="/admin/dashboard" :active="request()->routeIs('admin.dashboard')">
+                    {{ __('words.dashboard') }}
+                </x-responsive-nav-link>
+            @elsehasrole('company')
+                <x-responsive-nav-link href="/company/dashboard" :active="request()->routeIs('company.dashboard')">
+                    {{ __('words.dashboard') }}
+                </x-responsive-nav-link>
+            @elsehasrole('employee')
+                <x-responsive-nav-link href="{{ \LaravelLocalization::localizeURL('/') }}" :active="request()->is('/')">
+                    {{ __('words.home') }}
+                </x-responsive-nav-link>
+                @php
+                    $employee = auth()->check() ? auth()->user()->employee : null;
+                    $isJobSeeker = $employee && $employee->company && $employee->company->name === 'Job Seeker Platform';
+                @endphp
+                @if($isJobSeeker)
+                    <x-responsive-nav-link href="/employee/job-seeker-dashboard" :active="request()->routeIs('employee.job-seeker-dashboard')">
+                        {{ __('words.dashboard') }}
+                    </x-responsive-nav-link>
+                @else
+                    <x-responsive-nav-link href="/employee/dashboard" :active="request()->routeIs('employee.dashboard')">
+                        {{ __('words.dashboard') }}
+                    </x-responsive-nav-link>
+                @endif
+            @else
+                <x-responsive-nav-link :href="route('onboarding.index', ['locale' => app()->getLocale()])" :active="request()->routeIs('onboarding.*')">
+                    {{ __('words.dashboard') }}
+                </x-responsive-nav-link>
+            @endhasrole
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-base text-gray-800">{{ Auth::check() ? Auth::user()->name : 'Guest' }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ Auth::check() ? Auth::user()->email : 'guest@example.com' }}</div>
             </div>
 
             <div class="mt-3 space-y-1">

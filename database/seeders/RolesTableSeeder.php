@@ -13,8 +13,9 @@ class RolesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::firstOrCreate(['name' => 'admin']);
-        Role::firstOrCreate(['name' => 'company']);
-        Role::firstOrCreate(['name' => 'employee']);
+        // Create global roles (team_id = null means they can be used across all teams)
+        Role::firstOrCreate(['name' => 'admin', 'team_id' => null]);
+        Role::firstOrCreate(['name' => 'company', 'team_id' => null]);
+        Role::firstOrCreate(['name' => 'employee', 'team_id' => null]);
     }
 }

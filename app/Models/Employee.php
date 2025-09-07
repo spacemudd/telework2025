@@ -20,6 +20,17 @@ class Employee extends Model
         'position',
         'identity_number',
         'user_id',
+        'skills',
+        'experience_level',
+        'preferred_work_type',
+        'is_job_seeker',
+        'profile_completed',
+        'cv_path',
+    ];
+
+    protected $casts = [
+        'is_job_seeker' => 'boolean',
+        'profile_completed' => 'boolean'
     ];
 
     protected static function booted()
@@ -45,6 +56,12 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function talentCategories()
+    {
+        return $this->belongsToMany(TalentCategory::class, 'employee_talent_categories')
+                    ->withTimestamps();
+    }
+
     public function tasks()
     {
         return $this->hasMany(Task::class)->latest();
@@ -58,5 +75,39 @@ class Employee extends Model
     function employee_telework_syncs()
     {
         return $this->hasMany(EmployeeTeleworkSync::class);
+    }
+
+    public function scopeJobSeekers($query)
+    {
+        return $query->where('is_job_seeker', true);
+    }
+
+    public function scopeProfileCompleted($query)
+    {
+        return $query->where('profile_completed', true);
+    }
+
+    public function scopeByTalentCategory($query, $categoryId)
+    {
+        return $query->whereHas('talentCategories', function($q) use ($categoryId) {
+            $q->where('talent_categories.id', $categoryId);
+        });
+    }
+
+    public function scopeByTalentCategories($query, array $categoryIds)
+    {
+        return $query->whereHas('talentCategories', function($q) use ($categoryIds) {
+            $q->whereIn('talent_categories.id', $categoryIds);
+        });
+    }
+
+    public function interviews()
+    {
+        return $this->hasMany(Interview::class);
+    }
+
+    public function getLatestInterviewAttribute()
+    {
+        return $this->interviews()->latest()->first();
     }
 }

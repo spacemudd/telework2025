@@ -10,6 +10,17 @@ class SupportTicketsMessageController extends Controller
 {
     public function store(Request $request, SupportTicket $ticket)
     {
+        $company = auth()->user()->owned_company;
+        
+        if (!$company) {
+            return redirect()->route('onboarding.company')->with('error', 'يرجى إكمال إعداد الشركة أولاً');
+        }
+        
+        // Ensure the support ticket belongs to the authenticated user's company
+        if ($ticket->supportable_id !== $company->id || $ticket->supportable_type !== get_class($company)) {
+            abort(403, 'Unauthorized access to support ticket');
+        }
+        
         $request->validate([
             'message' => 'required|string',
         ]);

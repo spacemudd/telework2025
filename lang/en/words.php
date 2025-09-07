@@ -8,7 +8,7 @@ return [
     'logout' => 'Logout',
     'dashboard' => 'Dashboard',
     'total_companies' => 'Total Companies',
-    'companies' => 'Companies',
+    'companies-page-title' => 'Companies',
     'name' => 'Name',
     'email' => 'Email',
     'address' => 'Address',
@@ -34,7 +34,7 @@ return [
     'status' => 'Status',
     'sent_at' => 'Sent at',
     'no_audit_logs_found' => 'No audit logs found',
-    'url-problem' => "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\n" .
+    'url-problem' => "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n" .
         'into your web browser:',
     'all-rights-reserved' => 'All rights reserved.',
     'hi-there' => 'Hi there',
@@ -172,6 +172,335 @@ return [
     'from' => 'From',
     'to' => 'To',
     'apply' => 'Apply',
+    'app-name' => 'Hadaf',
+    'homepage-description' => 'Welcome to Hadaf, your go-to platform for telework services. Explore our features and services designed to enhance your remote work experience.',
+    'homepage-title' => 'Hadaf - Telework Services',
+    'home' => 'Home',
+    'hero' => [
+        'title' => 'We build the team and make the leaders',
+        'description' => '',
+        'job_seekers_connected' => 'Connecting you with the workforce with easy steps',
+        'browse_jobs' => 'Browse Jobs',
+        'hire_talent' => 'Hire Top Talent',
+        'trusted_by' => 'Trusted By Startups & Fortune 500',
+        'company_stripe' => 'Stripe',
+        'company_google' => 'Google',
+        'company_microsoft' => 'Microsoft',
+        'company_citibank' => 'Citibank',
+        'company_shopify' => 'Shopify',
+        'search_job_placeholder' => 'Search for a job...',
+        'city_placeholder' => 'City',
+        'field_placeholder' => 'Field',
+        'search_button' => 'Search',
+    ],
+    'companies' => [
+        'title' => 'Join our trusted network of entrepreneurs',
+        'subtitle' => 'More than hundreds of companies, big and small',
+    ],
+    'opportunities' => [
+        'title' => 'New opportunities in all districts',
+        'subtitle' => 'Flexible work schedules, full time, part time, contract basis, Saudi or non-Saudi, and others in all parts of Saudi Arabia',
+        'skills' => 'Skills',
+        'districts' => [
+            'sales' => 'Sales and Marketing',
+            'accounting' => 'Accounting and Finance',
+            'management' => 'Management and Secretary',
+            'it' => 'IT and Software Development',
+            'legal' => 'Legal Services',
+            'hr' => 'Human Resources',
+            'engineering' => 'Engineering and Architecture',
+            'healthcare' => 'Healthcare Services'
+        ]
+    ],
+    'instagram' => [
+        'title' => 'Follow Us on Instagram',
+        'subtitle' => 'Stay updated with our latest news and opportunities',
+        'follow_button' => 'Follow on Instagram'
+    ],
+    'enterprise' => [
+        'title' => 'Hadaf for Enterprise',
+        'tagline' => 'Our network of vetted professionals',
+        'benefits' => [
+            'vetted' => [
+                'title' => 'Vetted Professionals',
+                'description' => 'Access pre-screened, qualified professionals who have been thoroughly vetted for their expertise and reliability.'
+            ],
+            'time' => [
+                'title' => 'Save Time',
+                'description' => 'Streamline your hiring process with our efficient platform, reducing time-to-hire significantly.'
+            ],
+            'cost' => [
+                'title' => 'Reduce Costs',
+                'description' => 'Cut recruitment and operational costs while maintaining high-quality workforce standards.'
+            ]
+        ],
+        'cta' => [
+            'hire' => 'Hire Now',
+            'pricing' => 'Subscriptions and Prices',
+            'header' => 'Save your time and effort',
+            'subtext' => 'Browse our curated pool of top-tier talent ready to contribute to your success'
+        ],
+        'image_overlay' => 'Experienced skilled hands at your disposal.',
+        'rating' => '4.7/5 rating of clients',
+        'rating_subtitle' => 'by freelance professionals'
+    ],
+    'latest_jobs' => [
+        'title' => 'Latest jobs posted',
+        'view_more' => 'View more',
+        'posted' => 'Posted',
+        'contract_types' => [
+            'fulltime' => 'Full-time',
+            'parttime' => 'Part-time',
+            'hybrid' => 'Hybrid',
+            'remote' => 'Remote',
+        ],
+        'examples' => [
+            [
+                'title' => 'Senior Software Engineer',
+                'company' => 'STC',
+                'company_logo' => 'https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png',
+                'contract_type' => 'fulltime',
+                'location' => 'Riyadh, Saudi Arabia',
+                'date' => '2024-03-20',
+                'time_ago' => '2 days ago'
+            ],
+            [
+                'title' => 'Legal Consultant',
+                'company' => 'Saudi Aramco',
+                'company_logo' => 'https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png',
+                'contract_type' => 'hybrid',
+                'location' => 'Dhahran, Saudi Arabia',
+                'date' => '2024-03-19',
+                'time_ago' => '3 days ago'
+            ],
+            [
+                'title' => 'Financial Analyst',
+                'company' => 'SABIC',
+                'company_logo' => 'https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg',
+                'contract_type' => 'parttime',
+                'location' => 'Jubail, Saudi Arabia',
+                'date' => '2024-03-18',
+                'time_ago' => '4 days ago'
+            ],
+            [
+                'title' => 'HR Manager',
+                'company' => 'CCC by STC',
+                'company_logo' => 'https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c',
+                'contract_type' => 'remote',
+                'location' => 'Jeddah, Saudi Arabia',
+                'date' => '2024-03-17',
+                'time_ago' => '5 days ago'
+            ]
+        ]
+    ],
+    'footer' => [
+        'company' => [
+            'title' => 'Hadaf',
+            'about' => 'About us',
+            'careers' => 'Join Hadaf team',
+            'contact' => 'Contact us'
+        ],
+        'companies' => [
+            'title' => 'Companies',
+            'how_it_works' => 'How it works',
+            'pricing' => 'Prices',
+            'hire' => 'Hire now',
+            'post_job' => 'Post a job',
+            'browse_candidates' => 'Browse candidates'
+        ],
+        'jobs' => [
+            'title' => 'Looking for jobs',
+            'submit_cv' => 'Submit your CV',
+            'search' => 'Search jobs'
+        ],
+        'social' => [
+            'title' => 'Follow us on',
+            'x' => 'X (Twitter)',
+            'linkedin' => 'LinkedIn',
+            'instagram' => 'Instagram'
+        ],
+        'legal' => [
+            'privacy' => 'Privacy Policy',
+            'terms' => 'Terms of Use',
+            'copyright' => '© 2024 Hadaf Company. All rights reserved.'
+        ]
+    ],
+    'search' => [
+        'title' => 'Explore Global Connectivity',
+        'subtitle' => 'Discover real-time telework activity across Saudi Arabia',
+        'placeholder' => 'Search by role, skills, or keywords',
+        'buttons' => [
+            'popular_cities' => 'Popular Cities',
+            'activity_heatmap' => 'Activity Heatmap',
+            'statistics' => 'Statistics'
+        ],
+        'popular_tags' => [
+            'programmer' => 'Programmer',
+            'computer_systems' => 'Computer Systems',
+            'data_analyst' => 'Data Analyst',
+            'project_manager' => 'Project Manager',
+            'ui_designer' => 'UI Designer'
+        ]
+    ],
+    'nav' => [
+        'for_companies' => 'For Companies',
+        'jobs' => 'Jobs',
+    ],
+    'pricing' => [
+        'title' => 'Simple, Transparent Pricing',
+        'subtitle' => 'Choose the perfect plan for your business needs',
+        'yearly_discount' => 'Save :discount with yearly billing',
+        'get_started' => 'Get Started',
+        'features' => 'Features',
+        'basic' => [
+            'title' => 'Basic',
+            'description' => 'Perfect for small businesses and startups',
+            'features' => [
+                'ads' => ':count job ads per month',
+                'users' => 'Up to :count users',
+            ]
+        ],
+        'pro' => [
+            'title' => 'Professional',
+            'description' => 'Ideal for growing companies',
+            'features' => [
+                'ads' => ':count job ads per month',
+                'users' => 'Up to :count users',
+            ]
+        ],
+        'enterprise' => [
+            'title' => 'Enterprise',
+            'description' => 'For large organizations with advanced needs',
+            'features' => [
+                'ads' => ':count job ads per year',
+                'users' => 'Unlimited users',
+            ]
+        ],
+        'comparison' => [
+            'title' => 'Compare Plans',
+            'subtitle' => 'Find the perfect plan for your hiring needs',
+            'feature' => 'Feature',
+            'features' => [
+                'ads' => 'Job Ads',
+                'communication' => 'Direct Communication',
+                'users' => 'Team Members',
+                'promote' => 'Promoted Ads',
+                'duration' => 'Job Duration',
+                'filter' => 'Candidate Filtering',
+                'esign' => 'E-Signature'
+            ]
+        ]
+    ],
+    'currency' => 'SAR',
+    'month' => 'month',
+    'year' => 'year',
+    'faq' => [
+        'title' => 'Frequently Asked Questions',
+        'subtitle' => 'Find answers to common questions about our services',
+        'questions' => [
+            'q1' => 'How long does it take to find qualified candidates?',
+            'q2' => 'What kind of support do you provide during the hiring process?',
+            'q3' => 'Can I upgrade or downgrade my plan at any time?'
+        ],
+        'answers' => [
+            'a1' => 'Our platform typically helps you find qualified candidates within 2-3 weeks, depending on your specific requirements and the position.',
+            'a2' => 'We provide comprehensive support throughout the hiring process, including candidate screening, interview scheduling, and onboarding assistance.',
+            'a3' => 'Yes, you can change your plan at any time. Upgrades take effect immediately, while downgrades take effect at the start of your next billing cycle.'
+        ]
+    ],
+    'contact_us' => 'Contact Us',
+    'contact_form_description' => 'Get in touch with our team to learn more about our enterprise solutions',
+    'company_name' => 'Company Name',
+    'employees_count' => 'Number of Employees',
+    'select_option' => 'Select an option',
+    'message' => 'Message',
+    'submit' => 'Submit',
+    'looking_for_job' => 'Looking for a job',
+    'looking_for_hire' => 'Looking for a hire',
+    'features' => [
+        'title' => 'Job opportunities in all sectors',
+        'nationwide' => 'All over the Kingdom',
+        'flexible_hours' => 'Full-time or part-time',
+        'diverse_opportunities' => 'Diverse opportunities in all specialties',
+        'easy_application' => 'Quick and easy application through the platform',
+        'continuous_support' => 'Continuous technical support for job seekers',
+        'personalized_opportunities' => 'Opportunities that match your skills and ambitions with guidance before and after the interview',
+        'transparent_followup' => 'Transparent follow-up until contract signing and work commencement',
+    ],
+    'homepage' => [
+        'cta_title' => 'Official remote opportunities with documented contracts and continuous follow-up after hiring',
+        'cta_paragraph' => '"Hadaf for Employment" is a Saudi intermediary company specialized in employing national talents and connecting employers with suitable talents. We operate under a license from the Ministry of Human Resources and Social Development in accordance with the regulations for Saudi employment intermediation activities, and as an approved service provider on the remote work platform, ensuring full compliance and documented implementation through the platform.',
+    ],
+    
+    // Talent section
+    'leverage_world_class_talent' => 'Leverage World-class Talent',
+    'leverage_world_class_talent_subtitle' => 'We are the largest, globally distributed network of top business, design, and technology talent, ready to tackle your most important initiatives.',
+    
+    'developers' => 'Developers',
+    'developers_desc' => 'Seasoned software engineers, coders, and architects with expertise across hundreds of technologies.',
+    
+    'designers' => 'Designers', 
+    'designers_desc' => 'Expert UI, UX, Visual, and Interaction designers as well as a wide range of illustrators, animators, and more.',
+    
+    'management_consultants' => 'Management Consultants',
+    'management_consultants_desc' => 'Finance experts, business strategists, M&A consultants, financial modelers, and more, with expertise ranging from market research to FP&A.',
+    
+    'project_managers' => 'Project Managers',
+    'project_managers_desc' => 'Digital and technical project managers, scrum masters, and more with expertise in numerous PM tools, frameworks, and styles.',
+    
+    'product_managers' => 'Product Managers', 
+    'product_managers_desc' => 'Digital product managers, scrum product owners with expertise in numerous industries like banking, healthcare, ecommerce, and more.',
+    
+    'marketing_experts' => 'Marketing Experts',
+    'marketing_experts_desc' => 'Experts in digital marketing, growth marketing, content creation, market research, brand strategy execution, social media marketing, and more.',
+    
+    'largest_global_network' => 'Largest Global Network',
+    'largest_global_network_desc' => 'Access to the largest network of top business, design, and technology talent worldwide.',
+    
+    'top_talent_ready' => 'Top Talent Ready',
+    'top_talent_ready_desc' => 'Pre-vetted professionals ready to tackle your most important initiatives immediately.',
+    
+    'tackle_important_initiatives' => 'Tackle Important Initiatives', 
+    'tackle_important_initiatives_desc' => 'Get the expertise you need to drive your business forward with confidence.',
+    
+    'view_talents' => 'View talents',
+    'talent_categories' => 'Talent Categories',
+    'explore_talent_categories_description' => 'Explore diverse talents across all sectors',
+    'select_talent_categories' => 'Select Talent Categories',
+    'select_talent_categories_help' => 'Select all talent categories that apply to you (you can choose multiple)',
+    'view_profile' => 'View Profile',
+    'all_experience_levels' => 'All Experience Levels',
+    'no_job_seekers_found' => 'No Job Seekers Found',
+    'no_job_seekers_in_category' => 'No job seekers in this category at the moment',
+    'profile_completed_successfully' => 'Your profile has been completed successfully!',
+
+    // Job Seeker Dashboard
+    'job_seeker_dashboard' => 'Job Seeker Dashboard',
+    'profile_summary' => 'Profile Summary',
+    'job_search' => 'Job Search',
+    'active_applications' => 'Active Applications',
+    'no_active_applications' => 'No active applications',
+    'interviews_scheduled' => 'Interviews Scheduled',
+    'no_interviews_scheduled' => 'No interviews scheduled',
+    'jobs_viewed' => 'Jobs Viewed',
+    'no_jobs_viewed' => 'No jobs viewed yet',
+    'available_jobs' => 'Available Jobs',
+    'refresh_jobs' => 'Refresh Jobs',
+    'sample_job_title' => 'Senior Software Developer',
+    'sample_company_name' => 'Tech Solutions Inc.',
+    'remote' => 'Remote',
+    'salary_range' => '$80K - $120K',
+    'apply_now' => 'Apply Now',
+    'sample_job_description' => 'We are looking for an experienced software developer to join our remote team. The ideal candidate should have strong programming skills and experience with modern web technologies.',
+    'no_jobs_available' => 'No jobs available at the moment',
+    'check_back_later' => 'Check back later for new opportunities',
+    'quick_actions' => 'Quick Actions',
+    'search_jobs' => 'Search Jobs',
+    'my_applications' => 'My Applications',
+    'interviews' => 'Interviews',
+    'settings' => 'Settings',
+    'edit_profile' => 'Edit Profile',
+    'skills_not_updated' => 'Skills not updated yet',
     
     // Team Invitation
     'team_invitation_subject' => 'You have been invited to join :company team',
@@ -187,4 +516,149 @@ return [
     'user_already_exists' => 'User already exists and has been linked to the company',
     'password' => 'Password',
     'company_switched_successfully' => 'Company switched successfully',
+    
+    // Job Postings
+    'job_postings' => 'Job Postings',
+    'create_job_posting' => 'Create Job Posting',
+    'edit_job_posting' => 'Edit Job Posting',
+    'job_posting_created_successfully' => 'Job posting created successfully',
+    'job_posting_updated_successfully' => 'Job posting updated successfully',
+    'job_posting_deleted_successfully' => 'Job posting deleted successfully',
+    'no_job_postings_found' => 'No job postings found',
+    'title' => 'Title',
+    'description' => 'Description',
+    'company' => 'Company',
+    'select_company' => 'Select Company',
+    'employment_type' => 'Employment Type',
+    'full_time' => 'Full Time',
+    'part_time' => 'Part Time',
+    'contract' => 'Contract',
+    'freelance' => 'Freelance',
+    'remote' => 'Remote',
+    'location' => 'Location',
+    'salary_min' => 'Minimum Salary',
+    'salary_max' => 'Maximum Salary',
+    'closing_date' => 'Closing Date',
+    'is_active' => 'Active',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'status' => 'Status',
+    'actions' => 'Actions',
+    'view' => 'View',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'are_you_sure' => 'Are you sure?',
+    'posted_date' => 'Posted Date',
+    'type' => 'Type',
+    'jobs' => 'Jobs',
+    'browse_jobs' => 'Browse Jobs',
+    'my_applications' => 'My Applications',
+    'view_job' => 'View Job',
+    'apply' => 'Apply',
+    'applied_successfully' => 'Applied successfully',
+    'already_applied' => 'You have already applied for this job',
+    'back_to_jobs' => 'Back to Jobs',
+    'no_applications_found' => 'No applications found',
+    'start_applying_to_jobs' => 'Start applying to jobs',
+    'your_cover_letter' => 'Your Cover Letter',
+    'applied_on' => 'Applied on',
+    'cover_letter' => 'Cover Letter',
+    'optional' => 'Optional',
+    'latest_jobs' => [
+        'title' => 'Latest Job Opportunities',
+        'subtitle' => 'Discover your next career move',
+        'contract_types' => [
+            'fulltime' => 'Full Time',
+            'parttime' => 'Part Time',
+            'contract' => 'Contract',
+            'freelance' => 'Freelance',
+            'remote' => 'Remote'
+        ],
+        'examples' => [
+            [
+                'title' => 'Senior Software Engineer',
+                'company' => 'Tech Solutions Inc.',
+                'location' => 'Riyadh',
+                'contract_type' => 'fulltime',
+                'time_ago' => '2 hours ago'
+            ],
+            [
+                'title' => 'Marketing Specialist',
+                'company' => 'Digital Marketing Co.',
+                'location' => 'Jeddah',
+                'contract_type' => 'parttime',
+                'time_ago' => '5 hours ago'
+            ],
+            [
+                'title' => 'Graphic Designer',
+                'company' => 'Creative Agency',
+                'location' => 'Remote',
+                'contract_type' => 'freelance',
+                'time_ago' => '1 day ago'
+            ]
+        ]
+    ],
+    'select_existing_company' => 'Select Existing Company',
+    'create_new_company' => 'Create New Company',
+    'company_information' => 'Company Information',
+    'company_name' => 'Company Name',
+    'company_logo' => 'Company Logo',
+    'logo_upload_help' => 'Upload a logo image (max 2MB, JPG/PNG/GIF)',
+    'enabled' => 'Enabled',
+    'disabled' => 'Disabled',
+    'enable' => 'Enable',
+    'disable' => 'Disable',
+    'job_posting_status_updated' => 'Job posting has been :status successfully.',
+    'sar' => 'SAR',
+    'from' => 'From',
+    'up_to' => 'Up to',
+    'browse_available_jobs' => 'Browse available job opportunities and find your next career move.',
+    'view_your_job_applications' => 'View and manage your submitted job applications.',
+    'job_description' => 'Job Description',
+    'login_to_apply' => 'Login to Apply',
+    'no_logo' => 'No Logo',
+    'apply_for_job' => 'Apply for Job',
+    'submit_application' => 'Submit Application',
+    'confirm_application' => 'Are you sure you want to apply for this job?',
+    'job_application_submitted_successfully' => 'Your job application has been submitted successfully.',
+    'job_listings' => 'Job Listings',
+    
+    // Job Categories
+    'all_sectors' => 'All Sectors',
+    'view_more_sectors' => 'View More Sectors',
+    'job_categories' => 'Job Categories',
+    'job_category' => 'Job Category',
+    
+    // Job Posting Details
+    'job_posting_details' => 'Job Posting Details',
+    'applicants' => 'Applicants',
+    'no_applicants_found' => 'No applicants found',
+
+    // CV Upload Modal
+    'upload_cv' => 'Upload CV',
+    'select_cv_file' => 'Select CV file',
+    'cv_file_types' => 'PDF, DOC, DOCX files are accepted (max 5MB).',
+    'upload' => 'Upload',
+    'view_cv' => 'View CV',
+    'delete_cv' => 'Delete CV',
+    'cv_uploaded_successfully' => 'CV uploaded successfully.',
+    
+    // Job listings filter translations
+    'city' => 'City',
+    'all' => 'All',
+    'filter' => 'Filter',
+    'view_details' => 'View Details',
+    'posted' => 'Posted',
+    'try_different_filters' => 'Try different filters',
+    'share' => 'Share',
+    'share_job' => 'Share Job',
+    'response_recorded_successfully' => 'Response recorded successfully!',
+
+    'promo_rise_title' => 'Rise to the top',
+    'promo_rise_desc' => 'Boosted profiles increases your chance of getting hired by up to 2x.',
+    'promo_rise_action' => 'Boost now',
+    'promo_ai_title' => 'Let AI submit to jobs for you!',
+    'promo_ai_desc' => 'Our intelligent systems apply to jobs for you. Sit back and relax while we find the perfect opportunities.',
+    'promo_ai_action' => 'Activate AI apply',
+    'boosted' => 'BOOSTED',
 ];

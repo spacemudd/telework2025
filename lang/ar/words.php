@@ -8,7 +8,7 @@ return [
     'logout' => 'تسجيل الخروج',
     'dashboard' => 'لوحة التحكم',
     'total_companies' => 'إجمالي الشركات',
-    'companies' => 'الشركات',
+    'companies-page-title' => 'الشركات',
     'name' => 'الاسم',
     'email' => 'البريد الإلكتروني',
     'address' => 'العنوان',
@@ -173,6 +173,335 @@ return [
     'from' => 'من',
     'to' => 'إلى',
     'apply' => 'تطبيق',
+    'app-name' => 'هدف',
+    'homepage-description' => 'مرحبًا بك في هدف، حيث نساعدك في إدارة عملك عن بُعد بكفاءة وسهولة. استكشف ميزاتنا وابدأ اليوم!',
+    'homepage-title' => 'الصفحة الرئيسية - للعمل عن بعد',
+    'home' => 'الرئيسية',
+    'hero' => [
+        'title' => 'نبني الفريق ونصنع القادة',
+        'description' => '',
+        'job_seekers_connected' => 'نربطك بالقوى العاملة بخطوات سهلة',
+        'browse_jobs' => 'تصفح الوظائف',
+        'hire_talent' => 'توظيف أفضل المواهب',
+        'trusted_by' => 'موثوق به من قبل الشركات الناشئة و Fortune 500',
+        'company_stripe' => 'سترايب',
+        'company_google' => 'جوجل',
+        'company_microsoft' => 'مايكروسوفت',
+        'company_citibank' => 'سيتي بنك',
+        'company_shopify' => 'شوبيفاي',
+        'search_job_placeholder' => 'البحث عن وظيفة...',
+        'city_placeholder' => 'المدينة',
+        'field_placeholder' => 'المجال',
+        'search_button' => 'بحث',
+    ],
+    'companies' => [
+        'title' => 'انضم إلى شبكتنا الموثوقة من رواد الأعمال',
+        'subtitle' => 'أكثر من مئات الشركات، الكبيرة والصغيرة',
+    ],
+    'opportunities' => [
+        'title' => 'فرص جديدة في جميع القطاعات',
+        'subtitle' => 'جداول عمل مرنة، دوام كامل، دوام جزئي، عقود، للسعوديين، وغيرها في جميع مناطق المملكة العربية السعودية',
+        'skills' => 'مهارة',
+        'districts' => [
+            'sales' => 'المبيعات والتسويق',
+            'accounting' => 'المحاسبة والمالية',
+            'management' => 'الإدارة والسكرتارية',
+            'it' => 'تقنية المعلومات وتطوير البرمجيات',
+            'legal' => 'الخدمات القانونية',
+            'hr' => 'الموارد البشرية',
+            'engineering' => 'الهندسة والعمارة',
+            'healthcare' => 'الخدمات الصحية'
+        ]
+    ],
+    'instagram' => [
+        'title' => 'تابعنا على إنستغرام',
+        'subtitle' => 'ابق على اطلاع بآخر الأخبار والفرص',
+        'follow_button' => 'تابع على إنستغرام'
+    ],
+    'enterprise' => [
+        'title' => 'هدف للشركات',
+        'tagline' => 'شبكتنا من المحترفين المعتمدين',
+        'benefits' => [
+            'vetted' => [
+                'title' => 'محترفون معتمدون',
+                'description' => 'الوصول إلى محترفين مؤهلين تم فحصهم مسبقاً والتحقق من خبراتهم وموثوقيتهم.'
+            ],
+            'time' => [
+                'title' => 'توفير الوقت',
+                'description' => 'تبسيط عملية التوظيف من خلال منصتنا الفعالة، مما يقلل وقت التوظيف بشكل كبير.'
+            ],
+            'cost' => [
+                'title' => 'تقليل التكاليف',
+                'description' => 'خفض تكاليف التوظيف والتشغيل مع الحفاظ على معايير عالية الجودة للقوى العاملة.'
+            ]
+        ],
+        'cta' => [
+            'hire' => 'وظّف الآن',
+            'pricing' => 'الاشتراكات والأسعار',
+            'header' => 'وفر وقتك وجهدك',
+            'subtext' => 'تصفح مجموعتنا المختارة من المواهب المتميزة الجاهزة للمساهمة في نجاحك'
+        ],
+        'image_overlay' => 'أيدٍ ماهرة وخبيرة في متناول يدك.',
+        'rating' => 'تقييم ٤.٧/٥ من العملاء',
+        'rating_subtitle' => 'من قبل المحترفين المستقلين'
+    ],
+    'latest_jobs' => [
+        'title' => 'الوظائف المنشورة',
+        'view_more' => 'عرض المزيد',
+        'posted' => 'نُشر',
+        'contract_types' => [
+            'fulltime' => 'دوام كامل',
+            'parttime' => 'دوام جزئي',
+            'hybrid' => 'هجين',
+            'remote' => 'عن بُعد',
+        ],
+        'examples' => [
+            [
+                'title' => 'مهندس برمجيات أول',
+                'company' => 'إس تي سي',
+                'company_logo' => 'https://salogos.org/wp-content/uploads/2024/01/STC-01-2048x1023.png',
+                'contract_type' => 'fulltime',
+                'location' => 'الرياض، المملكة العربية السعودية',
+                'date' => '2024-03-20',
+                'time_ago' => 'قبل يومين'
+            ],
+            [
+                'title' => 'مستشار قانوني',
+                'company' => 'أرامكو السعودية',
+                'company_logo' => 'https://thegulfobserver.com/wp-content/uploads/2024/02/Saudi-Aramco-logo-2048x1152.png',
+                'contract_type' => 'hybrid',
+                'location' => 'الظهران، المملكة العربية السعودية',
+                'date' => '2024-03-19',
+                'time_ago' => 'قبل 3 أيام'
+            ],
+            [
+                'title' => 'محلل مالي',
+                'company' => 'سابك',
+                'company_logo' => 'https://www.sabic.com/en/Images/SABIC-LOGO_tcm1010-14323.svg',
+                'contract_type' => 'parttime',
+                'location' => 'الجبيل، المملكة العربية السعودية',
+                'date' => '2024-03-18',
+                'time_ago' => 'قبل 4 أيام'
+            ],
+            [
+                'title' => 'مدير موارد بشرية',
+                'company' => 'سي سي سي التابعة لإس تي سي',
+                'company_logo' => 'https://odoocdn.com/web/image/res.partner/11845367/avatar_1920/CCC%20by%20STC?unique=b05ef4c',
+                'contract_type' => 'remote',
+                'location' => 'جدة، المملكة العربية السعودية',
+                'date' => '2024-03-17',
+                'time_ago' => 'قبل 5 أيام'
+            ]
+        ]
+    ],
+    'footer' => [
+        'company' => [
+            'title' => 'هدف',
+            'about' => 'من نحن',
+            'careers' => 'انضم لفريق هدف',
+            'contact' => 'اتصل بنا'
+        ],
+        'companies' => [
+            'title' => 'الشركات',
+            'how_it_works' => 'كيف يعمل',
+            'pricing' => 'الأسعار',
+            'hire' => 'وظّف الآن',
+            'post_job' => 'نشر وظيفة',
+            'browse_candidates' => 'تصفح المرشحين'
+        ],
+        'jobs' => [
+            'title' => 'تبحث عن وظيفة؟',
+            'submit_cv' => 'قدم سيرتك الذاتية',
+            'search' => 'ابحث عن وظائف'
+        ],
+        'social' => [
+            'title' => 'تابعنا على',
+            'x' => 'إكس (تويتر)',
+            'linkedin' => 'لينكد إن',
+            'instagram' => 'انستغرام'
+        ],
+        'legal' => [
+            'privacy' => 'سياسة الخصوصية',
+            'terms' => 'شروط الاستخدام',
+            'copyright' => '© 2024 شركة هدف. جميع الحقوق محفوظة.'
+        ]
+    ],
+    'search' => [
+        'title' => 'استكشف التواصل العالمي',
+        'subtitle' => 'اكتشف نشاط العمل عن بعد في المملكة العربية السعودية',
+        'placeholder' => 'ابحث بالوظيفة، المهارات، أو الكلمات المفتاحية',
+        'buttons' => [
+            'popular_cities' => 'المدن الشائعة',
+            'activity_heatmap' => 'خريطة النشاط',
+            'statistics' => 'الإحصائيات'
+        ],
+        'popular_tags' => [
+            'programmer' => 'مبرمج',
+            'computer_systems' => 'نظم حاسب',
+            'data_analyst' => 'محلل بيانات',
+            'project_manager' => 'مدير مشاريع',
+            'ui_designer' => 'مصمم واجهات'
+        ]
+    ],
+    'nav' => [
+        'for_companies' => 'للشركات',
+        'jobs' => 'الوظائف',
+    ],
+    'pricing' => [
+        'title' => 'أسعار بسيطة وشفافة',
+        'subtitle' => 'اختر الخطة المثالية لاحتياجات عملك',
+        'yearly_discount' => 'وفر :discount مع الفوترة السنوية',
+        'get_started' => 'ابدأ الآن',
+        'features' => 'المميزات',
+        'basic' => [
+            'title' => 'الأساسي',
+            'description' => 'مثالي للشركات الصغيرة والشركات الناشئة',
+            'features' => [
+                'ads' => ':count إعلان وظائف شهرياً',
+                'users' => 'حتى :count مستخدم',
+            ]
+        ],
+        'pro' => [
+            'title' => 'المهني',
+            'description' => 'مثالي للشركات النامية',
+            'features' => [
+                'ads' => ':count إعلان وظائف شهرياً',
+                'users' => 'حتى :count مستخدم',
+            ]
+        ],
+        'enterprise' => [
+            'title' => 'الشركات',
+            'description' => 'للشركات الكبيرة ذات الاحتياجات المتقدمة',
+            'features' => [
+                'ads' => ':count إعلان وظائف سنوياً',
+                'users' => 'مستخدمين غير محدود',
+            ]
+        ],
+        'comparison' => [
+            'title' => 'قارن الخطط',
+            'subtitle' => 'ابحث عن الخطة المثالية لاحتياجات التوظيف لديك',
+            'feature' => 'الميزة',
+            'features' => [
+                'ads' => 'إعلانات الوظائف',
+                'communication' => 'تواصل مباشر',
+                'users' => 'أعضاء الفريق',
+                'promote' => 'إعلانات مميزة',
+                'duration' => 'مدة الوظيفة',
+                'filter' => 'تصفية المرشحين',
+                'esign' => 'التوقيع الإلكتروني'
+            ]
+        ]
+    ],
+    'currency' => 'ر.س',
+    'month' => 'شهرياً',
+    'year' => 'سنوياً',
+    'faq' => [
+        'title' => 'الأسئلة الشائعة',
+        'subtitle' => 'اعثر على إجابات للأسئلة الشائعة حول خدماتنا',
+        'questions' => [
+            'q1' => 'كم من الوقت يستغرق العثور على مرشحين مؤهلين؟',
+            'q2' => 'ما نوع الدعم الذي تقدمونه خلال عملية التوظيف؟',
+            'q3' => 'هل يمكنني ترقية أو تخفيض خطتي في أي وقت؟'
+        ],
+        'answers' => [
+            'a1' => 'تساعدك منصتنا عادةً في العثور على مرشحين مؤهلين خلال 2-3 أسابيع، اعتماداً على متطلباتك الخاصة والمنصب.',
+            'a2' => 'نقدم دعمًا شاملاً طوال عملية التوظيف، بما في ذلك فحص المرشحين وجدولة المقابلات والمساعدة في التعيين.',
+            'a3' => 'نعم، يمكنك تغيير خطتك في أي وقت. تأخذ الترقيات مفعولها فوراً، بينما تأخذ التخفيضات مفعولها في بداية دورة الفوترة التالية.'
+        ]
+    ],
+    'contact_us' => 'اتصل بنا',
+    'contact_form_description' => 'تواصل مع فريقنا لمعرفة المزيد عن حلولنا للشركات',
+    'company_name' => 'اسم الشركة',
+    'employees_count' => 'عدد الموظفين',
+    'select_option' => 'اختر خياراً',
+    'message' => 'الرسالة',
+    'submit' => 'إرسال',
+    'looking_for_job' => 'انا باحث عن عمل',
+    'looking_for_hire' => 'انا باحث عن موظف',
+    'features' => [
+        'title' => 'فرص عمل في جميع القطاعات',
+        'nationwide' => 'كل أنحاء المملكة',
+        'flexible_hours' => 'بدوام كامل أو جزئي',
+        'diverse_opportunities' => 'فرص متنوعة في جميع التخصصات',
+        'easy_application' => 'تقديم سريع وسهل عبر المنصة',
+        'continuous_support' => 'دعم فني متواصل للباحثين عن عمل',
+        'personalized_opportunities' => 'فرص تلائم مهاراتك وطموحك مع إرشاد قبل المقابلة وبعدها',
+        'transparent_followup' => 'متابعة شفافة حتى توقيع العقد وبداية العمل',
+    ],
+    'homepage' => [
+        'cta_title' => 'فرص رسمية عن بُعد بعقود موثّقة ومتابعة مستمرة بعد التعيين',
+        'cta_paragraph' => '"هدف للتوظيف" شركة سعودية وسيطة متخصّصة في توظيف الكفاءات الوطنية وربط أصحاب العمل بالمواهب المناسبة. نعمل بترخيص من وزارة الموارد البشرية والتنمية الاجتماعية وفق ضوابط نشاط التوسّط في توظيف السعوديين، وبصفتنا مزوّد خدمة معتمدًا في منصة العمل عن بُعد، بما يضمن الامتثال الكامل والتنفيذ المُوثّق عبر المنصة.',
+    ],
+    
+    // قسم المواهب
+    'leverage_world_class_talent' => 'استفد من المواهب العالمية المتميزة',
+    'leverage_world_class_talent_subtitle' => 'نحن أكبر شبكة موزعة عالمياً من أفضل مواهب الأعمال والتصميم والتكنولوجيا، جاهزة لتنفيذ أهم مبادراتكم.',
+    
+    'developers' => 'المطورون',
+    'developers_desc' => 'مهندسو برمجيات متمرسون، ومبرمجون، ومعماريون لديهم خبرة في مئات التقنيات.',
+    
+    'designers' => 'المصممون',
+    'designers_desc' => 'خبراء في تصميم واجهات المستخدم وتجربة المستخدم والتصميم البصري والتفاعلي بالإضافة إلى مجموعة واسعة من الرسامين والمحركين وأكثر.',
+    
+    'management_consultants' => 'استشاريو الإدارة',
+    'management_consultants_desc' => 'خبراء مالية، واستراتيجيو أعمال، واستشاريو دمج واستحواذ، ونماذج مالية، وأكثر، مع خبرة تتراوح من أبحاث السوق إلى التخطيط والتحليل المالي.',
+    
+    'project_managers' => 'مديرو المشاريع',
+    'project_managers_desc' => 'مديرو مشاريع رقمية وتقنية، وأساتذة سكروم، وأكثر مع خبرة في العديد من أدوات وإطار عمل وأساليب إدارة المشاريع.',
+    
+    'product_managers' => 'مديرو المنتجات',
+    'product_managers_desc' => 'مديرو منتجات رقمية، ومالكو منتجات سكروم مع خبرة في العديد من الصناعات مثل البنوك والرعاية الصحية والتجارة الإلكترونية وأكثر.',
+    
+    'marketing_experts' => 'خبراء التسويق',
+    'marketing_experts_desc' => 'خبراء في التسويق الرقمي، وتسويق النمو، وإنتاج المحتوى، وأبحاث السوق، وتنفيذ استراتيجية العلامة التجارية، والتسويق عبر وسائل التواصل الاجتماعي، وأكثر.',
+    
+    'largest_global_network' => 'أكبر شبكة عالمية',
+    'largest_global_network_desc' => 'الوصول إلى أكبر شبكة من أفضل مواهب الأعمال والتصميم والتكنولوجيا في جميع أنحاء العالم.',
+    
+    'top_talent_ready' => 'أفضل المواهب جاهزة',
+    'top_talent_ready_desc' => 'محترفون تم فحصهم مسبقاً وجاهزون لتنفيذ أهم مبادراتكم على الفور.',
+    
+    'tackle_important_initiatives' => 'تنفيذ المبادرات المهمة',
+    'tackle_important_initiatives_desc' => 'احصل على الخبرة التي تحتاجها لدفع عملك إلى الأمام بثقة.',
+    
+    'view_talents' => 'عرض المواهب',
+    'talent_categories' => 'فئات المواهب',
+    'explore_talent_categories_description' => 'اكتشف المواهب المتنوعة في جميع القطاعات',
+    'select_talent_categories' => 'اختر أنواع المواهب',
+    'select_talent_categories_help' => 'اختر جميع أنواع المواهب التي تنطبق عليك (يمكنك اختيار أكثر من واحد)',
+    'view_profile' => 'عرض الملف الشخصي',
+    'all_experience_levels' => 'جميع مستويات الخبرة',
+    'no_job_seekers_found' => 'لم يتم العثور على باحثين عن عمل',
+    'no_job_seekers_in_category' => 'لا يوجد باحثون عن عمل في هذه الفئة حالياً',
+    'profile_completed_successfully' => 'تم إكمال ملفك الشخصي بنجاح!',
+
+    // لوحة تحكم الباحث عن عمل
+    'job_seeker_dashboard' => 'لوحة تحكم الباحث عن عمل',
+    'profile_summary' => 'ملخص الملف الشخصي',
+    'job_search' => 'البحث عن الوظائف',
+    'active_applications' => 'الطلبات النشطة',
+    'no_active_applications' => 'لا توجد طلبات نشطة',
+    'interviews_scheduled' => 'المقابلات المجدولة',
+    'no_interviews_scheduled' => 'لا توجد مقابلات مجدولة',
+    'jobs_viewed' => 'الوظائف المعروضة',
+    'no_jobs_viewed' => 'لم يتم عرض وظائف بعد',
+    'available_jobs' => 'الوظائف المتاحة',
+    'refresh_jobs' => 'تحديث الوظائف',
+    'sample_job_title' => 'مطور برمجيات متقدم',
+    'sample_company_name' => 'شركة حلول التقنية',
+    'remote' => 'عن بُعد',
+    'salary_range' => '80,000 - 120,000 ر.س',
+    'apply_now' => 'تقدم الآن',
+    'sample_job_description' => 'نحن نبحث عن مطور برمجيات متمرس للانضمام إلى فريقنا عن بُعد. يجب أن يكون المرشح المثالي لديه مهارات برمجة قوية وخبرة في تقنيات الويب الحديثة.',
+    'no_jobs_available' => 'لا توجد وظائف متاحة حالياً',
+    'check_back_later' => 'عد لاحقاً للفرص الجديدة',
+    'quick_actions' => 'إجراءات سريعة',
+    'search_jobs' => 'البحث عن الوظائف',
+    'my_applications' => 'طلباتي',
+    'interviews' => 'المقابلات',
+    'settings' => 'الإعدادات',
+    'edit_profile' => 'تعديل الملف الشخصي',
+    'skills_not_updated' => 'المهارات لم يتم تحديثها بعد',
     
     // دعوة الفريق
     'team_invitation_subject' => 'تمت دعوتك للانضمام إلى فريق :company',
@@ -188,4 +517,156 @@ return [
     'user_already_exists' => 'المستخدم موجود بالفعل وتم ربطه بالشركة',
     'password' => 'كلمة المرور',
     'company_switched_successfully' => 'تم تبديل الشركة بنجاح',
+    
+    // إعلانات الوظائف
+    'job_postings' => 'إعلانات الوظائف',
+    'create_job_posting' => 'إنشاء إعلان وظيفة',
+    'edit_job_posting' => 'تعديل إعلان الوظيفة',
+    'job_posting_created_successfully' => 'تم إنشاء إعلان الوظيفة بنجاح',
+    'job_posting_updated_successfully' => 'تم تحديث إعلان الوظيفة بنجاح',
+    'job_posting_deleted_successfully' => 'تم حذف إعلان الوظيفة بنجاح',
+    'no_job_postings_found' => 'لم يتم العثور على إعلانات وظائف',
+    'no_job_postings' => 'لا توجد إعلانات وظائف',
+    'get_started_by_creating_job_posting' => 'ابدأ بإنشاء إعلان وظيفة جديد',
+    'start_hiring_today' => 'ابدأ التوظيف اليوم',
+    'create_your_first_job_posting_description' => 'أنشئ إعلان وظيفة جديد وابدأ في جذب أفضل المواهب لشركتك.',
+    'view_all_job_postings' => 'عرض جميع إعلانات الوظائف',
+    'job_postings_overview' => 'نظرة عامة على إعلانات الوظائف',
+    'view_all' => 'عرض الكل',
+    'total_job_postings' => 'إجمالي إعلانات الوظائف',
+    'active_job_postings' => 'إعلانات الوظائف النشطة',
+    'total_applications' => 'إجمالي الطلبات',
+    'job_posting_activated_successfully' => 'تم تفعيل إعلان الوظيفة بنجاح',
+    'job_posting_deactivated_successfully' => 'تم إلغاء تفعيل إعلان الوظيفة بنجاح',
+    'update_job_posting' => 'تحديث إعلان الوظيفة',
+    'select_category' => 'اختر الفئة',
+    'select_employment_type' => 'اختر نوع التوظيف',
+    'employment_types' => [
+        'full_time' => 'دوام كامل',
+        'part_time' => 'دوام جزئي',
+        'contract' => 'عقد',
+        'freelance' => 'عمل حر',
+        'remote' => 'عمل عن بُعد',
+    ],
+    'employment_type' => 'نوع التوظيف',
+    'location' => 'الموقع',
+    'closing_date' => 'تاريخ الإغلاق',
+    'salary_min' => 'الحد الأدنى للراتب',
+    'salary_max' => 'الحد الأقصى للراتب',
+    'salary_range' => 'نطاق الراتب',
+    'currency' => 'ريال',
+    'from' => 'من',
+    'up_to' => 'حتى',
+    'active' => 'نشط',
+    'inactive' => 'غير نشط',
+    'activate' => 'تفعيل',
+    'deactivate' => 'إلغاء التفعيل',
+    'created' => 'تم الإنشاء',
+    'applications' => 'الطلبات',
+    'view' => 'عرض',
+    'edit' => 'تعديل',
+    'delete' => 'حذف',
+    'cancel' => 'إلغاء',
+    'are_you_sure' => 'هل أنت متأكد؟',
+    'title' => 'العنوان',
+    'description' => 'الوصف',
+    'company' => 'الشركة',
+    'select_company' => 'اختر الشركة',
+    'full_time' => 'دوام كامل',
+    'part_time' => 'دوام جزئي',
+    'contract' => 'عقد',
+    'freelance' => 'عمل حر',
+    'remote' => 'عن بُعد',
+    'location' => 'الموقع',
+    'salary_min' => 'الحد الأدنى للراتب',
+    'salary_max' => 'الحد الأقصى للراتب',
+    'closing_date' => 'تاريخ الإغلاق',
+    'is_active' => 'نشط',
+    'active' => 'نشط',
+    'inactive' => 'غير نشط',
+    'status' => 'الحالة',
+    'actions' => 'الإجراءات',
+    'view' => 'عرض',
+    'edit' => 'تعديل',
+    'delete' => 'حذف',
+    'are_you_sure' => 'هل أنت متأكد؟',
+    'posted_date' => 'تاريخ النشر',
+    'type' => 'النوع',
+    'jobs' => 'الوظائف',
+    'browse_jobs' => 'تصفح الوظائف',
+    'my_applications' => 'طلباتي',
+    'view_job' => 'عرض الوظيفة',
+    'apply' => 'تقدم',
+    'applied_successfully' => 'تم التقديم بنجاح',
+    'already_applied' => 'لقد تقدمت لهذه الوظيفة بالفعل',
+    'back_to_jobs' => 'العودة للوظائف',
+    'no_applications_found' => 'لم يتم العثور على طلبات',
+    'start_applying_to_jobs' => 'ابدأ التقديم للوظائف',
+    'your_cover_letter' => 'خطابك التعريفي',
+    'applied_on' => 'تم التقديم في',
+    'cover_letter' => 'الخطاب التعريفي',
+    'optional' => 'اختياري',
+    'select_existing_company' => 'اختيار شركة موجودة',
+    'create_new_company' => 'إنشاء شركة جديدة',
+    'company_information' => 'معلومات الشركة',
+    'company_name' => 'اسم الشركة',
+    'company_logo' => 'شعار الشركة',
+    'logo_upload_help' => 'رفع صورة الشعار (حد أقصى 2 ميجابايت، JPG/PNG/GIF)',
+    'enabled' => 'مفعل',
+    'disabled' => 'معطل',
+    'enable' => 'تفعيل',
+    'disable' => 'تعطيل',
+    'job_posting_status_updated' => 'تم :status إعلان الوظيفة بنجاح.',
+    'sar' => 'ريال',
+    'from' => 'من',
+    'up_to' => 'حتى',
+    'browse_available_jobs' => 'تصفح الوظائف المتاحة واعثر على فرصتك المهنية القادمة.',
+    'view_your_job_applications' => 'عرض وإدارة طلبات التوظيف المقدمة.',
+    'job_description' => 'وصف الوظيفة',
+    'login_to_apply' => 'تسجيل الدخول للتقديم',
+    'no_logo' => 'لا يوجد شعار',
+    'apply_for_job' => 'التقديم للوظيفة',
+    'submit_application' => 'إرسال الطلب',
+    'confirm_application' => 'هل أنت متأكد من أنك تريد التقديم لهذه الوظيفة؟',
+    'job_application_submitted_successfully' => 'تم إرسال طلب التوظيف بنجاح.',
+    'job_listings' => 'قائمة الوظائف',
+    
+    // Job Categories
+    'all_sectors' => 'جميع القطاعات',
+    'view_more_sectors' => 'عرض المزيد من القطاعات',
+    'job_categories' => 'فئات الوظائف',
+    'job_category' => 'فئة الوظيفة',
+    
+    // Job Posting Details
+    'job_posting_details' => 'تفاصيل إعلان الوظيفة',
+    'applicants' => 'المتقدمون',
+    'no_applicants_found' => 'لم يتم العثور على متقدمين',
+    
+    // CV Upload Modal
+    'upload_cv' => 'رفع السيرة الذاتية',
+    'select_cv_file' => 'اختر ملف السيرة الذاتية',
+    'cv_file_types' => 'يتم قبول ملفات PDF, DOC, DOCX (بحد أقصى 5 ميجابايت).',
+    'upload' => 'رفع',
+    'view_cv' => 'عرض السيرة الذاتية',
+    'delete_cv' => 'حذف السيرة الذاتية',
+    'cv_uploaded_successfully' => 'تم رفع السيرة الذاتية بنجاح.',
+    
+    // Job listings filter translations
+    'city' => 'المدينة',
+    'all' => 'الكل',
+    'filter' => 'تصفية',
+    'view_details' => 'عرض التفاصيل',
+    'posted' => 'نُشر',
+    'try_different_filters' => 'جرب فلاتر مختلفة',
+    'share' => 'مشاركة',
+    'share_job' => 'مشاركة الوظيفة',
+    'response_recorded_successfully' => 'تم تسجيل الإجابة بنجاح!',
+
+    'promo_rise_title' => 'الارتقاء إلى القمة',
+    'promo_rise_desc' => 'عزز ملفك الشخصي حيث تزيد فرصتك في الحصول الى وظيفة تصل الى 2x',
+    'promo_rise_action' => 'ادعم الآن',
+    'promo_ai_title' => 'دع الذكاء الاصطناعي يقدم على الوظائف بدلاً عنك!',
+    'promo_ai_desc' => 'أنظمتنا الذكية تقدم على الوظائف لك. استرخِ ودعنا نجد لك الفرص المثالية.',
+    'promo_ai_action' => 'فعل التقديم الذكي',
+    'boosted' => 'مدعوم',
 ];

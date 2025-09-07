@@ -12,7 +12,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['"IBM Plex Arabic"', 'Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Zain', '"IBM Plex Arabic"', 'Figtree', ...defaultTheme.fontFamily.sans],
+                zain: ['Zain', 'sans-serif'],
             },
         },
     },

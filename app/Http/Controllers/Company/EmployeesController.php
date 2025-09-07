@@ -44,6 +44,17 @@ class EmployeesController extends Controller
 
     public function show(Employee $employee)
     {
+        $company = auth()->user()->owned_company;
+        
+        if (!$company) {
+            return redirect()->route('onboarding.company')->with('error', 'يرجى إكمال إعداد الشركة أولاً');
+        }
+        
+        // Ensure the employee belongs to the authenticated user's company
+        if ($employee->company_id !== $company->id) {
+            abort(403, 'Unauthorized access to employee');
+        }
+        
         return view('company.employees.show', [
             'employee' => $employee,
         ]);
@@ -51,6 +62,17 @@ class EmployeesController extends Controller
 
     public function assignTask(Request $request, Employee $employee)
     {
+        $company = auth()->user()->owned_company;
+        
+        if (!$company) {
+            return redirect()->route('onboarding.company')->with('error', 'يرجى إكمال إعداد الشركة أولاً');
+        }
+        
+        // Ensure the employee belongs to the authenticated user's company
+        if ($employee->company_id !== $company->id) {
+            abort(403, 'Unauthorized access to employee');
+        }
+        
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
