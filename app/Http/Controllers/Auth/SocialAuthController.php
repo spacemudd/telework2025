@@ -134,17 +134,8 @@ class SocialAuthController extends Controller
             // Log the user in
             Auth::login($user);
             
-            // Get the stored locale or default to 'en'
-            $locale = session('oauth_locale', 'en');
-            
-            // Check if user has a role assigned
-            if ($user->roles->count() === 0) {
-                // New user, redirect to onboarding
-                return redirect()->route('onboarding.index', ['locale' => $locale]);
-            }
-            
-            // Existing user with role, redirect to dashboard
-            return redirect()->intended(route('dashboard', ['locale' => $locale], absolute: false));
+            // Always redirect to Arabic onboarding page
+            return redirect('/ar/onboarding');
             
         } catch (\Exception $e) {
             // Log the actual error for debugging
