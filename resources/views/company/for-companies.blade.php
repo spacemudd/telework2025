@@ -4,31 +4,40 @@
     </x-slot>
 
     <!-- Hero Section -->
-    <div class="relative bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto">
-            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32
-                        {{ LaravelLocalization::getCurrentLocaleDirection() === 'rtl' ? 'lg:ml-auto' : '' }}">
-                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 lg:mt-16 lg:px-8 xl:mt-20">
-                    <div class="sm:text-center lg:text-left {{ LaravelLocalization::getCurrentLocaleDirection() === 'rtl' ? 'lg:text-right' : '' }}">
-                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                            <span class="block xl:inline">{{ __('words.enterprise.title') }}</span>
-                        </h1>
-                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                            {{ __('words.enterprise.tagline') }}
-                        </p>
-                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start {{ LaravelLocalization::getCurrentLocaleDirection() === 'rtl' ? 'lg:justify-end' : '' }}">
-                            <div class="rounded-md shadow">
-                                <a href="{{ route('register') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                                    {{ __('words.enterprise.cta.hire') }}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </main>
+    <div class="relative bg-white overflow-hidden" style="filter: contrast(100%) brightness(100%); background: linear-gradient(30deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.25) 100%);">
+        <!-- Large Image - Absolute positioned on right side of entire page -->
+        <img src="{{ asset('img/girls_two.png') }}" alt="Professional women" class="hero-image-large fixed right-0 top-1/2 -translate-y-1/2 object-cover opacity-20 z-0" style="width: 60vw;">
+        <style>
+            @media (max-width: 1023px) {
+                .hero-image-large {
+                    width: 70vw !important;
+                }
+            }
+            @media (max-width: 767px) {
+                .hero-image-large {
+                    width: 80vw !important;
+                    opacity: 0.15 !important;
+                }
+            }
+        </style>
+        
+        <!-- Upward shadow at the bottom to create a stamped effect -->
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-3 md:h-4" style="background: linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0)); z-index: 10;"></div>
+        <div class="container mx-auto px-4 py-16 md:py-20 relative z-30">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6 relative z-40">
+                    {{ __('words.enterprise.title') }}
+                </h1>
+                <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg md:text-xl max-w-2xl mx-auto mb-10">
+                    {{ __('words.enterprise.tagline') }}
+                </p>
+
+                <div class="relative z-40">
+                    <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-md text-white md:text-lg" style="background-color: #012d48;">
+                        {{ __('words.enterprise.cta.hire') }}
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="{{ LaravelLocalization::getCurrentLocaleDirection() === 'rtl' ? 'lg:left-0' : 'lg:right-0' }} lg:absolute lg:inset-y-0 lg:w-1/2">
-            <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('img/enterprise-hero.jpg') }}" alt="{{ __('words.enterprise.image_overlay') }}">
         </div>
     </div>
 
@@ -159,13 +168,13 @@
                         <div class="text-center">
                             <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الأساسية' : 'Basic' }}</h4>
                             <div class="mb-4">
-                                <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">499 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
+                                <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">183.75 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
                                 <span class="text-gray-600">/{{ app()->getLocale() === 'ar' ? 'شهرياً' : 'mo' }}</span>
                             </div>
                             <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'مثالية للقطاع الخاص الصغير' : 'Great for small teams' }}</p>
                         </div>
                         <ul class="space-y-3 mb-8">
-                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'نشر حتى 5 وظائف شهرياً' : 'Post up to 5 jobs/mo' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? '3 إعلانات وظيفية' : '3 job postings' }}</span></li>
                             <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'عرض في نتائج البحث' : 'Search visibility' }}</span></li>
                             <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'دعم فني أساسي' : 'Basic support' }}</span></li>
                         </ul>
@@ -180,14 +189,16 @@
                         <div class="text-center">
                             <h4 class="text-xl font-semibold mb-2">{{ app()->getLocale() === 'ar' ? 'الخطة الاحترافية' : 'Pro' }}</h4>
                             <div class="mb-4">
-                                <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">999 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
+                                <span class="text-4xl font-bold" style="color: rgb(31, 41, 55)">438.75 {{ app()->getLocale() === 'ar' ? 'ريال' : 'SAR' }}</span>
                                 <span class="text-gray-600">/{{ app()->getLocale() === 'ar' ? 'شهرياً' : 'mo' }}</span>
                             </div>
                             <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'الأفضل للقطاع الخاص المتوسط' : 'Best for growing teams' }}</p>
                         </div>
                         <ul class="space-y-3 mb-8">
-                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'نشر حتى 20 وظيفة شهرياً' : 'Post up to 20 jobs/mo' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? '6 إعلانات وظيفية' : '6 job postings' }}</span></li>
                             <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'أولوية في نتائج البحث' : 'Priority placement' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'مساعدة في المقابلات بالذكاء الاصطناعي' : 'AI-interview assistance' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'فيديوهات تعريفية للمتقدمين' : 'Video of applicants' }}</span></li>
                             <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'دعم فني مخصص' : 'Dedicated support' }}</span></li>
                             <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'تقارير تفصيلية' : 'Detailed reports' }}</span></li>
                         </ul>
@@ -204,9 +215,9 @@
                             <p class="text-gray-600 mb-6">{{ app()->getLocale() === 'ar' ? 'حلول مخصصة للمؤسسات الكبيرة' : 'Custom solutions for large orgs' }}</p>
                         </div>
                         <ul class="space-y-3 mb-8">
-                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'وظائف غير محدودة' : 'Unlimited jobs' }}</span></li>
-                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'أولوية قصوى في العرض' : 'Top priority' }}</span></li>
-                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'مدير حساب مخصص' : 'Account manager' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'كل مميزات الخطة الاحترافية' : 'All in previous package' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'مدير توظيف شخصي' : 'A personal hiring manager' }}</span></li>
+                            <li class="flex items-center text-right"><svg class="h-5 w-5 text-green-500 ml-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span class="text-gray-700">{{ app()->getLocale() === 'ar' ? 'مرشحين من الطراز الأول' : 'Top notch applicants' }}</span></li>
                         </ul>
                         <a href="#contact" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white hover:opacity-90" style="background-color: rgb(31, 41, 55)">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact sales' }}</a>
                     </div>
@@ -250,9 +261,49 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ __('words.pricing.comparison.features.ads') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">3/{{ __('words.month') }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">6/{{ __('words.month') }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">150/{{ __('words.year') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">3</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">6</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">{{ app()->getLocale() === 'ar' ? 'غير محدود' : 'Unlimited' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ app()->getLocale() === 'ar' ? 'مساعدة في المقابلات بالذكاء الاصطناعي' : 'AI-interview assistance' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
+                                <svg class="h-5 w-5 text-red-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
+                                <svg class="h-5 w-5 text-green-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
+                                <svg class="h-5 w-5 text-green-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ app()->getLocale() === 'ar' ? 'فيديوهات تعريفية للمتقدمين' : 'Video of applicants' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
+                                <svg class="h-5 w-5 text-red-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
+                                <svg class="h-5 w-5 text-green-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
+                                <svg class="h-5 w-5 text-green-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -357,8 +408,8 @@
                                 </svg>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
-                                <svg class="h-5 w-5 text-red-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <svg class="h-5 w-5 text-green-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </svg>
                             </td>
                         </tr>
