@@ -51,6 +51,9 @@ class SocialAuthController extends Controller
             
             // Log the user in
             Auth::login($user);
+            if ($user->team_id) {
+                setPermissionsTeamId($user->team_id);
+            }
 
             // Redirect by role (avoid forcing onboarding)
             $user = auth()->user();
@@ -147,6 +150,9 @@ class SocialAuthController extends Controller
             
             // Log the user in
             Auth::login($user);
+            if ($user->team_id) {
+                setPermissionsTeamId($user->team_id);
+            }
 
             // Redirect by role (avoid forcing onboarding)
             $user = auth()->user();

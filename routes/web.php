@@ -133,7 +133,7 @@ Route::group([
     });
 
     // Fallback dashboard route - redirects to onboarding if no role
-    Route::middleware(['auth'])->get('/dashboard', function () {
+    Route::middleware(['auth', 'team_context'])->get('/dashboard', function () {
         $user = auth()->user();
         
         if ($user->hasRole('admin')) {

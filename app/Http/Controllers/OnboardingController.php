@@ -17,6 +17,11 @@ class OnboardingController extends Controller
      */
     public function index()
     {
+        // Ensure team context is set before role checks
+        if (auth()->check() && auth()->user()->team_id) {
+            setPermissionsTeamId(auth()->user()->team_id);
+        }
+
         // If user already has a role, redirect to appropriate dashboard
         if (auth()->user()->roles->count() > 0) {
             $user = auth()->user();
