@@ -45,6 +45,11 @@ Route::get('/register', function () {
     return redirect('/ar/register');
 });
 
+// Redirect /dashboard to /ar/dashboard (auth enforced by localized route)
+Route::get('/dashboard', function () {
+    return redirect('/ar/dashboard');
+});
+
 // Include auth routes
 require __DIR__.'/auth.php';
 
