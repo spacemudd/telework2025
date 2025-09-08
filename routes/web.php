@@ -274,13 +274,17 @@ Route::prefix('company')->middleware(['auth', 'team_context', 'role:company', Se
     Route::post('/job-postings/{jobPosting}/toggle-status', [\App\Http\Controllers\Company\JobPostingController::class, 'toggleStatus'])->name('company.job-postings.toggle-status');
 });
 
-Route::prefix('employee')->middleware(['auth', 'role:employee', SetLocale::class])->group(function () {
+Route::prefix('employee')->middleware(['auth', SetLocale::class])->group(function () {
     Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
     Route::get('/job-seeker-dashboard', [EmployeeDashboardController::class, 'jobSeekerDashboard'])->name('employee.job-seeker-dashboard');
     Route::post('/cv/upload', [EmployeeCvController::class, 'upload'])->name('employee.cv.upload');
     Route::get('/cv/view', [EmployeeCvController::class, 'view'])->name('employee.cv.view');
     Route::delete('/cv/delete', [EmployeeCvController::class, 'delete'])->name('employee.cv.delete');
     Route::put('/tasks/{task}/status', [\App\Http\Controllers\Employee\TaskController::class, 'updateStatus'])->name('employee.tasks.updateStatus');
+    
+    // Experience and Education routes
+    Route::resource('/experiences', \App\Http\Controllers\EmployeeExperienceController::class)->names('employee.experiences');
+    Route::resource('/educations', \App\Http\Controllers\EmployeeEducationController::class)->names('employee.educations');
 });
 
 Route::middleware('auth')->group(function () {

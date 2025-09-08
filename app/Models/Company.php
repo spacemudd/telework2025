@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -11,7 +12,7 @@ use App\Traits\SecureMediaUrls;
 
 class Company extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, SecureMediaUrls;
+    use SoftDeletes, InteractsWithMedia, SecureMediaUrls, HasFactory;
     protected $keyType = 'string';
     public $incrementing = false;
 

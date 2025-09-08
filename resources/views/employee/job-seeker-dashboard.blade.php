@@ -48,29 +48,45 @@
             @endif
 
             @php
-                // Calculate profile completeness based on 4 steps
+                // Calculate profile completeness based on new steps and weights
                 $stepsCompleted = 0;
                 $totalSteps = 4;
                 
-                // Step 1: Profile details (always completed if user exists)
+                // Step 1: Profile details (30%) - always completed if user exists
                 $stepsCompleted++;
                 
-                // Step 2: CV uploaded
-                if(auth()->user()->employee && auth()->user()->employee->cv_path) {
+                // Step 2: Experiences exist (30%)
+                if(auth()->user()->employee && auth()->user()->employee->hasExperiences()) {
                     $stepsCompleted++;
                 }
                 
-                // Step 3: First AI interview completed
+                // Step 3: Education exists (30%)
+                if(auth()->user()->employee && auth()->user()->employee->hasEducations()) {
+                    $stepsCompleted++;
+                }
+                
+                // Step 4: First AI interview completed (10%)
                 if(auth()->user()->employee && auth()->user()->employee->interviews()->where('status', 'completed')->exists()) {
                     $stepsCompleted++;
                 }
                 
-                // Step 4: Applied to jobs
-                if(auth()->user()->jobApplications()->exists()) {
-                    $stepsCompleted++;
+                // Calculate percentage with new weights
+                $completenessPercentage = 0;
+                if(auth()->user()->employee) {
+                    $completenessPercentage += 30; // Step 1 always completed
+                    
+                    if(auth()->user()->employee->hasExperiences()) {
+                        $completenessPercentage += 30; // Step 2
+                    }
+                    
+                    if(auth()->user()->employee->hasEducations()) {
+                        $completenessPercentage += 30; // Step 3
+                    }
+                    
+                    if(auth()->user()->employee->interviews()->where('status', 'completed')->exists()) {
+                        $completenessPercentage += 10; // Step 4
+                    }
                 }
-                
-                $completenessPercentage = round(($stepsCompleted / $totalSteps) * 100);
             @endphp
 
             <!-- Profile Completeness Card -->
@@ -101,43 +117,69 @@
                                 <p class="text-sm text-green-600 font-medium">مكتمل</p>
                             </div>
                         </div>
-                        @if(auth()->user()->employee && auth()->user()->employee->cv_path)
+                        <!-- Step 2: Experiences (30%) -->
+                        @if(auth()->user()->employee && auth()->user()->employee->hasExperiences())
                             <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
                                 <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                                     <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                 </div>
                                 <div class="flex-1">
-                                    <h3 class="font-semibold text-gray-800">رفع السيرة الذاتية</h3>
+                                    <h3 class="font-semibold text-gray-800">الخبرات المهنية</h3>
                                     <p class="text-sm text-green-600 font-medium">مكتمل</p>
                                 </div>
                                 <div class="flex gap-2">
-                                    <a href="{{ route('employee.cv.view', ['locale' => app()->getLocale()]) }}" target="_blank" class="hover:opacity-80" style="color: #012d48;">
+                                    <a href="{{ route('employee.experiences.index', ['locale' => app()->getLocale()]) }}" class="hover:opacity-80" style="color: #012d48;">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                     </a>
-                                    <form action="{{ route('employee.cv.delete', ['locale' => app()->getLocale()]) }}" method="POST" onsubmit="return confirm('{{ __('words.are_you_sure') }}');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-800">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        </button>
-                                    </form>
                                 </div>
                             </div>
                         @else
-                            <a href="#" onclick="openCvUploadModal(event)" class="group flex items-center justify-between gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors" style="border-color: #e5e7eb;" onmouseover="this.style.borderColor='#012d48'; this.style.backgroundColor='#f8fafc';" onmouseout="this.style.borderColor='#e5e7eb'; this.style.backgroundColor='white';">
+                            <a href="{{ route('employee.experiences.create', ['locale' => app()->getLocale()]) }}" class="group flex items-center justify-between gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors" style="border-color: #e5e7eb;" onmouseover="this.style.borderColor='#012d48'; this.style.backgroundColor='#f8fafc';" onmouseout="this.style.borderColor='#e5e7eb'; this.style.backgroundColor='white';">
                                 <div class="flex items-center gap-3">
                                     <div class="flex-shrink-0 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center" style="background-color: #f1f5f9;" onmouseover="this.style.backgroundColor='#e0f2fe';" onmouseout="this.style.backgroundColor='#f1f5f9';">
-                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: #6b7280;" onmouseover="this.style.color='#012d48';" onmouseout="this.style.color='#6b7280';"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V6a2 2 0 012-2h10a2 2 0 012 2v6a4 4 0 01-4 4H7z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 16v-2a2 2 0 00-2-2H7a2 2 0 00-2 2v2m11 0v2a2 2 0 01-2 2H8a2 2 0 01-2-2v-2m11 0h.01"></path></svg>
+                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: #6b7280;" onmouseover="this.style.color='#012d48';" onmouseout="this.style.color='#6b7280';"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                                     </div>
                                     <div class="flex-1">
-                                        <h3 class="font-semibold text-gray-700 group-hover:text-gray-800">رفع السيرة الذاتية</h3>
+                                        <h3 class="font-semibold text-gray-700 group-hover:text-gray-800">الخبرات المهنية</h3>
                                         <p class="text-sm text-gray-500 group-hover:text-gray-600">ابدأ الآن</p>
                                     </div>
                                 </div>
                                 <svg class="w-6 h-6 text-gray-400 transform rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: #6b7280;" onmouseover="this.style.color='#012d48';" onmouseout="this.style.color='#6b7280';"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                             </a>
+                            </a>
                         @endif
                         
+                        <!-- Step 3: Education (30%) -->
+                        @if(auth()->user()->employee && auth()->user()->employee->hasEducations())
+                            <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                                <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-800">التعليم والشهادات</h3>
+                                    <p class="text-sm text-green-600 font-medium">مكتمل</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="{{ route('employee.educations.index', ['locale' => app()->getLocale()]) }}" class="hover:opacity-80" style="color: #012d48;">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        @else
+                            <a href="{{ route('employee.educations.create', ['locale' => app()->getLocale()]) }}" class="group flex items-center justify-between gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors" style="border-color: #e5e7eb;" onmouseover="this.style.borderColor='#012d48'; this.style.backgroundColor='#f8fafc';" onmouseout="this.style.borderColor='#e5e7eb'; this.style.backgroundColor='white';">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center" style="background-color: #f1f5f9;" onmouseover="this.style.backgroundColor='#e0f2fe';" onmouseout="this.style.backgroundColor='#f1f5f9';">
+                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: #6b7280;" onmouseover="this.style.color='#012d48';" onmouseout="this.style.color='#6b7280';"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-gray-700 group-hover:text-gray-800">التعليم والشهادات</h3>
+                                        <p class="text-sm text-gray-500 group-hover:text-gray-600">ابدأ الآن</p>
+                                    </div>
+                                </div>
+                                <svg class="w-6 h-6 text-gray-400 transform rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: #6b7280;" onmouseover="this.style.color='#012d48';" onmouseout="this.style.color='#6b7280';"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+                        @endif
+
+                        <!-- Step 4: AI Interview (10%) -->
                         @if(auth()->user()->employee->interviews()->where('status', 'completed')->exists())
                             <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
                                 <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
@@ -176,38 +218,18 @@
                             </a>
                         @endif
 
-                        @if(auth()->user()->jobApplications()->exists())
-                            <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                                <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <!-- Job Applications CTA Button -->
+                        <div class="md:col-span-2 mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-semibold text-blue-800">ابدأ التقدم للوظائف</h3>
+                                    <p class="text-sm text-blue-600">استكشف الفرص الوظيفية المتاحة</p>
                                 </div>
-                                <div class="flex-1">
-                                    <h3 class="font-semibold text-gray-800">التقدم للوظائف</h3>
-                                    <p class="text-sm text-green-600 font-medium">مكتمل</p>
-                                </div>
-                                <div class="flex gap-2">
-                                    <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="hover:opacity-80" style="color: #012d48;">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    </a>
-                                    <a href="{{ route('jobs.my-applications', ['locale' => app()->getLocale()]) }}" class="text-green-600 hover:text-green-800">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                    </a>
-                                </div>
+                                <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                                    تصفح الوظائف
+                                </a>
                             </div>
-                        @else
-                            <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="group flex items-center justify-between gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors" style="border-color: #e5e7eb;" onmouseover="this.style.borderColor='#012d48'; this.style.backgroundColor='#f8fafc';" onmouseout="this.style.borderColor='#e5e7eb'; this.style.backgroundColor='white';">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center" style="background-color: #f1f5f9;" onmouseover="this.style.backgroundColor='#e0f2fe';" onmouseout="this.style.backgroundColor='#f1f5f9';">
-                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: #6b7280;" onmouseover="this.style.color='#012d48';" onmouseout="this.style.color='#6b7280';"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-semibold text-gray-700 group-hover:text-gray-800">التقدم للوظائف</h3>
-                                        <p class="text-sm text-gray-500 group-hover:text-gray-600">ابحث عن فرص</p>
-                                    </div>
-                                </div>
-                                <svg class="w-6 h-6 text-gray-400 transform rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: #6b7280;" onmouseover="this.style.color='#012d48';" onmouseout="this.style.color='#6b7280';"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </a>
-                        @endif
+                        </div>
                     </div>
                 </div>
             </div>

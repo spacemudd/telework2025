@@ -5,10 +5,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
 class Employee extends Model
 {
+    use HasFactory;
     protected $keyType = 'string';
     public $incrementing = false;
 
@@ -109,5 +111,25 @@ class Employee extends Model
     public function getLatestInterviewAttribute()
     {
         return $this->interviews()->latest()->first();
+    }
+
+    public function experiences()
+    {
+        return $this->hasMany(EmployeeExperience::class)->orderBy('start_date', 'desc');
+    }
+
+    public function educations()
+    {
+        return $this->hasMany(EmployeeEducation::class)->orderBy('start_date', 'desc');
+    }
+
+    public function hasExperiences()
+    {
+        return $this->experiences()->exists();
+    }
+
+    public function hasEducations()
+    {
+        return $this->educations()->exists();
     }
 }
