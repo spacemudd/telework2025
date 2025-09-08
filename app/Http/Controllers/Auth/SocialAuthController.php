@@ -51,9 +51,23 @@ class SocialAuthController extends Controller
             
             // Log the user in
             Auth::login($user);
-            
-            // Always redirect to Arabic onboarding page
-            return redirect('/ar/onboarding');
+
+            // Redirect by role (avoid forcing onboarding)
+            $user = auth()->user();
+            if ($user->hasRole('admin')) {
+                return redirect('/admin/dashboard');
+            }
+            if ($user->hasRole('company')) {
+                return redirect('/company/dashboard');
+            }
+            if ($user->hasRole('employee')) {
+                $employee = $user->employee;
+                if ($employee && $employee->company && $employee->company->name === 'Job Seeker Platform') {
+                    return redirect('/employee/job-seeker-dashboard');
+                }
+                return redirect('/employee/dashboard');
+            }
+            return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
             
         } catch (\Exception $e) {
             $locale = session('oauth_locale', 'en');
@@ -133,9 +147,23 @@ class SocialAuthController extends Controller
             
             // Log the user in
             Auth::login($user);
-            
-            // Always redirect to Arabic onboarding page
-            return redirect('/ar/onboarding');
+
+            // Redirect by role (avoid forcing onboarding)
+            $user = auth()->user();
+            if ($user->hasRole('admin')) {
+                return redirect('/admin/dashboard');
+            }
+            if ($user->hasRole('company')) {
+                return redirect('/company/dashboard');
+            }
+            if ($user->hasRole('employee')) {
+                $employee = $user->employee;
+                if ($employee && $employee->company && $employee->company->name === 'Job Seeker Platform') {
+                    return redirect('/employee/job-seeker-dashboard');
+                }
+                return redirect('/employee/dashboard');
+            }
+            return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
             
         } catch (\Exception $e) {
             // Log the actual error for debugging

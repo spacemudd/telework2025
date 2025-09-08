@@ -127,6 +127,11 @@ class CompaniesController extends Controller
             // Link existing user to company
             $this->attachUserToCompany($company, $user->id, $role);
             
+            // Ensure base company role for routing
+            if (!$user->hasRole('company')) {
+                $user->assignRole('company');
+            }
+            
             return back()->with('success', __('words.user_already_exists'));
         } else {
             // Create new user
