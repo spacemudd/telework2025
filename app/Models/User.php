@@ -21,6 +21,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'team_id',
@@ -99,5 +101,32 @@ class User extends Authenticatable
     public function jobApplications()
     {
         return $this->hasMany(JobApplication::class);
+    }
+
+    /**
+     * Get the full name attribute (backward compatibility)
+     */
+    public function getNameAttribute($value)
+    {
+        // If we have first_name and last_name, concatenate them
+        if ($this->first_name && $this->last_name) {
+            return trim($this->first_name . ' ' . $this->last_name);
+        }
+        
+        // Fallback to the stored name value
+        return $value;
+    }
+
+    /**
+     * Set the name attribute and split into first_name and last_name
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        
+        // Split the name into first and last name
+        $nameParts = explode(' ', trim($value), 2);
+        $this->attributes['first_name'] = $nameParts[0] ?? '';
+        $this->attributes['last_name'] = $nameParts[1] ?? '';
     }
 }

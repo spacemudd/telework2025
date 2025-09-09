@@ -163,7 +163,8 @@ class OnboardingController extends Controller
     public function completeJobSeekerOnboarding(Request $request)
     {
         $request->validate([
-            'full_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'skills' => 'required|string|max:500',
             'experience_level' => 'required|in:none,1_3_years,3_5_years,5_plus_years',
             'preferred_work_type' => 'required|in:full_time,part_time,contract,freelance'
@@ -185,7 +186,12 @@ class OnboardingController extends Controller
             }
 
             // Update user's name
-            $user->update(['name' => $request->full_name]);
+            $fullName = $request->first_name . ' ' . $request->last_name;
+            $user->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'name' => $fullName // Keep for backward compatibility
+            ]);
 
             // Create a dummy company for job seekers (this allows us to create an employee record)
             $company = \App\Models\Company::create([
@@ -204,7 +210,7 @@ class OnboardingController extends Controller
             // Create Employee record for job seeker
             $employee = \App\Models\Employee::create([
                 'company_id' => $company->id,
-                'name' => $request->full_name,
+                'name' => $fullName,
                 'email' => $user->email,
                 'phone' => null,
                 'position' => 'Job Seeker',

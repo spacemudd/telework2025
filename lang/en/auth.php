@@ -20,6 +20,8 @@ return [
     // Registration
     'register' => 'Register',
     'name' => 'Name',
+    'first_name' => 'First Name',
+    'last_name' => 'Last Name',
     'email' => 'Email',
     'password' => 'Password',
     'password_confirmation' => 'Confirm Password',

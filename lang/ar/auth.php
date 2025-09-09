@@ -20,6 +20,8 @@ return [
     // Registration
     'register' => 'تسجيل',
     'name' => 'الاسم',
+    'first_name' => 'الاسم الأول',
+    'last_name' => 'اسم العائلة',
     'email' => 'البريد الإلكتروني',
     'password' => 'كلمة المرور',
     'password_confirmation' => 'تأكيد كلمة المرور',
@@ -27,12 +29,12 @@ return [
     'go_to_dashboard' => 'الذهاب إلى لوحة التحكم',
 
     // Onboarding translations
-    'welcome_get_started' => 'مرحباً! دعنا نبدأ',
-    'select_what_describes_you' => 'يرجى اختيار ما يصفك بشكل أفضل',
-    'i_represent_company' => 'أمثل شركة',
-    'i_want_hire_remote_workers' => 'أريد موظفين',
-    'im_looking_for_job' => 'أبحث عن وظيفة',
-    'i_want_find_remote_work' => 'أريد العثور على فرص عمل عن بُعد',
+    'welcome_get_started' => 'يا هلا فيك!',
+    'select_what_describes_you' => '',
+    'i_represent_company' => 'ابحث عن موظفين',
+    'i_want_hire_remote_workers' => '',
+    'im_looking_for_job' => 'ابحث عن وظيفة',
+    'i_want_find_remote_work' => '',
     'coming_soon' => 'قريباً!',
     'continue' => 'متابعة',
     'tell_us_about_company' => 'أخبرنا عن شركتك',

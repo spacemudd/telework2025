@@ -34,9 +34,17 @@ class SocialAuthController extends Controller
             $user = User::where('email', $googleUser->getEmail())->first();
             
             if (!$user) {
+                // Parse Google name into first and last name
+                $fullName = $googleUser->getName();
+                $nameParts = explode(' ', trim($fullName), 2);
+                $firstName = $nameParts[0] ?? '';
+                $lastName = $nameParts[1] ?? '';
+                
                 // Create new user
                 $user = User::create([
-                    'name' => $googleUser->getName(),
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'name' => $fullName, // Keep for backward compatibility
                     'email' => $googleUser->getEmail(),
                     'password' => Hash::make(Str::random(24)), // Random password since they're using OAuth
                     'email_verified_at' => now(), // Google users are pre-verified
@@ -133,9 +141,17 @@ class SocialAuthController extends Controller
             $user = User::where('email', $linkedinUser->getEmail())->first();
             
             if (!$user) {
+                // Parse LinkedIn name into first and last name
+                $fullName = $linkedinUser->getName();
+                $nameParts = explode(' ', trim($fullName), 2);
+                $firstName = $nameParts[0] ?? '';
+                $lastName = $nameParts[1] ?? '';
+                
                 // Create new user
                 $user = User::create([
-                    'name' => $linkedinUser->getName(),
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'name' => $fullName, // Keep for backward compatibility
                     'email' => $linkedinUser->getEmail(),
                     'password' => Hash::make(Str::random(24)), // Random password since they're using OAuth
                     'email_verified_at' => now(), // LinkedIn users are pre-verified

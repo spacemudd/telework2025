@@ -10,21 +10,40 @@
         <form class="mt-8 space-y-6" action="{{ route('onboarding.job-seeker.complete', ['locale' => app()->getLocale()]) }}" method="POST">
             @csrf
 
-            <!-- Full Name -->
+            <!-- First Name -->
             <div>
-                <label for="full_name" class="block text-sm font-medium text-gray-700">
-                    {{ __('auth.full_name') }} <span class="text-red-500">*</span>
+                <label for="first_name" class="block text-sm font-medium text-gray-700">
+                    {{ __('auth.first_name') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="mt-1">
-                    <input id="full_name" 
-                           name="full_name" 
+                    <input id="first_name" 
+                           name="first_name" 
                            type="text" 
-                           autocomplete="name" 
+                           autocomplete="given-name" 
                            required 
-                           value="{{ old('full_name', auth()->user()->name) }}"
+                           value="{{ old('first_name', auth()->user()->first_name) }}"
                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
-                @error('full_name')
+                @error('first_name')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Last Name -->
+            <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-700">
+                    {{ __('auth.last_name') }} <span class="text-red-500">*</span>
+                </label>
+                <div class="mt-1">
+                    <input id="last_name" 
+                           name="last_name" 
+                           type="text" 
+                           autocomplete="family-name" 
+                           required 
+                           value="{{ old('last_name', auth()->user()->last_name) }}"
+                           class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                @error('last_name')
                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
