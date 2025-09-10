@@ -407,7 +407,7 @@
 
                         <!-- Single Video Element -->
                         <div class="relative">
-                            <video id="main-video" autoplay muted class="w-full max-w-2xl mx-auto rounded-xl shadow-2xl border-4 border-white"></video>
+                            <video id="main-video" muted playsinline webkit-playsinline controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture class="w-full max-w-2xl mx-auto rounded-xl shadow-2xl border-4 border-white"></video>
                             
 
                             
@@ -745,13 +745,16 @@
         } catch (error) {
             console.error('Error requesting permissions:', error);
             
-            // Show user-friendly error message
-            const errorMessage = error.name === 'NotAllowedError' 
-                ? 'Camera and microphone access denied. Please allow access and refresh the page.'
-                : 'Unable to access camera/microphone. Please check your device permissions.';
-            
-            showErrorNotification(errorMessage);
-            return false;
+            // Only show "denied" for actual permission blocks
+            if (error.name === 'NotAllowedError') {
+                showErrorNotification('Camera and microphone access denied. Please allow access and refresh the page.');
+                return false;
+            } else {
+                // For other errors (autoplay policy, etc.), don't show error notification
+                // Just log it and continue - this allows retry on user interaction
+                console.warn('Non-permission error during camera access:', error);
+                return false;
+            }
         }
     }
 
@@ -789,6 +792,12 @@
             // Always apply mirror effect for natural user experience
             mainVideo.style.transform = 'scaleX(-1)';
             
+            // Enforce inline playback and start muted programmatically
+            enforceInlineVideo(mainVideo);
+            mainVideo.autoplay = false;
+            mainVideo.muted = true;
+            Promise.resolve(mainVideo.play()).catch(() => {});
+            
             console.log('Camera preview initialized successfully');
             
             // Check final video visibility state
@@ -798,6 +807,7 @@
             console.error('Error accessing camera for preview:', error);
             // Don't show error notification here, just log it
             // User will see the error when they try to record
+            // This allows retry on user interaction
         }
     }
 
@@ -844,6 +854,18 @@
         return element;
     }
 
+    // Ensure inline playback on iOS Safari and reduce fullscreen takeovers
+    function enforceInlineVideo(video) {
+        if (!video) return;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
+        video.setAttribute('disablePictureInPicture', '');
+        video.setAttribute('disableRemotePlayback', '');
+        video.playsInline = true;
+        video.disablePictureInPicture = true;
+    }
+
     // Function to update video interface based on current state
     function updateVideoInterface(state, stream = null) {
         const mainVideo = document.getElementById('main-video');
@@ -872,8 +894,10 @@
             // Ensure video is visible and properly configured for preview
             mainVideo.classList.remove('hidden');
             mainVideo.controls = false;
-            mainVideo.autoplay = true;
+            mainVideo.autoplay = false;
             mainVideo.muted = true;
+            enforceInlineVideo(mainVideo);
+            Promise.resolve(mainVideo.play()).catch(() => {});
             
         } else if (state === 'recording') {
             // Recording state
@@ -887,12 +911,14 @@
             // Ensure video is visible and properly configured for recording
             mainVideo.classList.remove('hidden');
             mainVideo.controls = false;
-            mainVideo.autoplay = true;
+            mainVideo.autoplay = false;
             mainVideo.muted = true;
             
             if (stream) {
                 mainVideo.srcObject = stream;
             }
+            enforceInlineVideo(mainVideo);
+            Promise.resolve(mainVideo.play()).catch(() => {});
             
         } else if (state === 'review') {
             // Review state
@@ -908,6 +934,7 @@
             mainVideo.controls = true;
             mainVideo.autoplay = false;
             mainVideo.muted = false;
+            enforceInlineVideo(mainVideo);
         }
     }
 
@@ -982,13 +1009,14 @@
         } catch (error) {
             console.error('Error accessing camera/microphone:', error);
             
-            // Show user-friendly error message
-            const errorMessage = error.name === 'NotAllowedError' 
-                ? 'Camera and microphone access denied. Please allow access and refresh the page.'
-                : 'Unable to access camera/microphone. Please check your device permissions.';
-            
-            // Create and show error notification
-            showErrorNotification(errorMessage);
+            // Only show "denied" for actual permission blocks
+            if (error.name === 'NotAllowedError') {
+                showErrorNotification('Camera and microphone access denied. Please allow access and refresh the page.');
+            } else {
+                // For other errors (autoplay policy, etc.), don't show error notification
+                // Just log it - this allows retry on user interaction
+                console.warn('Non-permission error during camera access:', error);
+            }
         }
     }
 
