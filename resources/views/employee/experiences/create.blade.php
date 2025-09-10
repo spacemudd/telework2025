@@ -22,9 +22,12 @@
 
             <div class="mb-4">
                 <label for="job_title" class="block text-sm font-medium text-gray-700 mb-2">المسمى الوظيفي</label>
-                <input type="text" name="job_title" id="job_title" 
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                       value="{{ old('job_title') }}" required>
+                <div class="relative">
+                    <input type="text" name="job_title" id="job_title" 
+                           class="job-title-input w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                           value="{{ old('job_title') }}" autocomplete="off" placeholder="ابدأ بالكتابة للحصول على اقتراحات..." required>
+                    <div class="job-title-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
+                </div>
                 @error('job_title')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -97,5 +100,79 @@ document.getElementById('is_current').addEventListener('change', function() {
 if (document.getElementById('is_current').checked) {
     document.getElementById('end_date_container').style.display = 'none';
 }
+
+// Job Title Autocomplete functionality (reuses existing API)
+(function initializeJobTitleAutocomplete() {
+    const input = document.querySelector('.job-title-input');
+    if (!input) return;
+    const suggestionsDiv = input.parentElement.querySelector('.job-title-suggestions');
+    let debounceTimer;
+
+    input.addEventListener('input', function() {
+        const query = this.value.trim();
+        clearTimeout(debounceTimer);
+        if (query.length < 2) {
+            suggestionsDiv.classList.add('hidden');
+            return;
+        }
+        debounceTimer = setTimeout(() => {
+            fetchJobTitleSuggestions(query, suggestionsDiv, input);
+        }, 300);
+    });
+
+    input.addEventListener('blur', function() {
+        setTimeout(() => {
+            suggestionsDiv.classList.add('hidden');
+        }, 150);
+    });
+
+    input.addEventListener('focus', function() {
+        if (this.value.length >= 2) {
+            suggestionsDiv.classList.remove('hidden');
+        }
+    });
+
+    function fetchJobTitleSuggestions(query, suggestionsDiv, inputElement) {
+        const locale = '{{ app()->getLocale() }}';
+        const apiUrl = `/${locale}/api/job-titles/search`;
+        fetch(`${apiUrl}?q=${encodeURIComponent(query)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                displaySuggestions(data, suggestionsDiv, inputElement);
+            })
+            .catch(error => {
+                console.error('Error fetching job title suggestions:', error);
+                suggestionsDiv.classList.add('hidden');
+            });
+    }
+
+    function displaySuggestions(suggestions, suggestionsDiv, inputElement) {
+        if (!Array.isArray(suggestions) || suggestions.length === 0) {
+            suggestionsDiv.classList.add('hidden');
+            return;
+        }
+        const suggestionsHTML = suggestions.map(suggestion => `
+            <div class="job-title-suggestion px-3 py-2 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0 text-sm" 
+                 data-value="${suggestion.value}">
+                ${suggestion.text}
+            </div>
+        `).join('');
+        suggestionsDiv.innerHTML = suggestionsHTML;
+        suggestionsDiv.classList.remove('hidden');
+        suggestionsDiv.querySelectorAll('.job-title-suggestion').forEach(suggestionElement => {
+            suggestionElement.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                inputElement.value = value;
+                suggestionsDiv.classList.add('hidden');
+                inputElement.focus();
+            });
+        });
+    }
+})();
 </script>
 @endsection
