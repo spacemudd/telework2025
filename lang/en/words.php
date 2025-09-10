@@ -14,6 +14,7 @@ return [
     'address' => 'Address',
     'cr_number' => 'CR Number',
     'phone' => 'Phone',
+    'mobile' => 'Mobile',
     'no_companies_found' => 'No companies found.',
     'create_company' => 'Create Company',
     'save' => 'Save',
@@ -632,6 +633,8 @@ return [
     // Job Categories
     'all_sectors' => 'All Sectors',
     'view_more_sectors' => 'View More Sectors',
+    'sector' => 'Sector',
+    'select_sector' => 'Select Sector',
     'job_categories' => 'Job Categories',
     'job_category' => 'Job Category',
     

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Models\JobPosting;
 use App\Models\JobCategory;
+use App\Models\Sector;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +68,8 @@ class JobPostingController extends Controller
         $this->authorize('update', $jobPosting);
         
         $jobCategories = JobCategory::where('is_active', true)->get();
-        return view('company.job-postings.edit', compact('jobPosting', 'jobCategories'));
+        $sectors = Sector::where('is_active', true)->get();
+        return view('company.job-postings.edit', compact('jobPosting', 'jobCategories', 'sectors'));
     }
 
     public function update(Request $request, JobPosting $jobPosting)
@@ -79,6 +81,7 @@ class JobPostingController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'job_category_id' => ['required', 'exists:job_categories,id'],
+            'sector_id' => ['nullable', 'exists:sectors,id'],
             'employment_type' => ['required', 'string', 'in:full_time,part_time,contract,freelance,remote'],
             'location' => ['nullable', 'string', 'max:255'],
             'salary_min' => ['nullable', 'numeric', 'min:0'],

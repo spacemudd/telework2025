@@ -30,8 +30,8 @@ class HomepageController extends Controller
             ->sort()
             ->values();
 
-        // Fetch job categories (departments)
-        $jobCategories = JobCategory::all();
+        // Fetch job categories (departments) - only active ones
+        $jobCategories = JobCategory::where('is_active', true)->get();
 
         // Fetch sectors
         $sectors = Sector::where('is_active', true)->get();

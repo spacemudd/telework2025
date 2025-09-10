@@ -31,11 +31,16 @@ class JobController extends Controller
             $query->where('employment_type', $request->employment_type);
         }
 
+        if ($request->filled('sector_id')) {
+            $query->where('sector_id', $request->sector_id);
+        }
+
         $jobPostings = $query->latest()->paginate(10)->withQueryString();
 
         // Data for filters
         $locations = JobPosting::query()->whereNotNull('location')->distinct()->pluck('location');
-        $jobCategories = JobCategory::all();
+        $jobCategories = JobCategory::where('is_active', true)->get();
+        $sectors = \App\Models\Sector::where('is_active', true)->get();
         $employmentTypes = ['full_time', 'part_time', 'contract', 'remote'];
         
         // Create SEO data for job listings
@@ -43,7 +48,7 @@ class JobController extends Controller
         $SEOData->title = __('words.job_listings');
         $SEOData->description = __('words.browse_available_jobs');
                         
-        return view('jobs.index', compact('jobPostings', 'SEOData', 'locations', 'jobCategories', 'employmentTypes'));
+        return view('jobs.index', compact('jobPostings', 'SEOData', 'locations', 'jobCategories', 'sectors', 'employmentTypes'));
     }
     
     public function show($locale, $jobPosting)

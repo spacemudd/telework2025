@@ -14,6 +14,7 @@ return [
     'address' => 'العنوان',
     'cr_number' => 'رقم السجل التجاري',
     'phone' => 'رقم الهاتف',
+    'mobile' => 'رقم الجوال',
     'no_companies_found' => 'لم يتم العثور على شركات.',
     'create_company' => 'إنشاء شركة',
     'save' => 'حفظ',
@@ -640,6 +641,8 @@ return [
     // Job Categories
     'all_sectors' => 'التخصصات',
     'view_more_sectors' => 'عرض المزيد من القطاعات',
+    'sector' => 'القطاع',
+    'select_sector' => 'اختر القطاع',
     'job_categories' => 'فئات الوظائف',
     'job_category' => 'فئة الوظيفة',
     

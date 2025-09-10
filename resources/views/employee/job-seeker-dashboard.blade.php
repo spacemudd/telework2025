@@ -408,36 +408,6 @@
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-6">إجراءات سريعة</h2>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-                    <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="group">
-                        <div class="mx-auto flex items-center justify-center w-16 h-16 rounded-full transition-colors" style="background-color: #e0f2fe;" onmouseover="this.style.backgroundColor='#bae6fd';" onmouseout="this.style.backgroundColor='#e0f2fe';">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: #012d48;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </div>
-                        <p class="mt-3 text-sm font-medium text-gray-700" style="color: #374151;" onmouseover="this.style.color='#012d48';" onmouseout="this.style.color='#374151';">{{ __('words.search_jobs') }}</p>
-                    </a>
-                     <a href="{{ route('jobs.my-applications', ['locale' => app()->getLocale()]) }}" class="group">
-                        <div class="mx-auto flex items-center justify-center w-16 h-16 bg-green-100 rounded-full group-hover:bg-green-200 transition-colors">
-                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        </div>
-                        <p class="mt-3 text-sm font-medium text-gray-700 group-hover:text-green-600">{{ __('words.my_applications') }}</p>
-                    </a>
-                    <a href="#" class="group">
-                        <div class="mx-auto flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full group-hover:bg-purple-200 transition-colors">
-                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <p class="mt-3 text-sm font-medium text-gray-700 group-hover:text-purple-600">المقابلات</p>
-                    </a>
-                    <a href="#" class="group">
-                        <div class="mx-auto flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full group-hover:bg-orange-200 transition-colors">
-                           <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        </div>
-                        <p class="mt-3 text-sm font-medium text-gray-700 group-hover:text-orange-600">الإعدادات</p>
-                    </a>
-                </div>
-            </div>
 
         </div>
     </div>

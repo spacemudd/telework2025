@@ -25,7 +25,7 @@
                 <!-- Filters -->
                 <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
                     <form action="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" method="GET">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                             <!-- Location -->
                             <div>
                                 <label for="location" class="block text-sm font-medium text-gray-700">{{ __('words.city') }}</label>
@@ -43,6 +43,16 @@
                                     <option value="">{{ __('words.all') }}</option>
                                     @foreach($jobCategories as $category)
                                         <option value="{{ $category->id }}" {{ request('job_category_id') == $category->id ? 'selected' : '' }}>{{ $category->localized_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- Sector -->
+                            <div>
+                                <label for="sector_id" class="block text-sm font-medium text-gray-700">{{ __('words.sector') }}</label>
+                                <select id="sector_id" name="sector_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    <option value="">{{ __('words.all') }}</option>
+                                    @foreach($sectors as $sector)
+                                        <option value="{{ $sector->id }}" {{ request('sector_id') == $sector->id ? 'selected' : '' }}>{{ $sector->localized_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
