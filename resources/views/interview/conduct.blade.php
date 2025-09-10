@@ -268,30 +268,29 @@
                         <p class="text-lg text-gray-700 mb-4" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                             {{ app()->getLocale() === 'ar' ? 'مرحباً. ستحتاج لتسجيل فيديو قصير عن نفسك.' : 'Welcome. You will need to record a short video about yourself.' }}
                         </p>
-                        <p class="text-sm text-gray-600" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                        <p class="text-sm text-gray-600 mb-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                             {{ app()->getLocale() === 'ar' ? 'يرجى التأكد من تشغيل الكاميرا والميكروفون الخاص بك.' : 'Please make sure your camera and microphone are enabled.' }}
                         </p>
+                        
+                        <!-- Language Selection -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                {{ app()->getLocale() === 'ar' ? 'هل تفضل اللغة الإنجليزية أم العربية؟' : 'Do you prefer English or Arabic?' }}
+                            </h3>
+                            <div class="flex gap-4 justify-center">
+                                <button onclick="selectLanguage('en')" class="language-btn bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                                    English
+                                </button>
+                                <button onclick="selectLanguage('ar')" class="language-btn bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                                    العربية
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Language Selection -->
-        <div id="language-selection" class="mb-8 section-hidden" style="display: none;">
-            <div class="bg-white rounded-xl p-8 shadow-md text-center">
-                <h3 class="text-2xl font-semibold text-gray-800 mb-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                    {{ app()->getLocale() === 'ar' ? 'هل تفضل اللغة الإنجليزية أم العربية؟' : 'Do you prefer English or Arabic?' }}
-                </h3>
-                <div class="flex gap-4 justify-center">
-                    <button onclick="selectLanguage('en')" class="language-btn bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
-                        English
-                    </button>
-                    <button onclick="selectLanguage('ar')" class="language-btn bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
-                        العربية
-                    </button>
-                </div>
-            </div>
-        </div>
 
         <!-- Privacy & Permissions Warning -->
         <div id="permissions-warning" class="mb-8 section-hidden" style="display: none;">
@@ -621,10 +620,7 @@
             document.getElementById('welcome-message').style.opacity = '1';
         }, 1000);
         
-        // Show language selection after 2 seconds
-        setTimeout(() => {
-            showSection('language-selection');
-        }, 2000);
+        // Language selection is now integrated into welcome message
         
 
     });
@@ -632,9 +628,8 @@
     function selectLanguage(lang) {
         currentLanguage = lang;
         
-        // Hide welcome and language selection sections
+        // Hide welcome section (language selection is now integrated)
         hideSection('welcome-section');
-        hideSection('language-selection');
         
         // Show permissions warning first
         setTimeout(() => {
