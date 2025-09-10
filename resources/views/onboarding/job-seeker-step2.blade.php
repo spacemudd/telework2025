@@ -31,11 +31,14 @@
                             <label class="block text-sm font-medium text-gray-700">
                                 {{ __('auth.job_title') }} <span class="text-red-500">*</span>
                             </label>
-                            <div class="mt-1">
+                            <div class="mt-1 relative">
                                 <input type="text" 
                                        name="experiences[0][job_title]" 
                                        required
-                                       class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                       autocomplete="off"
+                                       class="job-title-input appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                       placeholder="{{ app()->getLocale() === 'ar' ? 'ابدأ بالكتابة للحصول على اقتراحات...' : 'Start typing for suggestions...' }}">
+                                <div class="job-title-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
                             </div>
                         </div>
 
@@ -174,6 +177,13 @@
                 }
             });
 
+            // Clear suggestions div
+            const suggestionsDiv = template.querySelector('.job-title-suggestions');
+            if (suggestionsDiv) {
+                suggestionsDiv.innerHTML = '';
+                suggestionsDiv.classList.add('hidden');
+            }
+
             // Show remove button for new entries
             const removeBtn = template.querySelector('.remove-experience');
             removeBtn.classList.remove('hidden');
@@ -189,6 +199,9 @@
             
             // Update remove button visibility
             updateRemoveButtons();
+            
+            // Initialize autocomplete for the new job title input
+            initializeJobTitleAutocomplete();
         });
 
         function updateRemoveButtons() {
@@ -241,5 +254,93 @@
 
         // Initialize remove button visibility
         updateRemoveButtons();
+
+        // Job Title Autocomplete functionality
+        function initializeJobTitleAutocomplete() {
+            document.querySelectorAll('.job-title-input').forEach(input => {
+                const suggestionsDiv = input.nextElementSibling;
+                let debounceTimer;
+
+                input.addEventListener('input', function() {
+                    const query = this.value.trim();
+                    
+                    // Clear previous timer
+                    clearTimeout(debounceTimer);
+                    
+                    if (query.length < 2) {
+                        suggestionsDiv.classList.add('hidden');
+                        return;
+                    }
+
+                    // Debounce the API call
+                    debounceTimer = setTimeout(() => {
+                        fetchJobTitleSuggestions(query, suggestionsDiv, input);
+                    }, 300);
+                });
+
+                input.addEventListener('blur', function() {
+                    // Hide suggestions with a small delay to allow clicking
+                    setTimeout(() => {
+                        suggestionsDiv.classList.add('hidden');
+                    }, 150);
+                });
+
+                input.addEventListener('focus', function() {
+                    if (this.value.length >= 2) {
+                        suggestionsDiv.classList.remove('hidden');
+                    }
+                });
+            });
+        }
+
+        function fetchJobTitleSuggestions(query, suggestionsDiv, inputElement) {
+            const locale = '{{ app()->getLocale() }}';
+            const apiUrl = `/${locale}/api/job-titles/search`;
+            
+            fetch(`${apiUrl}?q=${encodeURIComponent(query)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displaySuggestions(data, suggestionsDiv, inputElement);
+                })
+                .catch(error => {
+                    console.error('Error fetching job title suggestions:', error);
+                    suggestionsDiv.classList.add('hidden');
+                });
+        }
+
+        function displaySuggestions(suggestions, suggestionsDiv, inputElement) {
+            if (suggestions.length === 0) {
+                suggestionsDiv.classList.add('hidden');
+                return;
+            }
+
+            const suggestionsHTML = suggestions.map(suggestion => `
+                <div class="job-title-suggestion px-3 py-2 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0 text-sm" 
+                     data-value="${suggestion.value}">
+                    ${suggestion.text}
+                </div>
+            `).join('');
+
+            suggestionsDiv.innerHTML = suggestionsHTML;
+            suggestionsDiv.classList.remove('hidden');
+
+            // Add click handlers to suggestions
+            suggestionsDiv.querySelectorAll('.job-title-suggestion').forEach(suggestionElement => {
+                suggestionElement.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    inputElement.value = value;
+                    suggestionsDiv.classList.add('hidden');
+                    inputElement.focus();
+                });
+            });
+        }
+
+        // Initialize autocomplete for existing inputs
+        initializeJobTitleAutocomplete();
     </script>
 </x-guest-layout>

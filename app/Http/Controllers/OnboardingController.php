@@ -408,4 +408,38 @@ class OnboardingController extends Controller
     {
         return $this->completeJobSeekerStep1($request);
     }
+
+    /**
+     * Search job titles for autocomplete
+     */
+    public function searchJobTitles(Request $request)
+    {
+        $query = $request->get('q', '');
+        $locale = app()->getLocale();
+        
+        if (empty($query)) {
+            return response()->json([]);
+        }
+
+        // Get job titles from language file
+        $jobTitles = __('words.job_titles');
+        
+        // Filter job titles based on search query
+        $filteredTitles = [];
+        foreach ($jobTitles as $key => $title) {
+            // Search in both Arabic and English characters
+            if (str_contains(strtolower($title), strtolower($query))) {
+                $filteredTitles[] = [
+                    'id' => $key,
+                    'text' => $title,
+                    'value' => $title
+                ];
+            }
+        }
+        
+        // Limit results to 10 for better performance
+        $filteredTitles = array_slice($filteredTitles, 0, 10);
+        
+        return response()->json($filteredTitles);
+    }
 }

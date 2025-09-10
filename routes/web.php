@@ -123,6 +123,9 @@ Route::group([
         Route::post('/job-seeker', [OnboardingController::class, 'completeJobSeekerOnboarding'])->name('onboarding.job-seeker.complete');
     });
 
+    // API endpoint for job title suggestions - outside auth middleware for public access
+    Route::get('/api/job-titles/search', [OnboardingController::class, 'searchJobTitles'])->name('api.job-titles.search');
+
     
 
     // Interview Routes - moved inside localized group

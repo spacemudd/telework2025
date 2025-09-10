@@ -241,7 +241,7 @@
             <div class="mb-8 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
                     <h2 class="text-xl font-bold text-gray-800">ملخص الملف الشخصي</h2>
-                    <a href="{{ route('profile.edit', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center px-5 py-2.5 border border-transparent text-sm font-medium rounded-full shadow-sm text-white transition-transform hover:scale-105" style="background-color: #012d48;" onmouseover="this.style.backgroundColor='#001a2e';" onmouseout="this.style.backgroundColor='#012d48';" onfocus="this.style.outline='2px solid #012d48'; this.style.outlineOffset='2px';" onblur="this.style.outline='none';">
+                    <a href="/{{ app()->getLocale() }}/profile" class="inline-flex items-center px-5 py-2.5 border border-transparent text-sm font-medium rounded-full shadow-sm text-white transition-transform hover:scale-105" style="background-color: #012d48;" onmouseover="this.style.backgroundColor='#001a2e';" onmouseout="this.style.backgroundColor='#012d48';" onfocus="this.style.outline='2px solid #012d48'; this.style.outlineOffset='2px';" onblur="this.style.outline='none';">
                         تعديل الملف الشخصي
                     </a>
                 </div>
