@@ -251,19 +251,19 @@
                         <p class="text-base text-gray-800 font-semibold">
                             @if(auth()->user()->employee && auth()->user()->employee->experience_level)
                                 @switch(auth()->user()->employee->experience_level)
-                                    @case('entry') مبتدئ (0-2 سنوات) @break
-                                    @case('mid_level') متوسط (3-5 سنوات) @break
-                                    @case('senior') متقدم (6-10 سنوات) @break
-                                    @case('expert') خبير (10+ سنوات) @break
-                                    @default مبتدئ (0-2 سنوات)
+                                    @case('none') لا يوجد @break
+                                    @case('1_3_years') 1-3 سنوات @break
+                                    @case('3_5_years') 3-5 سنوات @break
+                                    @case('5_plus_years') 5+ سنوات @break
+                                    @default لا يوجد
                                 @endswitch
                             @else
-                                @switch(session('job_seeker_experience_level', 'entry'))
-                                    @case('entry') مبتدئ (0-2 سنوات) @break
-                                    @case('mid_level') متوسط (3-5 سنوات) @break
-                                    @case('senior') متقدم (6-10 سنوات) @break
-                                    @case('expert') خبير (10+ سنوات) @break
-                                    @default مبتدئ (0-2 سنوات)
+                                @switch(session('job_seeker_experience_level', 'none'))
+                                    @case('none') لا يوجد @break
+                                    @case('1_3_years') 1-3 سنوات @break
+                                    @case('3_5_years') 3-5 سنوات @break
+                                    @case('5_plus_years') 5+ سنوات @break
+                                    @default لا يوجد
                                 @endswitch
                             @endif
                         </p>

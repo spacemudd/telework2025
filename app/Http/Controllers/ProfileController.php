@@ -17,9 +17,15 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $skills = \App\Models\Skill::active()->ordered()->get();
+        $user = $request->user();
+        
+        // Load the employee relationship with skills
+        if ($user->employee) {
+            $user->employee->load('skills');
+        }
         
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
             'skills' => $skills,
         ]);
     }

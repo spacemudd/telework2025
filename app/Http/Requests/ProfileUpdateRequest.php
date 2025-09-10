@@ -31,7 +31,7 @@ class ProfileUpdateRequest extends FormRequest
             'bio' => ['nullable', 'string', 'max:1000'],
             'skills' => ['nullable', 'array'],
             'skills.*' => ['exists:skills,id'],
-            'experience_level' => ['nullable', 'in:entry,mid_level,senior,expert'],
+            'experience_level' => ['nullable', 'in:none,1_3_years,3_5_years,5_plus_years'],
             'preferred_work_type' => ['nullable', 'in:full_time,part_time,contract,freelance'],
         ];
     }

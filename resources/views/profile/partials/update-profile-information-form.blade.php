@@ -91,10 +91,10 @@
                 <x-input-label for="experience_level" value="مستوى الخبرة" />
                 <select id="experience_level" name="experience_level" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                     <option value="">اختر مستوى الخبرة</option>
-                    <option value="entry" {{ old('experience_level', $user->employee->experience_level ?? '') == 'entry' ? 'selected' : '' }}>مبتدئ (0-2 سنوات)</option>
-                    <option value="mid_level" {{ old('experience_level', $user->employee->experience_level ?? '') == 'mid_level' ? 'selected' : '' }}>متوسط (3-5 سنوات)</option>
-                    <option value="senior" {{ old('experience_level', $user->employee->experience_level ?? '') == 'senior' ? 'selected' : '' }}>متقدم (6-10 سنوات)</option>
-                    <option value="expert" {{ old('experience_level', $user->employee->experience_level ?? '') == 'expert' ? 'selected' : '' }}>خبير (10+ سنوات)</option>
+                    <option value="none" {{ old('experience_level', $user->employee->experience_level ?? '') == 'none' ? 'selected' : '' }}>لا يوجد</option>
+                    <option value="1_3_years" {{ old('experience_level', $user->employee->experience_level ?? '') == '1_3_years' ? 'selected' : '' }}>1-3 سنوات</option>
+                    <option value="3_5_years" {{ old('experience_level', $user->employee->experience_level ?? '') == '3_5_years' ? 'selected' : '' }}>3-5 سنوات</option>
+                    <option value="5_plus_years" {{ old('experience_level', $user->employee->experience_level ?? '') == '5_plus_years' ? 'selected' : '' }}>5+ سنوات</option>
                 </select>
                 <x-input-error class="mt-2" :messages="$errors->get('experience_level')" />
             </div>
@@ -125,9 +125,9 @@
                 
                 <!-- Selected Skills Breadcrumbs -->
                 <div id="selected-skills" class="mt-3 flex flex-wrap gap-2 min-h-[40px] p-2 border border-gray-200 rounded-md bg-gray-50">
-                    @if($user->employee && $user->employee->skills()->count() > 0)
+                    @if($user->employee && $user->employee->skills && $user->employee->skills->count() > 0)
                         @foreach($user->employee->skills as $skill)
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800" data-skill-id="{{ $skill->id }}">
                                 {{ $skill->display_name }}
                                 <button type="button" class="ml-2 text-blue-600 hover:text-blue-800" onclick="removeSkill({{ $skill->id }})">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,11 +136,18 @@
                                 </button>
                             </span>
                         @endforeach
+                    @else
+                        <!-- Debug: Show if no skills found -->
+                        @if($user->employee)
+                            <small class="text-gray-500">لم يتم العثور على مهارات محفوظة</small>
+                        @else
+                            <small class="text-gray-500">لا يوجد ملف موظف</small>
+                        @endif
                     @endif
                 </div>
                 
                 <!-- Hidden inputs to store selected skill IDs -->
-                @if($user->employee && $user->employee->skills()->count() > 0)
+                @if($user->employee && $user->employee->skills && $user->employee->skills->count() > 0)
                     @foreach($user->employee->skills as $skill)
                         <input type="hidden" name="skills[]" value="{{ $skill->id }}" data-skill-id="{{ $skill->id }}">
                     @endforeach
