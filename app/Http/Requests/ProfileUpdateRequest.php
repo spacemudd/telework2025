@@ -32,7 +32,7 @@ class ProfileUpdateRequest extends FormRequest
             'skills' => ['nullable', 'array'],
             'skills.*' => ['exists:skills,id'],
             'experience_level' => ['nullable', 'in:none,1_3_years,3_5_years,5_plus_years'],
-            'preferred_work_type' => ['nullable', 'in:full_time,part_time,contract,freelance'],
+            'preferred_work_type' => ['nullable', 'in:full_time,part_time,contract,freelance,remote'],
         ];
     }
 }

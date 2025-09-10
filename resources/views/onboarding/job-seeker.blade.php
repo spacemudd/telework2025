@@ -180,6 +180,7 @@
                         <option value="full_time" {{ old('preferred_work_type') == 'full_time' ? 'selected' : '' }}>{{ __('auth.full_time') }}</option>
                         <option value="part_time" {{ old('preferred_work_type') == 'part_time' ? 'selected' : '' }}>{{ __('auth.part_time') }}</option>
                         <option value="contract" {{ old('preferred_work_type') == 'contract' ? 'selected' : '' }}>{{ __('auth.contract') }}</option>
+                        <option value="remote" {{ old('preferred_work_type') == 'remote' ? 'selected' : '' }}>{{ __('auth.remote') }}</option>
                     </select>
                 </div>
                 @error('preferred_work_type')

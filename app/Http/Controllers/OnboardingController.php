@@ -184,7 +184,7 @@ class OnboardingController extends Controller
             'last_name' => 'required|string|max:255',
             'skills' => 'required|string',
             'experience_level' => 'required|in:none,1_3_years,3_5_years,5_plus_years',
-            'preferred_work_type' => 'required|in:full_time,part_time,contract,freelance'
+            'preferred_work_type' => 'required|in:full_time,part_time,contract,freelance,remote'
         ]);
 
         // Convert comma-separated skills string to array

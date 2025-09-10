@@ -87,6 +87,7 @@ return [
     'part_time' => 'دوام جزئي',
     'contract' => 'عقد',
     'freelance' => 'عمل حر',
+    'remote' => 'عمل عن بُعد',
 
     // Multi-step onboarding
     'personal_info' => 'المعلومات الشخصية',
