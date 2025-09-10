@@ -312,7 +312,7 @@ class InterviewController extends Controller
         $maxFileSize = min(
             (int) ini_get('upload_max_filesize') * 1024 * 1024, // Convert MB to bytes
             (int) ini_get('post_max_size') * 1024 * 1024, // Convert MB to bytes
-            10 * 1024 * 1024 // 10MB fallback
+            1024 * 1024 * 1024 // 1GB fallback
         );
         
         \Log::info('File size limits', [

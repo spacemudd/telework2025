@@ -342,13 +342,24 @@
         <!-- Recording Section -->
         <div id="question-section" class="section-hidden" style="display: none;">
             <div class="bg-white rounded-xl p-8 shadow-md">
-                <div class="mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2 question-text rtl" dir="rtl">
-                        تحدث عن نفسك بإيجاز (لمدة 60 ثانية)
-                    </h3>
-                    <p class="text-sm text-gray-700" dir="rtl">
-                        الأسم، المهارات، الخبرات، الدورات التدريبية و احرص على ان يكون اسلوبك مميز 
-                    </p>
+                <div class="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 rounded-lg p-6 shadow-sm">
+                    <div class="flex items-start space-x-3 rtl:space-x-reverse">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 question-text rtl" dir="rtl">
+                                تحدث عن نفسك بإيجاز (لمدة 60 ثانية)
+                            </h3>
+                            <p class="text-base text-gray-700 leading-relaxed" dir="rtl">
+                                الأسم، المهارات، الخبرات، الدورات التدريبية و احرص على ان يكون اسلوبك مميز 
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Timer Display -->
@@ -1002,9 +1013,9 @@
             mime_type: window.recordedMimeType
         });
         
-        // Check if file is too large (PHP limit is 10MB)
-        if (videoBlob.size > 10 * 1024 * 1024) {
-            showErrorNotification(`File too large (${fileSizeMB}MB). Maximum size is 10MB. Please record a shorter video.`);
+        // Check if file is too large (PHP limit is 1GB)
+        if (videoBlob.size > 1024 * 1024 * 1024) {
+            showErrorNotification(`File too large (${fileSizeMB}MB). Maximum size is 1GB. Please try again.`);
             return;
         }
         
