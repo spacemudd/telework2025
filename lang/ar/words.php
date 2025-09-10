@@ -479,7 +479,7 @@ return [
     'all_experience_levels' => 'جميع مستويات الخبرة',
     'no_job_seekers_found' => 'لم يتم العثور على باحثين عن عمل',
     'no_job_seekers_in_category' => 'لا يوجد باحثون عن عمل في هذه الفئة حالياً',
-    'profile_completed_successfully' => 'تم إكمال ملفك الشخصي بنجاح!',
+    'profile_completed_successfully' => 'تم فتح حسابك بنجاح',
 
     // لوحة تحكم الباحث عن عمل
     'job_seeker_dashboard' => 'لوحة تحكم الباحث عن عمل',

@@ -36,7 +36,7 @@ class JobController extends Controller
         // Data for filters
         $locations = JobPosting::query()->whereNotNull('location')->distinct()->pluck('location');
         $jobCategories = JobCategory::all();
-        $employmentTypes = ['full_time', 'part_time', 'contract', 'freelance', 'remote'];
+        $employmentTypes = ['full_time', 'part_time', 'contract', 'remote'];
         
         // Create SEO data for job listings
         $SEOData = new \RalphJSmit\Laravel\SEO\Support\SEOData();

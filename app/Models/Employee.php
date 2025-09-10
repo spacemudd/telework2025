@@ -28,6 +28,7 @@ class Employee extends Model
         'is_job_seeker',
         'profile_completed',
         'cv_path',
+        'bio',
     ];
 
     protected $casts = [

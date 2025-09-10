@@ -13,7 +13,7 @@
         <form class="my-10 space-y-6" action="{{ route('onboarding.job-seeker.step2.complete', ['locale' => app()->getLocale()]) }}" method="POST">
             @csrf
 
-            <div id="experiences-container">
+            <div id="experiences-container" class="space-y-6">
                 <!-- Experience Entry Template -->
                 <div class="experience-entry bg-gray-50 p-6 rounded-lg border border-gray-200">
                     <div class="flex justify-between items-center mb-4">
@@ -58,7 +58,7 @@
                                 {{ __('auth.start_date') }} <span class="text-red-500">*</span>
                             </label>
                             <div class="mt-1">
-                                <input type="month" 
+                                <input type="date" 
                                        name="experiences[0][start_date]" 
                                        required
                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
@@ -71,7 +71,7 @@
                                 {{ __('auth.end_date') }}
                             </label>
                             <div class="mt-1">
-                                <input type="month" 
+                                <input type="date" 
                                        name="experiences[0][end_date]" 
                                        class="end-date appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
@@ -132,6 +132,7 @@
                     <button type="submit" 
                             name="skip" 
                             value="1"
+                            onclick="removeRequiredAttributes()"
                             class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                         {{ __('auth.skip_for_now') }}
                     </button>
@@ -150,6 +151,14 @@
 
     <script>
         let experienceCount = 1;
+
+        function removeRequiredAttributes() {
+            // Remove required attributes from all form fields to allow skipping
+            const requiredFields = document.querySelectorAll('[required]');
+            requiredFields.forEach(field => {
+                field.removeAttribute('required');
+            });
+        }
 
         document.getElementById('add-experience').addEventListener('click', function() {
             const container = document.getElementById('experiences-container');

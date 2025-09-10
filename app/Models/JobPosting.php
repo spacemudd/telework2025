@@ -17,6 +17,7 @@ class JobPosting extends Model
         'title',
         'description',
         'job_category_id',
+        'sector_id',
         'company_id',
         'employment_type',
         'location',
@@ -55,5 +56,10 @@ class JobPosting extends Model
     public function applications()
     {
         return $this->hasMany(JobApplication::class);
+    }
+    
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class);
     }
 }

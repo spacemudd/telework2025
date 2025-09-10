@@ -8,11 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Traits\SecureMediaUrls;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, Impersonate, HasRoles;
+    use HasFactory, Notifiable, HasRoles, Impersonate, HasRoles, InteractsWithMedia, SecureMediaUrls;
 
     /**
      * The attributes that are mass assignable.
@@ -128,5 +131,24 @@ class User extends Authenticatable
         $nameParts = explode(' ', trim($value), 2);
         $this->attributes['first_name'] = $nameParts[0] ?? '';
         $this->attributes['last_name'] = $nameParts[1] ?? '';
+    }
+
+    /**
+     * Register media collections for the user
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('profile_images')
+            ->singleFile()
+            ->useDisk('s3');
+    }
+
+    /**
+     * Get the user's profile image URL
+     */
+    public function getProfileImageUrlAttribute(): ?string
+    {
+        $media = $this->getFirstMedia('profile_images');
+        return $media ? $this->getSecureUrl($media) : null;
     }
 }

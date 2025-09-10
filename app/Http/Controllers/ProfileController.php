@@ -29,7 +29,7 @@ class ProfileController extends Controller
         $user = $request->user();
         $validated = $request->validated();
         
-        // Update first_name and last_name
+        // Update user basic information
         $user->first_name = $validated['first_name'];
         $user->last_name = $validated['last_name'];
         $user->name = $validated['first_name'] . ' ' . $validated['last_name']; // Keep for backward compatibility
@@ -41,7 +41,37 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // Handle profile image upload
+        if ($request->hasFile('profile_image')) {
+            $user->clearMediaCollection('profile_images');
+            $user->addMediaFromRequest('profile_image')
+                ->toMediaCollection('profile_images');
+        }
+
+        // Update or create employee record for additional fields
+        if ($user->employee) {
+            $employee = $user->employee;
+        } else {
+            // Create employee record if it doesn't exist (for job seekers)
+            $employee = $user->employee()->create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'company_id' => \App\Models\Company::where('name', 'Job Seeker Platform')->first()?->id,
+                'is_job_seeker' => true,
+            ]);
+        }
+
+        // Update employee-specific fields
+        $employee->update([
+            'phone' => $validated['phone'] ?? null,
+            'bio' => $validated['bio'] ?? null,
+            'skills' => $validated['skills'] ?? null,
+            'experience_level' => $validated['experience_level'] ?? null,
+            'preferred_work_type' => $validated['preferred_work_type'] ?? null,
+        ]);
+
+        return Redirect::route('profile.edit', ['locale' => app()->getLocale()])
+            ->with('success', 'تم تحديث الملف الشخصي بنجاح');
     }
 
     /**

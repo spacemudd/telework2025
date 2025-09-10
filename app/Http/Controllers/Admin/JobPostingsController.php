@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\JobCategory;
 use App\Models\JobPosting;
+use App\Models\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -57,7 +58,8 @@ class JobPostingsController extends Controller
     {
         $companies = Company::all();
         $jobCategories = JobCategory::where('is_active', true)->get();
-        return view('admin.job-postings.create', compact('companies', 'jobCategories'));
+        $sectors = Sector::where('is_active', true)->get();
+        return view('admin.job-postings.create', compact('companies', 'jobCategories', 'sectors'));
     }
     
     public function store(Request $request)
@@ -66,6 +68,7 @@ class JobPostingsController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'job_category_id' => ['required', 'exists:job_categories,id'],
+            'sector_id' => ['nullable', 'exists:sectors,id'],
             'company_id' => ['nullable', 'string', 'exists:companies,id'],
             'employment_type' => ['required', 'string', 'in:full_time,part_time,contract,freelance,remote'],
             'location' => ['nullable', 'string', 'max:255'],
@@ -135,7 +138,8 @@ class JobPostingsController extends Controller
     {
         $companies = Company::all();
         $jobCategories = JobCategory::where('is_active', true)->get();
-        return view('admin.job-postings.edit', compact('jobPosting', 'companies', 'jobCategories'));
+        $sectors = Sector::where('is_active', true)->get();
+        return view('admin.job-postings.edit', compact('jobPosting', 'companies', 'jobCategories', 'sectors'));
     }
     
     public function update(Request $request, JobPosting $jobPosting)
@@ -144,6 +148,7 @@ class JobPostingsController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'job_category_id' => ['required', 'exists:job_categories,id'],
+            'sector_id' => ['nullable', 'exists:sectors,id'],
             'company_id' => ['nullable', 'string', 'exists:companies,id'],
             'employment_type' => ['required', 'string', 'in:full_time,part_time,contract,freelance,remote'],
             'location' => ['nullable', 'string', 'max:255'],

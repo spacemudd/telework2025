@@ -452,33 +452,25 @@ class InterviewController extends Controller
             
             \Log::info('Question updated successfully');
 
-            // Check if all questions are answered
-            $unansweredQuestions = $interview->questions()->whereNull('response_audio_url')->count();
-            \Log::info('Checking interview completion', [
-                'unanswered_questions' => $unansweredQuestions,
-                'total_questions' => $interview->questions()->count()
+            // Mark interview as completed after first successful upload
+            // This ensures the dashboard step is completed once a video is submitted
+            \Log::info('Marking interview as completed immediately after first response');
+            $interview->update([
+                'status' => 'completed',
+                'completed_at' => now(),
             ]);
-            
-            if ($unansweredQuestions === 0) {
-                \Log::info('Marking interview as completed');
-                $interview->update([
-                    'status' => 'completed',
-                    'completed_at' => now(),
-                ]);
-                \Log::info('Interview marked as completed');
-            }
+            \Log::info('Interview marked as completed');
 
-            $nextQuestion = $interview->questions()->whereNull('response_audio_url')->first();
             \Log::info('Preparing success response', [
-                'next_question_id' => $nextQuestion ? $nextQuestion->id : null,
-                'is_completed' => $unansweredQuestions === 0
+                'next_question_id' => null,
+                'is_completed' => true
             ]);
             
             return response()->json([
                 'success' => true,
                 'message' => __('words.response_recorded_successfully'),
-                'next_question' => $nextQuestion,
-                'is_completed' => $unansweredQuestions === 0,
+                'next_question' => null,
+                'is_completed' => true,
             ]);
 
         } catch (\Exception $e) {

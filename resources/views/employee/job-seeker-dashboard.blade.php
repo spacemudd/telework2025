@@ -36,10 +36,12 @@
             @endif
 
             @if(session('success'))
-                <div class="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md shadow-sm" role="alert">
-                    <div class="flex">
-                        <div class="py-1"><svg class="fill-current h-6 w-6 text-green-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zM9 11v4h2v-4H9zm0-4h2v2H9V7z"/></svg></div>
-                        <div>
+                <div class="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md shadow-sm transition-opacity duration-300" role="alert" data-auto-dismiss="4000">
+                    <div class="flex items-start">
+                        <div class="py-1 mr-4 rtl:ml-4 rtl:mr-0 flex-shrink-0">
+                            <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div class="flex-1">
                             <p class="font-bold">نجاح</p>
                             <p class="text-sm">{{ session('success') }}</p>
                         </div>
@@ -239,7 +241,7 @@
             <div class="mb-8 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
                     <h2 class="text-xl font-bold text-gray-800">ملخص الملف الشخصي</h2>
-                    <a href="#" class="inline-flex items-center px-5 py-2.5 border border-transparent text-sm font-medium rounded-full shadow-sm text-white transition-transform hover:scale-105" style="background-color: #012d48;" onmouseover="this.style.backgroundColor='#001a2e';" onmouseout="this.style.backgroundColor='#012d48';" onfocus="this.style.outline='2px solid #012d48'; this.style.outlineOffset='2px';" onblur="this.style.outline='none';">
+                    <a href="{{ route('profile.edit', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center px-5 py-2.5 border border-transparent text-sm font-medium rounded-full shadow-sm text-white transition-transform hover:scale-105" style="background-color: #012d48;" onmouseover="this.style.backgroundColor='#001a2e';" onmouseout="this.style.backgroundColor='#012d48';" onfocus="this.style.outline='2px solid #012d48'; this.style.outlineOffset='2px';" onblur="this.style.outline='none';">
                         تعديل الملف الشخصي
                     </a>
                 </div>
@@ -495,6 +497,15 @@ document.getElementById('cvUploadModal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeCvUploadModal();
     }
+});
+
+// Auto-dismiss flash alerts
+document.querySelectorAll('[data-auto-dismiss]').forEach(function(el) {
+    var timeoutMs = parseInt(el.getAttribute('data-auto-dismiss'), 10) || 4000;
+    setTimeout(function() {
+        el.classList.add('opacity-0');
+        setTimeout(function() { el.remove(); }, 300);
+    }, timeoutMs);
 });
 
 </script>

@@ -242,6 +242,11 @@
 
 <div class="py-12">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <nav class="mb-6 text-sm text-gray-500 text-left" dir="rtl">
+            <a href="{{ route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()]) }}" class="hover:text-gray-700">لوحة التحكم</a>
+            <span class="mx-2 text-gray-400">/</span>
+            <span class="text-gray-700">المقابلة</span>
+        </nav>
         <!-- Welcome Section -->
         <div id="welcome-section" class="mb-8 text-center section-visible">
             <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-12 shadow-lg">
@@ -333,10 +338,12 @@
         <div id="question-section" class="section-hidden" style="display: none;">
             <div class="bg-white rounded-xl p-8 shadow-md">
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4 question-text rtl" dir="rtl">
-                        تحدث عن نفسك بإيجاز (لمدة 60 ثانية)<br>
-الأسم، المهارات، الخبرات، الدورات، الدورات التدريبية و احرص على ان يكون اسلوبك مميز
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2 question-text rtl" dir="rtl">
+                        تحدث عن نفسك بإيجاز (لمدة 60 ثانية)
                     </h3>
+                    <p class="text-sm text-gray-700" dir="rtl">
+                        الأسم، المهارات، الخبرات، الدورات التدريبية و احرص على ان يكون اسلوبك مميز 
+                    </p>
                 </div>
 
                 <!-- Timer Display -->

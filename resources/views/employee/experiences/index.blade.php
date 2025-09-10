@@ -5,6 +5,11 @@
 @section('employee-content')
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="max-w-4xl mx-auto">
+        <nav class="mb-6 text-sm text-gray-500 text-left" dir="rtl">
+            <a href="{{ route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()]) }}" class="hover:text-gray-700">لوحة التحكم</a>
+            <span class="mx-2 text-gray-400">/</span>
+            <span class="text-gray-700">الخبرات المهنية</span>
+        </nav>
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800">الخبرات المهنية</h1>
             <a href="{{ route('employee.experiences.create', ['locale' => app()->getLocale()]) }}" 
