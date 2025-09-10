@@ -522,6 +522,22 @@
                 </a>
             </div>
         </div>
+
+        <!-- Full-screen Upload/Processing Overlay -->
+        <div id="upload-overlay" class="hidden fixed inset-0 bg-white bg-opacity-95 z-50 flex items-center justify-center" style="display: none;">
+            <div class="text-center p-8">
+                <svg class="animate-spin h-10 w-10 mx-auto text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.291 0 12h4z"></path>
+                </svg>
+                <h3 id="upload-overlay-title" class="text-2xl font-semibold text-gray-800 mt-4" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                    {{ app()->getLocale() === 'ar' ? 'جاري الرفع...' : 'Uploading...' }}
+                </h3>
+                <p id="upload-overlay-sub" class="text-gray-600 mt-2" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                    {{ app()->getLocale() === 'ar' ? 'يرجى عدم إغلاق النافذة' : "Please don't close the window" }}
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -1071,6 +1087,9 @@
             return;
         }
 
+        // Show full-screen upload overlay immediately
+        showUploadOverlay();
+
         // Show loading state
         const submitBtn = document.getElementById('submit-btn');
         const originalText = submitBtn.innerHTML;
@@ -1264,6 +1283,7 @@
             // Restore button state
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
+            hideUploadOverlay();
         }
     }
 
@@ -1368,6 +1388,16 @@
                 successDiv.remove();
             }
         }, 5000);
+    }
+
+    // Upload overlay helpers
+    function showUploadOverlay() {
+        const overlay = document.getElementById('upload-overlay');
+        if (overlay) { overlay.classList.remove('hidden'); overlay.style.display = 'flex'; }
+    }
+    function hideUploadOverlay() {
+        const overlay = document.getElementById('upload-overlay');
+        if (overlay) { overlay.classList.add('hidden'); overlay.style.display = 'none'; }
     }
 
 </script>

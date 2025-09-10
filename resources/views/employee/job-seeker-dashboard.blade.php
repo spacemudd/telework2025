@@ -189,7 +189,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <h3 class="font-semibold text-gray-800">إجراء أول مقابلة</h3>
-                                    <p class="text-sm text-green-600 font-medium">مكتمل - عزز فرص ظهورك و تميز ملفك الوظيفي بإجراء المقابلة الشخصية بتقنية الذكاء الإصطناعي و كن اول المرشحين ظهورا في مرحلة الشركات</p>
+                                    <p class="text-sm text-green-600 font-medium">مكتمل</p>
                                 </div>
                             </div>
                         @elseif(($existingInterview = auth()->user()->employee->interviews()->whereIn('status', ['pending', 'in_progress'])->first()))
