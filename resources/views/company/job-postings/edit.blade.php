@@ -58,9 +58,6 @@
                             <option value="">{{ __('words.select_employment_type') }}</option>
                             <option value="full_time" {{ old('employment_type', $jobPosting->employment_type) == 'full_time' ? 'selected' : '' }}>{{ __('words.employment_types.full_time') }}</option>
                             <option value="part_time" {{ old('employment_type', $jobPosting->employment_type) == 'part_time' ? 'selected' : '' }}>{{ __('words.employment_types.part_time') }}</option>
-                            <option value="contract" {{ old('employment_type', $jobPosting->employment_type) == 'contract' ? 'selected' : '' }}>{{ __('words.employment_types.contract') }}</option>
-                            <option value="freelance" {{ old('employment_type', $jobPosting->employment_type) == 'freelance' ? 'selected' : '' }}>{{ __('words.employment_types.freelance') }}</option>
-                            <option value="remote" {{ old('employment_type', $jobPosting->employment_type) == 'remote' ? 'selected' : '' }}>{{ __('words.employment_types.remote') }}</option>
                         </select>
                         @error('employment_type')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

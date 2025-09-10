@@ -73,8 +73,9 @@ return [
     'help_customize_job_experience' => 'ساعدنا في تخصيص تجربة البحث عن الوظائف',
     'full_name' => 'الاسم الكامل',
     'skills' => 'المهارات',
+    'select_skills' => 'اختر المهارات من القائمة',
     'describe_your_skills' => 'صف مهاراتك وخبراتك ومجالات التخصص...',
-    'skills_help_text' => 'اذكر مهاراتك الأساسية والتقنيات ولغات البرمجة أو مجالات الخبرة',
+    'skills_help_text' => 'اختر مهاراتك الأساسية والتقنيات ولغات البرمجة أو مجالات الخبرة من القائمة المنسدلة',
     'years_of_experience' => 'سنوات الخبرة',
     'none' => 'لا يوجد',
     '1_3_years' => '1-3',
@@ -86,6 +87,9 @@ return [
     'part_time' => 'دوام جزئي',
     'contract' => 'عقد',
     'freelance' => 'عمل حر',
+
+    // Words translations
+    'category' => 'الفئة',
 
     // Login page translations
     'remember_me' => 'تذكرني',

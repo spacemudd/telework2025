@@ -261,7 +261,7 @@
                             </div>
                         </div>
                         <p class="text-lg text-gray-700 mb-4" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                            {{ app()->getLocale() === 'ar' ? 'مرحباً. سأطرح عليك بضع أسئلة حول ملفك الشخصي.' : 'Welcome. I will ask you a few questions about your portfolio.' }}
+                            {{ app()->getLocale() === 'ar' ? 'مرحباً. ستحتاج لتسجيل فيديو قصير عن نفسك.' : 'Welcome. You will need to record a short video about yourself.' }}
                         </p>
                         <p class="text-sm text-gray-600" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                             {{ app()->getLocale() === 'ar' ? 'يرجى التأكد من تشغيل الكاميرا والميكروفون الخاص بك.' : 'Please make sure your camera and microphone are enabled.' }}
@@ -329,22 +329,13 @@
             </div>
         </div>
 
-        <!-- Question Section -->
+        <!-- Recording Section -->
         <div id="question-section" class="section-hidden" style="display: none;">
             <div class="bg-white rounded-xl p-8 shadow-md">
                 <div class="mb-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-sm text-gray-500" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                            {{ app()->getLocale() === 'ar' ? 'السؤال' : 'Question' }} {{ $currentQuestion ? $currentQuestion->question_order : 1 }} {{ app()->getLocale() === 'ar' ? 'من' : 'of' }} {{ $questions->count() }}
-                        </span>
-                        <div class="w-32 bg-gray-200 rounded-full h-2">
-                            <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" 
-                                 style="width: {{ $currentQuestion ? (($currentQuestion->question_order - 1) / $questions->count()) * 100 : 0 }}%"></div>
-                        </div>
-                    </div>
-                    
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4 question-text {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                        {{ $currentQuestion ? $currentQuestion->localized_question : '' }}
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 question-text rtl" dir="rtl">
+                        تحدث عن نفسك بإيجاز (لمدة 60 ثانية)<br>
+الأسم، المهارات، الخبرات، الدورات، الدورات التدريبية و احرص على ان يكون اسلوبك مميز
                     </h3>
                 </div>
 
@@ -353,7 +344,7 @@
                     <div class="text-sm text-gray-600 mb-2" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                         {{ app()->getLocale() === 'ar' ? 'الوقت المتبقي:' : 'Time remaining:' }}
                     </div>
-                    <div id="timer" class="timer">02:00</div>
+                    <div id="timer" class="timer">01:00</div>
                 </div>
 
                 <!-- Professional Video Interface -->
@@ -384,7 +375,7 @@
                                     <div class="text-xs text-red-600 mb-1" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                                         {{ app()->getLocale() === 'ar' ? 'الوقت المتبقي' : 'Time Remaining' }}
                                     </div>
-                                    <div id="timer" class="text-xl font-bold text-red-700">02:00</div>
+                                    <div id="timer" class="text-xl font-bold text-red-700">01:00</div>
                                 </div>
                             </div>
                         </div>
@@ -493,10 +484,10 @@
                     </svg>
                 </div>
                 <h3 class="text-2xl font-semibold text-gray-800 mb-4" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                    {{ app()->getLocale() === 'ar' ? 'تم إكمال المقابلة بنجاح!' : 'Interview completed successfully!' }}
+                    {{ app()->getLocale() === 'ar' ? 'تم إكمال التسجيل بنجاح!' : 'Recording completed successfully!' }}
                 </h3>
                 <p class="text-gray-600 mb-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                    {{ app()->getLocale() === 'ar' ? 'شكراً لك على وقتك. سنراجع إجاباتك وسنتواصل معك قريباً.' : 'Thank you for your time. We will review your answers and get back to you soon.' }}
+                    {{ app()->getLocale() === 'ar' ? 'شكراً لك على وقتك. سنراجع تسجيلك وسنتواصل معك قريباً.' : 'Thank you for your time. We will review your recording and get back to you soon.' }}
                 </p>
                 <a href="{{ route('employee.job-seeker-dashboard') }}" 
                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
@@ -518,7 +509,7 @@
     let currentLanguage = '{{ app()->getLocale() }}';
     let isRecording = false;
     let timerInterval;
-    let timeRemaining = 120; // 2 minutes in seconds
+    let timeRemaining = 60; // 1 minute in seconds
     let isMirrored = true; // Always mirrored by default
 
     // Debug logging for currentQuestion
@@ -558,7 +549,7 @@
 
     // Timer functions
     function startTimer() {
-        timeRemaining = 120; // Reset to 2 minutes
+        timeRemaining = 60; // Reset to 1 minute
         updateTimerDisplay();
         
         timerInterval = setInterval(() => {
@@ -943,7 +934,7 @@
         updateVideoInterface('preview');
         videoChunks = [];
         // Reset timer display
-        timeRemaining = 120;
+        timeRemaining = 60;
         updateTimerDisplay();
         
         // Re-initialize camera preview
@@ -1001,11 +992,11 @@
         formData.append('audio_file', videoBlob, `recording.${fileExtension}`);
         
         // Use actual recording duration from timer, not file size
-        const actualDuration = 120 - timeRemaining; // 120 seconds total - remaining time = actual recording time
+        const actualDuration = 60 - timeRemaining; // 60 seconds total - remaining time = actual recording time
         formData.append('recording_duration', Math.max(1, actualDuration)); // Ensure minimum 1 second
         
         console.log('Recording duration calculation:', {
-            total_time: 120,
+            total_time: 60,
             time_remaining: timeRemaining,
             actual_duration: actualDuration,
             file_size_bytes: videoBlob.size,
@@ -1142,24 +1133,12 @@
 
             const result = await response.json();
             
-            if (result.success) {
-                if (result.is_completed) {
-                    // Interview completed - hide question section and show completion
-                    showSuccessNotification('Interview completed successfully!');
-                    hideSection('question-section');
-                    setTimeout(() => {
-                        showSection('completion-section');
-                    }, 500);
-                } else if (result.next_question) {
-                    // Move to next question
-                    showSuccessNotification('{{ __("words.response_recorded_successfully") }}');
-                    currentQuestion = result.next_question;
-                    updateQuestionDisplay();
-                    // Note: updateQuestionDisplay() will handle showing the video via updateVideoInterface('preview')
-                }
-            } else {
-                showErrorNotification('Error: ' + result.message);
-            }
+            // Always show completion after first question submission
+            showSuccessNotification('Recording completed successfully!');
+            hideSection('question-section');
+            setTimeout(() => {
+                showSection('completion-section');
+            }, 500);
         } catch (error) {
             console.error('Full error details:', error);
             showErrorNotification('Error submitting recording: ' + error.message);
@@ -1170,57 +1149,6 @@
         }
     }
 
-    function updateQuestionDisplay() {
-        // Update question text and progress
-        const questionText = currentLanguage === 'ar' ? currentQuestion.question_text_ar : currentQuestion.question_text;
-        const questionElement = document.querySelector('#question-section h3');
-        
-        if (!questionElement) {
-            console.warn('Question element not found in updateQuestionDisplay');
-            return;
-        }
-        
-        questionElement.textContent = questionText;
-        
-        // Update CSS classes for proper text alignment
-        questionElement.className = `text-xl font-semibold text-gray-800 mb-4 question-text ${currentLanguage === 'ar' ? 'rtl' : 'ltr'}`;
-        questionElement.setAttribute('dir', currentLanguage === 'ar' ? 'rtl' : 'ltr');
-        
-        // Safely update progress bar
-        const progressBar = document.querySelector('#question-section .bg-blue-600');
-        if (progressBar) {
-            const progress = ((currentQuestion.question_order - 1) / questions.length) * 100;
-            progressBar.style.width = progress + '%';
-        }
-        
-        // Safely update question counter
-        const questionCounter = document.querySelector('#question-section .text-sm');
-        if (questionCounter) {
-            questionCounter.textContent = 
-                `${currentLanguage === 'ar' ? 'السؤال' : 'Question'} ${currentQuestion.question_order} ${currentLanguage === 'ar' ? 'من' : 'of'} ${questions.length}`;
-        }
-        
-        // Update button text to match current language
-        updateButtonText(currentLanguage);
-        
-        // Reset video interface to preview state for new question
-        console.log('Moving to next question, updating video interface...');
-        updateVideoInterface('preview');
-        
-        // Ensure video is visible after interface update
-        const mainVideo = safeGetElement('main-video', 'updateQuestionDisplay');
-        if (mainVideo) {
-            console.log('Video element found, ensuring visibility...');
-            mainVideo.classList.remove('hidden');
-            
-            // Check video visibility state
-            checkVideoVisibility();
-        } else {
-            console.warn('Video element not found in updateQuestionDisplay');
-        }
-        
-        initializeCameraPreview();
-    }
 
     // Error notification function
     function showErrorNotification(message) {

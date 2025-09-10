@@ -32,9 +32,16 @@
 
             <div class="mb-4">
                 <label for="certificate_type" class="block text-sm font-medium text-gray-700 mb-2">نوع الشهادة (اختياري)</label>
-                <input type="text" name="certificate_type" id="certificate_type" 
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                       value="{{ old('certificate_type') }}" placeholder="مثال: PMP, بكالوريوس، ماجستير">
+                <select name="certificate_type" id="certificate_type" 
+                        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">اختر نوع الشهادة</option>
+                    <option value="PhD" {{ old('certificate_type') == 'PhD' ? 'selected' : '' }}>PhD</option>
+                    <option value="Masters" {{ old('certificate_type') == 'Masters' ? 'selected' : '' }}>Masters</option>
+                    <option value="BSc" {{ old('certificate_type') == 'BSc' ? 'selected' : '' }}>BSc</option>
+                    <option value="Diploma" {{ old('certificate_type') == 'Diploma' ? 'selected' : '' }}>Diploma</option>
+                    <option value="Course" {{ old('certificate_type') == 'Course' ? 'selected' : '' }}>Course</option>
+                    <option value="Other" {{ old('certificate_type') == 'Other' ? 'selected' : '' }}>Other</option>
+                </select>
                 @error('certificate_type')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror

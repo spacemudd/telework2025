@@ -123,6 +123,12 @@ class Employee extends Model
         return $this->hasMany(EmployeeEducation::class)->orderBy('start_date', 'desc');
     }
 
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'employee_skills')
+                    ->withTimestamps();
+    }
+
     public function hasExperiences()
     {
         return $this->experiences()->exists();

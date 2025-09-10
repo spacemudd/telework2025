@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <h3 class="font-semibold text-gray-800">التعليم والشهادات</h3>
-                                    <p class="text-sm text-green-600 font-medium">مكتمل</p>
+                                    <p class="text-sm text-green-600 font-medium">مكتمل - انت الآن مرشح للتقدم للوظائف</p>
                                 </div>
                                 <div class="flex gap-2">
                                     <a href="{{ route('employee.educations.index', ['locale' => app()->getLocale()]) }}" class="hover:opacity-80" style="color: #012d48;">
@@ -187,7 +187,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <h3 class="font-semibold text-gray-800">إجراء أول مقابلة</h3>
-                                    <p class="text-sm text-green-600 font-medium">مكتمل</p>
+                                    <p class="text-sm text-green-600 font-medium">مكتمل - عزز فرص ظهورك و تميز ملفك الوظيفي بإجراء المقابلة الشخصية بتقنية الذكاء الإصطناعي و كن اول المرشحين ظهورا في مرحلة الشركات</p>
                                 </div>
                             </div>
                         @elseif(($existingInterview = auth()->user()->employee->interviews()->whereIn('status', ['pending', 'in_progress'])->first()))
@@ -247,41 +247,135 @@
                     <div>
                         <p class="text-sm text-gray-500 mb-1 font-medium">مستوى الخبرة</p>
                         <p class="text-base text-gray-800 font-semibold">
-                            @switch(session('job_seeker_experience_level', 'entry'))
-                                @case('entry') مبتدئ (0-2 سنوات) @break
-                                @case('mid_level') متوسط (3-5 سنوات) @break
-                                @case('senior') متقدم (6-10 سنوات) @break
-                                @case('expert') خبير (10+ سنوات) @break
-                                @default مبتدئ (0-2 سنوات)
-                            @endswitch
+                            @if(auth()->user()->employee && auth()->user()->employee->experience_level)
+                                @switch(auth()->user()->employee->experience_level)
+                                    @case('entry') مبتدئ (0-2 سنوات) @break
+                                    @case('mid_level') متوسط (3-5 سنوات) @break
+                                    @case('senior') متقدم (6-10 سنوات) @break
+                                    @case('expert') خبير (10+ سنوات) @break
+                                    @default مبتدئ (0-2 سنوات)
+                                @endswitch
+                            @else
+                                @switch(session('job_seeker_experience_level', 'entry'))
+                                    @case('entry') مبتدئ (0-2 سنوات) @break
+                                    @case('mid_level') متوسط (3-5 سنوات) @break
+                                    @case('senior') متقدم (6-10 سنوات) @break
+                                    @case('expert') خبير (10+ سنوات) @break
+                                    @default مبتدئ (0-2 سنوات)
+                                @endswitch
+                            @endif
                         </p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 mb-1 font-medium">نوع العمل المفضل</p>
                          <p class="text-base text-gray-800 font-semibold">
-                            @switch(session('job_seeker_preferred_work_type', 'full_time'))
-                                @case('full_time') دوام كامل @break
-                                @case('part_time') دوام جزئي @break
-                                @case('contract') عقد @break
-                                @case('freelance') عمل حر @break
-                                @default دوام كامل
-                            @endswitch
+                            @if(auth()->user()->employee && auth()->user()->employee->preferred_work_type)
+                                @switch(auth()->user()->employee->preferred_work_type)
+                                    @case('full_time') دوام كامل @break
+                                    @case('part_time') دوام جزئي @break
+                                    @case('contract') عقد @break
+                                    @case('freelance') عمل حر @break
+                                    @default دوام كامل
+                                @endswitch
+                            @else
+                                @switch(session('job_seeker_preferred_work_type', 'full_time'))
+                                    @case('full_time') دوام كامل @break
+                                    @case('part_time') دوام جزئي @break
+                                    @case('contract') عقد @break
+                                    @case('freelance') عمل حر @break
+                                    @default دوام كامل
+                                @endswitch
+                            @endif
                         </p>
                     </div>
                     <div class="md:col-span-2">
                         <p class="text-sm text-gray-500 mb-1 font-medium">المهارات</p>
                         <div class="flex flex-wrap gap-2">
-                             @foreach(explode(',', session('job_seeker_skills', '')) as $skill)
-                                @if(trim($skill))
-                                    <span class="inline-block bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">{{ trim($skill) }}</span>
+                            @if(auth()->user()->employee && auth()->user()->employee->skills()->count() > 0)
+                                @foreach(auth()->user()->employee->skills()->get() as $skill)
+                                    <span class="inline-block bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">{{ $skill->name }}</span>
+                                @endforeach
+                            @elseif(auth()->user()->employee && auth()->user()->employee->skills)
+                                @foreach(explode(',', auth()->user()->employee->skills) as $skill)
+                                    @if(trim($skill))
+                                        <span class="inline-block bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">{{ trim($skill) }}</span>
+                                    @endif
+                                @endforeach
+                            @else
+                                @foreach(explode(',', session('job_seeker_skills', '')) as $skill)
+                                    @if(trim($skill))
+                                        <span class="inline-block bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">{{ trim($skill) }}</span>
+                                    @endif
+                                @endforeach
+                                @if(!session('job_seeker_skills'))
+                                    <p class="text-sm text-gray-500">المهارات لم يتم تحديثها بعد</p>
                                 @endif
-                            @endforeach
-                            @if(!session('job_seeker_skills'))
-                                <p class="text-sm text-gray-500">المهارات لم يتم تحديثها بعد</p>
                             @endif
                         </div>
                     </div>
                 </div>
+
+                <!-- Experiences Section -->
+                @if(auth()->user()->employee && auth()->user()->employee->hasExperiences())
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">الخبرات المهنية</h3>
+                        <div class="space-y-4">
+                            @foreach(auth()->user()->employee->experiences as $experience)
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-gray-800">{{ $experience->job_title }}</h4>
+                                            <p class="text-sm text-gray-600">{{ $experience->company_name }}</p>
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                {{ \Carbon\Carbon::parse($experience->start_date)->format('M Y') }} - 
+                                                @if($experience->is_current)
+                                                    الحاضر
+                                                @else
+                                                    {{ \Carbon\Carbon::parse($experience->end_date)->format('M Y') }}
+                                                @endif
+                                            </p>
+                                            @if($experience->description)
+                                                <p class="text-sm text-gray-700 mt-2">{{ Str::limit($experience->description, 150) }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Education Section -->
+                @if(auth()->user()->employee && auth()->user()->employee->hasEducations())
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">التعليم والشهادات</h3>
+                        <div class="space-y-4">
+                            @foreach(auth()->user()->employee->educations as $education)
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-gray-800">{{ $education->title }}</h4>
+                                            <p class="text-sm text-gray-600">{{ $education->institute_name }}</p>
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                {{ \Carbon\Carbon::parse($education->start_date)->format('M Y') }} - 
+                                                @if($education->is_current)
+                                                    الحاضر
+                                                @else
+                                                    {{ \Carbon\Carbon::parse($education->end_date)->format('M Y') }}
+                                                @endif
+                                            </p>
+                                            @if($education->certificate_type)
+                                                <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full mt-2">
+                                                    {{ $education->certificate_type }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
 
             <!-- Available Jobs -->

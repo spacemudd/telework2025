@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Team;
 use App\Models\Company;
 use App\Models\TalentCategory;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -143,8 +144,9 @@ class OnboardingController extends Controller
         }
 
         $talentCategories = TalentCategory::active()->ordered()->get();
+        $skills = Skill::active()->orderByRaw('CASE WHEN name_ar IS NOT NULL AND name_ar != "" THEN 0 ELSE 1 END')->orderBy('sort_order')->orderBy('name')->get();
         
-        return view('onboarding.job-seeker', compact('talentCategories'));
+        return view('onboarding.job-seeker', compact('talentCategories', 'skills'));
     }
 
     /**
@@ -153,8 +155,9 @@ class OnboardingController extends Controller
     public function showJobSeekerOnboarding()
     {
         $talentCategories = TalentCategory::active()->ordered()->get();
+        $skills = Skill::active()->orderByRaw('CASE WHEN name_ar IS NOT NULL AND name_ar != "" THEN 0 ELSE 1 END')->orderBy('sort_order')->orderBy('name')->get();
         
-        return view('onboarding.job-seeker', compact('talentCategories'));
+        return view('onboarding.job-seeker', compact('talentCategories', 'skills'));
     }
 
     /**
@@ -165,12 +168,25 @@ class OnboardingController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'skills' => 'required|string|max:500',
+            'skills' => 'required|string',
             'experience_level' => 'required|in:none,1_3_years,3_5_years,5_plus_years',
             'preferred_work_type' => 'required|in:full_time,part_time,contract,freelance'
         ]);
 
-        DB::transaction(function () use ($request) {
+        // Convert comma-separated skills string to array
+        $skillIds = array_filter(explode(',', $request->skills));
+        
+        // Validate skill IDs exist
+        if (empty($skillIds)) {
+            return back()->withErrors(['skills' => 'Please select at least one skill.'])->withInput();
+        }
+        
+        $validSkillIds = Skill::whereIn('id', $skillIds)->pluck('id')->toArray();
+        if (count($skillIds) !== count($validSkillIds)) {
+            return back()->withErrors(['skills' => 'Invalid skills selected.'])->withInput();
+        }
+
+        DB::transaction(function () use ($request, $skillIds) {
             $user = auth()->user();
             
             // Create a team for this job seeker user
@@ -216,12 +232,15 @@ class OnboardingController extends Controller
                 'position' => 'Job Seeker',
                 'identity_number' => 'JS-' . time(), // Generate a unique identity number
                 'user_id' => $user->id,
-                'skills' => $request->skills,
+                'skills' => '', // Keep for backward compatibility, but we'll use relationships
                 'experience_level' => $request->experience_level,
                 'preferred_work_type' => $request->preferred_work_type,
                 'is_job_seeker' => true,
                 'profile_completed' => true,
             ]);
+
+            // Attach skills
+            $employee->skills()->attach($skillIds);
 
             // Attach talent categories
             $employee->talentCategories()->attach($request->talent_categories);

@@ -73,8 +73,9 @@ return [
     'help_customize_job_experience' => 'Help us customize your job search experience',
     'full_name' => 'Full Name',
     'skills' => 'Skills',
+    'select_skills' => 'Select skills from the list',
     'describe_your_skills' => 'Describe your skills, expertise, and areas of specialization...',
-    'skills_help_text' => 'List your key skills, technologies, programming languages, or areas of expertise',
+    'skills_help_text' => 'Select your key skills, technologies, programming languages, or areas of expertise from the dropdown',
     'years_of_experience' => 'Years of Experience',
     'none' => 'None',
     '1_3_years' => '1-3',
@@ -86,6 +87,9 @@ return [
     'part_time' => 'Part Time',
     'contract' => 'Contract',
     'freelance' => 'Freelance',
+
+    // Words translations
+    'category' => 'Category',
 
     // Login page translations
     'remember_me' => 'Remember me',

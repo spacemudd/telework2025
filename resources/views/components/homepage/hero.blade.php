@@ -24,11 +24,11 @@
             </h1>
 
             <!-- Search Card -->
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto relative z-40">
+            <div class="bg-transparent rounded-lg p-6 mb-8 max-w-4xl mx-auto relative z-40">
                 <form action="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" method="GET">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <select name="location" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent">
+                            <select name="location" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent; background-color: #efefef;">
                                 <option value="" selected disabled>{{ __('words.hero.city_placeholder') }}</option>
                                 @foreach($cities as $city)
                                     <option value="{{ $city }}">{{ $city }}</option>
@@ -37,7 +37,7 @@
                         </div>
 
                         <div>
-                            <select name="job_category_id" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent">
+                            <select name="job_category_id" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent; background-color: #efefef;">
                                 <option value="" selected disabled>{{ __('words.hero.field_placeholder') }}</option>
                                 @foreach($jobCategories as $category)
                                     <option value="{{ $category->id }}">{{ $category->localized_name }}</option>
@@ -45,16 +45,6 @@
                             </select>
                         </div>
 
-                        <div>
-                            <select name="employment_type" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left bg-white focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent">
-                                <option value="" selected disabled>{{ __('words.employment_type') }}</option>
-                                <option value="full_time">{{ __('words.full_time') }}</option>
-                                <option value="part_time">{{ __('words.part_time') }}</option>
-                                <option value="contract">{{ __('words.contract') }}</option>
-                                <option value="freelance">{{ __('words.freelance') }}</option>
-                                <option value="remote">{{ __('words.remote') }}</option>
-                            </select>
-                        </div>
 
                         <div>
                             <button type="submit" class="w-full inline-flex items-center rtl:flex-row-reverse justify-center px-4 py-2.5 text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" style="background-color: #012d48;">
@@ -66,12 +56,6 @@
                 </form>
             </div>
 
-            <!-- New elements for the hero section, based on the image -->
-            <div class="mb-12 relative z-40">
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                    {{ __('words.hero.job_seekers_connected') }}
-                </span>
-            </div>
 
             <p class="mt-4 text-lg text-gray-600 mb-12 relative z-40">
                 {{ __('words.hero.description') }}
@@ -81,13 +65,12 @@
                 @auth
                     <!-- Logged in user - Single Journey Button -->
                     <a href="{{ URL::localized('dashboard') }}" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
-                        <span class="{{ app()->getLocale() === 'ar' ? 'ml-2' : 'mr-2' }}">🚀</span>
-                        {{ app()->getLocale() === 'ar' ? 'ابدأ رحتلك' : 'Begin your journey' }}
+                        {{ app()->getLocale() === 'ar' ? __('words.dashboard') : 'Begin your journey' }}
                     </a>
                 @else
                     <!-- Guest user - Original buttons -->
                     <a href="{{ URL::localized('register') }}" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
-                        🌟 {{ app()->getLocale() === 'ar' ? 'انضم الينا' : 'Open an account - Apply now' }}
+                        {{ app()->getLocale() === 'ar' ? 'سجل الآن' : 'Open an account - Apply now' }}
                     </a>
                     
                     <!-- Separator -->

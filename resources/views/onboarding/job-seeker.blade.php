@@ -54,12 +54,44 @@
                     {{ __('auth.skills') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="mt-1">
-                    <textarea id="skills" 
-                              name="skills" 
-                              rows="3"
-                              placeholder="{{ __('auth.describe_your_skills') }}"
-                              required
-                              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">{{ old('skills') }}</textarea>
+                    <div class="relative">
+                        <select id="skills-select" 
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option value="">{{ __('auth.select_skills') }}</option>
+                            @foreach($skills as $skill)
+                                <option value="{{ $skill->id }}" data-name="{{ $skill->display_name }}">{{ $skill->display_name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Selected Skills Breadcrumbs -->
+                    <div id="selected-skills" class="mt-3 flex flex-wrap gap-2 min-h-[40px] p-2 border border-gray-200 rounded-md bg-gray-50">
+                        @if(old('skills'))
+                            @foreach(old('skills') as $skillId)
+                                @php
+                                    $skill = $skills->find($skillId);
+                                @endphp
+                                @if($skill)
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                        {{ $skill->display_name }}
+                                        <button type="button" class="ml-2 text-blue-600 hover:text-blue-800" onclick="removeSkill({{ $skill->id }})">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </span>
+                                @endif
+                            @endforeach
+                        @endif
+                    </div>
+                    
+                    <!-- Hidden input to store selected skill IDs -->
+                    <input type="hidden" name="skills" id="skills-input" value="{{ old('skills') ? implode(',', old('skills')) : '' }}">
                 </div>
                 <p class="mt-2 text-sm text-gray-500">{{ __('auth.skills_help_text') }}</p>
                 @error('skills')
@@ -180,4 +212,61 @@
             </div>
         </form>
     </div>
+
+    <script>
+        let selectedSkills = [];
+        
+        // Initialize selected skills from old input
+        @if(old('skills'))
+            selectedSkills = {!! json_encode(old('skills')) !!};
+        @endif
+
+        document.getElementById('skills-select').addEventListener('change', function() {
+            const skillId = this.value;
+            const skillName = this.options[this.selectedIndex].getAttribute('data-name');
+            
+            if (skillId && !selectedSkills.includes(skillId)) {
+                selectedSkills.push(skillId);
+                addSkillBreadcrumb(skillId, skillName);
+                updateHiddenInput();
+            }
+            
+            // Reset select
+            this.value = '';
+        });
+
+        function addSkillBreadcrumb(skillId, skillName) {
+            const container = document.getElementById('selected-skills');
+            const breadcrumb = document.createElement('span');
+            breadcrumb.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800';
+            breadcrumb.innerHTML = `
+                ${skillName}
+                <button type="button" class="ml-2 text-blue-600 hover:text-blue-800" onclick="removeSkill(${skillId})">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            `;
+            container.appendChild(breadcrumb);
+        }
+
+        function removeSkill(skillId) {
+            selectedSkills = selectedSkills.filter(id => id != skillId);
+            updateHiddenInput();
+            
+            // Remove breadcrumb from DOM
+            const container = document.getElementById('selected-skills');
+            const breadcrumbs = container.querySelectorAll('span');
+            breadcrumbs.forEach(breadcrumb => {
+                const button = breadcrumb.querySelector('button');
+                if (button && button.getAttribute('onclick').includes(skillId)) {
+                    breadcrumb.remove();
+                }
+            });
+        }
+
+        function updateHiddenInput() {
+            document.getElementById('skills-input').value = selectedSkills.join(',');
+        }
+    </script>
 </x-guest-layout>

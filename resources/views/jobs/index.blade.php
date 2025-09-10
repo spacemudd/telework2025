@@ -6,10 +6,26 @@
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
 
+                <!-- Employment Type Breadcrumbs -->
+                <div class="mb-4">
+                    <nav class="flex flex-wrap gap-2" aria-label="Breadcrumb">
+                        <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" 
+                           class="px-4 py-2 text-sm font-medium rounded-full border transition-colors duration-200 {{ !request('employment_type') ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50' }}">
+                            {{ __('words.all') }}
+                        </a>
+                        @foreach($employmentTypes as $type)
+                            <a href="{{ route('jobs.index', array_merge(request()->query(), ['employment_type' => $type, 'locale' => app()->getLocale()])) }}" 
+                               class="px-4 py-2 text-sm font-medium rounded-full border transition-colors duration-200 {{ request('employment_type') == $type ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50' }}">
+                                {{ __('words.' . $type) }}
+                            </a>
+                        @endforeach
+                    </nav>
+                </div>
+
                 <!-- Filters -->
                 <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
                     <form action="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" method="GET">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                             <!-- Location -->
                             <div>
                                 <label for="location" class="block text-sm font-medium text-gray-700">{{ __('words.city') }}</label>
@@ -27,16 +43,6 @@
                                     <option value="">{{ __('words.all') }}</option>
                                     @foreach($jobCategories as $category)
                                         <option value="{{ $category->id }}" {{ request('job_category_id') == $category->id ? 'selected' : '' }}>{{ $category->localized_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <!-- Employment Type -->
-                            <div>
-                                <label for="employment_type" class="block text-sm font-medium text-gray-700">{{ __('words.employment_type') }}</label>
-                                <select id="employment_type" name="employment_type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                    <option value="">{{ __('words.all') }}</option>
-                                    @foreach($employmentTypes as $type)
-                                        <option value="{{ $type }}" {{ request('employment_type') == $type ? 'selected' : '' }}>{{ __('words.' . $type) }}</option>
                                     @endforeach
                                 </select>
                             </div>
