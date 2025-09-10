@@ -405,6 +405,50 @@
                             </div>
                         </div>
 
+                        <!-- Review Actions (Hidden until recording is complete) -->
+                        <div id="review-actions" class="hidden mb-6">
+                            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-4 text-center" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                    {{ app()->getLocale() === 'ar' ? 'مراجعة التسجيل' : 'Review Your Recording' }}
+                                </h4>
+                                <p class="text-gray-600 text-center mb-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                    {{ app()->getLocale() === 'ar' ? 'شاهد تسجيلك وتأكد من رضاك عنه قبل المتابعة' : 'Watch your recording and confirm you are satisfied before proceeding' }}
+                                </p>
+                                
+                                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                                    <button onclick="playRecording()" 
+                                            class="group bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm sm:text-base">
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                            {{ app()->getLocale() === 'ar' ? 'تشغيل' : 'Play' }}
+                                        </span>
+                                    </button>
+                                    
+                                    <button onclick="reRecord()" 
+                                            class="group bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm sm:text-base">
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                        <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                            {{ app()->getLocale() === 'ar' ? 'إعادة تسجيل' : 'Re-record' }}
+                                        </span>
+                                    </button>
+                                    
+                                    <button id="submit-btn" onclick="submitRecording()" 
+                                            class="group bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm sm:text-base">
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+                                            {{ app()->getLocale() === 'ar' ? 'تأكيد والمتابعة' : 'Confirm & Continue' }}
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Single Video Element -->
                         <div class="relative">
                             <video id="main-video" muted playsinline webkit-playsinline controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture class="w-full max-w-2xl mx-auto rounded-xl shadow-2xl border-4 border-white"></video>
@@ -453,49 +497,6 @@
                         </button>
                     </div>
 
-                    <!-- Review Actions (Hidden until recording is complete) -->
-                    <div id="review-actions" class="hidden">
-                        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-                            <h4 class="text-lg font-semibold text-gray-800 mb-4 text-center" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                {{ app()->getLocale() === 'ar' ? 'مراجعة التسجيل' : 'Review Your Recording' }}
-                            </h4>
-                            <p class="text-gray-600 text-center mb-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                {{ app()->getLocale() === 'ar' ? 'شاهد تسجيلك وتأكد من رضاك عنه قبل المتابعة' : 'Watch your recording and confirm you are satisfied before proceeding' }}
-                            </p>
-                            
-                            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-                                <button onclick="playRecording()" 
-                                        class="group bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm sm:text-base">
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                        {{ app()->getLocale() === 'ar' ? 'تشغيل' : 'Play' }}
-                                    </span>
-                                </button>
-                                
-                                <button onclick="reRecord()" 
-                                        class="group bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm sm:text-base">
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                                    </svg>
-                                    <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                        {{ app()->getLocale() === 'ar' ? 'إعادة تسجيل' : 'Re-record' }}
-                                    </span>
-                                </button>
-                                
-                                <button id="submit-btn" onclick="submitRecording()" 
-                                        class="group bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm sm:text-base">
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    <span dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-                                        {{ app()->getLocale() === 'ar' ? 'تأكيد والمتابعة' : 'Confirm & Continue' }}
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1049,7 +1050,8 @@
             stopTimer();
             document.getElementById('timer-container').classList.add('hidden');
             
-            document.getElementById('record-btn').classList.remove('hidden');
+            // Hide both record and stop buttons in review state
+            document.getElementById('record-btn').classList.add('hidden');
             document.getElementById('stop-btn').classList.add('hidden');
         }
     }
