@@ -313,6 +313,9 @@
                                 {{ app()->getLocale() === 'ar' ? 'نحتاج إلى الوصول إلى كاميرا الويب والميكروفون الخاص بك لإجراء هذه المقابلة.' : 'We need access to your webcam and microphone to conduct this interview.' }}
                             </p>
                             <p class="leading-relaxed">
+                                {{ app()->getLocale() === 'ar' ? 'عند النقر على "أفهم وأوافق على المتابعة"، سيطلب منك المتصفح السماح بالوصول إلى الكاميرا والميكروفون.' : 'When you click "I Understand & Agree to Continue", your browser will ask for permission to access your camera and microphone.' }}
+                            </p>
+                            <p class="leading-relaxed">
                                 {{ app()->getLocale() === 'ar' ? 'معلوماتك محمية ومؤمنة ولن يتم مشاهدتها من قبل أي شخص باستثناء مدير التوظيف للوظائف التي تتقدم إليها.' : 'Your information is secured and will not be viewed by anyone except the hiring manager for the job(s) you apply for.' }}
                             </p>
                             <div class="bg-amber-100 border border-amber-200 rounded-lg p-4 mt-4">
@@ -643,16 +646,25 @@
         }, 500);
     }
 
-    function proceedToInterview() {
+    async function proceedToInterview() {
         // Hide permissions warning
         hideSection('permissions-warning');
         
         // Show question section
-        setTimeout(() => {
+        setTimeout(async () => {
             showSection('question-section');
-            // Initialize camera preview and set initial state
-            initializeCameraPreview();
-            updateVideoInterface('preview');
+            
+            // Request all permissions upfront (camera + audio)
+            const permissionsGranted = await requestAllPermissions();
+            
+            if (permissionsGranted) {
+                // Set initial state
+                updateVideoInterface('preview');
+            } else {
+                // If permissions denied, show error and go back
+                hideSection('question-section');
+                showSection('permissions-warning');
+            }
         }, 500);
     }
 
@@ -671,6 +683,9 @@
             warningContent.innerHTML = `
                 <p class="leading-relaxed">
                     نحتاج إلى الوصول إلى كاميرا الويب والميكروفون الخاص بك لإجراء هذه المقابلة.
+                </p>
+                <p class="leading-relaxed">
+                    عند النقر على "أفهم وأوافق على المتابعة"، سيطلب منك المتصفح السماح بالوصول إلى الكاميرا والميكروفون.
                 </p>
                 <p class="leading-relaxed">
                     معلوماتك محمية ومؤمنة ولن يتم مشاهدتها من قبل أي شخص باستثناء مدير التوظيف للوظائف التي تتقدم إليها.
@@ -694,6 +709,9 @@
                     We need access to your webcam and microphone to conduct this interview.
                 </p>
                 <p class="leading-relaxed">
+                    When you click "I Understand & Agree to Continue", your browser will ask for permission to access your camera and microphone.
+                </p>
+                <p class="leading-relaxed">
                     Your information is secured and will not be viewed by anyone except the hiring manager for the job(s) you apply for.
                 </p>
             `;
@@ -708,15 +726,56 @@
         }
     }
 
-    // Function to initialize camera preview
-    async function initializeCameraPreview() {
+    // Function to request all permissions upfront (camera + audio)
+    async function requestAllPermissions() {
+        try {
+            console.log('Requesting all permissions (camera + audio)...');
+            
+            // Request both camera and audio permissions at once
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: true, 
+                audio: true // Request audio permission upfront
+            });
+            
+            console.log('All permissions granted, stream obtained:', stream);
+            
+            // Store the stream for later use
+            window.fullMediaStream = stream;
+            
+            // Initialize camera preview with the full stream
+            await initializeCameraPreview(stream);
+            
+            return true;
+            
+        } catch (error) {
+            console.error('Error requesting permissions:', error);
+            
+            // Show user-friendly error message
+            const errorMessage = error.name === 'NotAllowedError' 
+                ? 'Camera and microphone access denied. Please allow access and refresh the page.'
+                : 'Unable to access camera/microphone. Please check your device permissions.';
+            
+            showErrorNotification(errorMessage);
+            return false;
+        }
+    }
+
+    // Function to initialize camera preview with existing stream
+    async function initializeCameraPreview(stream = null) {
         try {
             console.log('Initializing camera preview...');
             
-            const stream = await navigator.mediaDevices.getUserMedia({ 
-                video: true, 
-                audio: false // Only video for preview
-            });
+            // Use provided stream or get new one
+            if (!stream && window.fullMediaStream) {
+                stream = window.fullMediaStream;
+            } else if (!stream) {
+                // Fallback: request permissions again
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: true, 
+                    audio: true
+                });
+                window.fullMediaStream = stream;
+            }
             
             console.log('Camera stream obtained:', stream);
             
@@ -731,9 +790,6 @@
             
             // Ensure video is visible
             mainVideo.classList.remove('hidden');
-            
-            // Store the stream for later use in recording
-            window.cameraPreviewStream = stream;
             
             // Always apply mirror effect for natural user experience
             mainVideo.style.transform = 'scaleX(-1)';
@@ -874,21 +930,20 @@
                 }
             }
 
-            // Use existing camera preview stream and add audio
+            // Use the pre-granted full media stream
             let stream;
-            if (window.cameraPreviewStream) {
-                // Clone the existing video stream and add audio
-                const videoTrack = window.cameraPreviewStream.getVideoTracks()[0];
-                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                const audioTrack = audioStream.getAudioTracks()[0];
-                
-                stream = new MediaStream([videoTrack, audioTrack]);
+            if (window.fullMediaStream) {
+                // Use the existing stream that already has both video and audio
+                stream = window.fullMediaStream;
+                console.log('Using pre-granted media stream for recording');
             } else {
-                // Fallback: request both video and audio
+                // Fallback: request both video and audio (should not happen if permissions were granted)
+                console.warn('No pre-granted stream found, requesting permissions again');
                 stream = await navigator.mediaDevices.getUserMedia({ 
                     video: true, 
                     audio: true 
                 });
+                window.fullMediaStream = stream;
             }
             
             // Get supported MIME types for video
@@ -972,8 +1027,13 @@
         timeRemaining = 60;
         updateTimerDisplay();
         
-        // Re-initialize camera preview
-        initializeCameraPreview();
+        // Re-initialize camera preview with existing stream
+        if (window.fullMediaStream) {
+            initializeCameraPreview(window.fullMediaStream);
+        } else {
+            // Fallback: re-request permissions
+            initializeCameraPreview();
+        }
     }
 
     async function submitRecording() {
