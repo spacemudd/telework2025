@@ -75,7 +75,7 @@ return [
     'skills' => 'المهارات',
     'select_skills' => 'اختر المهارات من القائمة',
     'describe_your_skills' => 'صف مهاراتك وخبراتك ومجالات التخصص...',
-    'skills_help_text' => 'اختر مهاراتك الأساسية والتقنيات ولغات البرمجة أو مجالات الخبرة من القائمة المنسدلة',
+    'skills_help_text' => 'اختر المهارات الاساسية والتقنيات التي تعزز من ترشيحك الوظيفي',
     'years_of_experience' => 'سنوات الخبرة',
     'none' => 'لا يوجد',
     '1_3_years' => '1-3',
@@ -90,7 +90,7 @@ return [
 
     // Multi-step onboarding
     'personal_info' => 'المعلومات الشخصية',
-    'experience' => 'الخبرة',
+    'experience' => 'الخبرات',
     'education' => 'التعليم',
     'next' => 'التالي',
     'skip_for_now' => 'تخطي الآن',

@@ -13,7 +13,7 @@
                     1
                 @endif
             </div>
-            <span class="ml-3 text-sm font-medium {{ $currentStep >= 1 ? 'text-gray-900' : 'text-gray-500' }} {{ app()->getLocale() === 'ar' ? 'mr-3 ml-0' : '' }}">
+            <span class="ml-3 text-xs font-medium {{ $currentStep >= 1 ? 'text-gray-900' : 'text-gray-500' }} {{ app()->getLocale() === 'ar' ? 'mr-3 ml-0' : '' }}">
                 {{ __('auth.personal_info') }}
             </span>
         </div>
@@ -32,7 +32,7 @@
                     2
                 @endif
             </div>
-            <span class="ml-3 text-sm font-medium {{ $currentStep >= 2 ? 'text-gray-900' : 'text-gray-500' }} {{ app()->getLocale() === 'ar' ? 'mr-3 ml-0' : '' }}">
+            <span class="ml-3 text-xs font-medium {{ $currentStep >= 2 ? 'text-gray-900' : 'text-gray-500' }} {{ app()->getLocale() === 'ar' ? 'mr-3 ml-0' : '' }}">
                 {{ __('auth.experience') }}
             </span>
         </div>
@@ -51,7 +51,7 @@
                     3
                 @endif
             </div>
-            <span class="ml-3 text-sm font-medium {{ $currentStep >= 3 ? 'text-gray-900' : 'text-gray-500' }} {{ app()->getLocale() === 'ar' ? 'mr-3 ml-0' : '' }}">
+            <span class="ml-3 text-xs font-medium {{ $currentStep >= 3 ? 'text-gray-900' : 'text-gray-500' }} {{ app()->getLocale() === 'ar' ? 'mr-3 ml-0' : '' }}">
                 {{ __('auth.education') }}
             </span>
         </div>
