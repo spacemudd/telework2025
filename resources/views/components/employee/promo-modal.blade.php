@@ -30,7 +30,8 @@
                     </li>
                 </ul>
                 <div class="my-6">
-                    <p class="text-4xl font-bold text-gray-800">103.5 ر.س <span class="text-lg font-normal text-gray-500">/ 1 شهر</span></p>
+                    <p class="text-4xl font-bold text-gray-800"><span class="line-through">103.5 ر.س</span> <span class="text-lg font-normal text-gray-500 line-through">/ 1 شهر</span></p>
+                    <p class="text-lg font-semibold text-green-600 mt-2">لمدة محدودة فقط - الاشتراك مجاناً</p>
                 </div>
                 <button id="subscribeBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white transition-transform hover:scale-105 mb-4" style="background-color: #012d48;" onmouseover="this.style.backgroundColor='#001a2e';" onmouseout="this.style.backgroundColor='#012d48';" onfocus="this.style.outline='2px solid #012d48'; this.style.outlineOffset='2px';" onblur="this.style.outline='none';" onclick="initiateSubscription('3_months')">
                     <span id="subscribeBtnText">اشترك الآن</span>
@@ -73,52 +74,32 @@ document.getElementById('promoModal').addEventListener('click', function(e) {
     }
 });
 
-// Payment initiation function
-async function initiateSubscription(planType) {
-    const subscribeBtn = document.getElementById('subscribeBtn');
-    const subscribeBtnText = document.getElementById('subscribeBtnText');
-    const subscribeBtnLoader = document.getElementById('subscribeBtnLoader');
+// Subscription success function
+function initiateSubscription(planType) {
+    // Set enrollment cookie (expires in 1 year)
+    const expirationDate = new Date();
+    expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+    document.cookie = `ai_subscription_enrolled=true; expires=${expirationDate.toUTCString()}; path=/; SameSite=Lax`;
     
-    // Disable button and show loading
-    subscribeBtn.disabled = true;
-    subscribeBtnText.textContent = 'جاري المعالجة...';
-    subscribeBtnLoader.classList.remove('hidden');
+    // Show success message by updating modal content
+    const promoModalTitle = document.getElementById('promoModalTitle');
+    const promoModalBody = document.getElementById('promoModalBody');
     
-    try {
-        const response = await fetch('{{ route("payment.subscription.initiate") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                plan_type: planType
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            // Redirect to Noon payment page
-            window.location.href = data.payment_url;
-        } else {
-            // Show error message
-            alert(data.message || 'حدث خطأ أثناء معالجة الدفع. يرجى المحاولة مرة أخرى.');
-            
-            // Reset button
-            subscribeBtn.disabled = false;
-            subscribeBtnText.textContent = 'اشترك الآن';
-            subscribeBtnLoader.classList.add('hidden');
-        }
-    } catch (error) {
-        console.error('Payment initiation error:', error);
-        alert('حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.');
-        
-        // Reset button
-        subscribeBtn.disabled = false;
-        subscribeBtnText.textContent = 'اشترك الآن';
-        subscribeBtnLoader.classList.add('hidden');
-    }
+    // Update modal title
+    promoModalTitle.textContent = 'تم الاشتراك بنجاح!';
+    
+    // Update modal body with success message
+    promoModalBody.innerHTML = `
+        <div class="text-center py-8">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">تم الاشتراك بنجاح!</h3>
+            <p class="text-sm text-gray-600">يمكنك الآن الاستفادة من جميع ميزات التقديم الذكي بالذكاء الاصطناعي</p>
+        </div>
+    `;
 }
 </script>
 @endpush

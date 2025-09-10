@@ -16,8 +16,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $skills = \App\Models\Skill::active()->ordered()->get();
+        
         return view('profile.edit', [
             'user' => $request->user(),
+            'skills' => $skills,
         ]);
     }
 
@@ -65,10 +68,16 @@ class ProfileController extends Controller
         $employee->update([
             'phone' => $validated['phone'] ?? null,
             'bio' => $validated['bio'] ?? null,
-            'skills' => $validated['skills'] ?? null,
             'experience_level' => $validated['experience_level'] ?? null,
             'preferred_work_type' => $validated['preferred_work_type'] ?? null,
         ]);
+
+        // Sync skills relationship
+        if (isset($validated['skills']) && is_array($validated['skills'])) {
+            $employee->skills()->sync($validated['skills']);
+        } else {
+            $employee->skills()->detach();
+        }
 
         return Redirect::route('profile.edit', ['locale' => app()->getLocale()])
             ->with('success', 'تم تحديث الملف الشخصي بنجاح');

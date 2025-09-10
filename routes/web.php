@@ -164,6 +164,13 @@ Route::group([
         // No role, redirect to onboarding
         return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
     })->name('dashboard');
+
+    // Profile Routes
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 });
 
 // System URLs.
@@ -299,12 +306,6 @@ Route::prefix('employee')->middleware(['auth', SetLocale::class])->group(functio
     // Experience and Education routes
     Route::resource('/experiences', \App\Http\Controllers\EmployeeExperienceController::class)->names('employee.experiences');
     Route::resource('/educations', \App\Http\Controllers\EmployeeEducationController::class)->names('employee.educations');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::get('/lang/{locale}', function ($locale) {

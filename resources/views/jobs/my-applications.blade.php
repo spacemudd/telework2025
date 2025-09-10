@@ -18,7 +18,7 @@
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div class="flex-grow">
                                 <div class="flex items-start">
-                                    <div class="w-12 h-12 flex-shrink-0 mr-4 overflow-hidden rounded bg-gray-100">
+                                    <div class="w-12 h-12 flex-shrink-0 mr-6 overflow-hidden rounded bg-gray-100">
                                         @if($application->jobPosting->company->getFirstMedia('logos'))
                                             <img src="{{ $application->jobPosting->company->getSecureMediaUrlForCollection('logos') }}" alt="{{ $application->jobPosting->company->name }}" class="w-full h-full object-cover object-center">
                                         @else

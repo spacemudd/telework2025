@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+            معلومات الملف الشخصي
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and details.") }}
+            قم بتحديث معلومات حسابك الشخصية والتفاصيل.
         </p>
     </header>
 
@@ -42,13 +42,13 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <x-input-label for="first_name" :value="__('First Name')" />
+                <x-input-label for="first_name" value="الاسم الأول" />
                 <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" required autofocus autocomplete="given-name" />
                 <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
             </div>
 
             <div>
-                <x-input-label for="last_name" :value="__('Last Name')" />
+                <x-input-label for="last_name" value="اسم العائلة" />
                 <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)" required autocomplete="family-name" />
                 <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
             </div>
@@ -114,8 +114,39 @@
 
         <div>
             <x-input-label for="skills" value="المهارات" />
-            <x-text-input id="skills" name="skills" type="text" class="mt-1 block w-full" :value="old('skills', $user->employee->skills ?? '')" placeholder="مثال: برمجة، تصميم، إدارة مشاريع (مفصولة بفواصل)" />
-            <p class="mt-1 text-sm text-gray-500">أدخل مهاراتك مفصولة بفواصل</p>
+            <div class="mt-1">
+                <select id="skills-select" 
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="">اختر المهارات</option>
+                    @foreach($skills as $skill)
+                        <option value="{{ $skill->id }}" data-name="{{ $skill->display_name }}">{{ $skill->display_name }}</option>
+                    @endforeach
+                </select>
+                
+                <!-- Selected Skills Breadcrumbs -->
+                <div id="selected-skills" class="mt-3 flex flex-wrap gap-2 min-h-[40px] p-2 border border-gray-200 rounded-md bg-gray-50">
+                    @if($user->employee && $user->employee->skills()->count() > 0)
+                        @foreach($user->employee->skills as $skill)
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                {{ $skill->display_name }}
+                                <button type="button" class="ml-2 text-blue-600 hover:text-blue-800" onclick="removeSkill({{ $skill->id }})">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </span>
+                        @endforeach
+                    @endif
+                </div>
+                
+                <!-- Hidden inputs to store selected skill IDs -->
+                @if($user->employee && $user->employee->skills()->count() > 0)
+                    @foreach($user->employee->skills as $skill)
+                        <input type="hidden" name="skills[]" value="{{ $skill->id }}" data-skill-id="{{ $skill->id }}">
+                    @endforeach
+                @endif
+            </div>
+            <p class="mt-1 text-sm text-gray-500">اختر مهاراتك من القائمة</p>
             <x-input-error class="mt-2" :messages="$errors->get('skills')" />
         </div>
 
@@ -127,7 +158,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>حفظ</x-primary-button>
 
             @if (session('status') === 'profile-updated' || session('success'))
                 <p
@@ -143,6 +174,7 @@
 </section>
 
 <script>
+// Profile image preview
 document.getElementById('profile_image').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -168,4 +200,68 @@ document.getElementById('profile_image').addEventListener('change', function(e) 
         reader.readAsDataURL(file);
     }
 });
+
+// Skills multi-select functionality
+let selectedSkills = [];
+
+// Initialize selected skills from existing data
+document.querySelectorAll('input[name="skills[]"]').forEach(input => {
+    selectedSkills.push(input.value);
+});
+
+document.getElementById('skills-select').addEventListener('change', function() {
+    const skillId = this.value;
+    const skillName = this.options[this.selectedIndex].getAttribute('data-name');
+    
+    if (skillId && !selectedSkills.includes(skillId)) {
+        selectedSkills.push(skillId);
+        addSkillBreadcrumb(skillId, skillName);
+        addHiddenSkillInput(skillId);
+    }
+    
+    // Reset select
+    this.value = '';
+});
+
+function addSkillBreadcrumb(skillId, skillName) {
+    const container = document.getElementById('selected-skills');
+    const breadcrumb = document.createElement('span');
+    breadcrumb.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800';
+    breadcrumb.setAttribute('data-skill-id', skillId);
+    breadcrumb.innerHTML = `
+        ${skillName}
+        <button type="button" class="ml-2 text-blue-600 hover:text-blue-800" onclick="removeSkill(${skillId})">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    `;
+    container.appendChild(breadcrumb);
+}
+
+function addHiddenSkillInput(skillId) {
+    const form = document.querySelector('form');
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'skills[]';
+    hiddenInput.value = skillId;
+    hiddenInput.setAttribute('data-skill-id', skillId);
+    form.appendChild(hiddenInput);
+}
+
+function removeSkill(skillId) {
+    selectedSkills = selectedSkills.filter(id => id != skillId);
+    
+    // Remove breadcrumb from DOM
+    const breadcrumb = document.querySelector(`span[data-skill-id="${skillId}"]`);
+    if (breadcrumb) {
+        breadcrumb.remove();
+    }
+    
+    // Remove hidden input
+    const hiddenInput = document.querySelector(`input[data-skill-id="${skillId}"]`);
+    if (hiddenInput) {
+        hiddenInput.remove();
+    }
+}
 </script>

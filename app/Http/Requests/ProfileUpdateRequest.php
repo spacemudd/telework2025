@@ -29,7 +29,8 @@ class ProfileUpdateRequest extends FormRequest
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:20'],
             'bio' => ['nullable', 'string', 'max:1000'],
-            'skills' => ['nullable', 'string', 'max:500'],
+            'skills' => ['nullable', 'array'],
+            'skills.*' => ['exists:skills,id'],
             'experience_level' => ['nullable', 'in:entry,mid_level,senior,expert'],
             'preferred_work_type' => ['nullable', 'in:full_time,part_time,contract,freelance'],
         ];

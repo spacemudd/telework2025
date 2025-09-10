@@ -334,6 +334,11 @@
             </div>
         </div>
 
+        <!-- Audio element for interview sound -->
+        <audio id="interview-sound" preload="auto">
+            <source src="{{ asset('interview-sound.mp3') }}" type="audio/mpeg">
+        </audio>
+
         <!-- Recording Section -->
         <div id="question-section" class="section-hidden" style="display: none;">
             <div class="bg-white rounded-xl p-8 shadow-md">
@@ -846,6 +851,18 @@
 
     async function startRecording() {
         try {
+            // Play interview sound when recording begins
+            const interviewSound = document.getElementById('interview-sound');
+            if (interviewSound) {
+                try {
+                    await interviewSound.play();
+                    console.log('Interview sound played successfully');
+                } catch (soundError) {
+                    console.warn('Could not play interview sound:', soundError);
+                    // Don't stop the recording process if sound fails
+                }
+            }
+
             // Use existing camera preview stream and add audio
             let stream;
             if (window.cameraPreviewStream) {
