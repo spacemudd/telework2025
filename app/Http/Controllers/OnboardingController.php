@@ -53,8 +53,22 @@ class OnboardingController extends Controller
     public function selectRole(Request $request)
     {
         $request->validate([
-            'role_type' => 'required|in:company,job_seeker'
+            'role_type' => 'required|in:company,job_seeker',
+            'first_name' => 'sometimes|string|max:255',
+            'last_name' => 'sometimes|string|max:255',
         ]);
+
+        // If first/last name provided (social auth confirmation), update the user
+        if (auth()->check() && ($request->filled('first_name') || $request->filled('last_name'))) {
+            $user = auth()->user();
+            $firstName = $request->filled('first_name') ? $request->string('first_name')->toString() : ($user->first_name ?? '');
+            $lastName = $request->filled('last_name') ? $request->string('last_name')->toString() : ($user->last_name ?? '');
+            $user->update([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'name' => trim($firstName . ' ' . $lastName),
+            ]);
+        }
 
         if ($request->role_type === 'job_seeker') {
             // Store the selected role in session and redirect to job seeker onboarding
@@ -161,9 +175,9 @@ class OnboardingController extends Controller
     }
 
     /**
-     * Handle job seeker onboarding completion
+     * Handle job seeker onboarding step 1 completion
      */
-    public function completeJobSeekerOnboarding(Request $request)
+    public function completeJobSeekerStep1(Request $request)
     {
         $request->validate([
             'first_name' => 'required|string|max:255',
@@ -186,7 +200,107 @@ class OnboardingController extends Controller
             return back()->withErrors(['skills' => 'Invalid skills selected.'])->withInput();
         }
 
-        DB::transaction(function () use ($request, $skillIds) {
+        // Store step 1 data in session
+        session([
+            'onboarding_step1' => [
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'skills' => $skillIds,
+                'experience_level' => $request->experience_level,
+                'preferred_work_type' => $request->preferred_work_type,
+                'talent_categories' => $request->talent_categories ?? []
+            ]
+        ]);
+
+        return redirect()->route('onboarding.job-seeker.step2', ['locale' => app()->getLocale()]);
+    }
+
+    /**
+     * Show job seeker onboarding step 2 - Experience
+     */
+    public function showJobSeekerStep2()
+    {
+        if (session('onboarding_role') !== 'job_seeker' || !session('onboarding_step1')) {
+            return redirect()->route('onboarding.job-seeker', ['locale' => app()->getLocale()]);
+        }
+
+        return view('onboarding.job-seeker-step2');
+    }
+
+    /**
+     * Handle job seeker onboarding step 2 completion
+     */
+    public function completeJobSeekerStep2(Request $request)
+    {
+        if (session('onboarding_role') !== 'job_seeker' || !session('onboarding_step1')) {
+            return redirect()->route('onboarding.job-seeker', ['locale' => app()->getLocale()]);
+        }
+
+        // If skip is requested, just move to next step
+        if ($request->has('skip')) {
+            session(['onboarding_step2' => []]);
+            return redirect()->route('onboarding.job-seeker.step3', ['locale' => app()->getLocale()]);
+        }
+
+        // Validate experiences
+        $request->validate([
+            'experiences' => 'sometimes|array',
+            'experiences.*.job_title' => 'required|string|max:255',
+            'experiences.*.company_name' => 'required|string|max:255',
+            'experiences.*.start_date' => 'required|date',
+            'experiences.*.end_date' => 'nullable|date|after:experiences.*.start_date',
+            'experiences.*.is_current' => 'sometimes|boolean',
+            'experiences.*.description' => 'nullable|string|max:1000'
+        ]);
+
+        // Store step 2 data in session
+        session([
+            'onboarding_step2' => $request->experiences ?? []
+        ]);
+
+        return redirect()->route('onboarding.job-seeker.step3', ['locale' => app()->getLocale()]);
+    }
+
+    /**
+     * Show job seeker onboarding step 3 - Education
+     */
+    public function showJobSeekerStep3()
+    {
+        if (session('onboarding_role') !== 'job_seeker' || !session('onboarding_step1') || !session()->has('onboarding_step2')) {
+            return redirect()->route('onboarding.job-seeker', ['locale' => app()->getLocale()]);
+        }
+
+        return view('onboarding.job-seeker-step3');
+    }
+
+    /**
+     * Handle job seeker onboarding step 3 completion and finalize profile
+     */
+    public function completeJobSeekerStep3(Request $request)
+    {
+        if (session('onboarding_role') !== 'job_seeker' || !session('onboarding_step1') || !session()->has('onboarding_step2')) {
+            return redirect()->route('onboarding.job-seeker', ['locale' => app()->getLocale()]);
+        }
+
+        // Validate educations unless skipped
+        if (!$request->has('skip')) {
+            $request->validate([
+                'educations' => 'sometimes|array',
+                'educations.*.title' => 'required|string|max:255',
+                'educations.*.institute_name' => 'required|string|max:255',
+                'educations.*.start_date' => 'required|date',
+                'educations.*.end_date' => 'nullable|date|after:educations.*.start_date',
+                'educations.*.is_current' => 'sometimes|boolean',
+                'educations.*.certificate_type' => 'nullable|string|max:100'
+            ]);
+        }
+
+        // Get all session data
+        $step1Data = session('onboarding_step1');
+        $step2Data = session('onboarding_step2', []);
+        $step3Data = $request->has('skip') ? [] : ($request->educations ?? []);
+
+        DB::transaction(function () use ($step1Data, $step2Data, $step3Data) {
             $user = auth()->user();
             
             // Create a team for this job seeker user
@@ -202,14 +316,14 @@ class OnboardingController extends Controller
             }
 
             // Update user's name
-            $fullName = $request->first_name . ' ' . $request->last_name;
+            $fullName = $step1Data['first_name'] . ' ' . $step1Data['last_name'];
             $user->update([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'name' => $fullName // Keep for backward compatibility
+                'first_name' => $step1Data['first_name'],
+                'last_name' => $step1Data['last_name'],
+                'name' => $fullName
             ]);
 
-            // Create a dummy company for job seekers (this allows us to create an employee record)
+            // Create a dummy company for job seekers
             $company = \App\Models\Company::create([
                 'name' => 'Job Seeker Platform',
                 'email' => 'platform@hadaf.com',
@@ -230,31 +344,68 @@ class OnboardingController extends Controller
                 'email' => $user->email,
                 'phone' => null,
                 'position' => 'Job Seeker',
-                'identity_number' => 'JS-' . time(), // Generate a unique identity number
+                'identity_number' => 'JS-' . time(),
                 'user_id' => $user->id,
-                'skills' => '', // Keep for backward compatibility, but we'll use relationships
-                'experience_level' => $request->experience_level,
-                'preferred_work_type' => $request->preferred_work_type,
+                'skills' => '',
+                'experience_level' => $step1Data['experience_level'],
+                'preferred_work_type' => $step1Data['preferred_work_type'],
                 'is_job_seeker' => true,
                 'profile_completed' => true,
             ]);
 
             // Attach skills
-            $employee->skills()->attach($skillIds);
+            $employee->skills()->attach($step1Data['skills']);
 
             // Attach talent categories
-            $employee->talentCategories()->attach($request->talent_categories);
+            if (!empty($step1Data['talent_categories'])) {
+                $employee->talentCategories()->attach($step1Data['talent_categories']);
+            }
+
+            // Create experiences
+            foreach ($step2Data as $experienceData) {
+                \App\Models\EmployeeExperience::create([
+                    'employee_id' => $employee->id,
+                    'job_title' => $experienceData['job_title'],
+                    'company_name' => $experienceData['company_name'],
+                    'start_date' => $experienceData['start_date'],
+                    'end_date' => $experienceData['is_current'] ?? false ? null : $experienceData['end_date'],
+                    'is_current' => $experienceData['is_current'] ?? false,
+                    'description' => $experienceData['description'] ?? null,
+                ]);
+            }
+
+            // Create educations
+            foreach ($step3Data as $educationData) {
+                \App\Models\EmployeeEducation::create([
+                    'employee_id' => $employee->id,
+                    'title' => $educationData['title'],
+                    'institute_name' => $educationData['institute_name'],
+                    'start_date' => $educationData['start_date'],
+                    'end_date' => $educationData['is_current'] ?? false ? null : $educationData['end_date'],
+                    'is_current' => $educationData['is_current'] ?? false,
+                    'certificate_type' => $educationData['certificate_type'] ?? null,
+                ]);
+            }
 
             // Set team context for role assignment
             setPermissionsTeamId($user->team_id);
             
-            // Assign the employee role to the user (job seekers are treated as employees)
+            // Assign the employee role to the user
             $user->assignRole('employee');
         });
 
-        // Clear onboarding session data
-        session()->forget('onboarding_role');
+        // Clear all onboarding session data
+        session()->forget(['onboarding_role', 'onboarding_step1', 'onboarding_step2']);
 
         return redirect()->route('employee.job-seeker-dashboard', ['locale' => app()->getLocale()])->with('success', __('words.profile_completed_successfully'));
+    }
+
+    /**
+     * Legacy method for backward compatibility
+     * @deprecated Use completeJobSeekerStep3 instead
+     */
+    public function completeJobSeekerOnboarding(Request $request)
+    {
+        return $this->completeJobSeekerStep1($request);
     }
 }

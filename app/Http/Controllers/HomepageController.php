@@ -7,6 +7,7 @@ use RalphJSmit\Laravel\SEO\Support\SEOData;
 use App\Models\TalentCategory;
 use App\Models\JobPosting;
 use App\Models\JobCategory;
+use App\Models\Sector;
 use Illuminate\Support\Facades\File;
 
 class HomepageController extends Controller
@@ -29,8 +30,11 @@ class HomepageController extends Controller
             ->sort()
             ->values();
 
-        // Fetch job categories
+        // Fetch job categories (departments)
         $jobCategories = JobCategory::all();
+
+        // Fetch sectors
+        $sectors = Sector::where('is_active', true)->get();
 
         // Fetch active job postings with company information
         $jobPostings = JobPosting::with(['company', 'jobCategory'])
@@ -57,6 +61,6 @@ class HomepageController extends Controller
             ->map(fn($file) => 'logos/' . $file->getFilename())
             ->values();
 
-        return view('homepage.index', compact('SEOData', 'talentCategories', 'logos', 'jobPostings', 'cities', 'jobCategories'));
+        return view('homepage.index', compact('SEOData', 'talentCategories', 'logos', 'jobPostings', 'cities', 'jobCategories', 'sectors'));
     }
 }

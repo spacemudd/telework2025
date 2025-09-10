@@ -88,6 +88,46 @@ return [
     'contract' => 'Contract',
     'freelance' => 'Freelance',
 
+    // Multi-step onboarding
+    'personal_info' => 'Personal Info',
+    'experience' => 'Experience',
+    'education' => 'Education',
+    'next' => 'Next',
+    'skip_for_now' => 'Skip for now',
+    'complete_previous_step' => 'Please complete the previous step first.',
+
+    // Experience step
+    'work_experience' => 'Work Experience',
+    'add_work_experience_help' => 'Add your professional work experience to help employers find you.',
+    'job_title' => 'Job Title',
+    'company_name' => 'Company Name',
+    'start_date' => 'Start Date',
+    'end_date' => 'End Date',
+    'currently_working_here' => 'I currently work here',
+    'job_description' => 'Job Description',
+    'describe_responsibilities' => 'Describe your key responsibilities and achievements...',
+    'add_another_experience' => 'Add Another Experience',
+    'no_work_experience_yet' => 'Don\'t have work experience yet? That\'s okay!',
+
+    // Education step
+    'education_background' => 'Education Background',
+    'add_education_help' => 'Add your educational qualifications and certifications.',
+    'degree_title' => 'Degree/Certificate Title',
+    'degree_placeholder' => 'e.g., Bachelor of Computer Science',
+    'institution_name' => 'Institution Name',
+    'institution_placeholder' => 'e.g., University of Technology',
+    'certificate_type' => 'Certificate Type',
+    'select_certificate_type' => 'Select certificate type',
+    'high_school' => 'High School',
+    'diploma' => 'Diploma',
+    'bachelor_degree' => 'Bachelor\'s Degree',
+    'master_degree' => 'Master\'s Degree',
+    'phd' => 'PhD',
+    'professional_certificate' => 'Professional Certificate',
+    'currently_studying' => 'I am currently studying here',
+    'add_another_education' => 'Add Another Education',
+    'no_formal_education_yet' => 'Don\'t have formal education yet? That\'s okay!',
+
     // Words translations
     'category' => 'Category',
 

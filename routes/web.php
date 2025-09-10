@@ -109,7 +109,16 @@ Route::group([
         Route::post('/select-role', [OnboardingController::class, 'selectRole'])->name('onboarding.select-role');
         Route::get('/company', [OnboardingController::class, 'showCompanyForm'])->name('onboarding.company');
         Route::post('/company', [OnboardingController::class, 'completeCompanyOnboarding'])->name('onboarding.company.complete');
-        Route::get('/job-seeker', [OnboardingController::class, 'showJobSeekerForm'])->name('onboarding.job-seeker');
+        
+        // Job Seeker Multi-step Onboarding
+        Route::get('/job-seeker', [OnboardingController::class, 'showJobSeekerForm'])->name('onboarding.job-seeker')->middleware('onboarding_step:step1');
+        Route::post('/job-seeker/step1', [OnboardingController::class, 'completeJobSeekerStep1'])->name('onboarding.job-seeker.step1.complete');
+        Route::get('/job-seeker/step2', [OnboardingController::class, 'showJobSeekerStep2'])->name('onboarding.job-seeker.step2')->middleware('onboarding_step:step2');
+        Route::post('/job-seeker/step2', [OnboardingController::class, 'completeJobSeekerStep2'])->name('onboarding.job-seeker.step2.complete');
+        Route::get('/job-seeker/step3', [OnboardingController::class, 'showJobSeekerStep3'])->name('onboarding.job-seeker.step3')->middleware('onboarding_step:step3');
+        Route::post('/job-seeker/step3', [OnboardingController::class, 'completeJobSeekerStep3'])->name('onboarding.job-seeker.step3.complete');
+        
+        // Legacy routes for backward compatibility
         Route::get('/job-seeker/onboarding', [OnboardingController::class, 'showJobSeekerOnboarding'])->name('onboarding.job-seeker.onboarding');
         Route::post('/job-seeker', [OnboardingController::class, 'completeJobSeekerOnboarding'])->name('onboarding.job-seeker.complete');
     });

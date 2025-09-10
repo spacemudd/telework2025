@@ -66,7 +66,7 @@ return [
     'in_6_months' => 'خلال 6 أشهر',
     'not_sure_yet' => 'لست متأكداً بعد',
     'back' => 'رجوع',
-    'complete_setup' => 'إكمال الإعداد',
+    'complete_setup' => 'التالي',
 
     // Job Seeker onboarding translations
     'tell_us_about_yourself' => 'أخبرنا عن نفسك',
@@ -87,6 +87,46 @@ return [
     'part_time' => 'دوام جزئي',
     'contract' => 'عقد',
     'freelance' => 'عمل حر',
+
+    // Multi-step onboarding
+    'personal_info' => 'المعلومات الشخصية',
+    'experience' => 'الخبرة',
+    'education' => 'التعليم',
+    'next' => 'التالي',
+    'skip_for_now' => 'تخطي الآن',
+    'complete_previous_step' => 'يرجى إكمال الخطوة السابقة أولاً.',
+
+    // Experience step
+    'work_experience' => 'الخبرة المهنية',
+    'add_work_experience_help' => 'أضف خبرتك المهنية لمساعدة أصحاب العمل في العثور عليك.',
+    'job_title' => 'المسمى الوظيفي',
+    'company_name' => 'اسم الشركة',
+    'start_date' => 'تاريخ البداية',
+    'end_date' => 'تاريخ النهاية',
+    'currently_working_here' => 'أعمل هنا حالياً',
+    'job_description' => 'وصف الوظيفة',
+    'describe_responsibilities' => 'اوصف مسؤولياتك الرئيسية وإنجازاتك...',
+    'add_another_experience' => 'إضافة خبرة أخرى',
+    'no_work_experience_yet' => 'لا تملك خبرة عمل بعد؟ لا بأس!',
+
+    // Education step
+    'education_background' => 'الخلفية التعليمية',
+    'add_education_help' => 'أضف مؤهلاتك التعليمية والشهادات.',
+    'degree_title' => 'عنوان الدرجة/الشهادة',
+    'degree_placeholder' => 'مثال: بكالوريوس علوم الحاسوب',
+    'institution_name' => 'اسم المؤسسة',
+    'institution_placeholder' => 'مثال: جامعة التكنولوجيا',
+    'certificate_type' => 'نوع الشهادة',
+    'select_certificate_type' => 'اختر نوع الشهادة',
+    'high_school' => 'الثانوية العامة',
+    'diploma' => 'دبلوم',
+    'bachelor_degree' => 'درجة البكالوريوس',
+    'master_degree' => 'درجة الماجستير',
+    'phd' => 'دكتوراه',
+    'professional_certificate' => 'شهادة مهنية',
+    'currently_studying' => 'أدرس هنا حالياً',
+    'add_another_education' => 'إضافة تعليم آخر',
+    'no_formal_education_yet' => 'لا تملك تعليم رسمي بعد؟ لا بأس!',
 
     // Words translations
     'category' => 'الفئة',

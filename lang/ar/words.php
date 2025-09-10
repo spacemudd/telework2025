@@ -638,7 +638,7 @@ return [
     'job_listings' => 'قائمة الوظائف',
     
     // Job Categories
-    'all_sectors' => 'قطاعات الاعمال',
+    'all_sectors' => 'التخصصات',
     'view_more_sectors' => 'عرض المزيد من القطاعات',
     'job_categories' => 'فئات الوظائف',
     'job_category' => 'فئة الوظيفة',

@@ -30,6 +30,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'role_type' => ['required', 'in:company,job_seeker'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -48,6 +49,13 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('onboarding.index', ['locale' => app()->getLocale()], absolute: false));
+        // Store selected role and redirect directly to relevant onboarding step
+        if ($request->role_type === 'company') {
+            session(['onboarding_role' => 'company']);
+            return redirect()->route('onboarding.company', ['locale' => app()->getLocale()]);
+        }
+
+        session(['onboarding_role' => 'job_seeker']);
+        return redirect()->route('onboarding.job-seeker', ['locale' => app()->getLocale()]);
     }
 }

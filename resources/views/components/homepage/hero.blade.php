@@ -28,7 +28,7 @@
                 <form action="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" method="GET">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <select name="location" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent; background-color: #efefef;">
+                            <select name="location" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent; background-color: white;">
                                 <option value="" selected disabled>{{ __('words.hero.city_placeholder') }}</option>
                                 @foreach($cities as $city)
                                     <option value="{{ $city }}">{{ $city }}</option>
@@ -37,9 +37,10 @@
                         </div>
 
                         <div>
-                            <select name="job_category_id" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent; background-color: #efefef;">
+                            <select name="job_category_id" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="block w-full border border-gray-300 rounded-md py-2.5 px-3 rtl:text-right ltr:text-left focus:outline-none focus:ring-2" style="--tw-ring-color: #012d48; focus:border-transparent; background-color: white;">
                                 <option value="" selected disabled>{{ __('words.hero.field_placeholder') }}</option>
                                 @foreach($jobCategories as $category)
+                                    @continue($category->localized_name === 'عمل حر' || $category->localized_name === 'Freelance')
                                     <option value="{{ $category->id }}">{{ $category->localized_name }}</option>
                                 @endforeach
                             </select>
@@ -68,10 +69,15 @@
                         {{ app()->getLocale() === 'ar' ? __('words.dashboard') : 'Begin your journey' }}
                     </a>
                 @else
-                    <!-- Guest user - Original buttons -->
-                    <a href="{{ URL::localized('register') }}" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
-                        {{ app()->getLocale() === 'ar' ? 'سجل الآن' : 'Open an account - Apply now' }}
-                    </a>
+                    <!-- Guest user - Replaced with two primary CTAs -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <a href="{{ URL::localized('register') }}?role=job_seeker" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full shadow-lg text-white hover:shadow-xl transform hover:scale-105 transition-all duration-200" style="background-color: #012d48;">
+                            {{ app()->getLocale() === 'ar' ? 'انا باحث عن عمل' : "I'm looking for a job" }}
+                        </a>
+                        <a href="{{ URL::localized('register') }}?role=company" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transform hover:scale-105 transition-all duration-200 bg-white">
+                            {{ app()->getLocale() === 'ar' ? 'انا باحث عن موظف' : "I'm an employer" }}
+                        </a>
+                    </div>
                     
                     <!-- Separator -->
                     <div class="flex items-center my-6">

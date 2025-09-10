@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Models\JobCategory;
+use App\Models\Sector;
 use Illuminate\View\Component;
 
 class JobCategories extends Component
@@ -21,7 +21,7 @@ class JobCategories extends Component
      */
     public function __construct()
     {
-        $this->categories = JobCategory::where('is_active', true)->get();
+        $this->categories = Sector::where('is_active', true)->get();
     }
 
     /**

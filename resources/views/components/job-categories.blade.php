@@ -4,7 +4,7 @@
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{{ __('words.all_sectors') }}</h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
             @foreach($categories as $category)
                 <div class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 transition-all duration-200 cursor-pointer">
                     <div class="flex items-center gap-4">
@@ -19,8 +19,6 @@
             @endforeach
         </div>
 
-        <div class="text-center">
-            <a href="{{ route('jobs.index', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">{{ __('words.view_more_sectors') }}</a>
-        </div>
+        
     </div>
 </section>

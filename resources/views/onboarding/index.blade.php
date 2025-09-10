@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form class="mt-8 space-y-6" action="{{ route('onboarding.select-role', ['locale' => app()->getLocale()]) }}" method="POST">
+        <form class="mt-8 space-y-6" action="{{ route('onboarding.select-role', ['locale' => app()->getLocale()]) }}" method="POST" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
             @csrf
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -65,6 +65,21 @@
                             @endif
                         </div>
                     </label>
+                </div>
+            </div>
+
+            <!-- Confirm Name (for social sign-in users) -->
+            <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }} mt-6">
+                <div class="mt-4">
+                    <x-input-label for="first_name" :value="__('auth.first_name')" />
+                    <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name', auth()->user()->first_name ?? '')" required autofocus autocomplete="given-name" />
+                    <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="last_name" :value="__('auth.last_name')" />
+                    <x-text-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name', auth()->user()->last_name ?? '')" required autocomplete="family-name" />
+                    <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                 </div>
             </div>
 

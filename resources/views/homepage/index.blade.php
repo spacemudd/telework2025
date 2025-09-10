@@ -11,7 +11,7 @@
 
     <!-- Job Categories Section -->
     <div class="scroll-animate">
-        <x-job-categories />
+        <x-job-categories :categories="$sectors" />
     </div>
 
     
@@ -170,25 +170,7 @@
 
 
 
-    <!-- Action Buttons -->
-    <div class="bg-white py-12 scroll-animate">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="{{ route('register', ['locale' => app()->getLocale()]) }}" class="group inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:w-auto text-center">
-                    <span>{{ __('words.looking_for_job') }}</span>
-                    <svg class="w-5 h-5 rtl:rotate-180 ltr:ml-2 rtl:mr-2 transition-transform duration-300 ease-out transform ltr:group-hover:translate-x-1 rtl:group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </a>
-                <a href="{{ route('register', ['locale' => app()->getLocale()]) }}" class="group inline-flex items-center justify-center px-8 py-4 border border-gray-300 text-lg font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 w-full sm:w-auto text-center">
-                    <span>{{ __('words.looking_for_hire') }}</span>
-                    <svg class="w-5 h-5 rtl:rotate-180 ltr:ml-2 rtl:mr-2 transition-transform duration-300 ease-out transform ltr:group-hover:translate-x-1 rtl:group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div>
+    
 
     <main class="flex-grow">
         <!-- Hero Section -->
