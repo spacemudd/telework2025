@@ -8,7 +8,7 @@
 
             <h1 class="text-3xl font-bold text-gray-800 mb-8">مرحباً {{ auth()->user()->name }}</h1>
 
-            <x-employee.dashboard-promo-carousel />
+            {{-- <x-employee.dashboard-promo-carousel /> --}}
 
             <!-- Flash Messages -->
             @if(session('info'))
@@ -200,6 +200,7 @@
                                     </div>
                                     <div class="flex-1">
                                         <h3 class="font-semibold">إجراء أول مقابلة</h3>
+                                        <p class="text-xs opacity-80">عزز ملفك الشخصي حيث تزيد فرصتك في الحصول الى وظيفة تصل الى 2x</p>
                                         <p class="text-sm opacity-80">قيد التقدم - اضغط للمتابعة</p>
                                     </div>
                                 </div>
@@ -213,6 +214,7 @@
                                     </div>
                                     <div class="flex-1">
                                         <h3 class="font-semibold text-gray-700 group-hover:text-gray-800">إجراء أول مقابلة</h3>
+                                        <p class="text-xs text-gray-500">عزز ملفك الشخصي حيث تزيد فرصتك في الحصول الى وظيفة تصل الى 2x</p>
                                         <p class="text-sm text-gray-500 group-hover:text-gray-600">ابدأ الآن</p>
                                     </div>
                                 </div>
