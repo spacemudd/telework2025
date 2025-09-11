@@ -53,6 +53,31 @@ class User extends Authenticatable
         return $this->hasOne(Company::class, 'user_id', 'id');
     }
 
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class)
+                    ->withPivot('role', 'is_primary')
+                    ->withTimestamps();
+    }
+
+    public function primaryCompany()
+    {
+        return $this->companies()->where('is_primary', true)->first();
+    }
+
+    /**
+     * Get the primary company for this user (fallback to old relationship during migration)
+     */
+    public function getPrimaryCompanyAttribute()
+    {
+        if ($this->companies()->exists()) {
+            return $this->primaryCompany();
+        }
+        
+        // Fallback to old relationship during migration
+        return $this->owned_company;
+    }
+
     public function employee()
     {
         return $this->hasOne(Employee::class, 'user_id', 'id');

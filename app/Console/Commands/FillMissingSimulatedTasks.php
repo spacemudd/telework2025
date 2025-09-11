@@ -17,7 +17,7 @@ class FillMissingSimulatedTasks extends Command
      *
      * @var string
      */
-    protected $signature = 'simulation:fill-missing-tasks {--company-id= : Specific company ID to process} {--dry-run : Show what would be done without actually creating tasks} {--include-responses : Include employee responses for created tasks}';
+    protected $signature = 'simulation:fill-missing-tasks {--company-id= : Specific company ID to process} {--dry-run : Show what would be done without actually creating tasks} {--include-responses : Include employee responses for created tasks} {--no-email : Disable sending notifications/emails when creating tasks}';
 
     /**
      * The console command description.
@@ -53,6 +53,7 @@ class FillMissingSimulatedTasks extends Command
 
         $isDryRun = $this->option('dry-run');
         $includeResponses = $this->option('include-responses');
+        $disableEmail = $this->option('no-email');
         
         if ($isDryRun) {
             $this->warn('DRY RUN MODE: No tasks will actually be created.');
@@ -60,6 +61,10 @@ class FillMissingSimulatedTasks extends Command
         
         if ($includeResponses) {
             $this->info('INCLUDE RESPONSES MODE: Employee responses will be simulated for created tasks.');
+        }
+
+        if ($disableEmail) {
+            $this->warn('EMAIL NOTIFICATIONS DISABLED: No task assignment emails/notifications will be sent.');
         }
 
         $totalTasksCreated = 0;
@@ -109,7 +114,7 @@ class FillMissingSimulatedTasks extends Command
                 foreach ($company->employees as $employee) {
                     if (!$isDryRun) {
                         // Dispatch job to create tasks for this employee on this specific date
-                        GenerateSimulatedTasksForDateJob::dispatch($employee, $tasksPerDay, $date, $includeResponses)->onQueue('openai');
+                        GenerateSimulatedTasksForDateJob::dispatch($employee, $tasksPerDay, $date, $includeResponses, !$disableEmail)->onQueue('openai');
                     }
                     
                     $companyTasksCreated += $tasksPerDay;

@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Events\CompanyApprovedEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\TeleworkSyncCompany;
+use App\Mail\TeamInvitationMail;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CompaniesController extends Controller
 {
@@ -26,18 +30,49 @@ class CompaniesController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:companies,name'],
-            'email' => ['required', 'email', 'max:255', 'unique:companies,email'],
+            'email' => ['required', 'email', 'max:255'], // No longer unique
             'address' => ['required', 'string', 'max:255'],
             'cr_number' => ['required', 'string', 'max:255', 'unique:companies,cr_number'],
             'phone' => ['required', 'string', 'max:255'],
         ]);
 
-        $request->validate([
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+        // Check if user exists with this email
+        $user = User::where('email', $validated['email'])->first();
+        $generatedPassword = null;
+        
+        if (!$user) {
+            // Create new user
+            $generatedPassword = Str::random(12);
+            $user = User::create([
+                'email' => $validated['email'],
+                'name' => $validated['name'],
+                'password' => Hash::make($generatedPassword),
+            ]);
+            // Assign company role
+            $user->assignRole('company');
+        }
+
+        // Create company
+        $company = Company::create($validated);
+        
+        // Attach user to company with owner role
+        $company->users()->attach($user->id, [
+            'role' => 'owner',
+            'is_primary' => !$user->companies()->exists(), // First company is primary
         ]);
 
-        $company = Company::create($validated);
-        event(new CompanyApprovedEvent($company));
+        // Create simulation configuration with enabled by default
+        $company->config()->create([
+            'tasks_per_day' => 1,
+            'auto_complete' => true,
+            'is_enabled' => true, // Enable simulation by default
+            'completion_rate' => 70,
+            'in_progress_rate' => 20,
+            'comment_only_rate' => 10,
+        ]);
+
+        // Send invitation email to owner (queue)
+        Mail::to($user->email)->queue(new TeamInvitationMail($company, $user->email, $generatedPassword, 'owner'));
 
         return redirect()->route('admin.companies.index')->with('success', __('words.company_created_successfully'));
     }
@@ -45,6 +80,146 @@ class CompaniesController extends Controller
     function show(Company $company)
     {
         return view('admin.companies.show', compact('company'));
+    }
+
+    function edit(Company $company)
+    {
+        $company->load('users');
+        return view('admin.companies.edit', compact('company'));
+    }
+
+    function update(Request $request, Company $company)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:companies,name,' . $company->id],
+            'email' => ['required', 'email', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'cr_number' => ['required', 'string', 'max:255', 'unique:companies,cr_number,' . $company->id],
+            'phone' => ['required', 'string', 'max:255'],
+        ]);
+
+        $company->update($validated);
+
+        return redirect()->route('admin.companies.show', $company->id)
+                        ->with('success', __('words.company_updated_successfully'));
+    }
+
+    public function attachUser(Request $request, Company $company)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'role' => 'required|in:owner,admin,member',
+        ]);
+
+        $email = $request->email;
+        $role = $request->role;
+
+        // Check if user already exists
+        $user = User::where('email', $email)->first();
+        
+        if ($user) {
+            // User exists, check if already attached to this company
+            if ($company->users()->where('user_id', $user->id)->exists()) {
+                return back()->with('error', __('words.user_already_attached_to_company'));
+            }
+            
+            // Link existing user to company
+            $this->attachUserToCompany($company, $user->id, $role);
+            
+            return back()->with('success', __('words.user_already_exists'));
+        } else {
+            // Create new user
+            $password = Str::random(12);
+            $user = User::create([
+                'email' => $email,
+                'name' => explode('@', $email)[0], // Use part before @ as name
+                'password' => Hash::make($password),
+            ]);
+            
+            // Assign company role
+            $user->assignRole('company');
+            
+            // Link user to company
+            $this->attachUserToCompany($company, $user->id, $role);
+            
+            // Send invitation email
+            Mail::to($email)->send(new TeamInvitationMail($company, $email, $password, $role));
+            
+            return back()->with('success', __('words.user_invited_successfully'));
+        }
+    }
+
+    private function attachUserToCompany($company, $userId, $role)
+    {
+        // If this is an owner role, make sure only one owner exists
+        if ($role === 'owner') {
+            $company->users()->update(['is_primary' => false]);
+        }
+
+        // For invited users, if they don't have any other primary company, make this one primary
+        $user = User::find($userId);
+        $hasPrimaryCompany = $user->companies()->where('is_primary', true)->exists();
+        
+        $company->users()->attach($userId, [
+            'role' => $role,
+            'is_primary' => $role === 'owner' || !$hasPrimaryCompany,
+        ]);
+    }
+
+    public function detachUser(Request $request, Company $company)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $userId = $request->user_id;
+        $user = $company->users()->where('user_id', $userId)->first();
+
+        if (!$user) {
+            return back()->with('error', __('words.user_not_found_in_company'));
+        }
+
+        // Don't allow removing the last owner
+        if ($user->pivot->role === 'owner' && $company->users()->where('role', 'owner')->count() <= 1) {
+            return back()->with('error', __('words.cannot_remove_last_owner'));
+        }
+
+        $company->users()->detach($userId);
+
+        return back()->with('success', __('words.user_detached_successfully'));
+    }
+
+    public function updateUserRole(Request $request, Company $company)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role' => 'required|in:owner,admin,member',
+        ]);
+
+        $userId = $request->user_id;
+        $newRole = $request->role;
+
+        $user = $company->users()->where('user_id', $userId)->first();
+
+        if (!$user) {
+            return back()->with('error', __('words.user_not_found_in_company'));
+        }
+
+        // If changing to owner role, update primary status
+        if ($newRole === 'owner') {
+            $company->users()->update(['is_primary' => false]);
+            $company->users()->updateExistingPivot($userId, [
+                'role' => $newRole,
+                'is_primary' => true,
+            ]);
+        } else {
+            $company->users()->updateExistingPivot($userId, [
+                'role' => $newRole,
+                'is_primary' => false,
+            ]);
+        }
+
+        return back()->with('success', __('words.user_role_updated_successfully'));
     }
 
     function audit(Company $company)

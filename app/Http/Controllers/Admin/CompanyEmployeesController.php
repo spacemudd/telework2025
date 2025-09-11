@@ -110,7 +110,7 @@ class CompanyEmployeesController extends Controller
         ]);
 
         // Fire the task assigned event to send email notification
-        event(new TaskAssignedEvent($task));
+        event(new TaskAssignedEvent($task->id));
 
         return redirect()->route('admin.companies.employees.show', [$company->id, $employee->id])
             ->with('success', __('words.task_assigned_successfully'));

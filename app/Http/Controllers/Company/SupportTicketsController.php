@@ -9,7 +9,8 @@ class SupportTicketsController extends Controller
 {
     function index()
     {
-        $tickets = auth()->user()->owned_company->supportTickets()
+        $company = $this->getCurrentCompany();
+        $tickets = $company->supportTickets()
             ->with(['supportable'])
             ->latest()
             ->paginate(10);
@@ -28,7 +29,7 @@ class SupportTicketsController extends Controller
             'message' => 'required|string',
         ]);
 
-        $company = auth()->user()->owned_company;
+        $company = $this->getCurrentCompany();
 
         $ticket = $company->supportTickets()->create([
             'subject' => $request->subject,
@@ -47,10 +48,37 @@ class SupportTicketsController extends Controller
 
     public function show($id)
     {
-        $ticket = auth()->user()->owned_company->supportTickets()
+        $company = $this->getCurrentCompany();
+        
+        $ticket = $company->supportTickets()
             ->with(['messages.sender'])
             ->findOrFail($id);
 
         return view('company.support_tickets.show', compact('ticket'));
+    }
+
+    private function getCurrentCompany()
+    {
+        $user = auth()->user();
+        $selectedCompanyId = session('selected_company_id');
+        
+        if ($selectedCompanyId) {
+            $company = $user->companies()->where('company_id', $selectedCompanyId)->first();
+            if ($company) {
+                return $company;
+            }
+        }
+        
+        // Fallback to primary company or first available company
+        $company = $user->primaryCompany;
+        if (!$company && $user->companies()->exists()) {
+            $company = $user->companies()->first();
+        }
+        
+        if (!$company) {
+            abort(403, 'You are not associated with any company.');
+        }
+        
+        return $company;
     }
 }

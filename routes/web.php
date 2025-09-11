@@ -85,6 +85,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
     Route::get('/companies/{company}/email', [CompaniesController::class, 'email'])->name('admin.companies.email');
     Route::post('/companies/{company}/email', [CompaniesController::class, 'sendEmail'])->name('admin.companies.sendEmail');
     Route::get('/companies/{company}/tasks-stats', [CompaniesController::class, 'tasksStats'])->name('admin.companies.tasks-stats');
+    
+    // Team management routes
+    Route::post('/companies/{company}/users/attach', [CompaniesController::class, 'attachUser'])->name('admin.companies.users.attach');
+    Route::post('/companies/{company}/users/detach', [CompaniesController::class, 'detachUser'])->name('admin.companies.users.detach');
+    Route::put('/companies/{company}/users/role', [CompaniesController::class, 'updateUserRole'])->name('admin.companies.users.role');
 
     Route::resource('/employees', EmployeesController::class)->names('admin.employees');
 
@@ -112,6 +117,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin', SetLocale::class])->gr
 
 Route::prefix('company')->middleware(['auth', 'role:company', SetLocale::class])->group(function () {
     Route::get('/dashboard', [CompanyDashboardController::class, 'index'])->name('company.dashboard');
+    Route::post('/switch', [\App\Http\Controllers\Company\CompanyController::class, 'switch'])->name('company.switch');
     Route::resource('/employees', \App\Http\Controllers\Company\EmployeesController::class)->names('company.employees');
     Route::post('/employees/{employee}/tasks', [\App\Http\Controllers\Company\EmployeesController::class, 'assignTask'])->name('company.employees.assignTask');
     Route::get('/attendance/export', [CompanyDashboardController::class, 'exportAttendance'])->name('company.attendance.export');

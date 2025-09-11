@@ -90,9 +90,20 @@ class CompanyTasksReport implements ShouldQueue
         // Send email if there's any activity to report
         if (count($tasksByEmployee) > 0) {
             Log::info('Sending daily company tasks report.');
-            Mail::to($this->company->email)
-                ->bcc('sara@hadaf-hq.com')
-                ->send(new DailyCompanyTasksReport($this->company, $tasksByEmployee));
+            // Send to all company team members (users attached to the company)
+            $recipientEmails = $this->company
+                ->users()
+                ->pluck('email')
+                ->filter()
+                ->unique()
+                ->values()
+                ->all();
+
+            if (!empty($recipientEmails)) {
+                Mail::to($recipientEmails)
+                    ->bcc('sara@hadaf-hq.com')
+                    ->send(new DailyCompanyTasksReport($this->company, $tasksByEmployee));
+            }
         }
     }
 }

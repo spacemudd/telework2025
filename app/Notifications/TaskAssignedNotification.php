@@ -12,14 +12,14 @@ class TaskAssignedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $task;
+    protected int $taskId;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(Task $task)
+    public function __construct(int $taskId)
     {
-        $this->task = $task;
+        $this->taskId = $taskId;
         $this->onQueue('emails');
     }
 
@@ -38,7 +38,8 @@ class TaskAssignedNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): TaskAssignedMail
     {
-        return (new TaskAssignedMail($this->task))
+        $task = Task::with(['employee', 'employee.company'])->findOrFail($this->taskId);
+        return (new TaskAssignedMail($task))
             ->to($notifiable->email);
     }
 
@@ -50,10 +51,7 @@ class TaskAssignedNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'task_id' => $this->task->id,
-            'task_title' => $this->task->title,
-            'task_due_date' => $this->task->due_date,
-            'task_priority' => $this->task->priority,
+            'task_id' => $this->taskId,
         ];
     }
 } 

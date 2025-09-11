@@ -1,11 +1,8 @@
 @component('mail::message')
-# مرحبًا، {{ $company }}!
+<div style="direction: rtl; text-align: right; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+# مرحبًا بكم في منصة العمل عن بُعد
 
-شكراً على تعاقدكم مع شركة هدف للتوظيف. لقد تم تأسيس حساب لكم على منصة العمل عن بعد الخاصة بشركة هدف للتوظيف.
-
-@if (!empty($company_code))
-رمز الشركة: {{ $company_code }}
-@endif
+تمت دعوتكم للانضمام إلى منصة العمل عن بُعد الخاصة بـ {{ $companyName }}.
 
 **بيانات الدخول:**
 @component('mail::panel')
@@ -23,4 +20,5 @@
 
 مع تحيات،
 فريق هدف للتوظيف
+</div>
 @endcomponent

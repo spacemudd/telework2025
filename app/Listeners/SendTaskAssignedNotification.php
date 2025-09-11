@@ -4,12 +4,27 @@ namespace App\Listeners;
 
 use App\Events\TaskAssignedEvent;
 use App\Notifications\TaskAssignedNotification;
+use App\Models\Task;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class SendTaskAssignedNotification implements ShouldQueue
 {
     use InteractsWithQueue;
+
+    /**
+     * The maximum number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 3;
+
+    /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public $backoff = 60;
 
     /**
      * The name of the queue the job should be sent to.
@@ -31,16 +46,12 @@ class SendTaskAssignedNotification implements ShouldQueue
      */
     public function handle(TaskAssignedEvent $event): void
     {
-        $task = $event->task;
-        
-        // Load the employee relationship if not already loaded
-        if (!$task->relationLoaded('employee')) {
-            $task->load('employee');
+        $task = Task::with(['employee.user'])->find($event->taskId);
+
+        if (!$task || !$task->employee || !$task->employee->user) {
+            return;
         }
-        
-        // Check if employee exists and has a user account
-        if ($task->employee && $task->employee->user) {
-            $task->employee->user->notify(new TaskAssignedNotification($task));
-        }
+
+        $task->employee->user->notify(new TaskAssignedNotification($event->taskId));
     }
 } 
