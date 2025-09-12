@@ -86,18 +86,18 @@
         </div>
         @endif
 
-        <!-- First Name -->
-        <div class="mt-6">
-            <x-input-label for="first_name" :value="__('auth.first_name')" />
-            <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="given-name" />
-            <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
-        </div>
-
-        <!-- Last Name -->
-        <div class="mt-4">
-            <x-input-label for="last_name" :value="__('auth.last_name')" />
-            <x-text-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autocomplete="family-name" />
-            <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
+        <!-- First Name and Last Name -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <x-input-label for="first_name" :value="__('auth.first_name')" />
+                <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="given-name" />
+                <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+            </div>
+            <div>
+                <x-input-label for="last_name" :value="__('auth.last_name')" />
+                <x-text-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autocomplete="family-name" />
+                <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
+            </div>
         </div>
 
         <!-- Email Address -->
