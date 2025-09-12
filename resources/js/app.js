@@ -23,11 +23,8 @@ if (user) {
     });
 }
 
-// Capture console logs
-LogRocket.captureConsole();
-
-// Capture network requests
-LogRocket.captureNetwork();
+// LogRocket automatically captures console logs and network requests
+// No additional configuration needed for basic functionality
 
 Alpine.start();
 
