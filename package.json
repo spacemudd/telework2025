@@ -20,6 +20,7 @@
     "dependencies": {
         "dotted-map": "^2.2.3",
         "globe.gl": "^2.41.6",
+        "logrocket": "^10.1.0",
         "three": "^0.177.0"
     }
 }

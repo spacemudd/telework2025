@@ -20,14 +20,12 @@
         <!-- Alpine.js -->
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
         
-        <!-- LogRocket -->
-        <script src="https://cdn.logrocket.io/js/v1/logrocket.min.js"></script>
+        <!-- LogRocket User Data -->
+        @if(isset($logrocketUser))
         <script>
-            LogRocket.init('8hoguu/hadaf');
-            @if(isset($logrocketUser))
             window.logrocketUser = @json($logrocketUser);
-            @endif
         </script>
+        @endif
     </head>
     <body class="font-sans text-gray-900 antialiased bg-gray-100" x-data="{ open: false }">
         <div class="min-h-screen flex flex-col">
