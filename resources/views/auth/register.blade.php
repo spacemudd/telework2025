@@ -28,8 +28,7 @@
 
         <!-- Account Type -->
         @if(request()->filled('role'))
-        <input type="hidden" name="role_type" value="{{ request('ro
-        le') }}">
+        <input type="hidden" name="role_type" value="{{ request('role') }}">
         @else
         <div class="mt-2">
             <x-input-label for="role_type" :value="__('auth.select_what_describes_you')" />
