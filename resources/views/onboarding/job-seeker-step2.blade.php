@@ -25,7 +25,7 @@
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-4">
                         <!-- Job Title -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
@@ -40,6 +40,9 @@
                                        placeholder="{{ app()->getLocale() === 'ar' ? 'ابدأ بالكتابة للحصول على اقتراحات...' : 'Start typing for suggestions...' }}">
                                 <div class="job-title-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
                             </div>
+                            <p class="mt-1 text-sm text-gray-500">
+                                {{ app()->getLocale() === 'ar' ? 'إذا لم تجد المسمى الوظيفي المناسب، يمكنك كتابته بنفسك' : 'If you didn\'t find your job title, you can just type it' }}
+                            </p>
                         </div>
 
                         <!-- Company Name -->
