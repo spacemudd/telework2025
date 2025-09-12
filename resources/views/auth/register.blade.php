@@ -1,7 +1,7 @@
 <x-guest-layout>
     <!-- Social Sign In Section -->
     <div class="mb-6">
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <div class="flex flex-col gap-4 justify-center items-center">
             <!-- Google Sign In Button -->
             <a href="{{ route('auth.google') }}" class="inline-flex items-center px-8 py-4 text-lg font-medium rounded-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transform hover:scale-105 transition-all duration-200 bg-white shadow-md">
                 <svg class="w-5 h-5 {{ app()->getLocale() === 'ar' ? 'ml-3' : 'mr-3' }}" viewBox="0 0 24 24">

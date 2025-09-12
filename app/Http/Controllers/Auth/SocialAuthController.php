@@ -78,7 +78,7 @@ class SocialAuthController extends Controller
                 }
                 return redirect('/employee/dashboard');
             }
-            return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
+            return redirect()->route('onboarding.index', ['locale' => 'ar']);
             
         } catch (\Exception $e) {
             $locale = session('oauth_locale', 'en');
@@ -185,7 +185,7 @@ class SocialAuthController extends Controller
                 }
                 return redirect('/employee/dashboard');
             }
-            return redirect()->route('onboarding.index', ['locale' => app()->getLocale()]);
+            return redirect()->route('onboarding.index', ['locale' => 'ar']);
             
         } catch (\Exception $e) {
             // Log the actual error for debugging
