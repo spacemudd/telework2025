@@ -33,6 +33,15 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- LogRocket -->
+        <script src="https://cdn.logrocket.io/js/v1/logrocket.min.js"></script>
+        <script>
+            LogRocket.init('8hoguu/hadaf');
+            @if(isset($logrocketUser))
+            window.logrocketUser = @json($logrocketUser);
+            @endif
+        </script>
     </head>
     @php use Illuminate\Support\Str; @endphp
     <body class="font-sans antialiased">

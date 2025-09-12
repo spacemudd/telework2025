@@ -16,6 +16,15 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- LogRocket -->
+        <script src="https://cdn.logrocket.io/js/v1/logrocket.min.js"></script>
+        <script>
+            LogRocket.init('8hoguu/hadaf');
+            @if(isset($logrocketUser))
+            window.logrocketUser = @json($logrocketUser);
+            @endif
+        </script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center py-6 sm:pt-0 bg-gray-100">
