@@ -5,7 +5,10 @@
 @section('admin-content')
     <div class="p-6 max-w-7xl mx-auto">
 
-        <h1 class="text-2xl font-bold mb-6">{{ __('words.employees') }}</h1>
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-bold">{{ __('words.employees') }}</h1>
+            <a href="{{ route('admin.employees.export') }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">{{ __('words.export') }} CSV</a>
+        </div>
 
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white rounded-lg shadow">

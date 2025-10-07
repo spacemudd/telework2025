@@ -258,6 +258,8 @@ Route::prefix('admin')->middleware(['auth', 'team_context', 'role:admin', SetLoc
     Route::resource('/job-postings', JobPostingsController::class)->names('admin.job-postings');
     Route::post('/job-postings/{jobPosting}/toggle-status', [JobPostingsController::class, 'toggleStatus'])->name('admin.job-postings.toggle-status');
 
+    // Place export before resource to avoid /employees/{employee} catching "export"
+    Route::get('/employees/export', [EmployeesController::class, 'export'])->name('admin.employees.export');
     Route::resource('/employees', EmployeesController::class)->names('admin.employees');
 
     Route::resource('/support-tickets', \App\Http\Controllers\Admin\SupportTicketsController::class)->names('admin.support-tickets');
