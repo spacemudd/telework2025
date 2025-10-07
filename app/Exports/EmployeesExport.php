@@ -55,16 +55,27 @@ class EmployeesExport implements FromCollection, WithHeadings, WithMapping, With
     {
         $yesNo = static fn ($v): string => $v ? 'نعم' : 'لا';
 
-        $skills = method_exists($employee, 'skills') && $employee->relationLoaded('skills')
-            ? $employee->skills->pluck('name')->join(' | ')
-            : '';
+        // Handle conflict where model has a string attribute `skills` and a relation `skills()`
+        $skills = '';
+        if ($employee->relationLoaded('skills')) {
+            $skillsRelation = $employee->getRelation('skills');
+            $skills = $skillsRelation instanceof \Illuminate\Support\Collection
+                ? $skillsRelation->pluck('name')->join(' | ')
+                : '';
+        } elseif (is_string($employee->skills ?? null)) {
+            $skills = collect(array_map('trim', array_filter(explode(',', (string) $employee->skills))))->join(' | ');
+        }
 
-        $talentCategories = method_exists($employee, 'talentCategories') && $employee->relationLoaded('talentCategories')
-            ? $employee->talentCategories->pluck('name')->join(' | ')
-            : '';
+        $talentCategories = '';
+        if ($employee->relationLoaded('talentCategories')) {
+            $talentRelation = $employee->getRelation('talentCategories');
+            $talentCategories = $talentRelation instanceof \Illuminate\Support\Collection
+                ? $talentRelation->pluck('name')->join(' | ')
+                : '';
+        }
 
-        $experiences = method_exists($employee, 'experiences') && $employee->relationLoaded('experiences')
-            ? $employee->experiences->map(function ($exp) use ($yesNo) {
+        $experiences = $employee->relationLoaded('experiences')
+            ? $employee->getRelation('experiences')->map(function ($exp) use ($yesNo) {
                 $start = optional($exp->start_date)->format('Y-m-d');
                 $end = optional($exp->end_date)->format('Y-m-d');
                 return implode(' | ', [
@@ -78,8 +89,8 @@ class EmployeesExport implements FromCollection, WithHeadings, WithMapping, With
             })->join(' || ')
             : '';
 
-        $educations = method_exists($employee, 'educations') && $employee->relationLoaded('educations')
-            ? $employee->educations->map(function ($edu) use ($yesNo) {
+        $educations = $employee->relationLoaded('educations')
+            ? $employee->getRelation('educations')->map(function ($edu) use ($yesNo) {
                 $start = optional($edu->start_date)->format('Y-m-d');
                 $end = optional($edu->end_date)->format('Y-m-d');
                 return implode(' | ', [
