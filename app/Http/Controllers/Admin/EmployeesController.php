@@ -31,6 +31,7 @@ class EmployeesController extends Controller
             'talentCategories',
             'experiences',
             'educations',
+            'user',
         ])->orderBy('created_at', 'desc')->get();
 
         return Excel::download(

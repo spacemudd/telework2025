@@ -112,7 +112,7 @@ class EmployeesExport implements FromCollection, WithHeadings, WithMapping, With
             (string) $employee->id,
             (string) $employee->name,
             (string) $employee->email,
-            (string) ($employee->phone ?? ''),
+            (string) optional($employee->user)->mobile ?? '',
             (string) ($employee->position ?? ''),
             (string) ($employee->identity_number ?? ''),
             (string) ($employee->experience_level ?? ''),
