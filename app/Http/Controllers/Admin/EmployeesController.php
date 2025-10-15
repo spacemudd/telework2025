@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Exports\EmployeesExport;
+use App\Exports\UsersExport;
+use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelWriter;
 
@@ -25,18 +27,17 @@ class EmployeesController extends Controller
 
     public function export()
     {
-        $employees = Employee::with([
-            'company',
-            'skills',
-            'talentCategories',
-            'experiences',
-            'educations',
-            'user',
+        $users = User::with([
+            'employee.company',
+            'employee.skills',
+            'employee.talentCategories',
+            'employee.experiences',
+            'employee.educations',
         ])->orderBy('created_at', 'desc')->get();
 
         return Excel::download(
-            new EmployeesExport($employees),
-            'employees.csv',
+            new UsersExport($users),
+            'users-with-employee.csv',
             ExcelWriter::CSV
         );
     }
