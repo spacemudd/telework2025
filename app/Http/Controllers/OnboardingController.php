@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\Company;
 use App\Models\TalentCategory;
 use App\Models\Skill;
+use App\Notifications\JobSeekerWelcomeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -71,6 +72,12 @@ class OnboardingController extends Controller
         }
 
         if ($request->role_type === 'job_seeker') {
+            $user = auth()->user();
+            if ($user && !session('job_seeker_welcome_sent')) {
+                $user->notify(new JobSeekerWelcomeNotification());
+                session(['job_seeker_welcome_sent' => true]);
+            }
+
             // Store the selected role in session and redirect to job seeker onboarding
             session(['onboarding_role' => 'job_seeker']);
             return redirect()->route('onboarding.job-seeker', ['locale' => app()->getLocale()]);
