@@ -1,17 +1,5 @@
 <!-- Navigation -->
 <nav class="bg-white border-b border-gray-100">
-    <!-- Announcement Bar -->
-    <div class="bg-blue-600 text-white text-sm">
-        <div class="container mx-auto px-4 py-3 text-center">
-            @if(app()->getLocale() === 'ar')
-            <h2 class="text-xl font-bold mb-2">اكتشف مشاركتنا في ملتقى القادرون للتوظيف 2025 🚀</h2>
-            <p class="text-lg">انضموا إلينا <a href="https://x.com/search?q=%23ملتقى_قادرون_للتوظيف" target="_blank" class="text-white"><span class="border-b-2 border-yellow-300">#ملتقى_قادرون_للتوظيف</span></a>.</p>
-            @else
-                <h2 class="text-xl font-bold mb-2">We unveil our participation in the 2025 Employment Sector Conference 🚀</h2>
-                <p class="text-lg">We are proud to announce our participation in the most important technical event in the employment sector this year. Join us to discover the future of remote work and innovations that will change the face of the sector.</p>
-            @endif
-        </div>
-    </div>
     <div class="container mx-auto px-4">
         <div class="flex justify-between h-16">
             <!-- Logo -->
