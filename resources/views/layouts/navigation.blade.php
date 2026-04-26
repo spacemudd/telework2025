@@ -3,9 +3,13 @@
     <div class="bg-blue-600 text-white text-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center">
             @if(app()->getLocale() === 'ar')
-                <p class="text-lg font-semibold">✨ ندعوكم لحضور معرض توظيف ملتقى تمكين – النسخة الرابعة 2026م</p>
+                <p class="text-lg font-semibold">
+                    <a href="https://form.jotform.com/MajidSociety/TamkeenAttendance" target="_blank" rel="noopener noreferrer" class="text-white hover:text-blue-100 underline decoration-white/80 hover:decoration-white underline-offset-2 transition-colors">✨ ندعوكم لحضور معرض توظيف ملتقى تمكين – النسخة الرابعة 2026م</a>
+                </p>
             @else
-                <p class="text-lg font-semibold">✨ You're invited to the Tamkeen Job Fair employment exhibition — fourth edition (2026).</p>
+                <p class="text-lg font-semibold">
+                    <a href="https://form.jotform.com/MajidSociety/TamkeenAttendance" target="_blank" rel="noopener noreferrer" class="text-white hover:text-blue-100 underline decoration-white/80 hover:decoration-white underline-offset-2 transition-colors">✨ You're invited to the Tamkeen Job Fair employment exhibition — fourth edition (2026).</a>
+                </p>
             @endif
         </div>
     </div>
