@@ -1,5 +1,15 @@
 <!-- Navigation -->
 <nav class="bg-white border-b border-gray-100">
+    <!-- Announcement Bar -->
+    <div class="bg-blue-600 text-white text-sm">
+        <div class="container mx-auto px-4 py-3 text-center">
+            @if(app()->getLocale() === 'ar')
+                <p class="text-lg font-semibold">✨ ندعوكم لحضور معرض توظيف ملتقى تمكين – النسخة الرابعة 2026م</p>
+            @else
+                <p class="text-lg font-semibold">✨ You're invited to the Tamkeen Job Fair employment exhibition — fourth edition (2026).</p>
+            @endif
+        </div>
+    </div>
     <div class="container mx-auto px-4">
         <div class="flex justify-between h-16">
             <!-- Logo -->

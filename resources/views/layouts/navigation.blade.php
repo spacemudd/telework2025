@@ -3,9 +3,9 @@
     <div class="bg-blue-600 text-white text-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center">
             @if(app()->getLocale() === 'ar')
-            نبني الفريق ونصنع القادة
+                <p class="text-lg font-semibold">✨ ندعوكم لحضور معرض توظيف ملتقى تمكين – النسخة الرابعة 2026م</p>
             @else
-                We build the team and make the leaders
+                <p class="text-lg font-semibold">✨ You're invited to the Tamkeen Job Fair employment exhibition — fourth edition (2026).</p>
             @endif
         </div>
     </div>
